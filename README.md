@@ -12,6 +12,3 @@ FAQシステムのDocker Build Githubサイト
 # ./build.sh
 #Run
 # ./run.sh
-#Test
-# /test.sh
-
