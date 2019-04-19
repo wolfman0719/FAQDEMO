@@ -1,0 +1,120 @@
+body {
+font-size:15px;
+font-family:arial;
+}
+
+div {
+margin:10px 40px;
+}
+
+div.version{
+height:5px;
+margin:0px 40px;
+text-align:right;
+}
+
+span.version
+{
+font:bold 100% "Arial";
+color:#3300CC;
+padding-right:20px;
+}
+
+div.title
+{
+font-size:16px;
+font-weight:bold;
+color:#000055;
+background-image:url('images/background/title-gradient-bg_blue.gif');
+background-repeat:repeat-x;
+padding:10px 0px 10px 10px;
+}
+
+img.titleicon
+{
+valign:top;
+float:left;
+}
+
+img.producticon
+{
+float:right;
+}
+div.description
+{
+margin:20px 30px 20px 45px;
+height:55%;
+overflow-y:auto;
+padding-right:20px;
+line-height:1.5;
+}
+
+div.divcommand
+{
+width:90%;
+overflow-x:auto;
+margin:10px 0px;
+background-color:#E0FFFF;
+}
+
+span.refhead
+{
+font-size:85%;
+font-weight:bold;
+color:#30758c;
+/*color:#6633FF;*/
+}
+
+span.refbody
+{
+font-size:100%;
+color:black;
+}
+
+div.toedit{
+margin:20px;
+text-align:center;
+font-weight:bold;
+font-style:italic;
+}
+
+div.enquete
+{
+margin:0px 50px;
+float:left;
+}
+
+span.enqhead
+{
+color:olive;
+font-size:70%;
+font-style:italic;
+text-align:left;
+}
+
+span.enq
+{
+font-size:90%;
+}
+
+div.mailto
+{
+margin:20px 50px;
+text-align:right;
+}
+
+span.mail
+{
+font-size:90%;
+}
+
+div.closebtn
+{
+margin:10px 30px 0px;
+}
+
+div.howtouse
+{
+font-size:0.5em;
+line-height:1.5;
+}

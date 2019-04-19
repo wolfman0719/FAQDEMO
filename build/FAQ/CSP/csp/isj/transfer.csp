@@ -1,0 +1,21 @@
+<html>
+<head>
+
+<meta http-equiv="refresh" content="10;FAQ.FAQApp.cls">
+<!-- Put your page Title here -->
+<title>	Cache Server Page </title>
+
+</head>
+
+<body>
+<SCRIPT LANGUAGE="cache" RUNAT="Server">
+ set url = %request.CgiEnvs("HTTP_HOST")_$Piece(%request.GetCgiEnv("REQUEST_URI"),1,*-1)
+</SCRIPT>
+
+		<!-- Put your page code here -->
+		このエントリーポイントは、将来使えなくなります。<p>
+		正式なエントリーポイント #(url)#/FAQ.FAQApp.cls に変更お願いします。<p>
+		
+		<A href="FAQ.FAQApp.cls" target="_self" style="color:#00CC00;">エントリーページに移動</A>
+</body>
+</html>
