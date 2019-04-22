@@ -12,6 +12,7 @@ RUN cd $ISC_TEMP_DIR \
  zn "USER" Do $system.OBJ.Load("/intersystems/iris/global/FAQ/Installer.cls","ck") \
  Do $system.OBJ.Load("/intersystems/iris/global/KB/Setup.cls","ck") \
  Do $system.OBJ.Load("/intersystems/iris/global/KB/Config.cls","ck") \
+ Do $system.OBJ.Load("/intersystems/iris/global/KB/Utility.cls","ck") \
  do ##class(FAQ.Installer).runInstaller("global") \
  zn "%%SYS" Do INT^SHUTDOWN\n' | iris session iris | cat \
  && iris start iris nostu quietly \
