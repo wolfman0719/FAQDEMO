@@ -141,15 +141,19 @@ ClassMethod copyDownloadFiles(pSetupDir As %String) As %Status
 	  
 	if dirSep = "\" {
        set copyParam = pSetupDir_dirSep_"downloads "_ftpDir
-       set copyCommand = "xcopy /e /y "_copyParam
+       //set copyCommand = "xcopy /e /y "_copyParam
+       set copyCommand = "xcopy"
+       set args = "/e /y "_copyParam
     }
     else  {
        set ftpDir = $piece(ftpDir,dirSep,1,*-1)
        set copyParam = pSetupDir_dirSep_"downloads "_ftpDir
-       set copyCommand = "cp -R "_copyParam
+       //set copyCommand = "cp -R "_copyParam
+       set copyCommand = "cp"
+       set args = "-R "_copyParam
     }
        
-    quit $zf(-100,"",copyCommand)
+    quit $zf(-100,"",copyCommand, args)
 }
 
 ClassMethod copyImages(pSetupDir As %String) As %Status
@@ -162,15 +166,19 @@ ClassMethod copyImages(pSetupDir As %String) As %Status
 	if dirSep = "\" {
 	   set imagesDir = ##class(KB.Config).getCSPDirectory()_dirSep_"images"
        set copyParam = pSetupDir_dirSep_"images "_imagesDir
-       set copyCommand = "xcopy /e /y "_copyParam
+       //set copyCommand = "xcopy /e /y "_copyParam
+       set copyCommand = "xcopy"
+       set args = "/e /y "_copyParam
     }
     else  {
 	   set imagesDir = ##class(KB.Config).getCSPDirectory()
        set copyParam = pSetupDir_dirSep_"images "_imagesDir
-       set copyCommand = "cp -R "_copyParam
+       //set copyCommand = "cp -R "_copyParam
+       set copyCommand = "cp"
+       set args = "-R "_copyParam
     }
        
-    quit $zf(-100,"",copyCommand)
+    quit $zf(-100,"",copyCommand,args)
 }
 
 ClassMethod copyCSPs(pSetupDir As %String) As %Status
@@ -184,13 +192,17 @@ ClassMethod copyCSPs(pSetupDir As %String) As %Status
 	set copyParam = pSetupDir_" "_CSPDir
   
 	if dirSep = "\" {
-       set copyCommand = "xcopy /e /y "_copyParam
+       //set copyCommand = "xcopy /e /y "_copyParam
+       set copyCommand = "xcopy"
+       set args = "/e /y "_copyParam
     }
     else  {
-       set copyCommand = "cp -R "_copyParam
+       //set copyCommand = "cp -R "_copyParam
+       set copyCommand = "cp"
+       set args = "-R "_copyParam
     }
        
-    quit $zf(-1,copyCommand)
+    quit $zf(-100,"",copyCommand,args)
 }
 
 }
