@@ -93,7 +93,7 @@ ClassMethod runInstaller(datestr As %String) As %Status
 	set vars("CSPFileDir") = setupdir_##class(KB.Config).getClassFileDir()
 	set vars("CSPFileDir") = vars("CSPFileDir")_##class(KB.Config).getDirectorySeparator()_"CSP"
 	set vars("CSPFileDir") = vars("CSPFileDir")_##class(KB.Config).getDirectorySeparator()_"csp"
-	set vars("CSPFileDir") = vars("CSPFileDir")_##class(KB.Config).getDirectorySeparator()_"user"
+	set vars("CSPFileDir") = vars("CSPFileDir")_##class(KB.Config).getDirectorySeparator()_"isj"
         
 	do ..setup(.vars,3)
 
