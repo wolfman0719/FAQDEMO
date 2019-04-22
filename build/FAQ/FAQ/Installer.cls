@@ -38,8 +38,6 @@ XData FAQManifest [ XMLNamespace = INSTALLER ]
 <Invoke Class="%SYSTEM.OBJ" Method="Load" CheckStatus="0" Return="RetVal"> 
     <Arg Value="${GlobalFileName}"/>
 </Invoke>
-<Invoke Class="KB.Topic" Method="ChangeUrlPathForImages" CheckStatus="0"> 
-</Invoke>
 <Invoke Class="KB.Topic" Method="%BuildIndices" CheckStatus="0" Return="RetVal"> 
 </Invoke>
 </If>

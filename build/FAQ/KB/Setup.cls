@@ -149,7 +149,7 @@ ClassMethod copyDownloadFiles(pSetupDir As %String) As %Status
        set copyCommand = "cp -R "_copyParam
     }
        
-    quit $zf(-1,copyCommand)
+    quit $zf(-100,"",copyCommand)
 }
 
 ClassMethod copyImages(pSetupDir As %String) As %Status
@@ -170,7 +170,7 @@ ClassMethod copyImages(pSetupDir As %String) As %Status
        set copyCommand = "cp -R "_copyParam
     }
        
-    quit $zf(-1,copyCommand)
+    quit $zf(-100,"",copyCommand)
 }
 
 ClassMethod copyCSPs(pSetupDir As %String) As %Status
