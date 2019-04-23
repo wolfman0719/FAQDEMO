@@ -205,6 +205,8 @@ ClassMethod copyCSSs(pSetupDir As %String) As %Status
     set boolean = ##class(%File).CopyFile(sourcedir_"style.css",CSPDir_dirSep_"style.css")
     set boolean = ##class(%File).CopyFile(sourcedir_"styleedit.css",CSPDir_dirSep_"styleedit.css")
     set boolean = ##class(%File).CopyFile(sourcedir_"stylehowto.css",CSPDir_dirSep_"stylehowto.css")
+    
+    quit $$$OK
   
 }
 
