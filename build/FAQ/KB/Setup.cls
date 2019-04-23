@@ -137,11 +137,10 @@ ClassMethod copyDownloadFiles(pSetupDir As %String) As %Status
 	set ftpDir = ##class(KB.Config).getFTPDirectory()
 	set dirSep = ##class(KB.Config).getDirectorySeparator()
 	//ディレクトリがなければコピーしない
-	if '##class(%File).Exists(pSetupDir_dirSep_"downloads") quit $$$OK
+	if '##class(%File).Exists(pSetupDir_"downloads") quit $$$OK
 	  
 	if dirSep = "\" {
-       set copyParam = pSetupDir_dirSep_"downloads "_ftpDir
-       //set copyCommand = "xcopy /e /y "_copyParam
+       set copyParam = pSetupDir_"downloads "_ftpDir
        set copyCommand = "xcopy"
        set args(1) = "/e"
        set args(2) = "/y"
@@ -151,8 +150,7 @@ ClassMethod copyDownloadFiles(pSetupDir As %String) As %Status
     }
     else  {
        set ftpDir = $piece(ftpDir,dirSep,1,*-1)
-       set copyParam = pSetupDir_dirSep_"downloads "_ftpDir
-       //set copyCommand = "cp -R "_copyParam
+       set copyParam = pSetupDir_"downloads "_ftpDir
        set copyCommand = "cp"
        set args(1) = "-R"
        set args(2) = $piece(copyParam," ",1)
@@ -168,12 +166,11 @@ ClassMethod copyImages(pSetupDir As %String) As %Status
 	//参照用イメージファイルをimagesディレクトリーにコピーする
 	set dirSep = ##class(KB.Config).getDirectorySeparator()
 	//ディレクトリがなければコピーしない
-	if '##class(%File).Exists(pSetupDir_dirSep_"images") quit $$$OK
+	if '##class(%File).Exists(pSetupDir_"images") quit $$$OK
 	  
 	if dirSep = "\" {
-	   set imagesDir = ##class(KB.Config).getCSPDirectory()_dirSep_"images"
-       set copyParam = pSetupDir_dirSep_"images "_imagesDir
-       //set copyCommand = "xcopy /e /y "_copyParam
+	   set imagesDir = ##class(KB.Config).getCSPDirectory()_"images"
+       set copyParam = pSetupDir_"images "_imagesDir
        set copyCommand = "xcopy"
        set args(1) = "/e"
        set args(2) = "/y"
@@ -183,8 +180,7 @@ ClassMethod copyImages(pSetupDir As %String) As %Status
     }
     else  {
 	   set imagesDir = ##class(KB.Config).getCSPDirectory()
-       set copyParam = pSetupDir_dirSep_"images "_imagesDir
-       //set copyCommand = "cp -R "_copyParam
+       set copyParam = pSetupDir_"images "_imagesDir
        set copyCommand = "cp"
        set args(1) = "-R"
        set args(2) = $piece(copyParam," ",1)
@@ -201,21 +197,24 @@ ClassMethod copyCSSs(pSetupDir As %String) As %Status
 	set CSPDir = ##class(KB.Config).getCSPDirectory()
 	set dirSep = ##class(KB.Config).getDirectorySeparator()
 	//ディレクトリがなければコピーしない
-	if '##class(%File).Exists(pSetupDir) quit $$$OK
+	if '##class(%File).Exists(pSetupDir_"css") quit $$$OK
 	
-	set copyParam = pSetupDir_dirSep_"* "_CSPDir
+	set copyParam = pSetupDir_"css "_CSPDir
   
 	if dirSep = "\" {
-       set copyCommand = "copy"
-       set args(1) = $piece(copyParam," ",1)
-       set args(2) = $piece(copyParam," ",2)
-       set args = 2
+       set copyCommand = "xcopy"
+       set args(1) = "/e"
+       set args(2) = "/y"
+       set args(3) = $piece(copyParam," ",1)
+       set args(4) = $piece(copyParam," ",2)
+       set args = 4
     }
     else  {
        set copyCommand = "cp"
-       set args(1) = $piece(copyParam," ",1)
-       set args(2) = $piece(copyParam," ",2)
-       set args = 2
+       set args(1) = "-R"
+       set args(2) = $piece(copyParam," ",1)
+       set args(3) = $piece(copyParam," ",2)
+       set args = 3
     }
        
     quit $zf(-100,"",copyCommand,.args)
