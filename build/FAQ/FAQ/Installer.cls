@@ -50,8 +50,8 @@ XData FAQManifest [ XMLNamespace = INSTALLER ]
 <Invoke Class="KB.Setup" Method="copyImages" CheckStatus="0" Return="RetVal"> 
     <Arg Value="${setupdir}"/>
 </Invoke>
-<Invoke Class="KB.Setup" Method="copyCSPs" CheckStatus="0" Return="RetVal"> 
-    <Arg Value="${CSPFileDir}"/>
+<Invoke Class="KB.Setup" Method="copyCSSs" CheckStatus="0" Return="RetVal"> 
+    <Arg Value="${setupdir}"/>
 </Invoke>
 </If>
 </Namespace>

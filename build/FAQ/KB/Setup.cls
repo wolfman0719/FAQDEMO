@@ -143,17 +143,24 @@ ClassMethod copyDownloadFiles(pSetupDir As %String) As %Status
        set copyParam = pSetupDir_dirSep_"downloads "_ftpDir
        //set copyCommand = "xcopy /e /y "_copyParam
        set copyCommand = "xcopy"
-       set args = "/e /y "_copyParam
+       set args(1) = "/e"
+       set args(2) = "/y"
+       set args(3) = $piece(copyParam," ",1)
+       set args(4) = $piece(copyParam," ",2)
+       set args = 4
     }
     else  {
        set ftpDir = $piece(ftpDir,dirSep,1,*-1)
        set copyParam = pSetupDir_dirSep_"downloads "_ftpDir
        //set copyCommand = "cp -R "_copyParam
        set copyCommand = "cp"
-       set args = "-R "_copyParam
+       set args(1) = "-R"
+       set args(2) = $piece(copyParam," ",1)
+       set args(3) = $piece(copyParam," ",2)
+       set args = 3
     }
        
-    quit $zf(-100,"",copyCommand, args)
+    quit $zf(-100,"",copyCommand, .args)
 }
 
 ClassMethod copyImages(pSetupDir As %String) As %Status
@@ -168,41 +175,50 @@ ClassMethod copyImages(pSetupDir As %String) As %Status
        set copyParam = pSetupDir_dirSep_"images "_imagesDir
        //set copyCommand = "xcopy /e /y "_copyParam
        set copyCommand = "xcopy"
-       set args = "/e /y "_copyParam
+       set args(1) = "/e"
+       set args(2) = "/y"
+       set args(3) = $piece(copyParam," ",1)
+       set args(4) = $piece(copyParam," ",2)
+       set args = 4
     }
     else  {
 	   set imagesDir = ##class(KB.Config).getCSPDirectory()
        set copyParam = pSetupDir_dirSep_"images "_imagesDir
        //set copyCommand = "cp -R "_copyParam
        set copyCommand = "cp"
-       set args = "-R "_copyParam
+       set args(1) = "-R"
+       set args(2) = $piece(copyParam," ",1)
+       set args(3) = $piece(copyParam," ",2)
+       set args = 3
     }
        
-    quit $zf(-100,"",copyCommand,args)
+    quit $zf(-100,"",copyCommand,.args)
 }
 
-ClassMethod copyCSPs(pSetupDir As %String) As %Status
+ClassMethod copyCSSs(pSetupDir As %String) As %Status
 {
-	//cspファイルやcssファイルをcspディレクトリーにコピーする
+	//cssファイル等をcspディレクトリーにコピーする
 	set CSPDir = ##class(KB.Config).getCSPDirectory()
 	set dirSep = ##class(KB.Config).getDirectorySeparator()
 	//ディレクトリがなければコピーしない
 	if '##class(%File).Exists(pSetupDir) quit $$$OK
 	
-	set copyParam = pSetupDir_" "_CSPDir
+	set copyParam = pSetupDir_dirSep_"* "_CSPDir
   
 	if dirSep = "\" {
-       //set copyCommand = "xcopy /e /y "_copyParam
-       set copyCommand = "xcopy"
-       set args = "/e /y "_copyParam
+       set copyCommand = "copy"
+       set args(1) = $piece(copyParam," ",1)
+       set args(2) = $piece(copyParam," ",2)
+       set args = 2
     }
     else  {
-       //set copyCommand = "cp -R "_copyParam
        set copyCommand = "cp"
-       set args = "-R "_copyParam
+       set args(1) = $piece(copyParam," ",1)
+       set args(2) = $piece(copyParam," ",2)
+       set args = 2
     }
        
-    quit $zf(-100,"",copyCommand,args)
+    quit $zf(-100,"",copyCommand,.args)
 }
 
 }
