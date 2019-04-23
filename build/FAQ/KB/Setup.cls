@@ -194,27 +194,18 @@ ClassMethod copyImages(pSetupDir As %String) As %Status
 ClassMethod copyCSSs(pSetupDir As %String) As %Status
 {
 	//cssファイル等をcspディレクトリーにコピーする
+	//$zf(-100)でうまくコピーできないので、１つずつコピーする
 	set CSPDir = ##class(KB.Config).getCSPDirectory()
 	set dirSep = ##class(KB.Config).getDirectorySeparator()
 	//ディレクトリがなければコピーしない
 	if '##class(%File).Exists(pSetupDir_"css") quit $$$OK
 	
-	set copyParam = pSetupDir_"css"_dirSep_"*.* "_CSPDir
+	set sourcedir = pSetupDir_"css"_dirSep
+    set boolean = ##class(%File).CopyFile(sourcedir_"FAQ.js",CSPDir_dirSep_"FAQ.js")
+    set boolean = ##class(%File).CopyFile(sourcedir_"style.css",CSPDir_dirSep_"style.css")
+    set boolean = ##class(%File).CopyFile(sourcedir_"styleedit.css",CSPDir_dirSep_"styleedit.css")
+    set boolean = ##class(%File).CopyFile(sourcedir_"stylehowto.css",CSPDir_dirSep_"stylehowto.css")
   
-	if dirSep = "\" {
-       set copyCommand = "copy"
-       set args(1) = $piece(copyParam," ",1)
-       set args(2) = $piece(copyParam," ",2)
-       set args = 2
-    }
-    else  {
-       set copyCommand = "cp"
-       set args(1) = $piece(copyParam," ",1)
-       set args(2) = $piece(copyParam," ",2)
-       set args = 2
-    }
-       
-    quit $zf(-100,"",copyCommand,.args)
 }
 
 }
