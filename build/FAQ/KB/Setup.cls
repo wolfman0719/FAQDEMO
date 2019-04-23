@@ -199,22 +199,19 @@ ClassMethod copyCSSs(pSetupDir As %String) As %Status
 	//ディレクトリがなければコピーしない
 	if '##class(%File).Exists(pSetupDir_"css") quit $$$OK
 	
-	set copyParam = pSetupDir_"css "_CSPDir
+	set copyParam = pSetupDir_"css"_dirSep_"*.* "_CSPDir
   
 	if dirSep = "\" {
-       set copyCommand = "xcopy"
-       set args(1) = "/e"
-       set args(2) = "/y"
-       set args(3) = $piece(copyParam," ",1)
-       set args(4) = $piece(copyParam," ",2)
-       set args = 4
+       set copyCommand = "copy"
+       set args(1) = $piece(copyParam," ",1)
+       set args(2) = $piece(copyParam," ",2)
+       set args = 2
     }
     else  {
        set copyCommand = "cp"
-       set args(1) = "-R"
-       set args(2) = $piece(copyParam," ",1)
-       set args(3) = $piece(copyParam," ",2)
-       set args = 3
+       set args(1) = $piece(copyParam," ",1)
+       set args(2) = $piece(copyParam," ",2)
+       set args = 2
     }
        
     quit $zf(-100,"",copyCommand,.args)
