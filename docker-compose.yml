@@ -1,0 +1,20 @@
+version: '3.7'
+#
+services:
+  irissvc:
+    build:
+      context: ./build
+      args:
+        COMMIT_ID: ${COMMIT_ID}
+    image: wolfman0719/faqdemo:simple
+    init: true
+    hostname: myiris
+    
+    ports:
+    # superserver default port 
+    - "51775:51773"
+    # webserver/management portal port
+    - "52775:52773"
+    
+    environment:
+    - TZ=JST-9
