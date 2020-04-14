@@ -1,14 +1,14 @@
-FAQDEMO
-======
+# FAQDEMO
+インターシステムズFAQ Docker 自動Build Project
 
-ISJ FAQ Docker 自動Build Project
+FAQシステムのDocker Buildサイト
 
-FAQシステムのDocker Build Githubサイト
+## ビルドプロセス
 
+### Build
 
-ビルドプロセス
+`./build.sh`
 
-#Build
-# ./build.sh
-#Run
-# ./run.sh
+### Run
+
+`./run.sh`
