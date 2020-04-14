@@ -16,4 +16,4 @@ FAQシステムのDocker Build デモサイト
 
 [FAQシステムurl](http://localhost:52775/csp/user/FAQ.FAQApp.cls?IRISUsername=_system&IRISPassword=demosystem)
 
-[管理ポータルurl](localhost:52775/csp/sys/%25CSP.Portal.Home.zen?IRISUsername=_system&IRISPassword=demosystem)
+[管理ポータルurl](http://localhost:52775/csp/sys/%25CSP.Portal.Home.zen?IRISUsername=_system&IRISPassword=demosystem)
