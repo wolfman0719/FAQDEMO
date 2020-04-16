@@ -5,8 +5,9 @@ services:
     build:
       context: ./build
       args:
-        COMMIT_ID: ${COMMIT_ID}
-    image: wolfman0719/faqdemo:simple
+        COMMIT_ID: faqdemo
+    image: wolfman0719/sample:faq
+    container_name: faqdemo
     init: true
     hostname: myiris
     
