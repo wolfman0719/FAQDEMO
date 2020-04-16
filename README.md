@@ -6,22 +6,25 @@ FAQシステムのDocker Build デモサイト
 ## ビルドプロセス
 
 ### ビルド
-```./build.sh```
+* ```./build.sh```      for Linux, MacOS
+* ```build.sh```        for Windows
 ### 実行
-```./run.sh```
+* ```./run.sh```        for Linux, MacOS
+* ```./run.sh```        for Windows
 
 -bash: ./build.sh: Permission deniedとエラーになる場合は、
 
 ```chmod 777 *.sh```
 
-を実行後、再度ビルドとランを実行
+を実行後、再度ビルドと実行
 
-## アプリケーション実行
+## アプリケーション起動
 
-### FAQシステムエントリー
+* FAQシステムエントリー
 
-[FAQシステムurl](http://localhost:52775/csp/user/FAQ.FAQApp.cls?IRISUsername=_system&IRISPassword=demosystem)
+  [localhost:52775/csp/user/FAQ.FAQApp.cls?IRISUsername=_system&IRISPassword=demosystem](http://localhost:52775/csp/user/FAQ.FAQApp.cls?IRISUsername=_system&IRISPassword=demosystem)
 
-### 管理ポータル
+- 管理ポータル
 
-[管理ポータルurl](http://localhost:52775/csp/sys/%25CSP.Portal.Home.zen?IRISUsername=_system&IRISPassword=demosystem)
+  [localhost:52775/csp/sys/%25CSP.Portal.Home.zen?IRISUsername=_system&IRISPassword=demosystem](http://localhost:52775/csp/sys/%25CSP.Portal.Home.zen?IRISUsername=_system&IRISPassword=demosystem)
+
