@@ -1,6 +1,6 @@
-FROM store/intersystems/iris-community:2019.4.0.379.0 
+FROM store/intersystems/iris-community:2020.1.0.215.0 
 
-ARG COMMIT_ID="unknown"
+ARG COMMIT_ID="faqdemo"
 
 USER irisowner
 
@@ -9,7 +9,11 @@ COPY FAQ/ $ISC_TEMP_DIR/
 COPY TopicD.xml $ISC_TEMP_DIR
 
 RUN  iris start $ISC_PACKAGE_INSTANCENAME \ 
-&& printf 'Do ##class(Config.NLS.Locales).Install("jpuw") h\n' | iris session $ISC_PACKAGE_INSTANCENAME -U %SYS \ 
+&& printf 'Do ##class(Config.NLS.Locales).Install("jpuw") \
+ set user = ##class(Security.Users).%%OpenId("_system") \
+ set user.PasswordExternal = "demosystem" \
+ set status = user.%%Save() \
+ h\n' | iris session $ISC_PACKAGE_INSTANCENAME -U %SYS \ 
 && printf 'Do $system.OBJ.Load("'$ISC_TEMP_DIR'/FAQ/Installer.cls","ck") \
  Do $system.OBJ.Load("'$ISC_TEMP_DIR'/KB/Setup.cls","ck") \
  Do $system.OBJ.Load("'$ISC_TEMP_DIR'/KB/Config.cls","ck") \
