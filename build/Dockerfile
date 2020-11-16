@@ -1,4 +1,4 @@
-FROM store/intersystems/iris-community:2020.2.0.211.0 
+FROM store/intersystems/iris-community:2020.3.0.221.0 
 
 ARG COMMIT_ID="faqdemo"
 
@@ -26,7 +26,6 @@ RUN rm -f $ISC_PACKAGE_INSTALLDIR/mgr/journal.log \
  && rm -f $ISC_PACKAGE_INSTALLDIR/mgr/IRIS.WIJ \
  && rm -f $ISC_PACKAGE_INSTALLDIR/mgr/iris.ids \
  && rm -f $ISC_PACKAGE_INSTALLDIR/mgr/alerts.log \
- && rm -f $ISC_PACKAGE_INSTALLDIR/mgr/journal/* \
- && rm -f $ISC_PACKAGE_INSTALLDIR/mgr/messages.log
+ && rm -f $ISC_PACKAGE_INSTALLDIR/mgr/journal/*
 
 RUN echo $COMMIT_ID > $HOME/commit.txt
