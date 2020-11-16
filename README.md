@@ -6,15 +6,9 @@ FAQシステムのDocker Build デモサイト
 ## ビルドプロセス
 
 ### ビルド
-* ```./build.sh```      for Linux, MacOS
-* ```build.sh```        for Windows
+* ```docker-compose build```      
 ### 実行
-* ```./run.sh```        for Linux, MacOS
-* ```./run.sh```        for Windows
-
--bash: ./build.sh: Permission deniedとエラーになる場合は、
-
-```chmod 777 *.sh```
+* ```docker-compose up -d```
 
 を実行後、再度ビルドと実行
 
