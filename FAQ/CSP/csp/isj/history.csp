@@ -1,0 +1,235 @@
+<CSP:PARAMETER name="EXPIRES" value="">
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="Pragma" content="no-cache">
+<meta name="GENERATOR" content="IBM HomePage Builder 2001 V5.0.0 for Windows">
+<title>	編集履歴検索 </title>
+<LINK REL="stylesheet" TYPE="text/css" HREF="styleedit.css" >
+<!-- Specify that this page is PRIVATE -->
+<!--<csp:CLASS PRIVATE=1>-->
+
+
+<style type="text/css">
+	.Small { font-size: 10pt;}
+	.HedRow { background: #DFEFF4; }
+	.DarkRow { background: #DFF4EF; }
+	.LightRow { background: white; }
+	body { color: black; background: white;  face: "ＭＳ Ｐゴシック"; }
+</style>
+
+<script language="javascript">
+function submitForm() {
+	return;
+}
+</script>
+
+<script language=cache runat=server>
+set pYear = $Extract($ZDATE($Horolog,8),1,4)
+set pMon = $Extract($ZDATE($Horolog,8),5,6)
+set pDay = $Extract($ZDATE($Horolog,8),7,8)
+set minYear = pYear - 4 
+</script>
+
+</head>
+
+
+<script language="cache" runat="server">
+set uname = %request.Get("uname")
+set syear = %request.Get("syear")
+set smon = %request.Get("smon")
+set eyear = %request.Get("eyear")
+set emon = %request.Get("emon")
+set etype = %request.Get("etype")
+
+set strSQL = ""
+//担当者
+if uname'="" { set strSQL = " where  Username='"_uname_"'" }
+else { set strSQL = " where  Username not in ('','%system','UnknownUser','_SYSTEM')" }
+
+//検索日付
+if ((syear="----") || (smon="--")) && (eyear'="") && (emon'="") {
+	if strSQL = "" {set strSQL = " where "} else {set strSQL = strSQL_" and"}
+	set strSQL = strSQL_" UTCTimeStamp <= '"_eyear_"-"_$CASE($LENGTH(emon),1:"0"_emon,2:emon)_"-31%'"
+} elseif (syear'="") && (smon'="") && (eyear'="") && (emon'="") {
+	if strSQL = "" {set strSQL = " where "} else {set strSQL = strSQL_" and"}
+	set strSQL = strSQL_" UTCTimeStamp between '"_syear_"-"_$CASE($LENGTH(smon),1:"0"_smon,2:smon)_"-01%' and '"_eyear_"-"_$CASE($LENGTH(emon),1:"0"_emon,2:emon)_"-31%'"
+}
+
+//イベントタイプ
+if etype'="" {
+	if strSQL = "" {set strSQL = " where "} else {set strSQL = strSQL_" and"}
+	set strSQL = strSQL_" EventType ='"_etype_"'"
+} 
+else 
+{
+	if strSQL = "" {set strSQL = " where "} else {set strSQL = strSQL_" and"}
+	set strSQL = strSQL_" EventType in ('Create','Update')"
+//----- For TEST ---// 
+//	set strSQL = strSQL_" EventType in ('Create','Update','%System')"
+//------------------//
+}
+
+//デフォルト年月は、Horologの年月。
+//if syear="" {set syear=pYear}
+//if smon="" {set smon=$NUMBER(pMon)}
+if syear="" {set syear="----"}
+if smon="" {set smon="--"}
+
+//ユーザ名の登録
+set auser(1) = "Furuzono"
+set auser(2) = "Horita"
+set auser(3) = "Iwamoto"
+set auser(4) = "Kakechi"
+set auser(5) = "Kaminaka"
+set auser(6) = "Minamoto"
+set auser(7) = "Miura"
+set auser(8) = "MIYASHITA"
+set auser(9) = "Nakahashi"
+set auser(10) = "Sato"
+set auser(11) = "Tanaka"
+set auser(12) = "Yamamoto"
+
+//w !,"select Username,EventType,EventData,UTCTimeStamp,Description from %SYS.Audit "_$get(strSQL,"")
+</script>
+
+<body>
+
+<TABLE width=100% align="center" border=0>
+  <TBODY>
+  <TR height=60>
+    <TD class="title" valign="top" align="center" >編集履歴一覧表示</TD>
+  </TR>
+  <TR>
+    <TD align="center">
+	  <form name="form1" method=post action="history.csp">
+	  <table width=90% align="center" border=0>
+	  <tbody>
+		<tr>
+		  <td>Username，EventType，TimeStamp(yyyy/mm)の指定検索ができます。</td>
+		</tr>
+        <tr>
+          <td>
+	        <script P1="param" language="SQL" name="sqlquery">
+	         select distinct Username from %SYS.Audit where  Username not in ('','%system','UnknownUser','_SYSTEM')
+	       </script>
+            担当者: 
+            <select name="uname">
+	        <csp:loop counter="x" from="1" to="12">
+    		  <option value=#(auser(x))# #($case(auser(x),uname:"selected",:""))#>#(auser(x))#</option>
+    	    </csp:loop>
+    	    <csp:if condition=(uname="")>
+	    	  <option value="" selected>----</option>
+	        <csp:else>
+	    	  <option value="">----</option>
+    	    </csp:if>
+	        </select>
+   	      </td>
+   	    </tr>
+   	    <tr>
+   	      <td>
+            開始日:
+            <select name="syear">
+   		    <csp:loop counter="x" from="0" to="4">
+        	  <option  value=#(minYear+x)# #($case($Number(syear),(minYear+x):"selected",:""))#>#(minYear+x)#</option>
+            </csp:loop>
+	          <option value="----" #($case(syear,"----":"selected",:""))#>----</option>
+            </select>
+            年
+            <select name="smon">
+      	    <csp:loop counter="x" from="1" to="12">
+        	  <option value=#(x)# #($case($Number(smon),x:"selected",:""))#>#(x)#</option>
+            </csp:loop>
+	          <option value="--" #($case(smon,"--":"selected",:""))#>--</option>
+            </select>
+            月 &nbsp;～
+            <select name="eyear">
+     	    <csp:loop counter="x" from="0" to="4">
+     	    <csp:if condition=(minYear+x=$Number(pYear))&(eyear="")>
+     	      <option value=#(minYear+x)# selected>#(minYear+x)#</option>
+     		<csp:else>
+     		  <option value=#(minYear+x)# #($case(minYear+x,$Number(eyear):"selected",:""))#>#(minYear+x)#</option>
+       		</csp:if>
+            </csp:loop>      
+            </select>
+            年
+            <select name="emon">
+      	      <csp:loop counter="x" from="1" to="12">
+      		<csp:if condition=(x=$Number(pMon))&(emon="")>
+      		  <option value=#(x)# selected>#(x)#</option>
+      		<csp:else>
+      		  <option value=#(x)# #($case(x,$Number(emon):"selected",:""))#>#(x)#</option>
+          	</csp:if>
+     	    </csp:loop>      
+            </select>
+            月
+   	      </td>
+   	    <tr>
+   	      <td colspan=2 width=480>
+          イベントタイプ： 
+	        <select name="etype">
+   		      <option value="Create" #($case(etype,"Create":"selected",:""))#>Create</option>
+  		      <option value="Update" #($case(etype,"Update":"selected",:""))#>Update</option>      	
+	   	      <option value="" #($case(etype,"":"selected",:""))#>----</option>
+            </select>
+   	      </td>
+   	    </tr>
+    	<tr>
+   	      <td>条件で絞り込み<INPUT type="image" src="./images/button/Search.gif" border=0></td>
+   	    </tr>
+   	  </tbody>
+	  </table>
+	</TD>
+  </TR>
+  <TR><TD><hr width=90% align="center"></TD></TR>
+  <TR align="center">	
+    <TD>
+      <table width=600 border=1>
+	    <caption style="font-size:16pt;font-weight=bold">検索結果</caption>
+			
+	    <script P1= "" language="SQL" name="sqlquery">
+	     #("select Username,EventType,EventData,UTCTimeStamp,Description from %SYS.Audit "_$get(strSQL,"")_"order by UTCTimeStamp desc")# 
+	   </script>
+	
+	    <tr class="HedRow">
+	      <td><b><font color=blue>Username</font></td>
+	      <td><b>EventType</td>
+	      <td><b>UTCTimeStamp</td>
+	      <td><b>EventData</td>
+	    </tr>
+	
+	  <csp:while counter="row"  condition="sqlquery.Next()">
+	
+	  <csp:if condition='row#2=0'>
+	    <tr class="LightRow">
+	  <csp:else>
+	    <tr class="DarkRow">
+	  </csp:if>
+	  
+	  	  <td><font color=blue>#($get(sqlquery.Data("Username")))#　</font></td>
+	  	  <td>#($get(sqlquery.Data("EventType")))#　</td>
+	  	  <td>#($get(sqlquery.Data("UTCTimeStamp")))#　</td>
+	  	  <td>#($get(sqlquery.Data("EventData")))#　</td> 
+	    </tr>
+	  </csp:while>
+
+	
+	  </table>
+	
+	  </form>
+	  
+    </TD>
+  </TR>
+  <TR><TD>&nbsp</TD></TR>
+  <TR height=50>
+    <TD align="center">
+		<Input type="image" src="./images/button/tojiru1.gif" border="0" onclick="window.close()">
+	<TD>
+  </TR>
+</TBODY>
+</TABLE>
+
+
+</body>
+</html>

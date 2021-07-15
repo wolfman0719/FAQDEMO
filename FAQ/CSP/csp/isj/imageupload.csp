@@ -1,0 +1,38 @@
+<html>
+<head>
+
+<!-- Put your page Title here -->
+<title>	Image Upload </title>
+
+</head>
+
+<body bgcolor="#FFFFFF" >
+<server>
+
+set upload = $get(%request.MimeData("upload",1))
+
+if upload'="" {
+	set fileext = $piece(upload.FileName,".",2)
+	set filename = $translate($translate($zdatetime($zts,8)," ",""),":","")
+	set filepath = ##class(KB.Config).getCSPDirectory()_##class(KB.Config).getDirectorySeparator()_"images"_##class(KB.Config).getDirectorySeparator()_filename_"."_fileext
+    set stream=##class(%Stream.FileBinary).%New()
+    do stream.FilenameSet(filepath)
+	set st = stream.CopyFrom(upload)
+	set st = stream.%Save()
+	
+	if st=$$$OK {
+       set fileUrl = ##class(KB.Config).getCSPUrl()_"/images/"_filename_"."_fileext
+       set funcNum = %request.Get("CKEditorFuncNum",1)
+       set message = "ファイルがアップロードされました。"
+       write "<script language=javascript>"
+       &javascript<window.parent.CKEDITOR.tools.callFunction(#(funcNum)#,'#(fileUrl)#','#(message)#');>
+       write "</script>"
+	} else{
+		&js<alert('添付ファイルは保存できませんでした');>
+	}
+
+}
+</server>
+
+</body>
+</html>
