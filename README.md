@@ -5,20 +5,18 @@ FAQシステムのDocker Build デモサイト
 
 ## ビルドプロセス
 
-### ビルド
-* ```docker-compose build```      
-### 実行
-* ```docker-compose up -d```
+### ビルド&実行
+* ```docker-compose up -d --build```      
 
-を実行後、再度ビルドと実行
+を実行
 
 ## アプリケーション起動
 
 * FAQシステムエントリー
 
-  [localhost:52775/csp/user/FAQ.FAQApp.cls?IRISUsername=_system&IRISPassword=demosystem](http://localhost:52775/csp/user/FAQ.FAQApp.cls?IRISUsername=_system&IRISPassword=demosystem)
+  [localhost:52775/csp/user/FAQ.FAQApp.cls?IRISUsername=_system&IRISPassword=SYS](http://localhost:52775/csp/user/FAQ.FAQApp.cls?IRISUsername=_system&IRISPassword=SYS)
 
 - 管理ポータル
 
-  [localhost:52775/csp/sys/%25CSP.Portal.Home.zen?IRISUsername=_system&IRISPassword=demosystem](http://localhost:52775/csp/sys/%25CSP.Portal.Home.zen?IRISUsername=_system&IRISPassword=demosystem)
+  [localhost:52775/csp/sys/%25CSP.Portal.Home.zen?IRISUsername=_system&IRISPassword=SYS](http://localhost:52775/csp/sys/%25CSP.Portal.Home.zen?IRISUsername=_system&IRISPassword=SYS)
 

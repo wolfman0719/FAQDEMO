@@ -3,13 +3,10 @@ version: '3.7'
 services:
   irissvc:
     build:
-      context: ./build
-      args:
-        COMMIT_ID: faqdemo
-    image: wolfman0719/sample:faq
+       context: .
+       dockerfile: Dockerfile
     container_name: faqdemo
-    init: true
-    hostname: myiris
+    restart: always
     
     ports:
     # superserver default port 
