@@ -1,9 +1,9 @@
 ARG IMAGE=store/intersystems/iris-community-arm64:2020.4.0.547.0
-ARG IMAGE=store/intersystems/iris-community-arm64:2021.1.0.215.0
+ARG IMAGE=store/intersystems/iris-community-arm64:2021.1.0.215.3
 ARG IMAGE=intersystemsdc/iris-community:2020.3.0.221.0-zpm
 ARG IMAGE=intersystemsdc/iris-community:2020.4.0.547.0-zpm
 ARG IMAGE=store/intersystems/iris-community:2020.4.0.547.0
-ARG IMAGE=store/intersystems/iris-community:2021.1.0.215.0
+ARG IMAGE=store/intersystems/iris-community:2021.1.0.215.3
 FROM $IMAGE
 
 USER ${ISC_PACKAGE_MGRUSER}
