@@ -80,6 +80,10 @@
 		  </td>
 		</tr>
         <tr>
+          <td class="coltitle">DCURL：</td>
+          <td ><input type="text" name="DCURL" cspbind="DCURL" size="100" class="textbox"></td>
+        </tr>
+        <tr>
           <td class="coltitle">*社内用メモ*：</td>
           <td ><textarea name="Note" cspbind="Note" cols="65" rows="3" id="nt"></textarea></td>
         </tr>

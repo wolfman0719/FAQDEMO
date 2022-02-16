@@ -1,5 +1,5 @@
 <SCRIPT LANGUAGE="cache" RUNAT="Server">
- set companylogourl = "http://"_%request.CgiEnvs("HTTP_HOST")_$piece(%request.GetCgiEnv("REQUEST_URI"),"/",1,3)_"/images/logo/CompanyLogo.png"
+ set companylogourl = "https://www.intersystems.com/wp-content/uploads/assets/intersystems-logo.png"
  set url = "http://"_%request.CgiEnvs("HTTP_HOST")_%request.GetCgiEnv("REQUEST_URI")
  Set DocNo=%request.Get("DocNo")
  set title = ""
@@ -37,8 +37,8 @@ function loadEvent()
 {
    var wname=window.name;
    var wnamesub=wname.substring(0,16);
-   
-   if (wnamesub=='TopicDescription') {
+      
+   if (wnamesub=='TopicDescription' || wname=='new') {
 	   var closebtn=document.getElementById("closebtn");
    	   closebtn.style.visibility='visible';
 	   var gotoppage=document.getElementById("gotoppage");
@@ -68,14 +68,24 @@ if $Get(%session.Data("Access"))="" {
 
  Set DocNo=%request.Get("DocNo")
  
- if DocNo'="" {
-	 Set topic = ##Class(KB.Topic).%OpenId(DocNo)
- 	if topic="" {
-		 set %response.Redirect="FAQ.FAQTopicNotFound.cls"
- 	}else{
-	 	 set TopicID=topic.TopicID
- 	}
+ Set roles=$Get(%session.Data("roles"))
+ if roles="" {
+	 set roles=0
+ }
 
+ if DocNo'="" {
+   set dcurl = ""
+   Set topic = ##Class(KB.Topic).%OpenId(DocNo)
+   if $isobject(topic) set dcurl = topic.DCURL
+   if topic="" {
+     set %response.Redirect="FAQ.FAQTopicNotFound.cls"
+   }
+   elseif (dcurl'="") && (roles = 0) {
+     set %response.Redirect=dcurl
+   } 
+   else{
+	 set TopicID=topic.TopicID
+   }
  }
   
  quit $$$OK
@@ -174,15 +184,15 @@ if $Get(%session.Data("Access"))="" {
    }
  
  If $extract(Productidb,$$$HealthShare) {
-   set tProductText = tProductText_"HealthShare/Cach&eacute; Based, "
+   set tProductText = tProductText_"旧HealthShare, "
    }
 
  If $extract(Productidb,$$$IRIS) {
    set tProductText = tProductText_"IRIS Data Platform, "
    }
 
- If $extract(Productidb,$$$HealthShareIRIS) {
-   set tProductText = tProductText_"HealthShare/IRIS Based, IRIS for Health, "
+ If $extract(Productidb,$$$IRIS4H) {
+   set tProductText = tProductText_"IRIS for Health, "
    }
 
  If $extract(Productidb,$$$General) {
@@ -206,12 +216,9 @@ if $Get(%session.Data("Access"))="" {
 <DIV class="description" border=1>
   <SCRIPT LANGUAGE="CACHE" runat=server>
   
-   set description=##class(%CSP.Page).UnescapeHTML(topic.Description)
+   set edesc=topic.Description
 
-   set crlf = $char(13,10)
-   
-   set edesc = description
-   
+   set crlf = $char(13,10)   
                    
    set lineno = $length(edesc,crlf)
       
