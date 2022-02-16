@@ -44,7 +44,7 @@ Property FileFlg As %Boolean [ InitialExpression = 0 ];
 Property RefTopic As %String;
 
 /// 特記事項
-Property Note As %String(MAXLEN = "", XMLPROJECTION = "NONE");
+Property Note As %String(MAXLEN = 1000, XMLPROJECTION = "NONE");
 
 /// 完成フラグ
 Property Completed As %Boolean [ InitialExpression = 0 ];
@@ -78,6 +78,9 @@ Property UsersVoice As KB.UsersVoice;
 
 /// 更新履歴
 Relationship UpdateDetail As KB.UpdateHistory [ Cardinality = children, Inverse = Topic ];
+
+/// 同じ内容のDC(Developer Community)記事URL
+Property DCURL As %String(MAXLEN = 100, XMLPROJECTION = "NONE");
 
 Index IndexIssueDate On IssueDate;
 
@@ -245,7 +248,6 @@ ClassMethod RemoveDuplicatedRefNo(pRefNoList As %String) As %String
 	}
 	
 	quit $extract(newref,2,*)
-		
 }
 
 ClassMethod RemoveRefNoForOwn(pRefNoList As %String, pTopicId As %Integer) As %String
@@ -270,7 +272,6 @@ ClassMethod RemoveRefNoForOwn(pRefNoList As %String, pTopicId As %Integer) As %S
 	}
 	
 	quit $extract(newref,2,*)
-		
 }
 
 Method RefCheckLink(pDebug As %Boolean) As %Status
@@ -379,33 +380,8 @@ ClassMethod RemoveLink(pId As %Integer, pOldValue As %String, pNewValue As %Stri
 	Quit tSC
 }
 
-/*
-Method DescriptionGet() As %Text
+ClassMethod ChangeUrlPathForImages()
 {
- set crlf = $char(13,10)
- set gt = "&gt;"
- set lt = "&lt;"
- set Description = i%Description
-
- set Description = $replace(Description,"<command>",lt_"command"_gt)
- set Description = $replace(Description,"</command>",lt_"/command"_gt)
- set Description = $replace(Description,"<Command>",lt_"Command"_gt)
- set Description = $replace(Description,"</Command>",lt_"/Command"_gt)
- set Description = $replace(Description,"<COMMAND>",lt_"COMMAND"_gt)
- set Description = $replace(Description,"</COMMAND>",lt_"/COMMAND"_gt)
-
- set Description = $replace(Description,"<url>",lt_"url"_gt)
- set Description = $replace(Description,"</url>",lt_"/url"_gt)
- set Description = $replace(Description,"<Url>",lt_"Url"_gt)
- set Description = $replace(Description,"</Url>",lt_"/Url"_gt)
- set Description = $replace(Description,"<URL>",lt_"URL"_gt)
- set Description = $replace(Description,"</URL>",lt_"/URL"_gt)
- 
- quit Description
-}
-*/
-
-ClassMethod ChangeUrlPathForImages() {
    try {
      //ckeditorで追加したイメージは、絶対パスでhtmlに埋め込まれるため、本番移行、テスト移行等の際、ネームスペースが異なると表示されなくなるので、相対パスに変更する
      //今後は、トピックの保存の際、この変換を行うので、インストールの際には必要なくなる
@@ -426,10 +402,11 @@ ClassMethod ChangeUrlPathForImages() {
     }
     catch ex {
       set status = ##class(FAQ.Error).StoreErrorInformation(ex)  
-    }	
+    }
 }
-    	
-ClassMethod UpdatePropertyOfMultipleTopics(pTopicIdPropertyOBJ As %String) As %Status {
+
+ClassMethod UpdatePropertyOfMultipleTopics(pTopicIdPropertyOBJ As %String) As %Status
+{
    try {
      //TopicId, PropertyペアのArrayを入力とし、該当するTopicのPropertyを更新する
      // Property = [Product,Category,Facility,Completed,Visible,DeleteFlg]
@@ -465,7 +442,8 @@ ClassMethod UpdatePropertyOfMultipleTopics(pTopicIdPropertyOBJ As %String) As %S
     quit status
 }
 
-ClassMethod CopyFromTopics(pTopicIdList As %List, Output pNewTopicIdList As %List) As %Status {
+ClassMethod CopyFromTopics(pTopicIdList As %List, Output pNewTopicIdList As %List) As %Status
+{
    try {
      //パラメータpTopicIdListで指定されたtopicidのインスタンスをコピーして新しいトピックを生成する
      //新しいtopicidのリストを出力パラメータとして第2パラメータで返す
@@ -620,12 +598,182 @@ Storage Default
 <Value name="42">
 <Value>UsersVoice</Value>
 </Value>
+<Value name="43">
+<Value>DCURL</Value>
+</Value>
 </Data>
 <DataLocation>^KB.TopicD</DataLocation>
 <DefaultData>TopicDefaultData</DefaultData>
-<ExtentSize>100000</ExtentSize>
+<ExtentSize>537</ExtentSize>
 <IdLocation>^KB.TopicD</IdLocation>
 <IndexLocation>^KB.TopicI</IndexLocation>
+<Property name="%%CLASSNAME">
+<AverageFieldSize>2</AverageFieldSize>
+<Histogram>$lb(.06666666666666666667,0,16,$lb("-10000000000000000000","-10000000000000000000","-10000000000000000000","-10000000000000000000","-10000000000000000000","-10000000000000000000","-10000000000000000000","-10000000000000000000","-10000000000000000000","-10000000000000000000","-10000000000000000000","-10000000000000000000","-10000000000000000000","-10000000000000000000","-10000000000000000000","-10000000000000000000"),$lb(21,21,21,21,21,21,21,21,21,21,21,21,21,21,21),$lb(758198320,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,758198320))</Histogram>
+<Selectivity>100.0000%</Selectivity>
+</Property>
+<Property name="%%ID">
+<AverageFieldSize>3.48</AverageFieldSize>
+<Histogram>$lb(.06666666666666666667,1,0,$lb(12,16,75,147,199,234,244,251,259,276,319,325,337,429,436,502),$lb(1,0,0,1,0,1,1,2,1,0,1,1,0,1,0),$lb(825360384,838860800,905969664,825622528,926220288,926220288,825505536,876019712,960036864,825833728,842216448,859045888,875823104,875823104,892403712,822083584,956301312,892928000,926285824,842479104,858863872,825819136,842334208,842334208,859242496,858994432,875706624,842596352,859176960,875771392,892350976,892350976))</Histogram>
+<Selectivity>1</Selectivity>
+</Property>
+<Property name="Category">
+<AverageFieldSize>2.62</AverageFieldSize>
+<Histogram>$lb(.06666666666666666667,1,6,$lb("-10000000000000000000","-10000000000000000000","-10000000000000000000","-10000000000000000000","-10000000000000000000","-10000000000000000000","1","1","1","1","1","1","1","5","5","5"),$lb(21,21,21,21,21,0,1,1,1,1,1,1,0,1,1),$lb(758198320,0,0,0,0,0,0,0,0,0,0,758198320,822083584,0,0,0,0,0,0,0,0,0,0,0,0,822083584,889192448,0,0,0,0,889192448))</Histogram>
+<Selectivity>22.1574%</Selectivity>
+</Property>
+<Property name="Completed">
+<AverageFieldSize>2.93</AverageFieldSize>
+<Histogram>$lb(.06666666666666666667,0,0,$lb(0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1),$lb(1,0,1,1,1,1,1,1,1,1,1,1,1,1,1),$lb(805306368,0,0,805306368,822083584,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,822083584))</Histogram>
+<OutlierSelectivity>.929577:1</OutlierSelectivity>
+<Selectivity>7.0423%</Selectivity>
+</Property>
+<Property name="Creator">
+<AverageFieldSize>6.68</AverageFieldSize>
+<Histogram>$lb(.06666666666666666667,0,0,$lb(" "," "," "," "," "," FURUZONO"," KAKECHI"," KAKECHI"," SATO"," SATO"," YAMAMOTO"," YAMAMOTO"," 中橋"," 岩本、堀田"," 田中 歩"," 皆本,三浦"),$lb(2,2,2,2,1,1,9,1,6,1,10,1,1,1,1),$lb(536870912,0,0,0,0,0,0,0,0,0,1179996757,1179996757,1262570309,0,0,1262570309,1396790351,0,0,1396790351,1497451841,0,0,1497451841,3837308390,3837308390,3853691366,3853691366,3885281508,3885281508,3885663974,552049286))</Histogram>
+<OutlierSelectivity>.323944:</OutlierSelectivity>
+<Selectivity>3.7528%</Selectivity>
+</Property>
+<Property name="DeleteFlg">
+<AverageFieldSize>2.2</AverageFieldSize>
+<Histogram>$lb(.06666666666666666667,0,0,$lb(0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1),$lb(1,1,1,1,1,1,1,1,1,1,1,0,1,1,1),$lb(805306368,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,805306368,822083584,0,0,0,0,0,0,822083584))</Histogram>
+<Selectivity>50.0000%</Selectivity>
+</Property>
+<Property name="Description">
+<AverageFieldSize>1954.28</AverageFieldSize>
+<Histogram>
+<![CDATA[$lb(.06666666666666666667,0,0,$lb(" "," <P>&NBSP;</P><P>シャドウイング関連の情報を取得するAPIが用意されています。<BR /><BR />ソースサーバ側の情報取得<BR /><BR />SYS.SHADOWING.DATASOURCE:CONNECTIONSク"," <P>CACH&EACUTE;ターミナルで文字化けが発生するのは、サーバ側の文字コードとクライアント(ターミナル)側の文字コード設定が異なる場合です。<BR /><BR />サーバ側の文字コードは、ターミナルで接続して $$GETIO^%"," <P>INTERSYSTEMS製品では、永続データは後で高速にランダムアクセスできるように、ある一定の規則に沿ってキー順にソートされて格納されます。<BR /><BR />新しいノードが追加された場合、ノードが削除された場合、データの長さ"," <P>JIS X5070は、ISO/IEC 15408と同一規格で、コンピュータセキュリティの国際規格です。<BR /><A HREF=""HTTPS://WWW.METI.GO.JP/POLICY/NETSECURITY/CC.HTML"""," <P>VISMクライアントを利用したアプリケーションにおいて、サーバ側スクリプト(CACH&EACUTE; OBJECTSCRIPT)で、スクリプトレベルのエラーが発生した場合、既定では、以下の動作となります。</P><UL>"_$c(9)_"<LI>ク"," <P>ZENレポートでAPACHE FOPを使用してPDFファイルを生成する際に、日本語フォントを使用するためには、CACH&EACUTE;のバージョンによっては、環境に応じた設定が必要です。<BR /><BR />【CACH&EACUT"," <P>はい、INTERSYSTEMSは製品に同梱する形でODBCドライバーを提供しています。</P><P>また、お客様のご要望に応じてODBCドライバー単体でも提供しています。</P><P>また、同様にJDBCタイプ４ドライバーも提供して"," <P>イベントビューアに以下のようなアプリケーションが出力された場合、これは内容的には「エラー」というより「情報」に近く、動作に問題はありません。<BR />----------------------------------------"," <P>クラス定義内、プロパティのデータタイプをSTREAM型で定義することで、イメージ情報を格納することができます。<BR /><BR />VB経由でアクセスする方法は、以下の通りです。<BR /><BR />CACH&EACUTE;にア"," <P>テーブルチューニングを行った際に、フィールドに値がほとんど登録されていない（NULL）場合や、特定の値がほとんどを占める場合、その値を [外れ値] として除外して選択性計算を行います。<BR /><BR />また、外れ値が全レコード"," <P>ユーザーが作成したクラス定義は、クラス定義クラスの中に格納されます。<BR /><BR />クラス定義一覧をプログラムから取得する方法として、「クラス定義クラス」を利用することができます。<BR />（クラス定義クラスとは、%DIC"," <P>何らかの理由でサーバー移行が必要になった際に、移行前の環境から移行後の環境に設定情報をコピーすることで設定作業を軽減できます。<BR /><BR />以下の設定情報を移行できます。</P><UL>"_$c(9)_"<LI>CACHE.CPF</LI"," <P>次のような CACHE.SERVICE ファイルを SYSTEMD/SYSTEM 以下におき、SYSTEMCTL ENABLE CACHE.SERVICE コマンドでサービス登録を行います。</P><P>/USR/LIB/SYSTE"," <P>詳細は、以下ドキュメントをご参照ください。<BR /><A HREF=""HTTPS://WWW.INTERSYSTEMS.COM/WP-CONTENT/UPLOADS/SITES/6/HIGH_AVAILABILITY_STRATE"," <UL>"_$c(9)_"<LI>ルーチン（*.MAC）の場合</LI></UL><P><BR />ルーチンの場合は、コンパイル後に生成される *.OBJ のみをエクスポート／インポートすることで、ソースの隠蔽化を実現できます。<BR /><BR />コ"),$lb(1,4,4,4,4,4,4,4,4,4,4,4,4,4,2),$lb(536870912,0,1011891750,642662995,1128350536,1128350536,1229870149,1229870149,1246319392,1246319392,1447646029,1447646029,1514491619,1514491619,3816927203,3816927203,3816989923,3816989923,3816992739,3816992739,3817047779,3817047779,3817055971,3817055971,3837629923,3837629923,3870073315,3870073315,3903435751,1346300073,1431059977,540824908))]]></Histogram>
+<Selectivity>0.1862%</Selectivity>
+</Property>
+<Property name="EndVersion">
+<AverageFieldSize>2.11</AverageFieldSize>
+<Histogram>$lb(.06666666666666666667,1,14,$lb("-10000000000000000000","-10000000000000000000","-10000000000000000000","-10000000000000000000","-10000000000000000000","-10000000000000000000","-10000000000000000000","-10000000000000000000","-10000000000000000000","-10000000000000000000","-10000000000000000000","-10000000000000000000","-10000000000000000000","-10000000000000000000","6","13"),$lb(21,21,21,21,21,21,21,21,21,21,21,21,21,0,0),$lb(758198320,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,758198320,905969664,905969664,825425920,825425920))</Histogram>
+<OutlierSelectivity>.901408:</OutlierSelectivity>
+<Selectivity>3.5832%</Selectivity>
+</Property>
+<Property name="Facility">
+<AverageFieldSize>3.54</AverageFieldSize>
+<Histogram>$lb(.06666666666666666667,1,0,$lb("1","1","1","3","4","4","7","11","11","11","11","11","11",12,"19","19"),$lb(1,1,0,0,1,0,0,2,2,2,2,2,1,1,2),$lb(822083584,0,0,0,0,822083584,855638016,855638016,872415232,0,0,872415232,922746880,922746880,825294848,0,0,0,0,0,0,0,0,0,0,822083584,838860800,838860800,956301312,0,0,825819136))</Histogram>
+<OutlierSelectivity>.394366:11</OutlierSelectivity>
+<Selectivity>6.0010%</Selectivity>
+</Property>
+<Property name="FileFlg">
+<AverageFieldSize>2.07</AverageFieldSize>
+<Histogram>$lb(.06666666666666666667,0,0,$lb(0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1),$lb(1,1,1,1,1,1,1,1,1,1,1,1,1,0,1),$lb(805306368,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,805306368,822083584,0,0,822083584))</Histogram>
+<OutlierSelectivity>.929577:0</OutlierSelectivity>
+<Selectivity>7.0423%</Selectivity>
+</Property>
+<Property name="IssueDate">
+<AverageFieldSize>4</AverageFieldSize>
+<Histogram>$lb(.06666666666666666667,0,0,$lb(59591,59596,59598,61124,61334,61607,61782,62329,62424,62528,62915,63012,63379,64462,64623,65387),$lb(4,4,0,2,2,2,1,2,2,2,1,2,1,2,1),$lb(892941625,822083584,905969664,905969664,939524096,892941625,909193522,825373696,858993664,858993664,909129472,909129472,926429696,825702450,842215993,858929408,875705344,875705344,892483584,892483584,959526144,842608949,858796338,808530432,859257088,858994489,875836978,875966976,909259520,875967027,892549175,909456184))</Histogram>
+<Selectivity>1.7865%</Selectivity>
+</Property>
+<Property name="Note">
+<AverageFieldSize>161.01</AverageFieldSize>
+<Histogram>
+<![CDATA[$lb(.06666666666666666667,0,0,$lb(" "," "," "," "," "," "," "," "," 2011/12/20 飯島　語尾を少し修正（丁寧から通常に）"_$c(13,10)_"2012.04.24(FAQADMIN/古薗)：タイトルに「。」"_$c(13,10)_"2013/4/10　飯島　ドキュメントのポイントが20101Jを敢えて指定します。（2010.2からCAC"," 2011/2/24 飯島　<URL>追加"," 2012/12/26　飯島新規追加"," 2019/2 IRIS用トピック：456　追加"_$c(13,10)_"CSPGATEWAYのインストールディレクトリが、バージョンにより異なっている為、"_$c(13,10)_"そのディレクトリを変数 CSPGTWDIR に定義するようにしました。"_$c(13,10)_"2011/12/28(古薗)"," VB6+CACHE5.0.5で動作確認"_$c(13,10)_"2011/2/23　<COMMAND>で例文をくくりました。"," 内容不十分"_$c(13,10)_"2011/8/22　飯島　追記したのはいいけど、長い・・"_$c(13,10)_"その後、2011.1対応佐藤さんチェック通過。"_$c(13,10)_"2011/9/29 完成済にチェックつけました。（飯島）"," 編集日付　2012/3/29"_$c(13,10)_"編集者名 三浦昌仁"_$c(13,10)_"編集内容"_$c(13,10)_"　変更前"_$c(13,10)_"　マシン名を変更した後再起動する際には、"_$c(13,10)_"　変更後"_$c(13,10)_"　マシン名を変更した後OSの再起動する際には、"_$c(13,10,13,10)_"2012.04.24(FAQADMIN/古薗)：タ"," ＊参考トピック＊"_$c(13,10)_"ID231：CACHÉのOSサポートバージョンについて教えてください"_$c(13,10)_"HTTP://WWW.INTERSYSTEMS.CO.JP/SUPPORT/FAQ/SYSTEM/INDEX.HTML#ID231"_$c(13,10,13,10)_"ID23"),$lb(2,2,2,2,2,2,2,1,6,4,4,1,1,1,1),$lb(536870912,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,842019121,825372466,841953844,825176623,841953586,841953586,959394336,842019129,1447179819,1447179819,3850798565,3850798565,3887573225,3887573225,4022110949,552582282))]]></Histogram>
+<OutlierSelectivity>.521127:</OutlierSelectivity>
+<Selectivity>0.1862%</Selectivity>
+</Property>
+<Property name="OpenDate">
+<AverageFieldSize>2.79</AverageFieldSize>
+<Histogram>$lb(.06666666666666666667,0,9,$lb("-10000000000000000000","-10000000000000000000","-10000000000000000000","-10000000000000000000","-10000000000000000000","-10000000000000000000","-10000000000000000000","-10000000000000000000","-10000000000000000000",62390,62390,62390,62390,62390,62390,62390),$lb(21,21,21,21,21,21,21,21,0,5,5,5,5,5,5),$lb(758198320,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,758198320,909259577,0,0,0,0,0,0,0,0,0,0,0,0,909259577))</Histogram>
+<Selectivity>50.0000%</Selectivity>
+</Property>
+<Property name="Platform">
+<AverageFieldSize>2.21</AverageFieldSize>
+<Histogram>$lb(.06666666666666666667,1,12,$lb("-10000000000000000000","-10000000000000000000","-10000000000000000000","-10000000000000000000","-10000000000000000000","-10000000000000000000","-10000000000000000000","-10000000000000000000","-10000000000000000000","-10000000000000000000","-10000000000000000000","-10000000000000000000","1","9","9","9"),$lb(21,21,21,21,21,21,21,21,21,21,21,0,0,1,1),$lb(758198320,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,758198320,822083584,822083584,956301312,0,0,0,0,956301312))</Histogram>
+<OutlierSelectivity>.788732:</OutlierSelectivity>
+<Selectivity>7.0423%</Selectivity>
+</Property>
+<Property name="Product">
+<AverageFieldSize>3.51</AverageFieldSize>
+<Histogram>$lb(.06666666666666666667,1,0,$lb("1","1","2","2","2","9","9","9","16","16","16","16","16","16","16","16"),$lb(1,0,1,1,0,1,1,0,2,2,2,2,2,2,2),$lb(822083584,0,0,822083584,838860800,0,0,0,0,838860800,956301312,0,0,0,0,956301312,825622528,0,0,0,0,0,0,0,0,0,0,0,0,0,0,825622528))</Histogram>
+<Selectivity>17.6875%</Selectivity>
+</Property>
+<Property name="RefTopic">
+<AverageFieldSize>4.63</AverageFieldSize>
+<Histogram>$lb(.06666666666666666667,0,0,$lb(" "," "," "," "," "," "," "," "," "," 118,321,366"," 231,232"," 258"," 277,412"," 382"," 440"," 65,152,229,341,375,401,482"),$lb(2,2,2,2,2,2,2,2,1,1,2,2,1,1,1),$lb(536870912,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,825309228,825309228,842215724,858860594,892862464,892862464,926362676,842479404,859320832,859320832,875835392,875835392,909454385,540423468))</Histogram>
+<OutlierSelectivity>.619718:</OutlierSelectivity>
+<Selectivity>0.1862%</Selectivity>
+</Property>
+<Property name="StartVersion">
+<AverageFieldSize>2.23</AverageFieldSize>
+<Histogram>$lb(.06666666666666666667,1,13,$lb("-10000000000000000000","-10000000000000000000","-10000000000000000000","-10000000000000000000","-10000000000000000000","-10000000000000000000","-10000000000000000000","-10000000000000000000","-10000000000000000000","-10000000000000000000","-10000000000000000000","-10000000000000000000","-10000000000000000000","6","11","20"),$lb(21,21,21,21,21,21,21,21,21,21,21,21,0,0,0),$lb(758198320,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,758198320,905969664,905969664,825294848,825294848,842006528,842006528))</Histogram>
+<OutlierSelectivity>.84507:</OutlierSelectivity>
+<Selectivity>0.5598%</Selectivity>
+</Property>
+<Property name="Title">
+<AverageFieldSize>70.39</AverageFieldSize>
+<Histogram>$lb(.06666666666666666667,0,0,$lb("  IEで管理ポータルが英語表記になります。日本語にするにはどうすれば良いですか？"," CACHÉとの運用実績のあるクラスタリングソフトウェアは何ですか？"," CACHÉはクラウド環境をサポートしますか？"," INTERSYSTEMSの製品の中身はMUMPS（M言語）だと聞いたのですが。"," LINUXでシステム開始/停止時に、インターシステムズ製品を自動起動/停止することはできますか？"," VB.NETでCACHEOBJECT.SETPICTURE()メソッドを使用して画像を保存する方法を教えてください。"," WINDOWSでCACHÉをアンインストールするときの注意点を教えてください。"," アップグレード後、管理ポータルを開こうとするとERROR #5001となり、開くことができません。"," コンソールログに ""FAILED TO ALLOCATE XXXMB SHARED MEMORY USING LARGE PAGES..."" のエラーメッセージがあります"," ジャーナルのON／OFFについて、コマンドで操作する方法を教えてください。"," データの登録／削除が行われている間でも、インデックスの再構築はできますか？"," バージョンの異なるインスタンス間で、ライセンスを共有することはできますか？"," マッピングしたグローバルがエクスポートできません"," 古いバージョンの購入はできますか？"," 未使用"," 選択性の数値とは何ですか？"),$lb(1,6,1,1,1,1,1,1,1,1,1,1,1,1,1),$lb(538986821,541672931,1128350536,3816925411,3816927203,1128350536,1229870149,1229870149,1279872597,1279872597,1447177806,1447177806,1464421956,1464421956,3816989411,3816989411,3816993763,3816993763,3816995043,3816995043,3817048035,3817048035,3817050339,3817050339,3817053923,3817053923,3851396323,3851396323,3869027044,3869027044,3917592806,552174008))</Histogram>
+<Selectivity>0.1862%</Selectivity>
+</Property>
+<Property name="TopicID">
+<AverageFieldSize>7</AverageFieldSize>
+<Histogram>$lb(.06666666666666666667,0,0,$lb(" 00012"," 00016"," 00075"," 00147"," 00199"," 00234"," 00244"," 00251"," 00259"," 00276"," 00319"," 00325"," 00337"," 00429"," 00436"," 00502"),$lb(5,4,3,4,3,4,4,5,4,3,4,4,3,4,3),$lb(540028976,838860800,905969664,825622528,926220288,808924416,825505536,876019712,960036864,825833728,842216448,859045888,875823104,875823104,892403712,822083584,956301312,892928000,926285824,842479104,858863872,825819136,842334208,842334208,859242496,858994432,875706624,842596352,859176960,875771392,892350976,540028981))</Histogram>
+<Selectivity>0.1862%</Selectivity>
+</Property>
+<Property name="TopicSubID">
+<AverageFieldSize>2.51</AverageFieldSize>
+<Histogram>$lb(.06666666666666666667,0,0,$lb(" "," "," "," "," "," "," "," "," "," "," "," "," "," 018"," 033"," 044"),$lb(2,2,2,2,2,2,2,2,2,2,2,2,1,2,2),$lb(536870912,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,808531968,825753600,858980352,858980352,875823104,540030004))</Histogram>
+<OutlierSelectivity>.830986:</OutlierSelectivity>
+<Selectivity>0.4254%</Selectivity>
+</Property>
+<Property name="UpdateDate">
+<AverageFieldSize>4</AverageFieldSize>
+<Histogram>$lb(.06666666666666666667,0,0,$lb(64733,64890,64931,64989,64989,64989,64989,64992,65077,65091,65105,65286,65343,65344,65350,65387),$lb(2,2,3,5,5,5,3,1,3,2,2,2,4,3,3),$lb(909391667,926102272,943271936,943271936,959656192,858849280,943259648,0,0,0,0,0,0,943259648,959578112,876165426,892352311,926351360,959512576,809054464,825242880,825242880,842544640,842544640,859058944,855638016,872415232,875823104,892338176,892338176,943128576,909456184))</Histogram>
+<OutlierSelectivity>.28169:64989</OutlierSelectivity>
+<Selectivity>2.1038%</Selectivity>
+</Property>
+<Property name="Updater">
+<AverageFieldSize>7.07</AverageFieldSize>
+<Histogram>$lb(.06666666666666666667,0,0,$lb(" FURUZONO"," KAKECHI"," KAKECHI"," KAKECHI"," SATO"," SATO"," SATO"," SATO"," SATO"," SATO"," SATO"," SATO"," SATO"," SATO"," YAMAMOTO"," YAMAMOTO"),$lb(1,9,9,1,6,6,6,6,6,6,6,6,6,1,10),$lb(541480274,1179996757,1262570309,0,0,0,0,1262570309,1396790351,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1396790351,1497451841,0,0,542720333))</Histogram>
+<OutlierSelectivity>.647887:"sato"</OutlierSelectivity>
+<Selectivity>8.8028%</Selectivity>
+</Property>
+<Property name="UsersVoice">
+<AverageFieldSize>4.83</AverageFieldSize>
+<Histogram>$lb(.06666666666666666667,1,0,$lb("12","16","75","147","199","234","244","251","259","276","319","325","337","429","436","501"),$lb(1,0,0,1,0,1,1,2,1,0,1,1,0,1,0),$lb(825360384,838860800,905969664,825622528,926220288,926220288,825505536,876019712,960036864,825833728,842216448,859045888,875823104,875823104,892403712,822083584,956301312,892928000,926285824,842479104,858863872,825819136,842334208,842334208,859242496,858994432,875706624,842596352,859176960,875771392,892350720,892350720))</Histogram>
+<Selectivity>0.1862%</Selectivity>
+</Property>
+<Property name="VersionRange">
+<AverageFieldSize>4.58</AverageFieldSize>
+<Histogram>$lb(.06666666666666666667,0,0,$lb(" "," "," "," "," "," "," "," "," "," "," "," ","  ～ 2010.1.X"," 2011.1.X ～"," 5.0.X"," 5.0.X"),$lb(2,2,2,2,2,2,2,2,2,2,2,1,1,1,7),$lb(536870912,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,552582558,552582558,842019121,842019121,892219438,0,0,540356144))</Histogram>
+<OutlierSelectivity>.816901:</OutlierSelectivity>
+<Selectivity>0.4258%</Selectivity>
+</Property>
+<Property name="Visible">
+<AverageFieldSize>2.87</AverageFieldSize>
+<Histogram>$lb(.06666666666666666667,0,0,$lb(0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1),$lb(1,0,1,1,1,1,1,1,1,1,1,1,1,1,1),$lb(805306368,0,0,805306368,822083584,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,822083584))</Histogram>
+<OutlierSelectivity>.873239:1</OutlierSelectivity>
+<Selectivity>12.6761%</Selectivity>
+</Property>
+<Property name="WebFlg">
+<AverageFieldSize>2.42</AverageFieldSize>
+<Histogram>$lb(.06666666666666666667,0,0,$lb(" "," "," "," "," 0"," 0"," 0"," 0"," 0"," 1"," 1"," 1"," 1"," 1"," 1"," 1"),$lb(2,2,2,1,3,3,3,3,1,3,3,3,3,3,3),$lb(536870912,0,0,0,0,0,0,0,805306368,0,0,0,0,0,0,0,0,805306368,822083584,0,0,0,0,0,0,0,0,0,0,0,0,540082176))</Histogram>
+<Selectivity>33.3333%</Selectivity>
+</Property>
+<SQLMap name="$Topic">
+<BlockCount>-4</BlockCount>
+</SQLMap>
+<SQLMap name="CreatorIndex">
+<BlockCount>-4</BlockCount>
+</SQLMap>
+<SQLMap name="IDKEY">
+<BlockCount>-901</BlockCount>
+</SQLMap>
+<SQLMap name="IndexCompleted">
+<BlockCount>-4</BlockCount>
+</SQLMap>
+<SQLMap name="IndexIssueDate">
+<BlockCount>-4</BlockCount>
+</SQLMap>
+<SQLMap name="IndexTitle">
+<BlockCount>-24</BlockCount>
+</SQLMap>
+<SQLMap name="IndexVisible">
+<BlockCount>-4</BlockCount>
+</SQLMap>
 <StreamLocation>^KB.TopicS</StreamLocation>
 <Type>%Storage.Persistent</Type>
 }

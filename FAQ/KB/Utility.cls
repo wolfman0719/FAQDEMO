@@ -1,6 +1,11 @@
 Class KB.Utility
 {
 
+ClassMethod ShowVersion() As %String
+{
+	quit "1.2.111"
+}
+
 /// xmlインポートおよびxmlエクスポートでは、TopicのFileLoc(FileStream)は、交換できない
 ClassMethod xmlImport(filename As %String)
 {
@@ -540,11 +545,6 @@ ClassMethod CreateUsersVoice() As %Status
 	quit tSC
 }
 
-ClassMethod ShowVersion() As %String
-{
-	quit "1.2.101"
-}
-
 ClassMethod FindKatakanaKeywords() As %Status
 {
 	set counter = 0
@@ -641,7 +641,6 @@ ClassMethod PickupURLs(pText As %String, ByRef pResults As %String) As %Status
 
 /// cspファイルでエンコーディングがUTF8でBOMなしのものにBOMを付加する
 /// cspファイルはUTF8であることが前提
-
 ClassMethod cspUtf8AddBOM(pfiledir As %String) As %Status
 {
     set status = $$$OK
@@ -677,7 +676,8 @@ ClassMethod cspUtf8AddBOM(pfiledir As %String) As %Status
 	}
 	  
     quit status
-  }
+}
+
 ClassMethod EscapeTag(pText As %String, pTag As %String) As %String
 {
     //データに<script xxx>が含まれると編集できなくなる問題の対応

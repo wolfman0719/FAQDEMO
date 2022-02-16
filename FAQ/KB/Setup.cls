@@ -39,7 +39,7 @@ ClassMethod createAccentTable()
 ClassMethod setConfigParams(envID As %Integer) As %Status
 {
 	//運用パラメータ設定
-	// envID(環境ID)：クラウド(本番)環境＝1、jpnfilesrv＝2、クラウド(テスト)環境＝3、Docker(お試し)環境＝3
+	// envID(環境ID)：クラウド(本番)環境＝1、jpnfilesrv＝2、クラウド(テスト)環境＝3
 
 	//クラウド(本番)環境
 	if envID=1 {
@@ -77,7 +77,7 @@ ClassMethod setConfigParams(envID As %Integer) As %Status
 		set classfiledir = "FAQ"
 		set globalfilename = "TopicD.xml"
 		
-	//Docker(お試し)環境
+		//Docker(お試し)環境
 	} elseif envID=4 {
 		set ns = "USER"
 		set auth = "64"
@@ -94,11 +94,11 @@ ClassMethod setConfigParams(envID As %Integer) As %Status
 		set ns = "FAQ"
 		set auth = "64"		
 		set separator = "\"
-		set cspdir = "c:\InterSystems\Ensemble\CSP\faq"
+		set cspdir = "c:\InterSystems\IRIS\CSP\faq"
 		set cspurl = "/csp/faq"
-		set ftpdir = "c:\InterSystems\Ensemble\CSP\faq\downloads"
-		set setupdir = "e:\Work\FAQ"
-		set classfiledir = "FAQ"
+		set ftpdir = "c:\InterSystems\IRIS\CSP\faq\downloads"
+		set setupdir = "c:\temp\faqdemo"
+		set classfiledir = ""
 		set globalfilename = "TopicD.xml"
 	}
 	
@@ -137,28 +137,13 @@ ClassMethod copyDownloadFiles(pSetupDir As %String) As %Status
 	set ftpDir = ##class(KB.Config).getFTPDirectory()
 	set dirSep = ##class(KB.Config).getDirectorySeparator()
 	//ディレクトリがなければコピーしない
-	if '##class(%File).Exists(pSetupDir_"downloads") quit $$$OK
-	  
-	if dirSep = "\" {
-       set copyParam = pSetupDir_"downloads "_ftpDir
-       set copyCommand = "xcopy"
-       set args(1) = "/e"
-       set args(2) = "/y"
-       set args(3) = $piece(copyParam," ",1)
-       set args(4) = $piece(copyParam," ",2)
-       set args = 4
-    }
-    else  {
-       set ftpDir = $piece(ftpDir,dirSep,1,*-1)
-       set copyParam = pSetupDir_"downloads "_ftpDir
-       set copyCommand = "cp"
-       set args(1) = "-R"
-       set args(2) = $piece(copyParam," ",1)
-       set args(3) = $piece(copyParam," ",2)
-       set args = 3
-    }
-       
-    quit $zf(-100,"",copyCommand, .args)
+	if '##class(%File).Exists(pSetupDir_dirSep_"downloads") quit $$$OK
+	
+	set sourcedir = pSetupDir_dirSep_"downloads"
+	set dest = ftpDir
+	set overlay = 1
+	set boolean = ##class(%File).CopyDir(sourcedir,dest,overlay)
+	quit $$$OK
 }
 
 ClassMethod copyImages(pSetupDir As %String) As %Status
@@ -166,48 +151,70 @@ ClassMethod copyImages(pSetupDir As %String) As %Status
 	//参照用イメージファイルをimagesディレクトリーにコピーする
 	set dirSep = ##class(KB.Config).getDirectorySeparator()
 	//ディレクトリがなければコピーしない
-	if '##class(%File).Exists(pSetupDir_"images") quit $$$OK
+	if '##class(%File).Exists(pSetupDir_dirSep_"images") quit $$$OK
 	  
-	if dirSep = "\" {
-	   set imagesDir = ##class(KB.Config).getCSPDirectory()_"images"
-       set copyParam = pSetupDir_"images "_imagesDir
-       set copyCommand = "xcopy"
-       set args(1) = "/e"
-       set args(2) = "/y"
-       set args(3) = $piece(copyParam," ",1)
-       set args(4) = $piece(copyParam," ",2)
-       set args = 4
-    }
-    else  {
-	   set imagesDir = ##class(KB.Config).getCSPDirectory()
-       set copyParam = pSetupDir_"images "_imagesDir
-       set copyCommand = "cp"
-       set args(1) = "-R"
-       set args(2) = $piece(copyParam," ",1)
-       set args(3) = $piece(copyParam," ",2)
-       set args = 3
-    }
-       
-    quit $zf(-100,"",copyCommand,.args)
+	set sourcedir = pSetupDir_dirSep_"images"
+	set dest = ##class(KB.Config).getCSPDirectory()_dirSep_"images"
+	set overlay = 1
+	set boolean = ##class(%File).CopyDir(sourcedir,dest,overlay)  
+
+	set sourcedir = pSetupDir_dirSep_"images"_dirSep_"background"
+	set dest = ##class(KB.Config).getCSPDirectory()_dirSep_"images"_dirSep_"background"
+	set overlay = 1
+	set boolean = ##class(%File).CopyDir(sourcedir,dest,overlay)  
+
+	set sourcedir = pSetupDir_dirSep_"images"_dirSep_"button"
+	set dest = ##class(KB.Config).getCSPDirectory()_dirSep_"images"_dirSep_"button"
+	set overlay = 1
+	set boolean = ##class(%File).CopyDir(sourcedir,dest,overlay)  
+
+	set sourcedir = pSetupDir_dirSep_"images"_dirSep_"logo"
+	set dest = ##class(KB.Config).getCSPDirectory()_dirSep_"images"_dirSep_"logo"
+	set overlay = 1
+	set boolean = ##class(%File).CopyDir(sourcedir,dest,overlay)  
+
+	set sourcedir = pSetupDir_dirSep_"images"_dirSep_"others"
+	set dest = ##class(KB.Config).getCSPDirectory()_dirSep_"images"_dirSep_"others"
+	set overlay = 1
+	set boolean = ##class(%File).CopyDir(sourcedir,dest,overlay)
+	
+	quit $$$OK
 }
 
-ClassMethod copyCSSs(pSetupDir As %String) As %Status
+ClassMethod copyCSSs(pCSPFileDir As %String) As %Status
 {
-	//cssファイル等をcspディレクトリーにコピーする
-	//$zf(-100)でうまくコピーできないので、１つずつコピーする
+	//cssファイルをcspディレクトリーにコピーする
 	set CSPDir = ##class(KB.Config).getCSPDirectory()
 	set dirSep = ##class(KB.Config).getDirectorySeparator()
 	//ディレクトリがなければコピーしない
-	if '##class(%File).Exists(pSetupDir_"css") quit $$$OK
+	if '##class(%File).Exists(pCSPFileDir) quit $$$OK
 	
-	set sourcedir = pSetupDir_"css"_dirSep
-    set boolean = ##class(%File).CopyFile(sourcedir_"FAQ.js",CSPDir_dirSep_"FAQ.js")
-    set boolean = ##class(%File).CopyFile(sourcedir_"style.css",CSPDir_dirSep_"style.css")
-    set boolean = ##class(%File).CopyFile(sourcedir_"styleedit.css",CSPDir_dirSep_"styleedit.css")
-    set boolean = ##class(%File).CopyFile(sourcedir_"stylehowto.css",CSPDir_dirSep_"stylehowto.css")
+	set from = pCSPFileDir_dirSep_"style.css"
+	set to = CSPDir_dirSep  
+    set status = ##class(%File).CopyFile(from,to)
+       
+	set from = pCSPFileDir_dirSep_"styleedit.css"
+	set to = CSPDir_dirSep  
+    set status = ##class(%File).CopyFile(from,to)
     
+	set from = pCSPFileDir_dirSep_"stylehowto.css"
+	set to = CSPDir_dirSep  
+    set status = ##class(%File).CopyFile(from,to)
+
     quit $$$OK
-  
+}
+
+ClassMethod SetupLocal(pDir As %String) As %Status
+{
+  // FAQ以下の内容をglobalにコピー
+  // FAQ.Installer.runInstallerでenvID=5に設定
+  Do $system.OBJ.Load(pDir_"\FAQ\Installer.cls","ck")
+  Do $system.OBJ.Load(pDir_"\KB\Setup.cls","ck")
+  Do $system.OBJ.Load(pDir_"\KB\Config.cls","ck")
+  Do $system.OBJ.Load(pDir_"\KB\Utility.cls","ck")
+  do ##class(FAQ.Installer).runInstaller("")
+
+  quit $$$OK
 }
 
 }
