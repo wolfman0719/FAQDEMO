@@ -4,5 +4,5 @@ ROUTINE FAQ [Type=INC]
 #define Ensemble 2
 #define HealthShare 3
 #define IRIS 4
-#define HealthShareIRIS 5
+#define IRIS4H 5
 #define TopicDigitsNo 5
