@@ -448,23 +448,41 @@ ClientMethod tableRowClick() [ Language = javascript ]
 
 ClientMethod openResult(id) [ Language = javascript ]
 {
-	var url = 'result.csp?DocNo='+id;
-  	
-    window.open(url,'TopicDescription'+id,'width=1000,height=600,left='+(window.screen.width-1000)/2+',top='+(window.screen.height-600)/2+',scrollbars=1');
+	var dcurl = zenPage.GetDCURL(id)
+	if (dcurl == '') {
+	  var url = 'result.csp?DocNo='+id
+	  const wwidth = 1000;
+	  const wheight = 800;
+      window.open(url,'TopicDescription'+id,'width='+wwidth+',height='+wheight+',left='+(window.screen.width-wwidth)/2+',top='+(window.screen.height-wheight)/2,scrollbars=1);
+	}
+	else {
+	  var url = dcurl
+      window.open(url);
+	}
 }
 
 ClientMethod showNewTopic(id) [ Language = javascript ]
 {
-	var url = 'result.csp?DocNo='+id
-  	
-    window.open(url,'TopicDescription'+id,'width=1000,height=600,left='+(window.screen.width-1000)/2+',top='+(window.screen.height-600)/2+',scrollbars=1');
+	var dcurl = zenPage.GetDCURL(id)
+	if (dcurl == '') {
+	  var url = 'result.csp?DocNo='+id
+	  const wwidth = 1000;
+	  const wheight = 800;
+      window.open(url,'TopicDescription'+id,'width='+wwidth+',height='+wheight+',left='+(window.screen.width-wwidth)/2+',top='+(window.screen.height-wheight)/2,scrollbars=1);
+	}
+	else {
+	  var url = dcurl
+      window.open(url);
+	}
 }
 
 ClientMethod openPrivateWindow(cspname) [ Language = javascript ]
 {
 	var url = zenPage.SetURL(cspname);
+	const wwidth = 1000;
+	const wheight = 800;
 	 	
-    window.open(url,'','width=1000,height=600,left='+(window.screen.width-1000)/2+',top='+(window.screen.height-600)/2+',scrollbars=1');
+    window.open(url,'','width='+wwidth+',height='+wheight+',left='+(window.screen.width-wwidth)/2+',top='+(window.screen.height-wheight)/2,scrollbars=1);
 }
 
 ClassMethod SetURL(cspname) As %String [ ZenMethod ]
@@ -472,6 +490,22 @@ ClassMethod SetURL(cspname) As %String [ ZenMethod ]
 	set url = ..Link(cspname_".csp")
 	
 	quit url
+}
+
+ClassMethod GetDCURL(id) As %String [ ZenMethod ]
+{
+	set dcurl = ""
+	Set roles=$Get(%session.Data("roles"))
+    if roles="" {
+	set roles=0
+    }
+    
+    if (roles = 0) {
+	  set topic = ##class(KB.Topic).%OpenId(id)
+	  if $isobject(topic) set dcurl = topic.DCURL
+    }
+
+	quit dcurl
 }
 
 ClientMethod onloadHandler() [ Language = javascript ]
