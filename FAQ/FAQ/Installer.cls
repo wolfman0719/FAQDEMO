@@ -74,28 +74,28 @@ ClassMethod setup(ByRef pVars, pLogLevel As %Integer = 3, pInstaller As %Install
 ClassMethod runInstaller(datestr As %String) As %Status
 {
     set envID = 4
-	set setuptype = 1
-	do ##class(KB.Setup).setConfigParams(envID)
-	set setupdir = ##class(KB.Config).getSetupDirectory()_##class(KB.Config).getDirectorySeparator()_datestr_##class(KB.Config).getDirectorySeparator()
+    set setuptype = 1
+    do ##class(KB.Setup).setConfigParams(envID)
+    set setupdir = ##class(KB.Config).getSetupDirectory()_##class(KB.Config).getDirectorySeparator()_datestr_##class(KB.Config).getDirectorySeparator()
     set vars("setupdir") = setupdir
-	set vars("FTPDirectory") = ##class(KB.Config).getFTPDirectory()
-	set vars("ClassFileDir") = setupdir_##class(KB.Config).getClassFileDir()
-	set vars("GlobalFileName") = setupdir_##class(KB.Config).getGlobalFileName()
+    set vars("FTPDirectory") = ##class(KB.Config).getFTPDirectory()
+    set vars("ClassFileDir") = setupdir_##class(KB.Config).getClassFileDir()
+    set vars("GlobalFileName") = setupdir_##class(KB.Config).getGlobalFileName()
 				
-	set vars("SetupType")			  = setuptype
-	set vars("NAMESPACE")			  = ##class(KB.Config).getNamespace()
-	set vars("CSPUrl")				  = ##class(KB.Config).getCSPUrl() 
-	set vars("CSPDirectory") 		  = ##class(KB.Config).getCSPDirectory() 
-	set vars("CustomErrorPage") 	  = ##class(KB.Config).getErrorPage()
-	set vars("AuthenticationMethods") = ##class(KB.Config).getAuthenticationMethods()
+    set vars("SetupType") = setuptype
+    set vars("NAMESPACE") = ##class(KB.Config).getNamespace()
+    set vars("CSPUrl") = ##class(KB.Config).getCSPUrl() 
+    set vars("CSPDirectory") = ##class(KB.Config).getCSPDirectory() 
+    set vars("CustomErrorPage") = ##class(KB.Config).getErrorPage()
+    set vars("AuthenticationMethods") = ##class(KB.Config).getAuthenticationMethods()
     
-	//以下のディレクトリ構造はGitHubリポジトリーに依存しているため固定
-	set vars("CSPFileDir") = setupdir_##class(KB.Config).getClassFileDir()
-	set vars("CSPFileDir") = vars("CSPFileDir")_##class(KB.Config).getDirectorySeparator()_"CSP"
-	set vars("CSPFileDir") = vars("CSPFileDir")_##class(KB.Config).getDirectorySeparator()_"csp"
-	set vars("CSPFileDir") = vars("CSPFileDir")_##class(KB.Config).getDirectorySeparator()_"isj"
+    //以下のディレクトリ構造はGitHubリポジトリーに依存しているため固定
+    set vars("CSPFileDir") = setupdir_##class(KB.Config).getClassFileDir()
+    set vars("CSPFileDir") = vars("CSPFileDir")_##class(KB.Config).getDirectorySeparator()_"CSP"
+    set vars("CSPFileDir") = vars("CSPFileDir")_##class(KB.Config).getDirectorySeparator()_"csp"
+    set vars("CSPFileDir") = vars("CSPFileDir")_##class(KB.Config).getDirectorySeparator()_"isj"
         
-	do ..setup(.vars,3)
+    do ..setup(.vars,3)
 }
 
 ClassMethod getVersion() As %String
