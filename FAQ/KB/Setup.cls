@@ -89,15 +89,25 @@ ClassMethod setConfigParams(envID As %Integer) As %Status
 		set classfiledir = ""
 		set globalfilename = "TopicD.xml"
 		
-	//その他、ローカルに環境を作りたいときなどに使用(上の3つの内容を変更せずにここを利用)
-	} else {
+	//その他、ローカルに環境を作りたいときなどに使用(上の3つの内容を変更せずにここを利用) for Windows
+	} elseif envID=5  {
 		set ns = "FAQ"
 		set auth = "64"		
 		set separator = "\"
 		set cspdir = "c:\InterSystems\IRIS\CSP\faq"
 		set cspurl = "/csp/faq"
 		set ftpdir = "c:\InterSystems\IRIS\CSP\faq\downloads"
-		set setupdir = "c:\temp\faqdemo"
+		set setupdir = "c:\git\faqdemo"
+		set classfiledir = ""
+		set globalfilename = "TopicD.xml"
+	} elseif envID=6  {
+		set ns = "FAQ"
+		set auth = "64"		
+		set separator = "/"
+		set cspdir = "/Applications/iris/csp/faq"
+		set cspurl = "/csp/faq"
+		set ftpdir = "/Applications/iris/csp/faq/downloads"
+		set setupdir = "/Users/hiroshisato/git/FAQDEMO"
 		set classfiledir = ""
 		set globalfilename = "TopicD.xml"
 	}
