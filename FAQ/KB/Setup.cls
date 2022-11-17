@@ -216,9 +216,9 @@ ClassMethod copyCSSs(pCSPFileDir As %String) As %Status
 
 ClassMethod SetupLocal(pDir As %String) As %Status
 {
-  // FAQ以下の内容をFAQにコピー
+  // GitHubからclone
   // FAQ.Installer.runInstallerでenvID=5に設定(Windows)
-  // FAQ.Installer.runInstallerでenvID=6に設定(UNIX)
+  // FAQ.Installer.runInstallerでenvID=6に設定(MacOS)
   if ($system.Version.GetOS() = "UNIX") {
     Do $system.OBJ.Load(pDir_"/FAQ/Installer.cls","ck")
     Do $system.OBJ.Load(pDir_"/KB/Config.cls","ck")
@@ -229,7 +229,7 @@ ClassMethod SetupLocal(pDir As %String) As %Status
     Do $system.OBJ.Load(pDir_"\KB\Config.cls","ck")
     Do $system.OBJ.Load(pDir_"\KB\Utility.cls","ck")
   }
-  do ##class(FAQ.Installer).runInstaller("")
+  do ##class(FAQ.Installer).runInstaller("FAQ")
 
   quit $$$OK
 }
