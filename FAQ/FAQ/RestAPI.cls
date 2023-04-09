@@ -5,8 +5,9 @@ XData UrlMap
 {
 <Routes>
   <Route Url="/UpdateTopicProperty" Method="POST" Call="UpdateTopicProperty"/>
-  <Route Url="/QueryTopicByKeyword/:keyword" Method="GET" Call="QueryTopicByKeyword"/>
-  <Route Url="/GetTopic/:id" Method="GET" Call="GetTopic"/>
+  <Route Url="/TopicSearchByKeyword/:keyword" Method="GET" Call="FAQ.RestAPI:TopicSearchByKeyword"/>
+  <Route Url="/TopicSearchAll" Method="GET" Call="FAQ.RestAPI:TopicSearchAll"/>
+  <Route Url="/TopicGetById/:id" Method="GET" Call="FAQ.RestAPI:TopicGetById"/>
 </Routes>
 }
 
@@ -20,67 +21,103 @@ ClassMethod UpdateTopicProperty() As %Status
   quit status
 }
 
-ClassMethod QueryTopicByKeyword(pKeyword As %String) As %Status
+ClassMethod TopicSearchByKeyword(pKeyword As %String) As %Status
 {
   set status = $$$OK
-
-	try {
+  
+  try  {
 	
-      if $data(%request) {
-        set %response.ContentType="application/json"
-	     set %response.CharSet = "utf-8"
-	   }
+    if $data(%request) {
+      set %response.ContentType="application/json"
+	    set %response.CharSet = "utf-8"
+    }
 	  
-	  set sql = "select id,title from kb.topic where %ID %FIND search_index(DescriptionIndex1,?,0) "
-	  set statemt=##class(%SQL.Statement).%New()
-     set status=statemt.%Prepare(sql)
-     set rset=statemt.%Execute(pKeyword)
-     set return = []
-	  while rset.%Next()  {
-		  set robj = {}
-		  set robj.id = rset.%Get("Id")
-		  set robj.title = rset.%Get("Title")
-		  do return.%Push(robj)
+    set sql = "SELECT id,title from kb.topic where %ID %FIND Search_Index(DescriptionIndex1,(?)) or %ID %FIND Search_Index(TitleIndex1,(?)) "
+    set statemt=##class(%SQL.Statement).%New()
+    set status=statemt.%Prepare(sql)
+    set rset=statemt.%Execute(pKeyword,pKeyword)
+    set return = []
+    while rset.%Next()  {
+      set robj = {}
+      set robj.id = rset.%Get("Id")
+      set robj.title = rset.%Get("title")
+      do return.%Push(robj)
 		    
-	   }
+     }
 	   
-	   write return.%ToJSON()
+     write return.%ToJSON()
 	  	  
-	   }
-	   catch e {
+  }
+  catch e {
 		
-		  set status = e.AsStatus()
+    set status = e.AsStatus()
 		
-	   }
+  }
   
   quit status
 }
 
-ClassMethod GetTopic(pId As %Integer) As %Status
+ClassMethod TopicSearchAll() As %Status
+{
+  set status = $$$OK
+  
+  try  {
+	
+    if $data(%request) {
+      set %response.ContentType="application/json"
+	    set %response.CharSet = "utf-8"
+    }
+	  
+    set sql = "SELECT id,title from kb.topic"
+    set statemt=##class(%SQL.Statement).%New()
+    set status=statemt.%Prepare(sql)
+    set rset=statemt.%Execute()
+    set return = []
+    while rset.%Next()  {
+      set robj = {}
+      set robj.id = rset.%Get("Id")
+      set robj.title = rset.%Get("title")
+      do return.%Push(robj)
+		    
+     }
+	   
+     write return.%ToJSON()
+	  	  
+  }
+  catch e {
+		
+    set status = e.AsStatus()
+		
+  }
+  
+  quit status
+}
+
+ClassMethod TopicGetById(pId As %Integer) As %Status
 {
   set status = $$$OK
 
-	try {
+  try {
 	
-      if $data(%request) {
-        set %response.ContentType="application/json"
-	     set %response.CharSet = "utf-8"
-	   }
+    if $data(%request) {
+      set %response.ContentType="application/json"
+      set %response.CharSet = "utf-8"
+    }
 
-      set topic = ##class(KB.Topic).%OpenId(pId)	  
-      set return = {}
-      set return.id = pId
-      set return.Title = topic.Title
-      set return.Description = topic.Description
+    set topic = ##class(KB.Topic).%OpenId(pId)	  
+    set return = {}
+    set return.id = pId
+    set return.Title = topic.Title
+    set return.Description = topic.Description
 	   
-	   write return.%ToJSON()
+    write return.%ToJSON()
 	  	  
-	   }
-	   catch e {
+  }
+  catch e {
 		
-		  set status = e.AsStatus()
+    set status = e.AsStatus()
 		
-	   }
+  }
   
   quit status
 }
