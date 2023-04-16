@@ -1,6 +1,8 @@
 Class FAQ.RestAPI Extends %CSP.REST
 {
 
+Parameter HandleCorsRequest = 1;
+
 XData UrlMap
 {
 <Routes>
