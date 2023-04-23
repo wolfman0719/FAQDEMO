@@ -1,14 +1,11 @@
 Class FAQ.RestAPI Extends %CSP.REST
 {
 
-Parameter HandleCorsRequest = 1;
-
 XData UrlMap
 {
 <Routes>
   <Route Url="/UpdateTopicProperty" Method="POST" Call="UpdateTopicProperty"/>
   <Route Url="/TopicSearchByKeyword/:keyword" Method="GET" Call="FAQ.RestAPI:TopicSearchByKeyword"/>
-  <Route Url="/TopicSearchAll" Method="GET" Call="FAQ.RestAPI:TopicSearchAll"/>
   <Route Url="/TopicGetById/:id" Method="GET" Call="FAQ.RestAPI:TopicGetById"/>
 </Routes>
 }
@@ -18,7 +15,7 @@ ClassMethod UpdateTopicProperty() As %Status
   set status = $$$OK
   set tPropertyArray = %request.Content
   
-  set status = ##class(FAQ.Topic).UpdatePropertyOfMultipleTopics(tPropertyArray)
+  set status = ##class(KB.Topic).UpdatePropertyOfMultipleTopics(tPropertyArray)
   
   quit status
 }
@@ -33,11 +30,24 @@ ClassMethod TopicSearchByKeyword(pKeyword As %String) As %Status
       set %response.ContentType="application/json"
 	    set %response.CharSet = "utf-8"
     }
-	  
-    set sql = "SELECT id,title from kb.topic where %ID %FIND Search_Index(DescriptionIndex1,(?)) or %ID %FIND Search_Index(TitleIndex1,(?)) "
+
+    set pKeyword = $extract(pKeyword,2,*)
+    
+    if pKeyword = "" {	  
+      set sql = "SELECT id,title from kb.topic where Completed=1 and Visible=1 and DeleteFlg!=1 order by id"
+    }
+    else {
+      set sql = "SELECT id,title from kb.topic where %ID %FIND Search_Index(DescriptionIndex1,(?)) or %ID %FIND Search_Index(TitleIndex1,(?))  and Completed=1 and Visible=1 and DeleteFlg!=1 order by id"
+    }
+    
     set statemt=##class(%SQL.Statement).%New()
     set status=statemt.%Prepare(sql)
-    set rset=statemt.%Execute(pKeyword,pKeyword)
+    if sql [ "?" {
+      set rset=statemt.%Execute(pKeyword,pKeyword)
+    }
+    else {
+      set rset=statemt.%Execute()
+    }
     set return = []
     while rset.%Next()  {
       set robj = {}
@@ -123,5 +133,7 @@ ClassMethod TopicGetById(pId As %Integer) As %Status
   
   quit status
 }
+
+Parameter HandleCorsRequest = 1;
 
 }
