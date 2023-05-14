@@ -10,6 +10,24 @@ FAQシステムのDocker Build デモサイト
 
 を実行
 
+## ローカルインストール
+
+### FAQネームスペース作成
+
+管理ポータルでFAQネームスペースを作成
+
+### Setupクラスのロード
+
+ターミナルでログイン
+
+>zn "FAQ"
+>set pDir = "c:\git\FAQDEMO\FAQ"
+>Do $system.OBJ.Load(pDir_"/KB/Setup.cls","ck")
+
+### SetupLocalの実行
+
+>do ##class(KB.Setup).SetupLocal(pDir)
+
 ## アプリケーション起動
 
 * FAQシステムエントリー
