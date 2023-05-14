@@ -71,9 +71,8 @@ ClassMethod setup(ByRef pVars, pLogLevel As %Integer = 3, pInstaller As %Install
 
 // datestr：セットアップキットのディレクトリ名に使った日付(YYYYMMDD)　※ディレクトリ名が今日の日付の場合は空でOK
 
-ClassMethod runInstaller(datestr As %String) As %Status
+ClassMethod runInstaller(datestr As %String, envID As %Integer = 4) As %Status
 {
-    set envID = 4
     set setuptype = 1
     do ##class(KB.Setup).setConfigParams(envID)
     set setupdir = ##class(KB.Config).getSetupDirectory()_##class(KB.Config).getDirectorySeparator()_datestr_##class(KB.Config).getDirectorySeparator()
