@@ -20,13 +20,13 @@ FAQシステムのDocker Build デモサイト
 
 ターミナルでログイン
 
->zn "FAQ"
->set pDir = "c:\git\FAQDEMO\FAQ"
->Do $system.OBJ.Load(pDir_"/KB/Setup.cls","ck")
+```>zn "FAQ"```
+```>set pDir = "c:\git\FAQDEMO\FAQ"```
+```>Do $system.OBJ.Load(pDir_"/KB/Setup.cls","ck")```
 
 ### SetupLocalの実行
 
->do ##class(KB.Setup).SetupLocal(pDir)
+```>do ##class(KB.Setup).SetupLocal(pDir)```
 
 ## アプリケーション起動
 
