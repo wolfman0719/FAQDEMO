@@ -228,13 +228,14 @@ ClassMethod SetupLocal(pDir As %String) As %Status
     Do $system.OBJ.Load(pDir_"/FAQ/Installer.cls","ck")
     Do $system.OBJ.Load(pDir_"/KB/Config.cls","ck")
     Do $system.OBJ.Load(pDir_"/KB/Utility.cls","ck")
+    do ##class(FAQ.Installer).runInstaller("FAQ",6)
   }
   else {
     Do $system.OBJ.Load(pDir_"\FAQ\Installer.cls","ck")
     Do $system.OBJ.Load(pDir_"\KB\Config.cls","ck")
     Do $system.OBJ.Load(pDir_"\KB\Utility.cls","ck")
+    do ##class(FAQ.Installer).runInstaller("FAQ",5)
   }
-  do ##class(FAQ.Installer).runInstaller("FAQ")
 
   quit $$$OK
 }
