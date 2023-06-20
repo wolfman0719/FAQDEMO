@@ -76,84 +76,123 @@ ClassMethod getSetupDirectory() As %String
 	quit $get(^Techinfo("SetupDirectory"))
 }
 
-ClassMethod setAttachedFileName(afile As %String) As %String
+ClassMethod getWebServerPort() As %String
+{
+	quit $get(^Techinfo("WebServerPort"))
+}
+
+ClassMethod getWebServerAddress() As %String
+{
+	set address = $get(^Techinfo("WebServerAddress"))
+	quit $case(address,"":"localhost",:address)
+}
+
+ClassMethod setAttachedFileName(afile As %String) As %Status
 {
 	set ^Techinfo("AttachedFileName") = afile
+	quit $$$OK
 }
 
-ClassMethod setAuthenticationMethods(auth As %String) As %String
+ClassMethod setAuthenticationMethods(auth As %String) As %Status
 {
 	set ^Techinfo("AuthenticationMethods") = auth
+	quit $$$OK
 }
 
-ClassMethod setClassFileDir(cfile As %String) As %String
+ClassMethod setClassFileDir(cfile As %String) As %Status
 {
 	set ^Techinfo("ClassFileDir") = cfile
+	quit $$$OK
 }
 
-ClassMethod setCSPDirectory(cspdir As %String) As %String
+ClassMethod setCSPDirectory(cspdir As %String) As %Status
 {
 	set ^Techinfo("CSPDirectory") = cspdir
+	quit $$$OK
 }
 
-ClassMethod setCSPUrl(url As %String) As %String
+ClassMethod setCSPUrl(url As %String) As %Status
 {
 	set ^Techinfo("CSPUrl") = url
+	quit $$$OK
 }
 
-ClassMethod setDirectorySeparator(separator As %String) As %String
+ClassMethod setDirectorySeparator(separator As %String) As %Status
 {
 	set ^Techinfo("DirectorySeparator") = separator
+	quit $$$OK
 }
 
-ClassMethod setErrorPage(errorpage As %String) As %String
+ClassMethod setErrorPage(errorpage As %String) As %Status
 {
 	set ^Techinfo("ErrorPage") = errorpage
+	quit $$$OK
 }
 
-ClassMethod setFTPDirectory(ftpdir As %String) As %String
+ClassMethod setFTPDirectory(ftpdir As %String) As %Status
 {
 	set ^Techinfo("FTPDirectory") = ftpdir
+	quit $$$OK
 }
 
-ClassMethod setGlobalFileName(gfile As %String) As %String
+ClassMethod setGlobalFileName(gfile As %String) As %Status
 {
 	set ^Techinfo("GlobalFileName") = gfile
+	quit $$$OK
 }
 
-ClassMethod setKatakanaWordsFileName(katakanafile As %String) As %String
+ClassMethod setKatakanaWordsFileName(katakanafile As %String) As %Status
 {
 	set ^Techinfo("KatakanaWordsFileName") = katakanafile
+	quit $$$OK
 }
 
-ClassMethod setMailSender(mailsender As %String) As %String
+ClassMethod setMailSender(mailsender As %String) As %Status
 {
 	set ^Techinfo("MailSender") = mailsender
+	quit $$$OK
 }
 
-ClassMethod setNamespace(ns As %String) As %String
+ClassMethod setNamespace(ns As %String) As %Status
 {
 	set ^Techinfo("Namespace") = ns
+	quit $$$OK
 }
 
-ClassMethod setSMTPServer(smtp As %String) As %String
+ClassMethod setSMTPServer(smtp As %String) As %Status
 {
 	set ^Techinfo("SMTPServer") = smtp
+	quit $$$OK
 }
 
-ClassMethod setStartYear(syear As %String) As %String
+ClassMethod setStartYear(syear As %String) As %Status
 {
 	set ^Techinfo("StartYear") = syear
+	quit $$$OK
 }
 
-ClassMethod setXMLExportDirectory(xmldir As %String) As %String
+ClassMethod setXMLExportDirectory(xmldir As %String) As %Status
 {
 	set ^Techinfo("XMLExportDirectory") = xmldir
+	quit $$$OK
 }
 
-ClassMethod setSetupDirectory(setupdir As %String) As %String
+ClassMethod setSetupDirectory(setupdir As %String) As %Status
 {
 	set ^Techinfo("SetupDirectory") = setupdir
+	quit $$$OK
+}
+
+ClassMethod setWebServer() As %Status
+{
+	set status = $$$OK
+	set namespace = $namespace
+	set $namespace = "%SYS"
+	set status = ##class(Config.Startup).Get(.p)
+	set $namespace = namespace
+	set ^Techinfo("WebServerAddress") = p("WebServerName")
+	set ^Techinfo("WebServerPort") = p("WebServerPort")
+	quit status
 }
 
 Storage Default
@@ -184,7 +223,7 @@ Storage Default
 <IdLocation>^KB.ConfigD</IdLocation>
 <IndexLocation>^KB.ConfigI</IndexLocation>
 <StreamLocation>^KB.ConfigS</StreamLocation>
-<Type>%Library.CacheStorage</Type>
+<Type>%Storage.Persistent</Type>
 }
 
 }

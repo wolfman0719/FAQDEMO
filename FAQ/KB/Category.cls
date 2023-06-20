@@ -43,7 +43,7 @@ Storage Default
 <IdLocation>^KB.CategoryD</IdLocation>
 <IndexLocation>^KB.CategoryI</IndexLocation>
 <StreamLocation>^KB.CategoryS</StreamLocation>
-<Type>%Library.CacheStorage</Type>
+<Type>%Storage.Persistent</Type>
 }
 
 }
