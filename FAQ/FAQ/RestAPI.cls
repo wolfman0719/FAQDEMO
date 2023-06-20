@@ -120,7 +120,12 @@ ClassMethod TopicGetById(pId As %Integer) As %Status
     set return = {}
     set return.id = pId
     set return.Title = topic.Title
-    set return.Description = topic.Description
+    set description = topic.Description
+    set webserver = ##class(KB.Config).getWebServerAddress()
+    set webserverport = ##class(KB.Config).getWebServerPort()
+    set replacetext = "http://"_webserver_":"_webserverport_##class(KB.Config).getCSPUrl()_"/images"
+    set description = $replace(description,"./images",replacetext)
+    set return.Description = description
 	   
     write return.%ToJSON()
 	  	  
