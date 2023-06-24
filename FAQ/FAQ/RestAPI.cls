@@ -127,16 +127,22 @@ ClassMethod TopicGetById(pId As %Integer) As %Status
     set replacetext = "http://"_webserver_":"_webserverport_cspurl_"/images"
     set description = $replace(description,"./images",replacetext)
     set return.Description = description
-    set reftopic = topic.RefTopic
+    set reftopics = topic.RefTopic
     set refarray = []
-    for i = 1:1:$length(reftopic) {
-      set refno = $piece(reftopic,",",i)
+    for i = 1:1:$length(reftopics,",") {
+      set refno = $piece(reftopics,",",i)
+      if refno = "" quit
       set reftopic = ##class(KB.Topic).%OpenId(refno)
-      set index = i - 1
-      set refarray.index = refno_","_reftopic.Title
+      do refarray.%Push(refno_","_reftopic.Title)
     }
     set return.RefArray = refarray
-    set return.FileFlg = topic.FileFlg
+    set filename = ##class(KB.Config).getAttachedFileName()_pId_".zip"
+    set dir = ##class(KB.Config).getFTPDirectory()
+    set sep = ##class(KB.Config).getDirectorySeparator()
+    set filepath = dir_sep_filename
+    set ^filepath = filepath
+    set fileexists = ##class(%File).Exists(filepath)    
+    set return.FileFlg = fileexists
     set return.DownloadFile =  "http://"_webserver_":"_webserverport_cspurl_"/downloads/"_##class(KB.Config).getAttachedFileName()_pId_".zip"
 	   
     write return.%ToJSON()
@@ -145,6 +151,7 @@ ClassMethod TopicGetById(pId As %Integer) As %Status
   catch e {
 		
     set status = e.AsStatus()
+    do ##class(FAQ.Error).StoreErrorInformation(e)
 		
   }
   
