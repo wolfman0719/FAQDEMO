@@ -44,11 +44,7 @@ export const App = () => {
 	  .get<any>("http://localhost:52773/faqapi/TopicGetById/" + topicid)
 	  .then((result: any) => {
 	    setResponse(result.data);
-		if (response.FileFlg) setFileFlag(true);
-	    const rtopics = result.data.RefArray.map((rtopic: any) => ({
-		 content: rtopic
-		}));
-		setRefTopics(rtopics);
+		setRefTopics(result.data.RefArray);
 	  })
       .catch((error: any) => {
 	     setIsError(true)
@@ -97,7 +93,7 @@ export const App = () => {
 	  
         reftopics.map((reftopic: any) => (
 		  <tr>
-		  <button style = {{width: "800px",textAlign: "left"}} className="topictitle" onClick={() => onClickItem(reftopic.content.split(comma)[0])}>{`${reftopic.content.split(comma)[0]}:${reftopic.content.split(comma)[1]}`}</button>
+		  <button style = {{width: "800px",textAlign: "left"}} className="topictitle" onClick={() => onClickItem(reftopic.split(comma)[0])}>{`${reftopic.split(comma)[0]}:${reftopic.split(comma)[1]}`}</button>
 		  </tr>
     	)
     )}
