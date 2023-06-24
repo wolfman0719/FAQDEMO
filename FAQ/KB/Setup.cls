@@ -127,6 +127,8 @@ ClassMethod setConfigParams(envID As %Integer) As %Status
 	do ##class(KB.Config).setSetupDirectory(setupdir)
 	do ##class(KB.Config).setClassFileDir(classfiledir)
 	do ##class(KB.Config).setGlobalFileName(globalfilename)
+	do ##class(KB.Config).setWebServer()
+
 
 	quit $$$OK
 }
