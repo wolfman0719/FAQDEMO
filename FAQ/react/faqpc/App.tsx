@@ -44,6 +44,7 @@ export const App = () => {
 	  .get<any>("http://localhost:52773/faqapi/TopicGetById/" + topicid)
 	  .then((result: any) => {
 	    setResponse(result.data);
+		if (response.FileFlg) setFileFlag(true);
 		setRefTopics(result.data.RefArray);
 	  })
       .catch((error: any) => {
