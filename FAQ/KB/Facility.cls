@@ -43,6 +43,13 @@ ClassMethod Init()
 	&SQL(insert into KB.Facility (Description) values ('運用関連'))
 	&SQL(insert into KB.Facility (Description) values ('人工知能/機械学習'))
 	&SQL(insert into KB.Facility (Description) values ('マルチモデル'))
+	&SQL(insert into KB.Facility (Description) values ('Embedded Python'))
+	&SQL(insert into KB.Facility (Description) values ('Columnar Storage'))
+	&SQL(insert into KB.Facility (Description) values ('FHIR SQL Builder'))
+	&SQL(insert into KB.Facility (Description) values ('Adaptive Analytics'))
+	&SQL(insert into KB.Facility (Description) values ('Foreign Tables'))
+	&SQL(insert into KB.Facility (Description) values ('IntegratedML'))
+	
 }
 
 Storage Default
