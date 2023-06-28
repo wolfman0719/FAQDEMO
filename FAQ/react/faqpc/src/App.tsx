@@ -10,7 +10,7 @@ export const App = () => {
   const [topicList, setTopicList] = useState<any>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
-  const [inputtext, setInputText] = useState<string>("");
+  const [inputtext, setInputText] = useState<any>("");
   const [response, setResponse] = useState<any>("");
   const [reftopics, setRefTopics] = useState<any>([]);
   const [refno, setRefno] = useState<any>("");
@@ -22,27 +22,48 @@ export const App = () => {
   const ServerAddress = configinfo.ServerAddress;
   const ServerPort = configinfo.ServerPort;
   
-   const onClickFetchTopicList = () => {
+  const onClickFetchTopicList = () => {
+	
 	setIsLoading(true);
-	setIsError(false);
-		
-	axios
-	  .get<any>(`http://${ServerAddress}:${ServerPort}/faqapi/TopicSearchByKeyword/z${inputtext}`)
-	  .then((result: any) => {
-	    const topics = result.data.map((topic: any) => ({
-		  id: topic.id,
-		  title: topic.title
-        }));
-        setTopicList(topics);
-	  })
-      .catch(() => setIsError(true))
-      .finally(() => setIsLoading(false));
+    setIsError(false);
+  
+  	if (isNaN(inputtext) || inputtext == "") {
+	  
+	  axios
+	    .get<any>(`http://${ServerAddress}:${ServerPort}/faqapi/TopicSearchByKeyword/z${inputtext}`)
+	    .then((result: any) => {
+	      const topics = result.data.map((topic: any) => ({
+		    id: topic.id,
+		    title: topic.title
+          }));
+          setTopicList(topics);
+	    })
+        .catch((error: any) => {
+         setIsError(true)
+		 setErrorText(error.message);
+		 })
+        .finally(() => setIsLoading(false));
+   }
+   else {	
+	  axios
+	    .get<any>(`http://${ServerAddress}:${ServerPort}/faqapi/TopicGetById/${inputtext}`)
+	    .then((result: any) => {
+	      setResponse(result.data);
+		  if (response.FileFlg) setFileFlag(true);
+		  setRefTopics(result.data.RefArray);
+	    })
+        .catch((error: any) => {
+	       setIsError(true)
+		   setErrorText(error.message);
+	    })
+        .finally(() => setIsLoading(false))
+    }
   };
 
    const onClickItem = (topicid: any) => {
 	setIsLoading(true);
 	setIsError(false);
-		
+	
 	axios
 	  .get<any>(`http://${ServerAddress}:${ServerPort}/faqapi/TopicGetById/${topicid}`)
 	  .then((result: any) => {
@@ -52,7 +73,7 @@ export const App = () => {
 	  })
       .catch((error: any) => {
 	     setIsError(true)
-		 setErrorText(error.response);
+		 setErrorText(error.message);
 	  })
       .finally(() => setIsLoading(false))
   };
@@ -69,13 +90,12 @@ export const App = () => {
 	  <label>検索キーワード: </label>
 	  <input type="text" value = {inputtext} onChange={onChangeText} />
 	  <button onClick={onClickFetchTopicList}>トピック検索</button>
-		  {isError && <p style={{ color: "red" }}>エラーが発生しました　{errortext}</p>}
+		  {isError && <p style={{ color: "red" }}>エラーが発生しました　{`${errortext}`}</p>}
 	</div>
     <div className="topiclist" style = {{ float: "left",height: "700px",overflow: "auto",border: "solid #000000 1px"}}>	
 	<table><tbody>
-	  {isLoading ? (
-	     <p> データ取得中です </p>
-		 ) : (
+	  {isLoading ? (<p>Data Loading</p>)
+		 : (
 		 topicList.map((topic: any) => (
 		 <tr>
 		 <button style = {{width: "800px",textAlign: "left"}} className="topictitle" onClick={() => onClickItem(topic.id)}>{`${topic.id}:${topic.title}`}</button>
@@ -87,7 +107,8 @@ export const App = () => {
     <div style = {{ float: "left"}}>
     <div style = {{ width: "800px",height: "90px",overflow: "scroll",border: "solid #000000 1px"}}><h4 style = {{ marginLeft: "20px", marginRight: "20px"}}>{response.Title}</h4></div>
     <div id="topiccontent" style = {{ width: "800px",height: "410px",overflow: "auto",border: "solid #000000 1px"}}>
-    <div style = {{ marginLeft: "20px", marginRight: "20px"}}><span dangerouslySetInnerHTML={{__html: response.Description}}></span></div>	
+    {(response.DCURL == "") && <div style = {{ marginLeft: "20px", marginRight: "20px"}}><span dangerouslySetInnerHTML={{__html: response.Description}}></span></div>}	
+    {(response.DCURL !== "") && (response.DCURL != undefined ) && <div style = {{ marginLeft: "20px", marginRight: "20px"}}><span><p>最新内容は、デベロッパーコミュニティをご参照ください</p><a href={response.DCURL}  target="_blank">デベロッパーコミュニティの記事</a></span></div>}	
     </div>
     <div id="relatedtopics" style = {{ width: "800px",height: "100px",overflow: "auto",border: "solid #000000 1px"}}>
     <p>関連トピック</p>
@@ -104,7 +125,6 @@ export const App = () => {
 	</tbody></table>
     </div>
     <div id="downloadfile" style = {{ width: "800px",height: "100px",overflow: "auto",border: "solid #000000 1px"}}>
-    <p> 添付ファイル</p>
     {fileflag && <a href = {response.DownloadFile}>添付ファイル</a>}
     </div>
     </div>	
