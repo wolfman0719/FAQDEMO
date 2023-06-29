@@ -140,10 +140,10 @@ ClassMethod TopicGetById(pId As %Integer) As %Status
     set dir = ##class(KB.Config).getFTPDirectory()
     set sep = ##class(KB.Config).getDirectorySeparator()
     set filepath = dir_sep_filename
-    set ^filepath = filepath
     set fileexists = ##class(%File).Exists(filepath)    
     set return.FileFlg = fileexists
     set return.DownloadFile =  "http://"_webserver_":"_webserverport_cspurl_"/downloads/"_##class(KB.Config).getAttachedFileName()_pId_".zip"
+    set return.DCURL = topic.DCURL
 	   
     write return.%ToJSON()
 	  	  
