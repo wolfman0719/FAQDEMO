@@ -1,5 +1,4 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import axios from "axios";
 import { ChangeEvent, useState } from "react";
@@ -11,10 +10,9 @@ export const App = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [inputtext, setInputText] = useState<any>("");
+  const [inputtext2, setInputText2] = useState<any>("");
   const [response, setResponse] = useState<any>("");
   const [reftopics, setRefTopics] = useState<any>([]);
-  const [refno, setRefno] = useState<any>("");
-  const [reftitle, setRefTitle] = useState<any>("");
   const [errortext, setErrorText] = useState<any>("");
   const [fileflag, setFileFlag] = useState(false);
   
@@ -27,37 +25,20 @@ export const App = () => {
 	setIsLoading(true);
     setIsError(false);
   
-  	if (isNaN(inputtext) || inputtext == "") {
-	  
-	  axios
-	    .get<any>(`http://${ServerAddress}:${ServerPort}/faqapi/TopicSearchByKeyword/z${inputtext}`)
-	    .then((result: any) => {
-	      const topics = result.data.map((topic: any) => ({
-		    id: topic.id,
-		    title: topic.title
-          }));
-          setTopicList(topics);
-	    })
-        .catch((error: any) => {
-         setIsError(true)
-		 setErrorText(error.message);
-		 })
-        .finally(() => setIsLoading(false));
-   }
-   else {	
-	  axios
-	    .get<any>(`http://${ServerAddress}:${ServerPort}/faqapi/TopicGetById/${inputtext}`)
-	    .then((result: any) => {
-	      setResponse(result.data);
-		  if (response.FileFlg) setFileFlag(true);
-		  setRefTopics(result.data.RefArray);
-	    })
-        .catch((error: any) => {
-	       setIsError(true)
-		   setErrorText(error.message);
-	    })
-        .finally(() => setIsLoading(false))
-    }
+	axios
+	  .get<any>(`http://${ServerAddress}:${ServerPort}/faqapi/TopicSearchByKeyword/z${inputtext}`)
+	  .then((result: any) => {
+	  const topics = result.data.map((topic: any) => ({
+		id: topic.id,
+		title: topic.title
+      }));
+      setTopicList(topics);
+	  })
+      .catch((error: any) => {
+        setIsError(true)
+		setErrorText(error.response.data.summary);
+	  })
+      .finally(() => setIsLoading(false));
   };
 
    const onClickItem = (topicid: any) => {
@@ -73,23 +54,27 @@ export const App = () => {
 	  })
       .catch((error: any) => {
 	     setIsError(true)
-		 setErrorText(error.message);
+		 setErrorText(error.response.data.summary);
 	  })
       .finally(() => setIsLoading(false))
   };
 
   const onChangeText = (e: ChangeEvent<HTMLInputElement>) => setInputText(e.target.value);
+  const onChangeText2 = (e: ChangeEvent<HTMLInputElement>) => setInputText2(e.target.value);
     
   return (
     <>
     <div className="title">
-    <a href="https://www.intersystems.co.jp" ><img src="https://www.intersystems.com/assets/intersystems-logo.png" style = {{width: "200",height: "50",border: "0"}}/></a>
+    <a href="https://www.intersystems.co.jp" ><img src="https://www.intersystems.com/assets/intersystems-logo.png" alt="InterSystems Corporation" style = {{width: "200",height: "50",border: "0"}}/></a>
 	<h1> FAQ検索　</h1>
 	</div>
     <div className="query">
 	  <label>検索キーワード: </label>
 	  <input type="text" value = {inputtext} onChange={onChangeText} />
 	  <button onClick={onClickFetchTopicList}>トピック検索</button>
+	  <label>検索ID: </label>
+	  <input type="text" value = {inputtext2} onChange={onChangeText2} />
+	  <button onClick={() => onClickItem(inputtext2)}>トピックID検索</button>
 		  {isError && <p style={{ color: "red" }}>エラーが発生しました　{`${errortext}`}</p>}
 	</div>
     <div className="topiclist" style = {{ float: "left",height: "700px",overflow: "auto",border: "solid #000000 1px"}}>	
@@ -107,8 +92,8 @@ export const App = () => {
     <div style = {{ float: "left"}}>
     <div style = {{ width: "800px",height: "90px",overflow: "scroll",border: "solid #000000 1px"}}><h4 style = {{ marginLeft: "20px", marginRight: "20px"}}>{response.Title}</h4></div>
     <div id="topiccontent" style = {{ width: "800px",height: "410px",overflow: "auto",border: "solid #000000 1px"}}>
-    {(response.DCURL == "") && <div style = {{ marginLeft: "20px", marginRight: "20px"}}><span dangerouslySetInnerHTML={{__html: response.Description}}></span></div>}	
-    {(response.DCURL !== "") && (response.DCURL != undefined ) && <div style = {{ marginLeft: "20px", marginRight: "20px"}}><span><p>最新内容は、デベロッパーコミュニティをご参照ください</p><a href={response.DCURL}  target="_blank">デベロッパーコミュニティの記事</a></span></div>}	
+    {(response.DCURL === "") && <div style = {{ marginLeft: "20px", marginRight: "20px"}}><span dangerouslySetInnerHTML={{__html: response.Description}}></span></div>}	
+    {(response.DCURL !== "") && (response.DCURL !== undefined ) && <div style = {{ marginLeft: "20px", marginRight: "20px"}}><span><p>最新内容は、デベロッパーコミュニティをご参照ください</p><a href={response.DCURL}  target="_blank" rel="noreferrer">デベロッパーコミュニティの記事</a></span></div>}	
     </div>
     <div id="relatedtopics" style = {{ width: "800px",height: "100px",overflow: "auto",border: "solid #000000 1px"}}>
     <p>関連トピック</p>
