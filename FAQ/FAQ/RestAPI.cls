@@ -116,7 +116,8 @@ ClassMethod TopicGetById(pId As %Integer) As %Status
       set %response.CharSet = "utf-8"
     }
 
-    set topic = ##class(KB.Topic).%OpenId(pId)	  
+    set topic = ##class(KB.Topic).%OpenId(pId,,.status)	
+    $$$ThrowOnError(status)  
     set return = {}
     set return.id = pId
     set return.Title = topic.Title
