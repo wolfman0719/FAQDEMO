@@ -786,4 +786,44 @@ ClassMethod EscapeTagInCommand(pText As %String) As %String
 	Quit UText
 }
 
+ClassMethod ProductText(pProductId As %Integer) As %String
+{
+   Set tProductText = ""
+   // ProductIdを2進数に変換する
+   kill %B
+   set %DB = pProductId
+   do INT^%DB
+   set Productidb = $reverse(%B)
+ 
+   set tProductText = ""
+ 
+   If $extract(Productidb,$$$Cache) {
+     set tProductText = tProductText_"Cach&eacute;, "
+   }
+
+   If $extract(Productidb,$$$Ensemble) {
+     set tProductText = tProductText_"Ensemble, "
+   }
+ 
+   If $extract(Productidb,$$$HealthShare) {
+     set tProductText = tProductText_"旧HealthShare, "
+   }
+
+   If $extract(Productidb,$$$IRIS) {
+     set tProductText = tProductText_"IRIS Data Platform, "
+   }
+
+   If $extract(Productidb,$$$IRIS4H) {
+     set tProductText = tProductText_"IRIS for Health, "
+   }
+
+   If $extract(Productidb,$$$General) {
+     set tProductText = tProductText_"一般的質問, "
+   }
+
+   set tProductText = $extract(tProductText,1,*-2)
+   
+   quit tProductText
+}
+
 }
