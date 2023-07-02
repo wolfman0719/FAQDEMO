@@ -2,6 +2,12 @@ import React from 'react';
 import './App.css';
 import axios from "axios";
 import { ChangeEvent, useState } from "react";
+import { Header } from './components/Header';
+import { Query } from './components/Query';
+import { TopicList } from './components/TopicList';
+import { TopicContent } from './components/TopicContent';
+import { RelatedTopics } from './components/RelatedTopics';
+import { DownloadFile } from './components/DownloadFile';
 import configinfo from './serverconfig.json';
 
 export const App = () => {
@@ -16,17 +22,16 @@ export const App = () => {
   const [errortext, setErrorText] = useState<any>("");
   const [fileflag, setFileFlag] = useState(false);
   
-  const comma: string = ",";
   const ServerAddress = configinfo.ServerAddress;
   const ServerPort = configinfo.ServerPort;
   
-  const onClickFetchTopicList = () => {
+  const onClickFetchTopicList = (keyword: any) => {
 	
 	setIsLoading(true);
     setIsError(false);
   
 	axios
-	  .get<any>(`http://${ServerAddress}:${ServerPort}/faqapi/TopicSearchByKeyword/z${inputtext}`)
+	  .get<any>(`http://${ServerAddress}:${ServerPort}/faqapi/TopicSearchByKeyword/z${keyword}`)
 	  .then((result: any) => {
 	  const topics = result.data.map((topic: any) => ({
 		id: topic.id,
@@ -58,60 +63,27 @@ export const App = () => {
 	  })
       .finally(() => setIsLoading(false))
   };
-
-  const onChangeText = (e: ChangeEvent<HTMLInputElement>) => setInputText(e.target.value);
-  const onChangeText2 = (e: ChangeEvent<HTMLInputElement>) => setInputText2(e.target.value);
     
   return (
     <>
     <div className="title">
-    <a href="https://www.intersystems.co.jp" ><img src="https://www.intersystems.com/assets/intersystems-logo.png" alt="InterSystems Corporation" style = {{width: "200",height: "50",border: "0"}}/></a>
-	<h1> FAQ検索　</h1>
+	<Header />
 	</div>
     <div className="query">
-	  <label>検索キーワード: </label>
-	  <input type="text" value = {inputtext} onChange={onChangeText} />
-	  <button onClick={onClickFetchTopicList}>トピック検索</button>
-	  <label>検索ID: </label>
-	  <input type="text" value = {inputtext2} onChange={onChangeText2} />
-	  <button onClick={() => onClickItem(inputtext2)}>トピックID検索</button>
-		  {isError && <p style={{ color: "red" }}>エラーが発生しました　{`${errortext}`}</p>}
+	<Query onClickItem = {onClickItem} onClickFetchTopicList = {onClickFetchTopicList} />
+	{isError && <p style={{ color: "red" }}>エラーが発生しました　{`${errortext}`}</p>}
 	</div>
-    <div className="topiclist" style = {{ float: "left",height: "700px",overflow: "auto",border: "solid #000000 1px"}}>	
-	<table><tbody>
-	  {isLoading ? (<p>Data Loading</p>)
-		 : (
-		 topicList.map((topic: any) => (
-		 <tr>
-		 <button style = {{width: "800px",textAlign: "left"}} className="topictitle" onClick={() => onClickItem(topic.id)}>{`${topic.id}:${topic.title}`}</button>
-		 </tr>
-		 )))
-	  }
-	</tbody></table>
+    <div className="topiclist" style = {{ float: "left",width: "700px",height: "700px",overflow: "auto",border: "solid #000000 1px"}}>	
+    <TopicList isLoading = {isLoading} topicList = {topicList} onClickItem = {onClickItem} />
     </div>
-    <div style = {{ float: "left"}}>
-    <div style = {{ width: "800px",height: "90px",overflow: "scroll",border: "solid #000000 1px"}}><h4 style = {{ marginLeft: "20px", marginRight: "20px"}}>{response.Title}</h4></div>
-    <div id="topiccontent" style = {{ width: "800px",height: "410px",overflow: "auto",border: "solid #000000 1px"}}>
-    {(response.DCURL === "") && <div style = {{ marginLeft: "20px", marginRight: "20px"}}><span dangerouslySetInnerHTML={{__html: response.Description}}></span></div>}	
-    {(response.DCURL !== "") && (response.DCURL !== undefined ) && <div style = {{ marginLeft: "20px", marginRight: "20px"}}><span><p>最新内容は、デベロッパーコミュニティをご参照ください</p><a href={response.DCURL}  target="_blank" rel="noreferrer">デベロッパーコミュニティの記事</a></span></div>}	
+    <div id="topiccontent" style = {{ width: "1200px",height: "500px",overflow: "auto",border: "solid #000000 1px"}}>
+    <TopicContent response = {response} />
     </div>
-    <div id="relatedtopics" style = {{ width: "800px",height: "100px",overflow: "auto",border: "solid #000000 1px"}}>
-    <p>関連トピック</p>
-    <table><tbody>
-	
-	  {
-	  
-        reftopics.map((reftopic: any) => (
-		  <tr>
-		  <button style = {{width: "800px",textAlign: "left"}} className="topictitle" onClick={() => onClickItem(reftopic.split(comma)[0])}>{`${reftopic.split(comma)[0]}:${reftopic.split(comma)[1]}`}</button>
-		  </tr>
-    	)
-    )}
-	</tbody></table>
+    <div id="relatedtopics" style = {{ width: "1200px",height: "100px",overflow: "auto",border: "solid #000000 1px"}}>
+    <RelatedTopics reftopics = {reftopics} onClickItem = {onClickItem} />
     </div>
-    <div id="downloadfile" style = {{ width: "800px",height: "100px",overflow: "auto",border: "solid #000000 1px"}}>
-    {fileflag && <a href = {response.DownloadFile}>添付ファイル</a>}
-    </div>
+    <div id="downloadfile" style = {{ width: "1200px",height: "100px",overflow: "auto",border: "solid #000000 1px"}}>
+	<DownloadFile fileflag = {fileflag} response = {response} />
     </div>	
     </>	
   );	
