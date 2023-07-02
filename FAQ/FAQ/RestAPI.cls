@@ -145,7 +145,8 @@ ClassMethod TopicGetById(pId As %Integer) As %Status
     set return.FileFlg = fileexists
     set return.DownloadFile =  "http://"_webserver_":"_webserverport_cspurl_"/downloads/"_##class(KB.Config).getAttachedFileName()_pId_".zip"
     set return.DCURL = topic.DCURL
-	   
+    set return.ProductText = ##class(%CSP.Page).UnescapeHTML(##class(KB.Utility).ProductText(topic.Product.ProductId))
+    set return.VersionRange = topic.VersionRange	   
     write return.%ToJSON()
 	  	  
   }
