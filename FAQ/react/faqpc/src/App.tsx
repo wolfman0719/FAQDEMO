@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import axios from "axios";
-import { ChangeEvent, useState } from "react";
+import { useState } from "react";
 import { Header } from './components/Header';
 import { Query } from './components/Query';
 import { TopicList } from './components/TopicList';
@@ -15,12 +15,12 @@ export const App = () => {
   const [topicList, setTopicList] = useState<any>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
-  const [inputtext, setInputText] = useState<any>("");
-  const [inputtext2, setInputText2] = useState<any>("");
   const [response, setResponse] = useState<any>("");
   const [reftopics, setRefTopics] = useState<any>([]);
   const [errortext, setErrorText] = useState<any>("");
   const [fileflag, setFileFlag] = useState(false);
+  const [prevtopicid, setPrevTopicId] = useState(0);
+  const [prevtopicflag, setPrevTopicFlag] = useState(false);
   
   const ServerAddress = configinfo.ServerAddress;
   const ServerPort = configinfo.ServerPort;
@@ -49,6 +49,27 @@ export const App = () => {
    const onClickItem = (topicid: any) => {
 	setIsLoading(true);
 	setIsError(false);
+	setPrevTopicFlag(false);
+	setPrevTopicId(topicid);
+
+	axios
+	  .get<any>(`http://${ServerAddress}:${ServerPort}/faqapi/TopicGetById/${topicid}`)
+	  .then((result: any) => {
+	    setResponse(result.data);
+		if (response.FileFlg) setFileFlag(true);
+		setRefTopics(result.data.RefArray);
+	  })
+      .catch((error: any) => {
+	     setIsError(true)
+		 setErrorText(error.response.data.summary);
+	  })
+      .finally(() => setIsLoading(false))
+  };
+
+   const onClickItem2 = (topicid: any) => {
+	setIsLoading(true);
+	setIsError(false);
+	setPrevTopicFlag(true);
 	
 	axios
 	  .get<any>(`http://${ServerAddress}:${ServerPort}/faqapi/TopicGetById/${topicid}`)
@@ -71,6 +92,8 @@ export const App = () => {
 	</div>
     <div className="query">
 	<Query onClickItem = {onClickItem} onClickFetchTopicList = {onClickFetchTopicList} />
+    {prevtopicflag && <button onClick={() => onClickItem(prevtopicid)}>前のトピックに戻る</button>}
+    {!prevtopicflag && <button onClick={() => onClickItem(prevtopicid)} disabled>前のトピックに戻る</button>}
 	{isError && <p style={{ color: "red" }}>エラーが発生しました　{`${errortext}`}</p>}
 	</div>
     <div className="topiclist" style = {{ float: "left",width: "700px",height: "700px",overflow: "auto",border: "solid #000000 1px"}}>	
@@ -80,7 +103,7 @@ export const App = () => {
     <TopicContent response = {response} />
     </div>
     <div id="relatedtopics" style = {{ width: "1200px",height: "100px",overflow: "auto",border: "solid #000000 1px"}}>
-    <RelatedTopics reftopics = {reftopics} onClickItem = {onClickItem} />
+    <RelatedTopics reftopics = {reftopics} onClickItem = {onClickItem2} />
     </div>
     <div id="downloadfile" style = {{ width: "1200px",height: "100px",overflow: "auto",border: "solid #000000 1px"}}>
 	<DownloadFile fileflag = {fileflag} response = {response} />
