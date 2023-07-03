@@ -1,3 +1,5 @@
+include FAQ
+
 Class KB.Utility
 {
 
