@@ -225,6 +225,16 @@ ClassMethod SetupLocal(pDir As %String) As %Status
   // Windowsの場合, c:\git\FAQDEMO
   // MacOSの場合, /Users/hiroshisato/git/FAQDEMO
   // setupディレクトリ等を変更したい場合は、setConfigParamsの処理を書き換える
+
+  set namespace = $namespace
+  set $namespace = "%SYS"
+  set sec = ##class("Security.Applications").%New()
+  set sec.Name = "/faqapi"
+  set sec.NameSpace = namespace
+  set sec.DispatchClass ="FAQ.RestAPI"
+  set sec.AutheEnabled = 32
+  set status = sec.%Save()
+  set $namespace = namespace
   
   if ($system.Version.GetOS() = "UNIX") {
     Do $system.OBJ.Load(pDir_"/FAQ/Installer.cls","ck")
