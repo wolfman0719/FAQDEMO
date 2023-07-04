@@ -92,20 +92,23 @@ export const App = () => {
 	</div>
     <div className="query">
 	<Query onClickItem = {onClickItem} onClickFetchTopicList = {onClickFetchTopicList} />
-    {prevtopicflag && <button onClick={() => onClickItem(prevtopicid)}>前のトピックに戻る</button>}
-    {!prevtopicflag && <button onClick={() => onClickItem(prevtopicid)} disabled>前のトピックに戻る</button>}
+    {prevtopicflag  ? (<button onClick={() => onClickItem(prevtopicid)}>前のトピックに戻る</button>):
+    (<button onClick={() => onClickItem(prevtopicid)} disabled>前のトピックに戻る</button>)}
 	{isError && <p style={{ color: "red" }}>エラーが発生しました　{`${errortext}`}</p>}
 	</div>
-    <div className="topiclist" style = {{ float: "left",width: "700px",height: "700px",overflow: "auto",border: "solid #000000 1px"}}>	
+    <div className="topiclist" style = {{ float: "left",width: "40%",height: "900px",overflow: "auto",border: "solid #000000 1px"}}>	
     <TopicList isLoading = {isLoading} topicList = {topicList} onClickItem = {onClickItem} />
     </div>
-    <div id="topiccontent" style = {{ width: "1200px",height: "500px",overflow: "auto",border: "solid #000000 1px"}}>
+    <div id="topiccontent" style = {{ width: "60%",height: "550px",overflow: "auto",border: "solid #000000 1px"}}>
     <TopicContent response = {response} />
     </div>
-    <div id="relatedtopics" style = {{ width: "1200px",height: "100px",overflow: "auto",border: "solid #000000 1px"}}>
+    <div id="topiccontent" style = {{ width: "60%",height: "50px",overflow: "auto",border: "solid #000000 1px"}}>
+    <div><p>該当する製品: {response.ProductText}</p></div>
+    </div>
+    <div id="relatedtopics" style = {{ width: "60%",height: "200px",overflow: "auto",border: "solid #000000 1px"}}>
     <RelatedTopics reftopics = {reftopics} onClickItem = {onClickItem2} />
     </div>
-    <div id="downloadfile" style = {{ width: "1200px",height: "100px",overflow: "auto",border: "solid #000000 1px"}}>
+    <div id="downloadfile" style = {{ width: "60%",height: "100px",overflow: "auto",border: "solid #000000 1px"}}>
 	<DownloadFile fileflag = {fileflag} response = {response} />
     </div>	
     </>	
