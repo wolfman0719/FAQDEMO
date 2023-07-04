@@ -23,17 +23,17 @@
 
 - public
 
-index.html
+  1. index.html
 
 - src
 
-  index.tsx
-  App.tsx
-  serverconfig.json
+  1. index.tsx
+  2. App.tsx
+  3. serverconfig.json
 
  - components
 
-    *.tsx
+  1. *.tsx
 
 ## serverconfig.jsonの調整
 
@@ -43,14 +43,18 @@ index.html
 ## reactアプリケーションの起動
 
 - npm start
+
     Starts the development server.
 
 - npm run build
+
     Bundles the app into static files for production.
 
 - npm test
+
     Starts the test runner.
 
 - npm run eject
+
     Removes this tool and copies build dependencies, configuration files
     and scripts into the app directory. If you do this, you can’t go back!
