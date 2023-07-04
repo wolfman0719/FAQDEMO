@@ -34,7 +34,7 @@
   serverconfig.json
 
  - components
-  
+
   *.tsx
 
 ## serverconfig.jsonの調整
