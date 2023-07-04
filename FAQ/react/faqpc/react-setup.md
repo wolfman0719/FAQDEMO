@@ -23,17 +23,19 @@
 
 - public
 
-  1. index.html
+  index.html
 
 - src
 
-  1. index.tsx
-  2. App.tsx
-  3. serverconfig.json
+  index.tsx
+
+  App.tsx
+
+  serverconfig.json
 
  - components
-
-  1. *.tsx
+  
+  *.tsx
 
 ## serverconfig.jsonの調整
 
