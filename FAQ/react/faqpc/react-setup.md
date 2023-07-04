@@ -2,20 +2,20 @@
 
 ## react app テンプレート作成
 
-% npx create-react-app faqsp --template typescript
+```% npx create-react-app faqsp --template typescript```
 
 ## bootstrapインストール
 
-% cd faqsp
-% npm install react-bootstrap bootstrap
+```% cd faqsp```
+```% npm install react-bootstrap bootstrap```
 
 ## react-router-domインストール
 
-% npm install --save react-router-dom
+```% npm install --save react-router-dom```
 
 ## axios インストール
 
-% npm install axios
+```% npm install axios```
 
 ## ファイルコピー
 
