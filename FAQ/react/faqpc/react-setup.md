@@ -22,19 +22,23 @@
 以下のファイルをここからダウンロードし、上で作成したテンプレートディレクトリにコピーする
 
 - public
- index.html
+
+index.html
 
 - src
+
   index.tsx
   App.tsx
   serverconfig.json
 
  - components
+
     *.tsx
 
 ## serverconfig.jsonの調整
 
  IRISサーバーのIPアドレス、ポート番号を反映
+ (デフォルト　IPアドレス = localhost IPポート番号: 52773)
 
 ## reactアプリケーションの起動
 
