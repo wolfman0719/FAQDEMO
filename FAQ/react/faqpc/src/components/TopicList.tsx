@@ -11,7 +11,7 @@ const {isLoading, onClickItem, topicList} = props;
 		 : (
 		 topicList.map((topic: any) => (
 		 <tr>
-		 <button style = {{width: "1200px",textAlign: "left"}} className="topictitle" onClick={() => onClickItem(topic.id)}>{`${topic.id}:${topic.title}`}</button>
+		 <button style = {{width: "100%", textAlign: "left"}} className="topictitle" onClick={() => onClickItem(topic.id)}>{`${topic.id}:${topic.title}`}</button>
 		 </tr>
 		 )))
 	  }
