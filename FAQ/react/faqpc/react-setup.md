@@ -13,7 +13,7 @@
 
 % npm install --save react-router-dom
 
-## axisos インストール
+## axios インストール
 
 % npm install axios
 
