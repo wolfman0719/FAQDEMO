@@ -7,6 +7,7 @@
 ## bootstrapインストール
 
 ```% cd faqpc```
+
 ```% npm install react-bootstrap bootstrap```
 
 ## react-router-domインストール
