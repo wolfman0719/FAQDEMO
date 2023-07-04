@@ -3,6 +3,12 @@ zn "%SYS"
 
 Do ##class(Security.Users).UnExpireUserPasswords("*")
 Do ##class(Config.NLS.Locales).Install("jpuw")
+set sec = ##class("Security.Applications").%New()
+set sec.Name = "/faqapi"
+set sec.NameSpace = "USER"
+set sec.DispatchClass ="FAQ.RestAPI"
+set sec.AutheEnabled = 32
+set status = sec.%Save()
 
 zn "USER"
 
