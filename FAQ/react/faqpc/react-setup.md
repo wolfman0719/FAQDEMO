@@ -2,11 +2,11 @@
 
 ## react app テンプレート作成
 
-```% npx create-react-app faqsp --template typescript```
+```% npx create-react-app faqpc --template typescript```
 
 ## bootstrapインストール
 
-```% cd faqsp```
+```% cd faqpc```
 ```% npm install react-bootstrap bootstrap```
 
 ## react-router-domインストール
