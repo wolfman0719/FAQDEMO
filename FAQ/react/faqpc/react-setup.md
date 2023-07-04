@@ -36,10 +36,15 @@
  - components
 
    DoqnloadFile.tsx
+   
    Header.tsx
+
    Query.tsx
+
    RelatedTopics.tsx
+
    TopicContent.tsx
+
    TopicList.tsx
 
 ## serverconfig.jsonの調整
