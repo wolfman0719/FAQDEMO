@@ -1,13 +1,42 @@
-% react % npx create-react-app faqsp --template typescript
+# reactアプリケーション設定
 
+## react app テンプレート作成
+
+% npx create-react-app faqsp --template typescript
+
+## bootstrapインストール
+
+% cd faqsp
 % npm install react-bootstrap bootstrap
+
+## react-router-domインストール
 
 % npm install --save react-router-dom
 
+## axisos インストール
+
 % npm install axios
 
+## ファイルコピー
 
+以下のファイルをここからダウンロードし、上で作成したテンプレートディレクトリにコピーする
 
+public
+ index.html
+
+src
+  index.tsx
+  App.tsx
+  serverconfig.json
+
+  components
+    *.tsx
+
+## serverconfig.jsonの調整
+
+ IRISサーバーのIPアドレス、ポート番号を反映
+
+## reactアプリケーションの起動
 
   npm start
     Starts the development server.
@@ -21,8 +50,3 @@
   npm run eject
     Removes this tool and copies build dependencies, configuration files
     and scripts into the app directory. If you do this, you can’t go back!
-
-We suggest that you begin by typing:
-
-  cd faqpc
-  npm start
