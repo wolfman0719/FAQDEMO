@@ -57,7 +57,12 @@ export const App = () => {
 	  .get<any>(`http://${ServerAddress}:${ServerPort}/faqapi/TopicGetById/${topicid}`)
 	  .then((result: any) => {
 	    setResponse(result.data);
-		if (response.FileFlg) setFileFlag(true);
+		if (response.FileFlg) {
+			setFileFlag(true);
+		}
+		else {
+			setFileFlag(false);
+		}
 		setRefTopics(result.data.RefArray);
 	  })
       .catch((error: any) => {
@@ -76,7 +81,12 @@ export const App = () => {
 	  .get<any>(`http://${ServerAddress}:${ServerPort}/faqapi/TopicGetById/${topicid}`)
 	  .then((result: any) => {
 	    setResponse(result.data);
-		if (response.FileFlg) setFileFlag(true);
+		if (response.FileFlg) {
+			setFileFlag(true);
+		}
+		else {
+			setFileFlag(false);
+		}
 		setRefTopics(result.data.RefArray);
 	  })
       .catch((error: any) => {
