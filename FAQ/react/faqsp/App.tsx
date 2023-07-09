@@ -9,12 +9,8 @@ export const App = () => {
   return (
     <BrowserRouter>
 	<Routes>
-      <Route path="/">
-        <Home />
-      </Route>
-      <Route path="/Content/:topicid">
-        <TopicContent />
-      </Route>
+	  <Route path='/' element={<Home/>} />
+      <Route path="/Content/:topicid"  element={<TopicContent/>} />
 	</Routes>
    </BrowserRouter>   
   );	
