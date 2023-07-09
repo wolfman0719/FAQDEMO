@@ -1,20 +1,22 @@
 import React from 'react';
 import './App.css';
-import { TopicList } from './components/TopicList';
 import { TopicContent } from './components/TopicContent';
-import { BrowserRouter, Route } from 'react-router-dom';
+import { Home } from './components/Home';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 export const App = () => {
  
   return (
     <BrowserRouter>
-      <Route Path="/">
+	<Routes>
+      <Route path="/">
         <Home />
       </Route>
-      <Route Path="/Content">
+      <Route path="/Content/:topicid">
         <TopicContent />
       </Route>
-   </BrowseRouter>   
+	</Routes>
+   </BrowserRouter>   
   );	
 }
 export default App;
