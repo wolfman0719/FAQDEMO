@@ -1,5 +1,7 @@
 import React from 'react';
 import { ChangeEvent, useState } from "react";
+import { TopicList } from './TopicList';
+
 
 export const Query = () => {
 
@@ -11,7 +13,7 @@ export const Query = () => {
     <>
 	  <label>検索キーワード: </label>
 	  <input type="text" value = {inputtext} onChange={onChangeText} />
-	  <TopicList keyword  = {inputtext}>
+	  <TopicList keyword  = {inputtext} />
     </>	
   );	
 }

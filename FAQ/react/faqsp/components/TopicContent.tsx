@@ -1,8 +1,45 @@
 import React from 'react';
+import axios from "axios";
+import { BrowserRouter, Route, Link, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import configinfo from './serverconfig.json';
 
-export const TopicContent = (props: any) => {
+export const TopicContent = () => {
 
-  const {response} = props; 
+const {topicid} = useParams();
+
+const [isLoading, setIsLoading] = useState(false);
+const [isError, setIsError] = useState(false);
+const [response, setResponse] = useState<any>("");
+const [reftopics, setRefTopics] = useState<any>([]);
+const [errortext, setErrorText] = useState<any>("");
+const [fileflag, setFileFlag] = useState(false);
+  
+const ServerAddress = configinfo.ServerAddress;
+const ServerPort = configinfo.ServerPort;
+
+ useEffect( () => {
+
+	setIsLoading(true);
+	setIsError(false);
+
+	axios
+	  .get<any>(`http://${ServerAddress}:${ServerPort}/faqapi/TopicGetById/${topicid}`)
+	  .then((result: any) => {
+	    setResponse(result.data);
+		if (response.FileFlg) {
+			setFileFlag(true);
+		}
+		else {
+			setFileFlag(false);
+		}
+		setRefTopics(result.data.RefArray);
+	  })
+      .catch((error: any) => {
+	     setIsError(true)
+		 setErrorText(error.response.data.summary);
+	  })
+      .finally(() => setIsLoading(false));}, []);   
         
   return (
     <>

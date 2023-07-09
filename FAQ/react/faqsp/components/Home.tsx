@@ -1,10 +1,7 @@
 import React from 'react';
-import axios from "axios";
-import { useState } from "react";
 import { Header } from './Header';
 import { Query } from './Query';
-import { BrowserRouter, Route } from 'react-router-dom';
-import configinfo from './serverconfig.json';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 export const Home = () => {
 
