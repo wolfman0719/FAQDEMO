@@ -2,7 +2,6 @@ import React from 'react';
 import { Header } from './Header';
 import { Query } from './Query';
 import { QueryById } from './QueryById';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 

@@ -1,7 +1,6 @@
 import React from 'react';
 import { ChangeEvent, useState } from "react";
-import { TopicList } from './TopicList';
-import { Link , useNavigate} from 'react-router-dom'
+import { useNavigate} from 'react-router-dom'
 
 
 export const QueryById = () => {

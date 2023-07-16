@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { BrowserRouter, Route, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import configinfo from '../serverconfig.json';
 
 export const TopicList = (props: any) => {
@@ -11,8 +11,6 @@ const {keyword} = props;
 const [topicList, setTopicList] = useState<any>([]);
 const [isLoading, setIsLoading] = useState(false);
 const [isError, setIsError] = useState(false);
-const [response, setResponse] = useState<any>("");
-const [reftopics, setRefTopics] = useState<any>([]);
 const [errortext, setErrorText] = useState<any>("");
 
 const ServerAddress = configinfo.ServerAddress;
