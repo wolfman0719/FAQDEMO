@@ -1,12 +1,12 @@
 # reactアプリケーション設定
 
-## react app テンプレート作成
+## react app (Mobile用)テンプレート作成
 
-```% npx create-react-app faqpc --template typescript```
+```% npx create-react-app faqmobile --template typescript```
 
 ## bootstrapインストール
 
-```% cd faqpc```
+```% cd faqmobile```
 
 ```% npm install react-bootstrap bootstrap```
 
@@ -17,6 +17,10 @@
 ## axios インストール
 
 ```% npm install axios```
+
+## react-tabs インストール
+
+```% npm install react-tabs```
 
 ## ファイルコピー
 
@@ -48,9 +52,8 @@
 
    TopicList.tsx
 
-  - hooks
+   serverconfig.json
 
-    useWindowSize.ts
 
 ## serverconfig.jsonの調整
 
