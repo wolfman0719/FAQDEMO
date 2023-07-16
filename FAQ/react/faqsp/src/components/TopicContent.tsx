@@ -1,12 +1,14 @@
 import React from 'react';
 import axios from "axios";
-import { BrowserRouter, Route, Link, useParams } from "react-router-dom";
+import { BrowserRouter, Route, Link, useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import configinfo from './serverconfig.json';
+import configinfo from '../serverconfig.json';
 
-export const TopicContent = () => {
+export const TopicContent = (props: any) => {
 
 const {topicid} = useParams();
+
+const navigate = useNavigate();
 
 const [isLoading, setIsLoading] = useState(false);
 const [isError, setIsError] = useState(false);
@@ -43,7 +45,9 @@ const ServerPort = configinfo.ServerPort;
         
   return (
     <>
-    <div style = {{ width: "100%",height: "15%",overflow: "auto",border: "solid #000000 1px"}}><h4 style = {{ marginLeft: "20px", marginRight: "20px"}}>{response.id}  {response.Title}</h4><h5 style = {{ marginLeft: "90%", marginRight: "20px"}}>{response.VersionRange}</h5></div>
+    <button className = "btn btn-outline-primary" onClick={() => {navigate(-1)}}>戻る</button>
+	{isError && <p style={{ color: "red" }}>エラーが発生しました　{`${errortext}`}</p>}
+	<div style = {{ width: "100%",height: "15%",overflow: "auto",border: "solid #000000 1px"}}><h4 style = {{ marginLeft: "20px", marginRight: "20px"}}>{response.id}  {response.Title}</h4><h5 style = {{ marginLeft: "90%", marginRight: "20px"}}>{response.VersionRange}</h5></div>
     {(response.DCURL === "") && <div style = {{ marginLeft: "20px", marginRight: "20px"}}><span dangerouslySetInnerHTML={{__html: response.Description}}></span></div>}	
     {(response.DCURL !== "") && (response.DCURL !== undefined ) && <div style = {{ marginLeft: "20px", marginRight: "20px"}}><span><p>最新内容は、デベロッパーコミュニティをご参照ください</p><a href={response.DCURL}  target="_blank" rel="noreferrer">デベロッパーコミュニティの記事</a></span></div>}	
     </>	

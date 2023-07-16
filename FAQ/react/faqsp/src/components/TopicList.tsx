@@ -2,7 +2,7 @@ import React from 'react';
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { BrowserRouter, Route, Link } from 'react-router-dom';
-import configinfo from './serverconfig.json';
+import configinfo from '../serverconfig.json';
 
 export const TopicList = (props: any) => {
 
@@ -29,7 +29,8 @@ const ServerPort = configinfo.ServerPort;
 	  .then((result: any) => {
 	  const topics = result.data.map((topic: any) => ({
 		id: topic.id,
-		title: topic.title
+		title: topic.title,
+		linkto: "/Content/" + topic.id
       }));
       setTopicList(topics);
 	  })
@@ -46,7 +47,7 @@ const ServerPort = configinfo.ServerPort;
 		 : (
 		 topicList.map((topic: any) => (
 		 <tr>
-		 <Link to="/Content/${topic.id}">{`${topic.id}:${topic.title}`}</Link>
+		 <Link to={topic.linkto}><button className = "btn btn-outline-primary" style = {{width: "100%",textAlign: "left"}}>{`${topic.id}:${topic.title}`}</button></Link>
 		 </tr>
 		 )))
 	  }
