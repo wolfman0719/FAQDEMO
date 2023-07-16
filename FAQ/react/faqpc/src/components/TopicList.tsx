@@ -6,12 +6,12 @@ const {isLoading, onClickItem, topicList} = props;
     
   return (
     <>
-	<table><tbody>
+	<table style = {{width: "100%"}}><tbody>
 	  {isLoading ? (<p>Data Loading</p>)
 		 : (
 		 topicList.map((topic: any) => (
 		 <tr>
-		 <button style = {{width: "100%", textAlign: "left"}} className="topictitle" onClick={() => onClickItem(topic.id)}>{`${topic.id}:${topic.title}`}</button>
+		 <button className = "btn btn-outline-primary" style = {{width: "100%", textAlign: "left"}} onClick={() => onClickItem(topic.id)}>{`${topic.id}:${topic.title}`}</button>
 		 </tr>
 		 )))
 	  }
