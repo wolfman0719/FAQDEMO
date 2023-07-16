@@ -39,20 +39,20 @@
   serverconfig.json
 
  - components
-
-   DoqnloadFile.tsx
    
    Header.tsx
 
+   Home.tsx
+
    Query.tsx
+
+   QueryById.tsx
 
    RelatedTopics.tsx
 
    TopicContent.tsx
 
    TopicList.tsx
-
-   serverconfig.json
 
 
 ## serverconfig.jsonの調整
