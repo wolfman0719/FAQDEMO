@@ -45,7 +45,7 @@ const ServerPort = configinfo.ServerPort;
 		 : (
 		 topicList.map((topic: any) => (
 		 <tr>
-		 <Link to={topic.linkto}><button className = "btn btn-outline-primary" style = {{width: "100%",textAlign: "left"}}>{`${topic.id}:${topic.title}`}</button></Link>
+		 <Link to={topic.linkto}><button className = "btn btn-outline-primary" style = {{width: "100%",textAlign: "left"}}>{`${topic.id}:${topic.title}`}<i className="bi bi-chevron-right float-end"></i></button></Link>
 		 </tr>
 		 )))
 	  }
