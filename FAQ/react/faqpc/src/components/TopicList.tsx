@@ -11,7 +11,7 @@ const {isLoading, onClickItem, topicList} = props;
 		 : (
 		 topicList.map((topic: any) => (
 		 <tr>
-		 <button className = "btn btn-outline-primary" style = {{width: "100%", textAlign: "left"}} onClick={() => onClickItem(topic.id)}>{`${topic.id}:${topic.title}`}</button>
+		 <button className = "btn btn-outline-primary" style = {{width: "100%", textAlign: "left"}} onClick={() => onClickItem(topic.id)}>{`${topic.id}:${topic.title}`}<i className="bi bi-chevron-right float-end"></i></button>
 		 </tr>
 		 )))
 	  }
