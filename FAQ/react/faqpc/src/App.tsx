@@ -95,7 +95,7 @@ export const App = () => {
       .finally(() => setIsLoading(false))
   };
   
-  const [width, height] = useWindowSize();
+  const [height] = useWindowSize();
   
   return (
     <>
