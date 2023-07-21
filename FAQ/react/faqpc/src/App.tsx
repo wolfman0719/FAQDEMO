@@ -105,8 +105,8 @@ export const App = () => {
 	</div>
     <div className="query">
 	<Query onClickItem = {onClickItem} onClickFetchTopicList = {onClickFetchTopicList} />
-    {prevtopicflag  ? (<button onClick={() => onClickItem(prevtopicid)}>前のトピックに戻る</button>):
-    (<button onClick={() => onClickItem(prevtopicid)} disabled>前のトピックに戻る</button>)}
+    {prevtopicflag  ? (<button onClick={() => onClickItem(prevtopicid)}><i className="bi bi-arrow-left"></i>前のトピックに戻る</button>):
+    (<button onClick={() => onClickItem(prevtopicid)} disabled><i className="bi bi-arrow-left"></i>前のトピックに戻る</button>)}
 	{isError && <p style={{ color: "red" }}>エラーが発生しました　{`${errortext}`}</p>}
 	</div>
     <div className="topiclist" style = {{ float: "left",width: "40%",height: `${height*0.9}px`,overflow: "auto",border: "solid #000000 1px"}}>	
