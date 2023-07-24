@@ -21,7 +21,7 @@ FAQシステムのDocker Build デモサイト
 ターミナルでログイン
 
 ```
->zn "FAQ
+>zn "FAQ"
 >set pDir = "c:\git\FAQDEMO\FAQ"
 >Do $system.OBJ.Load(pDir_"\KB\Setup.cls","ck")
 ```
