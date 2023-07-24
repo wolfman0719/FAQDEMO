@@ -12,12 +12,7 @@ export const Query = () => {
      setInputText(e.target.value);
   }
 
- console.log('inputtext1 = ' + inputtext);
- console.log('localstorage = ' + localStorage.getItem('inputtext'));
-
- useEffect( () => {localStorage.getItem('inputtext') && setInputText(localStorage.getItem('inputtext'))});   
-
- console.log('inputtext2 = ' + inputtext);
+ useEffect( () => {localStorage.getItem('inputtext') && setInputText(localStorage.getItem('inputtext'))},[inputtext]);   
 
   return (
     <>
