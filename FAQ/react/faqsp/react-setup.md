@@ -48,8 +48,6 @@
 
    QueryById.tsx
 
-   RelatedTopics.tsx
-
    TopicContent.tsx
 
    TopicList.tsx
