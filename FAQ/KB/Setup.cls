@@ -232,7 +232,7 @@ ClassMethod SetupLocal(pDir As %String) As %Status
   set sec.Name = "/faqapi"
   set sec.NameSpace = namespace
   set sec.DispatchClass ="FAQ.RestAPI"
-  set sec.AutheEnabled = 64
+  set sec.AutheEnabled = 96
   set status = sec.%Save()
   set $namespace = namespace
   
