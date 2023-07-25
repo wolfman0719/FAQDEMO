@@ -15,7 +15,8 @@ const [errortext, setErrorText] = useState<any>("");
 
 const ServerAddress = configinfo.ServerAddress;
 const ServerPort = configinfo.ServerPort;
-
+const Username = configinfo.Username;
+const Password = configinfo.Password;
  
  useEffect( () => {
 
@@ -23,7 +24,7 @@ const ServerPort = configinfo.ServerPort;
     setIsError(false);
   
 	axios
-	  .get<any>(`http://${ServerAddress}:${ServerPort}/faqapi/TopicSearchByKeyword/z${keyword}`)
+	  .get<any>(`http://${ServerAddress}:${ServerPort}/faqapi/TopicSearchByKeyword/z${keyword}?IRISUsername=${Username}&IRISPassword=${Password}`)
 	  .then((result: any) => {
 	  const topics = result.data.map((topic: any) => ({
 		id: topic.id,
