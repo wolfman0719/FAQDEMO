@@ -42,3 +42,12 @@ FAQシステムのDocker Build デモサイト
 
   [localhost:52775/csp/sys/%25CSP.Portal.Home.zen?IRISUsername=_system&IRISPassword=SYS](http://localhost:52775/csp/sys/%25CSP.Portal.Home.zen?IRISUsername=_system&IRISPassword=SYS)
 
+## reactアプリケーション
+
+### PC版
+
+セットアップに関しては、FAQ/react/faqpc/readme.mdを参照してください。
+
+### Mobile版
+
+セットアップに関しては、FAQ/react/faqsp/readme.mdを参照してください。
