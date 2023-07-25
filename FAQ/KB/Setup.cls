@@ -80,7 +80,7 @@ ClassMethod setConfigParams(envID As %Integer) As %Status
 		//Docker(お試し)環境
 	} elseif envID=4 {
 		set ns = "USER"
-		set auth = "64"
+		set auth = "96"
 		set separator = "/"
 		set cspdir = "/usr/irissys/csp/user"
 		set cspurl = "/csp/user"
@@ -92,7 +92,7 @@ ClassMethod setConfigParams(envID As %Integer) As %Status
 	//その他、ローカルに環境を作りたいときなどに使用(上の3つの内容を変更せずにここを利用) for Windows
 	} elseif envID=5  {
 		set ns = "FAQ"
-		set auth = "64"		
+		set auth = "96"		
 		set separator = "\"
 		set cspdir = "c:\InterSystems\IRIS\CSP\faq"
 		set cspurl = "/csp/faq"
@@ -103,7 +103,7 @@ ClassMethod setConfigParams(envID As %Integer) As %Status
 	//その他、ローカルに環境を作りたいときなどに使用(上の3つの内容を変更せずにここを利用) for MacOS
 	} elseif envID=6  {
 		set ns = "FAQ"
-		set auth = "64"		
+		set auth = "96"		
 		set separator = "/"
 		set cspdir = "/Applications/iris/csp/faq"
 		set cspurl = "/csp/faq"
