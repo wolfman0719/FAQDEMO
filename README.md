@@ -46,8 +46,8 @@ FAQシステムのDocker Build デモサイト
 
 ### PC版
 
-セットアップに関しては、FAQ/react/faqpc/readme.mdを参照してください。
+セットアップに関しては、FAQ/react/faqpc/react-setup.mdを参照してください。
 
 ### Mobile版
 
-セットアップに関しては、FAQ/react/faqsp/readme.mdを参照してください。
+セットアップに関しては、FAQ/react/faqsp/react-setup.mdを参照してください。
