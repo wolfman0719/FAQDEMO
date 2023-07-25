@@ -24,6 +24,8 @@ export const App = () => {
   
   const ServerAddress = configinfo.ServerAddress;
   const ServerPort = configinfo.ServerPort;
+  const Username = configinfo.Username;
+  const Password = configinfo.Password;
   
   const onClickFetchTopicList = (keyword: any) => {
 	
@@ -31,7 +33,7 @@ export const App = () => {
     setIsError(false);
   
 	axios
-	  .get<any>(`http://${ServerAddress}:${ServerPort}/faqapi/TopicSearchByKeyword/z${keyword}`)
+	  .get<any>(`http://${ServerAddress}:${ServerPort}/faqapi/TopicSearchByKeyword/z${keyword}?IRISUsername=${Username}&IRISPassword=${Password}`)
 	  .then((result: any) => {
 	  const topics = result.data.map((topic: any) => ({
 		id: topic.id,
@@ -53,7 +55,7 @@ export const App = () => {
 	setPrevTopicId(topicid);
 
 	axios
-	  .get<any>(`http://${ServerAddress}:${ServerPort}/faqapi/TopicGetById/${topicid}`)
+	  .get<any>(`http://${ServerAddress}:${ServerPort}/faqapi/TopicGetById/${topicid}?IRISUsername=${Username}&IRISPassword=${Password}`)
 	  .then((result: any) => {
 	    setResponse(result.data);
 		if (response.FileFlg) {
@@ -77,7 +79,7 @@ export const App = () => {
 	setPrevTopicFlag(true);
 	
 	axios
-	  .get<any>(`http://${ServerAddress}:${ServerPort}/faqapi/TopicGetById/${topicid}`)
+	  .get<any>(`http://${ServerAddress}:${ServerPort}/faqapi/TopicGetById/${topicid}?IRISUsername=${Username}&IRISPassword=${Password}`)
 	  .then((result: any) => {
 	    setResponse(result.data);
 		if (response.FileFlg) {
