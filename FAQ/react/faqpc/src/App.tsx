@@ -97,7 +97,7 @@ export const App = () => {
       .finally(() => setIsLoading(false))
   };
   
-  const [height] = useWindowSize();
+  const [width,height] = useWindowSize();
   
   return (
     <>
@@ -110,7 +110,7 @@ export const App = () => {
     (<button onClick={() => onClickItem(prevtopicid)} disabled><i className="bi bi-arrow-left"></i>前のトピックに戻る</button>)}
 	{isError && <p style={{ color: "red" }}>エラーが発生しました　{`${errortext}`}</p>}
 	</div>
-    <div className="topiclist" style = {{ float: "left",width: "40%",height: `${height*0.9}px`,overflow: "auto",border: "solid #000000 1px"}}>	
+    <div className="topiclist" style = {{ float: "left",width: "40%",height: `${height*0.88}px`,overflow: "auto",border: "solid #000000 1px"}}>	
     <TopicList isLoading = {isLoading} topicList = {topicList} onClickItem = {onClickItem} />
     </div>
     <div id="topiccontent" style = {{ width: "60%",height: `${height*0.55}px`,overflow: "auto",border: "solid #000000 1px"}}>
@@ -122,7 +122,7 @@ export const App = () => {
     <div id="relatedtopics" style = {{ width: "60%",height: `${height*0.2}px`,overflow: "auto",border: "solid #000000 1px"}}>
     <RelatedTopics reftopics = {reftopics} onClickItem = {onClickItem2} />
     </div>
-    <div id="downloadfile" style = {{ width: "60%",height: `${height*0.1}px`,overflow: "auto",border: "solid #000000 1px"}}>
+    <div id="downloadfile" style = {{ width: "60%",height: `${height*0.08}px`,overflow: "auto",border: "solid #000000 1px"}}>
 	<DownloadFile fileflag = {fileflag} response = {response} />
     </div>	
     </>	
