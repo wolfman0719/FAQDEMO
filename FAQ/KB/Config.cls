@@ -195,6 +195,12 @@ ClassMethod setWebServer() As %Status
 	quit status
 }
 
+ClassMethod setWebServerPort(port As %Integer) As %Status
+{
+	set ^Techinfo("WebServerPort") = port
+	quit $$$OK
+}
+
 Storage Default
 {
 <Data name="ConfigDefaultData">
