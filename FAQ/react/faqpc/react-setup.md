@@ -36,7 +36,7 @@
 
  - components
 
-   DoqnloadFile.tsx
+   DownloadFile.tsx
    
    Header.tsx
 
