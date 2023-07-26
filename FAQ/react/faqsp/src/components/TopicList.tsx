@@ -2,6 +2,7 @@ import React from 'react';
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from 'react-router-dom';
+import { useWindowSize } from "../hooks/useWindowSize";
 import configinfo from '../serverconfig.json';
 
 export const TopicList = (props: any) => {
@@ -17,6 +18,9 @@ const ServerAddress = configinfo.ServerAddress;
 const ServerPort = configinfo.ServerPort;
 const Username = configinfo.Username;
 const Password = configinfo.Password;
+
+const [width,height] = useWindowSize();
+
  
  useEffect( () => {
 
@@ -46,7 +50,7 @@ const Password = configinfo.Password;
 		 : (
 		 topicList.map((topic: any) => (
 		 <tr>
-		 <Link to={topic.linkto}><button className = "btn btn-outline-primary" style = {{width: "100%",textAlign: "left"}}>{`${topic.id}:${topic.title}`}<i className="bi bi-chevron-right float-end"></i></button></Link>
+		 <Link to={topic.linkto}><button className = "btn btn-outline-primary" style = {{width: "100%",textAlign: "left"}}><div style = {{whiteSpace: "nowrap",overflow: "hidden", width: width-10,textOverflow: "ellipsis"}}>{`${topic.title}`}</div></button></Link>
 		 </tr>
 		 )))
 	  }

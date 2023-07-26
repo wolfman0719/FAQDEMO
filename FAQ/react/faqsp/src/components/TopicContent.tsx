@@ -38,9 +38,9 @@ const Password = configinfo.Password;
         
   return (
     <>
-    <button className = "btn btn-outline-primary" onClick={() => {navigate(-1)}}><i className="bi bi-arrow-left"></i>戻る</button>
+    <button className = "btn btn-light" onClick={() => {navigate(-1)}}><i className="bi bi-caret-left-fill"></i></button>
 	{isError && <p style={{ color: "red" }}>エラーが発生しました　{`${errortext}`}</p>}
-	<div style = {{ width: "100%",height: "15%",overflow: "auto",border: "solid #000000 1px"}}><h4 style = {{ marginLeft: "20px", marginRight: "20px"}}>{response.id}  {response.Title}</h4><h5 style = {{ marginLeft: "90%", marginRight: "20px"}}>{response.VersionRange}</h5></div>
+	<div style = {{ width: "100%",height: "15%",overflow: "auto",border: "solid #000000 1px"}}><h4 style = {{ marginLeft: "20px", marginRight: "20px"}}>{response.Title}</h4><h5 style = {{ marginLeft: "90%", marginRight: "20px"}}>{response.VersionRange}</h5></div>
     {(response.DCURL === "") && <div style = {{ marginLeft: "20px", marginRight: "20px"}}><span dangerouslySetInnerHTML={{__html: response.Description}}></span></div>}	
     {(response.DCURL !== "") && (response.DCURL !== undefined ) && <div style = {{ marginLeft: "20px", marginRight: "20px"}}><span><p>最新内容は、デベロッパーコミュニティをご参照ください</p><a href={response.DCURL}  target="_blank" rel="noreferrer">デベロッパーコミュニティの記事</a></span></div>}	
     </>	
