@@ -16,9 +16,9 @@ export const QueryById = () => {
  
   return (
     <>
-	  <label>ID検索: </label>
+	  <label className="p-2">ID検索:</label>
 	  <input type="text" value = {inputtext} onChange={onChangeText} />
-	  <button onClick={() => onClickItem(inputtext)}>トピックID検索</button>
+	  <button className="btn btn-secondary" onClick={() => onClickItem(inputtext)}>トピックID検索</button>
 
     </>	
   );	

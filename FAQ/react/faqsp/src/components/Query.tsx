@@ -14,7 +14,7 @@ export const Query = () => {
 
   return (
     <>
-	  <label>検索キーワード: </label>
+	  <label className="p-2">検索キーワード: </label>
 	  <input type="text" value = {inputtext} onChange={onChangeText} />
 	  <TopicList keyword  = {inputtext} />
     </>	

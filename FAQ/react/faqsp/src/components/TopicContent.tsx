@@ -40,7 +40,7 @@ const Password = configinfo.Password;
     <>
     <button className = "btn btn-light" onClick={() => {navigate(-1)}}><i className="bi bi-caret-left-fill"></i></button>
 	{isError && <p style={{ color: "red" }}>エラーが発生しました　{`${errortext}`}</p>}
-	<div style = {{ width: "100%",height: "15%",overflow: "auto",border: "solid #000000 1px"}}><h4 style = {{ marginLeft: "20px", marginRight: "20px"}}>{response.Title}</h4><h5 style = {{ float: "right", marginRight: "20px"}}>{response.VersionRange}</h5></div>
+	<div style = {{ width: "100%",height: "15%",overflow: "auto",border: "solid #000000 1px"}}><i className="bi bi-hand-index bg-light fs-2"></i><span className="text-primary fs-4" style = {{ marginLeft: "20px", marginRight: "20px"}}>{response.Title}</span><p className="text-info fs-4" style = {{ float: "right", marginRight: "20px"}}>{response.VersionRange}</p></div>
     {(response.DCURL === "") && <div style = {{ marginLeft: "20px", marginRight: "20px"}}><span dangerouslySetInnerHTML={{__html: response.Description}}></span></div>}	
     {(response.DCURL !== "") && (response.DCURL !== undefined ) && <div style = {{ marginLeft: "20px", marginRight: "20px"}}><span><p>最新内容は、デベロッパーコミュニティをご参照ください</p><a href={response.DCURL}  target="_blank" rel="noreferrer">デベロッパーコミュニティの記事</a></span></div>}	
     </>	
