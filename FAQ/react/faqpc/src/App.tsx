@@ -97,7 +97,7 @@ export const App = () => {
       .finally(() => setIsLoading(false))
   };
   
-  const [width,height] = useWindowSize();
+  const [,height] = useWindowSize();
   
   return (
     <>
@@ -106,23 +106,23 @@ export const App = () => {
 	</div>
     <div className="query">
 	<Query onClickItem = {onClickItem} onClickFetchTopicList = {onClickFetchTopicList} />
-    {prevtopicflag  ? (<button onClick={() => onClickItem(prevtopicid)}><i className="bi bi-arrow-left"></i>前のトピックに戻る</button>):
-    (<button onClick={() => onClickItem(prevtopicid)} disabled><i className="bi bi-arrow-left"></i>前のトピックに戻る</button>)}
+    {prevtopicflag  ? (<button className="btn btn-secondary" onClick={() => onClickItem(prevtopicid)}><i className="bi bi-arrow-left"></i>前のトピックに戻る</button>):
+    (<button  className="btn btn-secondary" onClick={() => onClickItem(prevtopicid)} disabled><i className="bi bi-arrow-left"></i>前のトピックに戻る</button>)}
 	{isError && <p style={{ color: "red" }}>エラーが発生しました　{`${errortext}`}</p>}
 	</div>
-    <div className="topiclist" style = {{ float: "left",width: "40%",height: `${height*0.88}px`,overflow: "auto",border: "solid #000000 1px"}}>	
+    <div className="topiclist" style = {{ float: "left",width: "40%",height: `${height*0.86}px`,overflow: "auto",border: "solid #000000 1px"}}>	
     <TopicList isLoading = {isLoading} topicList = {topicList} onClickItem = {onClickItem} />
     </div>
     <div id="topiccontent" style = {{ width: "60%",height: `${height*0.55}px`,overflow: "auto",border: "solid #000000 1px"}}>
     <TopicContent response = {response} />
     </div>
     <div id="topiccontent" style = {{ width: "60%",height: `${height*0.05}px`,overflow: "auto",border: "solid #000000 1px"}}>
-    <div><p>該当する製品: {response.ProductText}</p></div>
+    <div><p className="text-primary">該当する製品: <span className="text-black">{response.ProductText}</span></p></div>
     </div>
     <div id="relatedtopics" style = {{ width: "60%",height: `${height*0.2}px`,overflow: "auto",border: "solid #000000 1px"}}>
     <RelatedTopics reftopics = {reftopics} onClickItem = {onClickItem2} />
     </div>
-    <div id="downloadfile" style = {{ width: "60%",height: `${height*0.08}px`,overflow: "auto",border: "solid #000000 1px"}}>
+    <div id="downloadfile" style = {{ width: "60%",height: `${height*0.06}px`,overflow: "auto",border: "solid #000000 1px"}}>
 	<DownloadFile fileflag = {fileflag} response = {response} />
     </div>	
     </>	
