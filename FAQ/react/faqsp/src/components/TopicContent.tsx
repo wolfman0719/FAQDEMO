@@ -34,11 +34,13 @@ const Password = configinfo.Password;
 	     setIsError(true)
 		 setErrorText(error.response.data.summary);
 	  })
+	  // eslint-disable-next-line react-hooks/exhaustive-deps
       .finally(() => setIsLoading(false));}, []);   
         
   return (
     <>
     <button className = "btn btn-light" onClick={() => {navigate(-1)}}><i className="bi bi-caret-left-fill"></i></button>
+    {isLoading && (<p>Data Loading</p>)}
 	{isError && <p style={{ color: "red" }}>エラーが発生しました　{`${errortext}`}</p>}
 	<div style = {{ width: "100%",height: "15%",overflow: "auto",border: "solid #000000 1px"}}><i className="bi bi-hand-index bg-light fs-2"></i><span className="text-primary fs-4" style = {{ marginLeft: "20px", marginRight: "20px"}}>{response.Title}</span><p className="text-info fs-4" style = {{ float: "right", marginRight: "20px"}}>{response.VersionRange}</p></div>
     {(response.DCURL === "") && <div style = {{ marginLeft: "20px", marginRight: "20px"}}><span dangerouslySetInnerHTML={{__html: response.Description}}></span></div>}	

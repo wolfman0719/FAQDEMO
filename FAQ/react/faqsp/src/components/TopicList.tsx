@@ -19,7 +19,7 @@ const ServerPort = configinfo.ServerPort;
 const Username = configinfo.Username;
 const Password = configinfo.Password;
 
-const [width,height] = useWindowSize();
+const [width] = useWindowSize();
 
  
  useEffect( () => {
@@ -41,11 +41,13 @@ const [width,height] = useWindowSize();
         setIsError(true)
 		setErrorText(error.response.data.summary);
 	  })
+	  // eslint-disable-next-line react-hooks/exhaustive-deps
       .finally(() => setIsLoading(false));}, [keyword]);   
 
   return (
     <>
 	<table style = {{width: "100%"}}><tbody>
+	  {isError && <p style={{ color: "red" }}>エラーが発生しました　{`${errortext}`}</p>}
 	  {isLoading ? (<p>Data Loading</p>)
 		 : (
 		 topicList.map((topic: any) => (
