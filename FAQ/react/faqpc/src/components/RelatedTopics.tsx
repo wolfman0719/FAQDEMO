@@ -8,7 +8,7 @@ export const RelatedTopics = (props: any) => {
       
   return (
     <>
-    <p>関連トピック</p>
+    <p className = "text-primary">関連トピック</p>
     <table style = {{width: "100%"}}><tbody>
 	
 	  {	  

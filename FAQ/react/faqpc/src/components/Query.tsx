@@ -12,12 +12,12 @@ export const Query = (props: any) => {
     
   return (
     <>
-	  <label>検索キーワード: </label>
+	  <label className="p-2">検索キーワード: </label>
 	  <input type="text" value = {inputtext} onChange={onChangeText} />
-	  <button onClick={() => onClickFetchTopicList(inputtext)}>トピック検索</button>
-	  <label>検索ID: </label>
+	  <button className="btn btn-secondary" onClick={() => onClickFetchTopicList(inputtext)}>トピック検索</button>
+	  <label className="p-2">検索ID: </label>
 	  <input type="text" value = {inputtext2} onChange={onChangeText2} />
-	  <button onClick={() => onClickItem(inputtext2)}>トピックID検索</button>
+	  <button className="btn btn-secondary" onClick={() => onClickItem(inputtext2)}>トピックID検索</button>
     </>	
   );	
 }
