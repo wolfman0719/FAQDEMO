@@ -16,9 +16,13 @@ export const QueryById = () => {
  
   return (
     <>
-	  <label className="p-2">ID検索:</label>
-	  <input type="text" value = {inputtext} onChange={onChangeText} />
-	  <button className="btn btn-secondary" onClick={() => onClickItem(inputtext)}>トピックID検索</button>
+     <table style = {{width: "100%"}}>
+     <tr>
+	  <td><label className="p-1">ID:</label></td>
+	  <td><input type="text" value = {inputtext} onChange={onChangeText} /></td>
+	  <td><button className="btn btn-secondary" onClick={() => onClickItem(inputtext)}>検索</button></td>
+	  </tr>
+	  </table>
 
     </>	
   );	

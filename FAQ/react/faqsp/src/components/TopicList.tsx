@@ -51,9 +51,8 @@ const [width] = useWindowSize();
 	  {isLoading ? (<p>Data Loading</p>)
 		 : (
 		 topicList.map((topic: any) => (
-		 <tr>
-		 <Link to={topic.linkto}><button className = "btn btn-outline-primary" style = {{width: "100%",textAlign: "left"}}><div style = {{whiteSpace: "nowrap",overflow: "hidden", width: width-10,textOverflow: "ellipsis"}}>{`${topic.title}`}</div></button></Link>
-		 </tr>
+		 
+		 <tr style = {{width: "100%"}}><Link to={topic.linkto}><button className = "btn btn-outline-primary" style = {{textAlign: "left"}}><td><div style = {{whiteSpace: "nowrap",overflow: "hidden", width: width-40,textOverflow: "ellipsis"}}>{`${topic.title}`}</div></td><td><i className="bi bi-chevron-right float-end"></i></td></button></Link></tr>
 		 )))
 	  }
 	</tbody></table>
