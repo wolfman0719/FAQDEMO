@@ -26,6 +26,7 @@ export const App = () => {
   const ServerPort = configinfo.ServerPort;
   const Username = configinfo.Username;
   const Password = configinfo.Password;
+  const ApplicationName = configinfo.ApplicationName;
   
   const onClickFetchTopicList = (keyword: any) => {
 	
@@ -33,7 +34,7 @@ export const App = () => {
     setIsError(false);
   
 	axios
-	  .get<any>(`http://${ServerAddress}:${ServerPort}/faqapi/TopicSearchByKeyword/z${keyword}?IRISUsername=${Username}&IRISPassword=${Password}`)
+	  .get<any>(`http://${ServerAddress}:${ServerPort}${ApplicationName}/TopicSearchByKeyword/z${keyword}?IRISUsername=${Username}&IRISPassword=${Password}`)
 	  .then((result: any) => {
 	  const topics = result.data.map((topic: any) => ({
 		id: topic.id,
@@ -43,7 +44,7 @@ export const App = () => {
 	  })
       .catch((error: any) => {
         setIsError(true)
-		setErrorText(error.response.data.summary);
+		setErrorText(error.message);
 	  })
       .finally(() => setIsLoading(false));
   };
@@ -55,7 +56,7 @@ export const App = () => {
 	setPrevTopicId(topicid);
 
 	axios
-	  .get<any>(`http://${ServerAddress}:${ServerPort}/faqapi/TopicGetById/${topicid}?IRISUsername=${Username}&IRISPassword=${Password}`)
+	  .get<any>(`http://${ServerAddress}:${ServerPort}${ApplicationName}/TopicGetById/${topicid}?IRISUsername=${Username}&IRISPassword=${Password}`)
 	  .then((result: any) => {
 	    setResponse(result.data);
 		if (response.FileFlg) {
@@ -68,7 +69,7 @@ export const App = () => {
 	  })
       .catch((error: any) => {
 	     setIsError(true)
-		 setErrorText(error.response.data.summary);
+		 setErrorText(error.message);
 	  })
       .finally(() => setIsLoading(false))
   };
@@ -79,7 +80,7 @@ export const App = () => {
 	setPrevTopicFlag(true);
 	
 	axios
-	  .get<any>(`http://${ServerAddress}:${ServerPort}/faqapi/TopicGetById/${topicid}?IRISUsername=${Username}&IRISPassword=${Password}`)
+	  .get<any>(`http://${ServerAddress}:${ServerPort}${ApplicationName}/TopicGetById/${topicid}?IRISUsername=${Username}&IRISPassword=${Password}`)
 	  .then((result: any) => {
 	    setResponse(result.data);
 		if (response.FileFlg) {
@@ -92,7 +93,7 @@ export const App = () => {
 	  })
       .catch((error: any) => {
 	     setIsError(true)
-		 setErrorText(error.response.data.summary);
+		 setErrorText(error.message);
 	  })
       .finally(() => setIsLoading(false))
   };
