@@ -19,6 +19,7 @@ const ServerAddress = configinfo.ServerAddress;
 const ServerPort = configinfo.ServerPort;
 const Username = configinfo.Username;
 const Password = configinfo.Password;
+const ApplicationName = configinfo.ApplicationName;
 
  useEffect( () => {
 
@@ -26,7 +27,7 @@ const Password = configinfo.Password;
 	setIsError(false);
 
 	axios
-	  .get<any>(`http://${ServerAddress}:${ServerPort}/faqapi/TopicGetById/${topicid}?IRISUsername=${Username}&IRISPassword=${Password}`)
+	  .get<any>(`http://${ServerAddress}:${ServerPort}${ApplicationName}/TopicGetById/${topicid}?IRISUsername=${Username}&IRISPassword=${Password}`)
 	  .then((result: any) => {
 	    setResponse(result.data);
 	  })

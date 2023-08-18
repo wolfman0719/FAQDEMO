@@ -18,6 +18,7 @@ const ServerAddress = configinfo.ServerAddress;
 const ServerPort = configinfo.ServerPort;
 const Username = configinfo.Username;
 const Password = configinfo.Password;
+const ApplicationName = configinfo.ApplicationName;
 
 const [width] = useWindowSize();
 
@@ -28,7 +29,7 @@ const [width] = useWindowSize();
     setIsError(false);
   
 	axios
-	  .get<any>(`http://${ServerAddress}:${ServerPort}/faqapi/TopicSearchByKeyword/z${keyword}?IRISUsername=${Username}&IRISPassword=${Password}`)
+	  .get<any>(`http://${ServerAddress}:${ServerPort}${ApplicationName}/TopicSearchByKeyword/z${keyword}?IRISUsername=${Username}&IRISPassword=${Password}`)
 	  .then((result: any) => {
 	  const topics = result.data.map((topic: any) => ({
 		id: topic.id,
@@ -39,6 +40,7 @@ const [width] = useWindowSize();
 	  })
       .catch((error: any) => {
         setIsError(true)
+        console.log('error = ' + error);
 		setErrorText(error.response.data.summary);
 	  })
 	  // eslint-disable-next-line react-hooks/exhaustive-deps
