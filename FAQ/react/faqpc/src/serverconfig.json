@@ -1,1 +1,1 @@
-{"ServerAddress":"localhost","ServerPort":52773,"Username":"_system","Password":"SYS"}
+{"ServerAddress":"localhost","ServerPort":52773,"Username":"_system","Password":"SYS","ApplicationName":"/api/faq"}
