@@ -229,7 +229,7 @@ ClassMethod SetupLocal(pDir As %String) As %Status
   set namespace = $namespace
   set $namespace = "%SYS"
   set sec = ##class("Security.Applications").%New()
-  set sec.Name = "/faqapi"
+  set sec.Name = "/api/faq"
   set sec.NameSpace = namespace
   set sec.DispatchClass ="FAQ.RestAPI"
   set sec.AutheEnabled = 96
