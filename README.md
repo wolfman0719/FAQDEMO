@@ -36,6 +36,8 @@ FAQシステムのデモサイト
 
 * FAQシステムエントリー
 
+ローカルにセットアップした場合は、ポート番号を環境に合わせて変更する必要があるかもしれません
+
   [localhost:52773/csp/user/FAQ.FAQApp.cls?IRISUsername=_system&IRISPassword=SYS](http://localhost:52773/csp/user/FAQ.FAQApp.cls?IRISUsername=_system&IRISPassword=SYS)
 
 - 管理ポータル
