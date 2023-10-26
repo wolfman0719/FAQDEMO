@@ -7,7 +7,11 @@ import configinfo from '../serverconfig.json';
 
 export const TopicList = (props: any) => {
 
-const {keyword} = props;
+// eslint-disable-next-line
+let {keyword} = props;
+
+// eslint-disable-next-line
+if (keyword === undefined) {let keyword = ''};
 
 const [topicList, setTopicList] = useState<any>([]);
 const [isLoading, setIsLoading] = useState(false);
