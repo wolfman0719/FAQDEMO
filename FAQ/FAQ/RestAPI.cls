@@ -7,6 +7,7 @@ XData UrlMap
   <Route Url="/UpdateTopicProperty" Method="POST" Call="UpdateTopicProperty"/>
   <Route Url="/TopicSearchByKeyword/:keyword" Method="GET" Call="FAQ.RestAPI:TopicSearchByKeyword"/>
   <Route Url="/TopicGetById/:id" Method="GET" Call="FAQ.RestAPI:TopicGetById"/>
+  <Route Url="/TopicSearchByNew" Method="GET" Call="FAQ.RestAPI:TopicSearchByNew"/>
 </Routes>
 }
 
@@ -81,6 +82,42 @@ ClassMethod TopicSearchAll() As %Status
     }
 	  
     set sql = "SELECT id,title from kb.topic"
+    set statemt=##class(%SQL.Statement).%New()
+    set status=statemt.%Prepare(sql)
+    set rset=statemt.%Execute()
+    set return = []
+    while rset.%Next()  {
+      set robj = {}
+      set robj.id = rset.%Get("Id")
+      set robj.title = rset.%Get("title")
+      do return.%Push(robj)
+		    
+     }
+	   
+     write return.%ToJSON()
+	  	  
+  }
+  catch e {
+		
+    set status = e.AsStatus()
+		
+  }
+  
+  quit status
+}
+
+ClassMethod TopicSearchByNew() As %Status
+{
+  set status = $$$OK
+  
+  try  {
+	
+    if $data(%request) {
+      set %response.ContentType="application/json"
+	    set %response.CharSet = "utf-8"
+    }
+	  
+    set sql = "SELECT id,title from kb.topic where Completed=1 and Visible=1 and DeleteFlg!=1 order by issuedate desc"
     set statemt=##class(%SQL.Statement).%New()
     set status=statemt.%Prepare(sql)
     set rset=statemt.%Execute()
