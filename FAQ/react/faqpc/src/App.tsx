@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from "axios";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Header } from './components/Header';
 import { Query } from './components/Query';
 import { TopicList } from './components/TopicList';
@@ -27,7 +27,7 @@ export const App = () => {
   const Username = configinfo.Username;
   const Password = configinfo.Password;
   const ApplicationName = configinfo.ApplicationName;
-  
+
   const onClickFetchTopicList = (keyword: any) => {
 	
 	setIsLoading(true);
@@ -100,6 +100,28 @@ export const App = () => {
   
   const [,height] = useWindowSize();
   
+  useEffect( () => {
+
+	setIsLoading(true);
+    setIsError(false);
+  
+	axios
+	  .get<any>(`http://${ServerAddress}:${ServerPort}${ApplicationName}/TopicSearchByNew?IRISUsername=${Username}&IRISPassword=${Password}`)
+	  .then((result: any) => {
+	  const topics = result.data.map((topic: any) => ({
+		id: topic.id,
+		title: topic.title
+      }));
+      setTopicList(topics);
+	  })
+      .catch((error: any) => {
+        setIsError(true)
+		setErrorText(error.message);
+	  })
+      .finally(() => setIsLoading(false));
+      
+      }, []);
+  
   return (
     <>
     <div className="title">
@@ -111,10 +133,10 @@ export const App = () => {
     (<button  className="btn btn-secondary" onClick={() => onClickItem(prevtopicid)} disabled><i className="bi bi-arrow-left"></i>前のトピックに戻る</button>)}
 	{isError && <p style={{ color: "red" }}>エラーが発生しました　{`${errortext}`}</p>}
 	</div>
-    <div className="topiclist" style = {{ float: "left",width: "40%",height: `${height*0.86}px`,overflow: "auto",border: "solid #000000 1px"}}>	
+    <div className="topiclist" style = {{ float: "left",width: "40%",height: `${height*0.81}px`,overflow: "auto",border: "solid #000000 1px"}}>	
     <TopicList isLoading = {isLoading} topicList = {topicList} onClickItem = {onClickItem} />
     </div>
-    <div id="topiccontent" style = {{ width: "60%",height: `${height*0.55}px`,overflow: "auto",border: "solid #000000 1px"}}>
+    <div id="topiccontent" style = {{ width: "60%",height: `${height*0.50}px`,overflow: "auto",border: "solid #000000 1px"}}>
     <TopicContent response = {response} />
     </div>
     <div id="topiccontent" style = {{ width: "60%",height: `${height*0.05}px`,overflow: "auto",border: "solid #000000 1px"}}>
