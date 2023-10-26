@@ -1,16 +1,16 @@
 # FAQDEMO
 
-FAQシステムのDocker Build デモサイト
+FAQシステムのデモサイト
 
 
-## ビルドプロセス
+## Docker ビルドプロセス
 
 ### ビルド&実行
 * ```docker-compose up -d --build```      
 
 を実行
 
-## ローカルインストール
+## ローカルインストール(WindowsやMacOSにインストールしたIRISでセットアップする)
 
 ### FAQネームスペース作成
 
