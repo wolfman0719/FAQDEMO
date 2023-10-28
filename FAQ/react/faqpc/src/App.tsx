@@ -59,7 +59,7 @@ export const App = () => {
 	  .get<any>(`http://${ServerAddress}:${ServerPort}${ApplicationName}/TopicGetById/${topicid}?IRISUsername=${Username}&IRISPassword=${Password}`)
 	  .then((result: any) => {
 	    setResponse(result.data);
-		if (response.FileFlg) {
+		if (result.data.FileFlg) {
 			setFileFlag(true);
 		}
 		else {
