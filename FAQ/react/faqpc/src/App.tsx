@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import { Header } from './components/Header';
 import { Query } from './components/Query';
 import { TopicList } from './components/TopicList';
@@ -27,7 +27,7 @@ export const App = () => {
   const Username = configinfo.Username;
   const Password = configinfo.Password;
   const ApplicationName = configinfo.ApplicationName;
-
+  
   const onClickFetchTopicList = (keyword: any) => {
 	
 	setIsLoading(true);
@@ -49,7 +49,7 @@ export const App = () => {
       .finally(() => setIsLoading(false));
   };
 
-   const onClickItem = (topicid: any) => {
+   const onClickItem = useCallback((topicid: any) => {
 	setIsLoading(true);
 	setIsError(false);
 	setPrevTopicFlag(false);
@@ -72,7 +72,7 @@ export const App = () => {
 		 setErrorText(error.message);
 	  })
       .finally(() => setIsLoading(false))
-  };
+  }, []);
 
    const onClickItem2 = (topicid: any) => {
 	setIsLoading(true);
@@ -122,7 +122,9 @@ export const App = () => {
       
       }, []);
   
-  return (
+    const TopicListMemo = useMemo(() => <TopicList isLoading = {isLoading} topicList = {topicList} onClickItem = {onClickItem} />, [onClickItem]);
+
+    return (
     <>
     <div className="title">
 	<Header />
@@ -134,7 +136,7 @@ export const App = () => {
 	{isError && <p style={{ color: "red" }}>エラーが発生しました　{`${errortext}`}</p>}
 	</div>
     <div className="topiclist" style = {{ float: "left",width: "40%",height: `${height*0.81}px`,overflow: "auto",border: "solid #000000 1px"}}>	
-    <TopicList isLoading = {isLoading} topicList = {topicList} onClickItem = {onClickItem} />
+    {TopicListMemo}
     </div>
     <div id="topiccontent" style = {{ width: "60%",height: `${height*0.50}px`,overflow: "auto",border: "solid #000000 1px"}}>
     <TopicContent response = {response} />
