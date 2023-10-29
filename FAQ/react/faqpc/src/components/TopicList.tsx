@@ -7,11 +7,11 @@ const {isLoading, onClickItem, topicList} = props;
   return (
     <>
 	<table style = {{width: "100%"}}><tbody>
-	  {isLoading ? (<p>Data Loading</p>)
+	  {isLoading ? (<tr><td>Data Loading</td></tr>)
 		 : (
-		 topicList.map((topic: any) => (
-		 <tr>
-		 <button className = "btn btn-outline-primary" style = {{width: "100%", textAlign: "left"}} onClick={() => onClickItem(topic.id)}>{`${topic.id}:${topic.title}`}<i className="bi bi-chevron-right float-end"></i></button>
+		 topicList.map((topic: any, index: number) => (
+		 <tr key={index}>
+		 <td><button className = "btn btn-outline-primary" style = {{width: "100%", textAlign: "left"}} onClick={() => onClickItem(topic.id)}>{`${topic.id}:${topic.title}`}<i className="bi bi-chevron-right float-end"></i></button></td>
 		 </tr>
 		 )))
 	  }

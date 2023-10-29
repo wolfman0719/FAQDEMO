@@ -12,9 +12,9 @@ export const RelatedTopics = (props: any) => {
     <table style = {{width: "100%"}}><tbody>
 	
 	  {	  
-        reftopics.map((reftopic: any) => (
-		  <tr>
-		  <button style = {{width: "100%",textAlign: "left"}} className = "btn btn-outline-primary" onClick={() => onClickItem(reftopic.split(comma)[0])}>{`${reftopic.split(comma)[0]}:${reftopic.split(comma)[1]}`}</button>
+        reftopics.map((reftopic: any, index: number) => (
+		  <tr key={index}>
+		  <td><button style = {{width: "100%",textAlign: "left"}} className = "btn btn-outline-primary" onClick={() => onClickItem(reftopic.split(comma)[0])}>{`${reftopic.split(comma)[0]}:${reftopic.split(comma)[1]}`}</button></td>
 		  </tr>
     	)
     )}
