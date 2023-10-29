@@ -26,8 +26,6 @@ export const Home = (props: any) => {
   const ApplicationName = configinfo.ApplicationName;
   
   const {topicid} = useParams();
-  
-  console.log('topic id = ' + topicid);
 
   const onClickItem2 = (topicid: any) => {
 	setIsLoading(true);
@@ -63,7 +61,7 @@ export const Home = (props: any) => {
 	  .get<any>(`http://${ServerAddress}:${ServerPort}${ApplicationName}/TopicGetById/${topicid}?IRISUsername=${Username}&IRISPassword=${Password}`)
 	  .then((result: any) => {
 	    setResponse(result.data);
-		if (response.FileFlg) {
+		if (result.data.FileFlg) {
 			setFileFlag(true);
 		}
 		else {
