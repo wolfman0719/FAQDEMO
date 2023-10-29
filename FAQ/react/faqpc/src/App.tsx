@@ -48,7 +48,7 @@ export const App = () => {
 	  })
       .finally(() => setIsLoading(false));
   };
-
+  
    const onClickItem = useCallback((topicid: any) => {
 	setIsLoading(true);
 	setIsError(false);
@@ -56,6 +56,7 @@ export const App = () => {
 	setPrevTopicId(topicid);
 
 	axios
+	   // eslint-disable-next-line
 	  .get<any>(`http://${ServerAddress}:${ServerPort}${ApplicationName}/TopicGetById/${topicid}?IRISUsername=${Username}&IRISPassword=${Password}`)
 	  .then((result: any) => {
 	    setResponse(result.data);
@@ -72,6 +73,7 @@ export const App = () => {
 		 setErrorText(error.message);
 	  })
       .finally(() => setIsLoading(false))
+  // eslint-disable-next-line
   }, []);
 
    const onClickItem2 = (topicid: any) => {
@@ -99,7 +101,7 @@ export const App = () => {
   };
   
   const [,height] = useWindowSize();
-  
+
   useEffect( () => {
 
 	setIsLoading(true);
@@ -120,8 +122,10 @@ export const App = () => {
 	  })
       .finally(() => setIsLoading(false));
       
+	  // eslint-disable-next-line
       }, []);
   
+    // eslint-disable-next-line
     const TopicListMemo = useMemo(() => <TopicList isLoading = {isLoading} topicList = {topicList} onClickItem = {onClickItem} />, [onClickItem]);
 
     return (
