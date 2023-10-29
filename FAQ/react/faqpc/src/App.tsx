@@ -44,7 +44,16 @@ export const App = () => {
 	  })
       .catch((error: any) => {
         setIsError(true)
-		setErrorText(error.message);
+		 if (error.response) {			
+		   setErrorText(error.response.data.summary);
+		 }
+		 else if (error.request) {
+		   setErrorText(error.request);
+		 } 
+		 else {
+		   setErrorText(error.message);
+		 }
+
 	  })
       .finally(() => setIsLoading(false));
   };
@@ -70,7 +79,16 @@ export const App = () => {
 	  })
       .catch((error: any) => {
 	     setIsError(true)
-		 setErrorText(error.message);
+		 if (error.response) {			
+		   setErrorText(error.response.data.summary);
+		 }
+		 else if (error.request) {
+		   setErrorText(error.request);
+		 } 
+		 else {
+		   setErrorText(error.message);
+		 }
+
 	  })
       .finally(() => setIsLoading(false))
   // eslint-disable-next-line
@@ -95,7 +113,16 @@ export const App = () => {
 	  })
       .catch((error: any) => {
 	     setIsError(true)
-		 setErrorText(error.message);
+		 if (error.response) {			
+		   setErrorText(error.response.data.summary);
+		 }
+		 else if (error.request) {
+		   setErrorText(error.request);
+		 } 
+		 else {
+		   setErrorText(error.message);
+		 }
+
 	  })
       .finally(() => setIsLoading(false))
   };
