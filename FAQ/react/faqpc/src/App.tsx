@@ -153,7 +153,7 @@ export const App = () => {
       }, []);
   
     // eslint-disable-next-line
-    const TopicListMemo = useMemo(() => <TopicList isLoading = {isLoading} topicList = {topicList} onClickItem = {onClickItem} />, [onClickItem]);
+    const TopicListMemo = useMemo(() => <TopicList isLoading = {isLoading} topicList = {topicList} onClickItem = {onClickItem} />, [onClickItem, topicList]);
 
     return (
     <>
