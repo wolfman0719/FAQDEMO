@@ -24,18 +24,21 @@ export const Home = (props: any) => {
   const Username = configinfo.Username;
   const Password = configinfo.Password;
   const ApplicationName = configinfo.ApplicationName;
+  const Protocol = configinfo.Protocol;
   
   const {topicid} = useParams();
+  
+  console.log('topic id = ' + topicid);
 
   const onClickItem2 = (topicid: any) => {
 	setIsLoading(true);
 	setIsError(false);
 	
 	axios
-	  .get<any>(`http://${ServerAddress}:${ServerPort}${ApplicationName}/TopicGetById/${topicid}?IRISUsername=${Username}&IRISPassword=${Password}`)
+	  .get<any>(`${Protocol}://${ServerAddress}:${ServerPort}${ApplicationName}/TopicGetById/${topicid}?IRISUsername=${Username}&IRISPassword=${Password}`)
 	  .then((result: any) => {
 	    setResponse(result.data);
-		if (result.data.FileFlg) {
+		if (response.FileFlg) {
 			setFileFlag(true);
 		}
 		else {
@@ -58,10 +61,10 @@ export const Home = (props: any) => {
 	setIsError(false);
 
 	axios
-	  .get<any>(`http://${ServerAddress}:${ServerPort}${ApplicationName}/TopicGetById/${topicid}?IRISUsername=${Username}&IRISPassword=${Password}`)
+	  .get<any>(`${Protocol}://${ServerAddress}:${ServerPort}${ApplicationName}/TopicGetById/${topicid}?IRISUsername=${Username}&IRISPassword=${Password}`)
 	  .then((result: any) => {
 	    setResponse(result.data);
-		if (result.data.FileFlg) {
+		if (response.FileFlg) {
 			setFileFlag(true);
 		}
 		else {
