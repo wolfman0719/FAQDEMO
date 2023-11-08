@@ -161,8 +161,14 @@ ClassMethod TopicGetById(pId As %Integer) As %Status
     set description = topic.Description
     set webserver = ##class(KB.Config).getWebServerAddress()
     set webserverport = ##class(KB.Config).getWebServerPort()
+    if webserverport = 443 {
+       set protocol = "https"
+    }
+    else {
+       set protocol = "http"
+    }
     set cspurl = ##class(KB.Config).getCSPUrl()
-    set replacetext = "http://"_webserver_":"_webserverport_cspurl_"/images"
+    set replacetext = protocol_"://"_webserver_":"_webserverport_cspurl_"/images"
     set description = $replace(description,"./images",replacetext)
     set return.Description = description
     set reftopics = topic.RefTopic
@@ -180,7 +186,7 @@ ClassMethod TopicGetById(pId As %Integer) As %Status
     set filepath = dir_sep_filename
     set fileexists = ##class(%File).Exists(filepath)    
     set return.FileFlg = fileexists
-    set return.DownloadFile =  "http://"_webserver_":"_webserverport_cspurl_"/downloads/"_##class(KB.Config).getAttachedFileName()_pId_".zip"
+    set return.DownloadFile =  protocol_"://"_webserver_":"_webserverport_cspurl_"/downloads/"_##class(KB.Config).getAttachedFileName()_pId_".zip"
     set return.DCURL = topic.DCURL
     set return.ProductText = ##class(%CSP.Page).UnescapeHTML(##class(KB.Utility).ProductText(topic.Product.ProductId))
     set return.VersionRange = topic.VersionRange	   
