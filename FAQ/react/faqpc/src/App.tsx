@@ -27,6 +27,7 @@ export const App = () => {
   const Username = configinfo.Username;
   const Password = configinfo.Password;
   const ApplicationName = configinfo.ApplicationName;
+  const Protocol = configinfo.Protocol;
   
   const onClickFetchTopicList = (keyword: any) => {
 	
@@ -34,7 +35,7 @@ export const App = () => {
     setIsError(false);
   
 	axios
-	  .get<any>(`http://${ServerAddress}:${ServerPort}${ApplicationName}/TopicSearchByKeyword/z${keyword}?IRISUsername=${Username}&IRISPassword=${Password}`)
+	  .get<any>(`${Protocol}://${ServerAddress}:${ServerPort}${ApplicationName}/TopicSearchByKeyword/z${keyword}?IRISUsername=${Username}&IRISPassword=${Password}`)
 	  .then((result: any) => {
 	  const topics = result.data.map((topic: any) => ({
 		id: topic.id,
@@ -66,7 +67,7 @@ export const App = () => {
 
 	axios
 	   // eslint-disable-next-line
-	  .get<any>(`http://${ServerAddress}:${ServerPort}${ApplicationName}/TopicGetById/${topicid}?IRISUsername=${Username}&IRISPassword=${Password}`)
+	  .get<any>(`${Protocol}://${ServerAddress}:${ServerPort}${ApplicationName}/TopicGetById/${topicid}?IRISUsername=${Username}&IRISPassword=${Password}`)
 	  .then((result: any) => {
 	    setResponse(result.data);
 		if (result.data.FileFlg) {
@@ -100,7 +101,7 @@ export const App = () => {
 	setPrevTopicFlag(true);
 	
 	axios
-	  .get<any>(`http://${ServerAddress}:${ServerPort}${ApplicationName}/TopicGetById/${topicid}?IRISUsername=${Username}&IRISPassword=${Password}`)
+	  .get<any>(`${Protocol}://${ServerAddress}:${ServerPort}${ApplicationName}/TopicGetById/${topicid}?IRISUsername=${Username}&IRISPassword=${Password}`)
 	  .then((result: any) => {
 	    setResponse(result.data);
 		if (result.data.FileFlg) {
@@ -135,7 +136,7 @@ export const App = () => {
     setIsError(false);
   
 	axios
-	  .get<any>(`http://${ServerAddress}:${ServerPort}${ApplicationName}/TopicSearchByNew?IRISUsername=${Username}&IRISPassword=${Password}`)
+	  .get<any>(`${Protocol}://${ServerAddress}:${ServerPort}${ApplicationName}/TopicSearchByNew?IRISUsername=${Username}&IRISPassword=${Password}`)
 	  .then((result: any) => {
 	  const topics = result.data.map((topic: any) => ({
 		id: topic.id,
@@ -153,7 +154,7 @@ export const App = () => {
       }, []);
   
     // eslint-disable-next-line
-    const TopicListMemo = useMemo(() => <TopicList isLoading = {isLoading} topicList = {topicList} onClickItem = {onClickItem} />, [onClickItem, topicList]);
+    const TopicListMemo = useMemo(() => <TopicList isLoading = {isLoading} topicList = {topicList} onClickItem = {onClickItem} />, [onClickItem,topicList]);
 
     return (
     <>
