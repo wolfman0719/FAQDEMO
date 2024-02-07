@@ -9,7 +9,7 @@ content="text/html; charset=utf-8">
 <LINK REL="stylesheet" TYPE="text/css" HREF="styleedit.css" >
 <!-- Specify that this page is PRIVATE -->
 <csp:CLASS PRIVATE=1>
-  <script src="https://cdn.ckeditor.com/4.7.3/standard-all/ckeditor.js"></script>
+  <script src="https://cdn.ckeditor.com/4.22.1/standard-all/ckeditor.js"></script>
 </head>
 
 <BODY bgcolor="#FFFFFF" onload="loadEvent();">
