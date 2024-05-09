@@ -404,21 +404,37 @@ Method SetKeyCond(keylist As %String) As %String
  	 	
  	//キーワード5個まで全文検索実施	 
 	if keyno = 1 {
- 		set ifindkey = "'"_keyword(1)_"'"
+ 		set ifindkey = keyword(1)
 	}
 	elseif keyno = 2 {
- 		set ifindkey = "'"_keyword(1)_" "_keyword(2)_"'"
+ 		set ifindkey = keyword(1)_" "_keyword(2)
  	}
 	elseif keyno = 3 {
- 		set ifindkey = "'"_keyword(1)_" "_keyword(2)_" "_keyword(3)_"'"
+ 		set ifindkey = keyword(1)_" "_keyword(2)_" "_keyword(3)
 	}
 	elseif keyno = 4 {
- 		set ifindkey = "'"_keyword(1)_" "_keyword(2)_" "_keyword(3)_" "_keyword(4)_"'"
+ 		set ifindkey = keyword(1)_" "_keyword(2)_" "_keyword(3)_" "_keyword(4)
 	}
 	else {
- 		set ifindkey = "'"_keyword(1)_" "_keyword(2)_" "_keyword(3)_" "_keyword(4)_" "_keyword(5)_"'"
+ 		set ifindkey = keyword(1)_" "_keyword(2)_" "_keyword(3)_" "_keyword(4)_" "_keyword(5)
 	}
 	
+	// 検索文字列にNOT, AND, ORが含まれるときには¥を前置してエスケープする
+    for i = 1:1:$length(ifindkey, " ") {
+	  set key(i) = $piece(ifindkey," ",i)
+	  if ($zcvt(key(i),"U") = "NOT") || ($zcvt(key(i),"U") = "AND") || ($zcvt(key(i),"U") = "OR") {
+		set key(i) = "¥"_key(i)
+	  }  
+	}
+
+	kill ifindkey
+
+	for j = 1:1:i {
+		set ifindkey = $get(ifindkey)_" "_key(j)
+	}
+
+	set ifindkey = "'"_ifindkey_"'"
+
 	set keycond = "(%ID %FIND search_index(DescriptionIndex1,"_ifindkey_",0) or %ID %FIND search_index(TitleIndex1,"_ifindkey_",0))"
 
 	quit keycond
