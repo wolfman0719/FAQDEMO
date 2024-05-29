@@ -9,6 +9,7 @@ XData UrlMap
   <Route Url="/TopicGetById/:id" Method="GET" Call="FAQ.RestAPI:TopicGetById"/>
   <Route Url="/TopicSearchByNew" Method="GET" Call="FAQ.RestAPI:TopicSearchByNew"/>
   <Route Url="/ImageUpload" Method="POST" Call="FAQ.RestAPI:ImageUpload"/>
+  <Route Url="/EditingMode" Method="GET" Call="FAQ.RestAPI:EditingMode"/>
 </Routes>
 }
 
@@ -253,6 +254,33 @@ ClassMethod ImageUpload() As %Status
       set sts=ex.AsStatus()
     }
     quit sts
+}
+
+ClassMethod EditingMode() As %Status
+{
+  set status = $$$OK
+  
+  try  {
+	
+    set return = []
+    
+    if $roles["FAQEditor" && ##class(KB.Config).getEditingMode() {
+      set return.Editing = 1
+    }
+    else {
+      set return.Editing = 0
+    }
+
+    write return.%ToJSON()
+	  	  
+  }
+  catch e {
+		
+    set status = e.AsStatus()
+		
+  }
+  
+  quit status
 }
 
 Parameter HandleCorsRequest = 1;
