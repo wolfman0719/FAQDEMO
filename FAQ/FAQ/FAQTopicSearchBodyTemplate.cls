@@ -337,7 +337,7 @@ Method CreateTitleRS(Output pSC As %Status, pInfo As %ZEN.Auxiliary.QueryInfo) A
 	set facicond=""
 	
 	set searchoption=%page.SearchOption
-	set searchid=%page.SearchId
+	set searchid=$translate(%page.SearchId,$zzenkaku("0123456789"),"0123456789")
 	set keylist=%page.SearchKey
 	set facilist=%page.SearchFacility
 				
