@@ -169,7 +169,7 @@ ClassMethod TopicGetById(pId As %Integer) As %Status
       set %response.ContentType="application/json"
       set %response.CharSet = "utf-8"
     }
-
+    set pId=$translate(pId,$zzenkaku("0123456789"),"0123456789")
     set topic = ##class(KB.Topic).%OpenId(pId,,.status)	
     $$$ThrowOnError(status)  
     set return = {}
