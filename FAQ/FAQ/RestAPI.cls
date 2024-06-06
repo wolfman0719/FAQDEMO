@@ -139,7 +139,6 @@ ClassMethod TopicSearchByNew() As %Status
     set status=statemt.%Prepare(sql)
     set rset=statemt.%Execute()
     set return = []
-    set return.editingMode = ##class(KB.Config).getEditingMode()
     while rset.%Next()  {
       set robj = {}
       set robj.id = rset.%Get("Id")
