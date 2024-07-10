@@ -96,8 +96,9 @@ if topic.OpenDate'="" {
 		CKEDITOR.replace( 'dsc', {
 			extraPlugins: 'colorbutton,font,justify,tableresize,uploadimage,uploadfile,pastefromword,liststyle,codesnippet',
 			filebrowserUploadUrl: 'imageupload.csp',
-            allowedContent: true
-        } );
+                        versionCheck: false,
+                        allowedContent: true
+                } );
 	    </script>
    		<tr>
           <td class="coltitle">プロダクト：</td>
