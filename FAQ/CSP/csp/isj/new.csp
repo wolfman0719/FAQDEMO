@@ -7,7 +7,11 @@
 <meta name="GENERATOR" content="IBM HomePage Builder 2001 V5.0.0 for Windows">
 <title>Cach&eacute; FAQ Database New Topic Input</title>
 <LINK REL="stylesheet" TYPE="text/css" HREF="styleedit.css" >
-  <script src="https://cdn.ckeditor.com/4.22.1/standard-all/ckeditor.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/styles/panda-syntax-light.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/languages/cos.min.js"></script>
+<script>hljs.highlightAll();</script>
+<script src="https://cdn.ckeditor.com/4.22.1/standard-all/ckeditor.js"></script>
 </head>
 
 <BODY bgcolor="#FFFFFF">
@@ -35,12 +39,13 @@
           <td><textarea onkeydown="insertTab(this, event);" name="Description" cspbind="Description" cols="50" rows="15" id="dsc"></textarea></td>
 	    <script>
 		CKEDITOR.replace( 'dsc', {
-			extraPlugins: 'colorbutton,font,justify,tableresize,uploadimage,uploadfile,pastefromword,liststyle',
+			extraPlugins: 'colorbutton,font,justify,tableresize,uploadimage,uploadfile,pastefromword,liststyle,codesnippet',
+			codeSnippet_languages: {cos: 'ObjectScript',sql: 'SQL',python: 'Python',json: 'JSON',yaml: 'YAML',javascript: 'JavaScript',dockerfile: 'Dockerfile',html: 'HTML',css: 'CSS',java: 'Java',xml: 'XML'},
 			filebrowserUploadUrl: 'imageupload.csp',
-                        versionCheck: false,
-                        allowedContent: true
-                } );
-	    </script>
+			versionCheck: false,
+            allowedContent: true
+        } );
+		</script>
 	    </tr>
 		<tr>
           <td class="coltitle">プロダクト：</td>
@@ -179,7 +184,7 @@ function formValidate() {
 	//Ckedit経由のデータにｃｒｌｆが入るので取り除く
 	
 	var desc = document.form.Description.value;
-	desc = desc.replace(/\r?\n/g, '');
+	//desc = desc.replace(/\r?\n/g, '');
 	document.form.Description.value = desc;
 	
 	//トピック保存

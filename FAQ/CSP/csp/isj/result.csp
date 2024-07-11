@@ -28,6 +28,12 @@
 <meta property="og:description" content="#(desc)#">
 <title>InterSystems FAQ Database Seach Result Detail</title>
 <LINK REL="stylesheet" TYPE="text/css" HREF="style.css" >
+<LINK REL="stylesheet" TYPE="text/css" HREF="styleedit.css" >
+<LINK REL="stylesheet" TYPE="text/css" HREF="intersystems.css" >
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/styles/panda-syntax-light.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/languages/cos.min.js"></script>
+<script>hljs.highlightAll();</script>
 <!-- Specify that this page is PRIVATE -->
 <!--<csp:CLASS PRIVATE=1>-->
 
@@ -217,6 +223,8 @@ if $Get(%session.Data("Access"))="" {
   <SCRIPT LANGUAGE="CACHE" runat=server>
   
    set edesc=topic.Description
+   write edesc
+   /*
 
    set crlf = $char(13,10)   
                    
@@ -233,8 +241,8 @@ if $Get(%session.Data("Access"))="" {
  	    	   
 	   write line(i)_"<br>"
    }
- </SCRIPT>
-
+   */
+   </script>
 </DIV>
 <!--該当する製品-->
 <DIV class="Product"><SPAN class="refhead">該当する製品:  <SPAN class="refbody"> #(tProductText)#</SPAN></SPAN></DIV>

@@ -7,9 +7,13 @@ content="text/html; charset=utf-8">
 <META name="GENERATOR" content="IBM HomePage Builder 2001 V5.0.0 for Windows">
 <title>Cach&eacute; FAQ Database Topic Edit</title>
 <LINK REL="stylesheet" TYPE="text/css" HREF="styleedit.css" >
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/styles/panda-syntax-light.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/languages/cos.min.js"></script>
+<script>hljs.highlightAll();</script>
+<script src="https://cdn.ckeditor.com/4.22.1/standard-all/ckeditor.js"></script>
 <!-- Specify that this page is PRIVATE -->
 <csp:CLASS PRIVATE=1>
-  <script src="https://cdn.ckeditor.com/4.22.1/standard-all/ckeditor.js"></script>
 </head>
 
 <BODY bgcolor="#FFFFFF" onload="loadEvent();">
@@ -95,10 +99,11 @@ if topic.OpenDate'="" {
 	    <script>
 		CKEDITOR.replace( 'dsc', {
 			extraPlugins: 'colorbutton,font,justify,tableresize,uploadimage,uploadfile,pastefromword,liststyle,codesnippet',
+			codeSnippet_languages: {cos: 'ObjectScript',sql: 'SQL',python: 'Python',json: 'JSON',yaml: 'YAML',javascript: 'JavaScript',dockerfile: 'Dockerfile',html: 'HTML',css: 'CSS',java: 'Java',xml: 'XML'},
 			filebrowserUploadUrl: 'imageupload.csp',
-                        versionCheck: false,
-                        allowedContent: true
-                } );
+			versionCheck: false,
+            allowedContent: true
+        } );
 	    </script>
    		<tr>
           <td class="coltitle">プロダクト：</td>
@@ -318,7 +323,7 @@ function formValidate(fileexistsflg) {
 	//Ckedit経由のデータにｃｒｌｆが入るので取り除く
 	
 	var desc = document.form.Description.value;
-	desc = desc.replace(/\r?\n/g, '');
+	//desc = desc.replace(/\r?\n/g, '<br>');
 	document.form.Description.value = desc;
 	
 	var saveconf = confirm(msg)
