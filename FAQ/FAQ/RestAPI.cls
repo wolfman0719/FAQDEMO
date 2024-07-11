@@ -55,7 +55,7 @@ ClassMethod TopicSearchByKeyword(pKeyword As %String) As %Status
       set sql = "SELECT id,title from kb.topic where Completed=1 and Visible=1 and DeleteFlg!=1 order by id"
     }
     else {
-      set sql = "SELECT id,title from kb.topic where %ID %FIND Search_Index(DescriptionIndex1,(?)) or %ID %FIND Search_Index(TitleIndex1,(?))  and Completed=1 and Visible=1 and DeleteFlg!=1 order by id"
+      set sql = "SELECT id,title from kb.topic where (%ID %FIND Search_Index(DescriptionIndex1,(?)) or %ID %FIND Search_Index(TitleIndex1,(?))) and Completed=1 and Visible=1 and DeleteFlg!=1 order by id"
     }
     
     set statemt=##class(%SQL.Statement).%New()
