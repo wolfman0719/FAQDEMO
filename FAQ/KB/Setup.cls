@@ -214,7 +214,11 @@ ClassMethod copyCSSs(pCSPFileDir As %String) As %Status
 	set to = CSPDir_dirSep  
 	set status = ##class(%File).CopyFile(from,to)
 
-    quit $$$OK
+	set from = pCSPFileDir_dirSep_"intersystems.css"
+	set to = CSPDir_dirSep  
+	set status = ##class(%File).CopyFile(from,to)
+
+quit $$$OK
 }
 
 ClassMethod SetupLocal(pDir As %String) As %Status
