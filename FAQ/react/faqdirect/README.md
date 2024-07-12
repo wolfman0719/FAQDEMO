@@ -18,6 +18,10 @@
 
 ```% npm install axios```
 
+## highlight.jsのインストール
+
+```% npm install highlight.js```
+
 ## ファイルコピー
 
 以下のファイルをここからダウンロードし、上で作成したテンプレートディレクトリにコピーする
