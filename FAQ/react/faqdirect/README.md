@@ -79,3 +79,7 @@
 
     Removes this tool and copies build dependencies, configuration files
     and scripts into the app directory. If you do this, you can’t go back!
+
+## Topicの指定方法
+
+http://localhost:3000/Home/100
