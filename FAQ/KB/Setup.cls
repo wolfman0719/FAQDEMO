@@ -218,7 +218,7 @@ ClassMethod copyCSSs(pCSPFileDir As %String) As %Status
 	set to = CSPDir_dirSep  
 	set status = ##class(%File).CopyFile(from,to)
 
-quit $$$OK
+        quit $$$OK
 }
 
 ClassMethod SetupLocal(pDir As %String) As %Status
