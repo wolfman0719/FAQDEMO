@@ -49,8 +49,12 @@ FAQシステムのデモサイト
 
 ### PC版
 
-セットアップに関しては、FAQ/react/faqpc/react-setup.mdを参照してください。
+セットアップに関しては、FAQ/react/faqpc/README.mdを参照してください。
 
 ### Mobile版
 
-セットアップに関しては、FAQ/react/faqsp/react-setup.mdを参照してください。
+セットアップに関しては、FAQ/react/faqsp/README.mdを参照してください。
+
+### 直接ID指定
+
+セットアップに関しては、FAQ/react/faqdirect/README.mdを参照してください。
