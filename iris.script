@@ -18,6 +18,5 @@ Do $system.OBJ.Load("/intersystems/iris/global/KB/Setup.cls","ck")
 Do $system.OBJ.Load("/intersystems/iris/global/KB/Config.cls","ck")
 Do $system.OBJ.Load("/intersystems/iris/global/KB/Utility.cls","ck")
 do ##class(FAQ.Installer).runInstaller("global")
-set status = ##class(KB.Config).setWebServerPort(52775)
 
 halt
