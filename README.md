@@ -2,6 +2,9 @@
 
 FAQシステムのデモサイト
 
+## gitクローン
+
+* ```git clone https://github.com/wolfman0719/faqdemo.git```
 
 ## Docker ビルドプロセス
 
@@ -15,6 +18,38 @@ FAQシステムのデモサイト
 ### FAQネームスペース作成
 
 管理ポータルでFAQネームスペースを作成
+
+### Setup.clsの編集
+
+コードの一部に環境依存の部分があるので事前に修正
+
+クラスメソッドのsetConfigParamsの以下に該当する部分を修正
+
+```
+	} elseif envID=5  {
+		set ns = "FAQ"
+		set auth = "96"		
+		set separator = "\"
+		set cspdir = "c:\InterSystems\IRIS\CSP\faq"
+		set cspurl = "/csp/faq"
+		set ftpdir = "c:\InterSystems\IRIS\CSP\faq\downloads"
+		set setupdir = "c:\git\faqdemo"
+		set classfiledir = ""
+		set globalfilename = "TopicD.xml"
+	//その他、ローカルに環境を作りたいときなどに使用(上の3つの内容を変更せずにここを利用) for MacOS
+	} elseif envID=6  {
+		set ns = "FAQ"
+		set auth = "96"		
+		set separator = "/"
+		set cspdir = "/Applications/iris/csp/faq"
+		set cspurl = "/csp/faq"
+		set ftpdir = "/Applications/iris/csp/faq/downloads"
+		set setupdir = "/Users/hsatoctr/git/faqdemo"
+		set classfiledir = ""
+		set globalfilename = "TopicD.xml"
+	}
+
+```
 
 ### Setupクラスのロード
 
