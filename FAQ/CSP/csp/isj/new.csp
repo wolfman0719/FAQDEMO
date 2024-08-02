@@ -7,6 +7,7 @@
 <meta name="GENERATOR" content="IBM HomePage Builder 2001 V5.0.0 for Windows">
 <title>Cach&eacute; FAQ Database New Topic Input</title>
 <LINK REL="stylesheet" TYPE="text/css" HREF="styleedit.css" >
+<LINK REL="stylesheet" TYPE="text/css" HREF="intersystems.css" >
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/styles/panda-syntax-light.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/highlight.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/languages/cos.min.js"></script>
@@ -42,6 +43,7 @@
 			extraPlugins: 'colorbutton,font,justify,tableresize,uploadimage,uploadfile,pastefromword,liststyle,codesnippet',
 			codeSnippet_languages: {cos: 'ObjectScript',sql: 'SQL',python: 'Python',json: 'JSON',yaml: 'YAML',javascript: 'JavaScript',dockerfile: 'Dockerfile',html: 'HTML',css: 'CSS',java: 'Java',xml: 'XML'},
 			filebrowserUploadUrl: 'imageupload.csp',
+			filebrowserUploadMethod: 'form',
 			versionCheck: false,
             allowedContent: true
         } );
