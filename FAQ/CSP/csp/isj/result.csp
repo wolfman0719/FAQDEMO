@@ -26,6 +26,25 @@
 <meta property="og:image" content="#(companylogourl)#">
 <meta property="og:url" content="#(url)#">
 <meta property="og:description" content="#(desc)#">
+<style>
+.hljs-wrap {
+  position: relative; /* 絶対配置の基準 */
+}
+
+.hljs-wrap code[data-language]::before {
+  content: attr(data-language);
+  position:absolute;
+  top: 1;
+  right: 5;
+  color: #808080;
+  display: inline-block;
+  padding: 0.5rem;
+}
+
+.hljs-wrap code[data-language] {
+  padding-top: 2rem;
+}
+</style>
 <title>InterSystems FAQ Database Seach Result Detail</title>
 <LINK REL="stylesheet" TYPE="text/css" HREF="style.css" >
 <LINK REL="stylesheet" TYPE="text/css" HREF="styleedit.css" >
@@ -33,7 +52,25 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/styles/panda-syntax-light.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/highlight.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/languages/cos.min.js"></script>
-<script>hljs.highlightAll();</script>
+<script language="JavaScript">
+hljs.addPlugin({
+  'after:highlightElement': ({ el, result }) => {
+    // result の language プロパティが undefined でなければ
+    if(result.language) {
+      // language を result から取得して code 要素（el）の data-language 属性に設定
+	  if (result.language == 'cos') {
+        el.dataset.language = 'ObjectScript';
+	  }
+	  else {
+	    el.dataset.language = result.language;
+	  }
+    }
+  }
+});
+</script>
+<script language=JavaScript>
+hljs.highlightAll();
+</script>
 <!-- Specify that this page is PRIVATE -->
 <!--<csp:CLASS PRIVATE=1>-->
 
