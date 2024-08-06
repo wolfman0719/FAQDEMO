@@ -58,7 +58,7 @@ hljs.addPlugin({
     // result の language プロパティが undefined でなければ
     if(result.language) {
       // language を result から取得して code 要素（el）の data-language 属性に設定
-	  if (result.language == 'cos') {
+	  if (result.language === 'cos') {
         el.dataset.language = 'ObjectScript';
 	  }
 	  else {
