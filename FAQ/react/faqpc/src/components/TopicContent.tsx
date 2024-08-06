@@ -26,6 +26,7 @@ hljs.registerLanguage('java', java);
 hljs.registerLanguage('css', css);
 hljs.registerLanguage('csharp', csharp);
 
+
 export const TopicContent = (props: any) => {
 
   const {response} = props; 
@@ -33,7 +34,23 @@ export const TopicContent = (props: any) => {
  useEffect(() => {
    hljs.initHighlighting();
    // hljs.initHighlighting.called = false;
- });
+
+   hljs.addPlugin({
+    'after:highlightElement': ({ el, result }) => {
+      // result の language プロパティが undefined でなければ
+      if(result.language) {
+        // language を result から取得して code 要素（el）の data-language 属性に設定
+      if (result.language === 'cos') {
+        el.setAttribute('data-language','ObjectScript');
+      }
+      else {
+        el.setAttribute('data-language',result.language); 
+      }
+      }
+    }
+   });
+   
+   });
         
   return (
     <>
