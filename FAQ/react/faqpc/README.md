@@ -90,3 +90,29 @@
     Removes this tool and copies build dependencies, configuration files
     and scripts into the app directory. If you do this, you can’t go back!
 
+## CORS設定
+
+開発モード(npm start)で動作させるためには、CORSの設定が必要
+
+### http.confの修正（以下の行を追加）
+
+macOSの場合
+
+```
+/opt/homebrew/etc/httpd
+```
+
+```
+<IfModule mod_headers>
+    Header set Access-Control-Allow-Origin "*"
+    Header set Access-Control-Allow-Methods "GET,POST,PUT,DELETE,OPTIONS, PATCH"
+    Header set Access-Control-Allow-Headers "Content-Type,Authorization,X-Requested-With"
+    Header set Access-Control-Allow-Credentials "true"
+</IfModule>
+```
+
+### IIS
+
+IISの場合は、以下の設定を参考
+
+https://mihono-bourbon.com/iis-cors/
