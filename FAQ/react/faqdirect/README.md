@@ -29,6 +29,7 @@
 - public
 
   index.html
+  
   htaccess   .htaccessにリネームする
 
 - src
