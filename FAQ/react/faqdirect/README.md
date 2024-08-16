@@ -30,7 +30,9 @@
 
   index.html
   
-  htaccess   .htaccessにリネームする
+  htaccess
+
+    .htaccessにリネームする
 
 - src
 
