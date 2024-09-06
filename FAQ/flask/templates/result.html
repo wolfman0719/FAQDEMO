@@ -1,0 +1,87 @@
+﻿<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+.hljs-wrap {
+  position: relative; /* 絶対配置の基準 */
+}
+
+.hljs-wrap code[data-language]::before {
+  content: attr(data-language);
+  position:absolute;
+  top: 1;
+  right: 5;
+  color: #808080;
+  display: inline-block;
+  padding: 0.5rem;
+}
+
+.hljs-wrap code[data-language] {
+  padding-top: 2rem;
+}
+</style>
+<title>InterSystems FAQ Database Seach Result Detail</title>
+<LINK REL="stylesheet" TYPE="text/css" HREF="../../faq/style.css" >
+<LINK REL="stylesheet" TYPE="text/css" HREF="../../faq/styleedit.css" >
+<LINK REL="stylesheet" TYPE="text/css" HREF="../../faq/intersystems.css" >
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/styles/panda-syntax-light.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/languages/cos.min.js"></script>
+<script language="JavaScript">
+hljs.addPlugin({
+  'after:highlightElement': ({ el, result }) => {
+    // result の language プロパティが undefined でなければ
+    if(result.language) {
+      // language を result から取得して code 要素（el）の data-language 属性に設定
+	  if (result.language === 'cos') {
+        el.dataset.language = 'ObjectScript';
+	  }
+	  else {
+	    el.dataset.language = result.language;
+	  }
+    }
+  }
+});
+</script>
+<script language=JavaScript>
+hljs.highlightAll();
+</script>
+
+</head>
+
+<BODY bgcolor="#FFFFFF">
+  {% if get_result['error'] != ''%}
+  <h1>{{get_result['error']}}</h1>
+  {% else %}
+  <!--Product Version-->
+  {% if get_result['versionrange'] != ''%}
+  <DIV class="version"><SPAN class="version">Version {{get_result['versionrange']}}</SPAN></DIV>
+  {% endif %}
+<!--Topic Title-->
+<DIV class="title"><IMG class="titleicon" src="../../faq/images/others/Question.gif">&nbsp;&nbsp;{{get_result['title']}}
+</DIV>
+<!--Description-->
+<DIV class="description" border=1>
+  {{get_result['description']}}
+</DIV>
+<!--該当する製品-->
+<DIV class="Product"><SPAN class="refhead">該当する製品:  <SPAN class="refbody"> {{get_result['producttext']}}</SPAN></SPAN></DIV>
+<!--関連トピック-->
+<DIV>
+  <SPAN class="refhead">関連トピック：</SPAN>
+  {% for item in get_result['reftopics'] %}
+	<BR><SPAN class="refbody"><A href="../../faqflask{{item[0]}}">{{item[1]}}</A></SPAN>
+  {% endfor %}
+</DIV>
+<DIV>
+  <SPAN class="refhead">添付ファイル：</SPAN>
+  {% if get_result['fileexists'] == 1 %}
+    <SPAN class="refbody"><A href=../../faq/downloads/{{get_result['downloadfile']}}>参考資料(zip)</A></SPAN>
+  {% endif %}
+</DIV>
+{% endif %}
+</BODY>
+
+</HTML>
