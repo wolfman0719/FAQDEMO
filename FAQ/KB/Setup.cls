@@ -105,10 +105,12 @@ ClassMethod setConfigParams(envID As %Integer) As %Status
 		set ns = "FAQ"
 		set auth = "96"		
 		set separator = "/"
-		set cspdir = "/Applications/iris/csp/faq"
+                set installdir = $system.Util.InstallDir()
+		set cspdir = installdir_"/csp/faq"
 		set cspurl = "/csp/faq"
-		set ftpdir = "/Applications/iris/csp/faq/downloads"
-		set setupdir = "/Users/hiroshisato/git/FAQDEMO"
+		set ftpdir = installdir_"/csp/faq/downloads"
+                set homedir = system.Util.GetEnviron("HOME")
+		set setupdir = homedir_"/git/FAQDEMO"
 		set classfiledir = ""
 		set globalfilename = "TopicD.xml"
 	}
@@ -230,6 +232,8 @@ ClassMethod SetupLocal(pDir As %String) As %Status
   // MacOSの場合, /Users/hiroshisato/git/FAQDEMO
   // setupディレクトリ等を変更したい場合は、setConfigParamsの処理を書き換える
 
+  set os = $system.Version.GetOS()
+
   set namespace = $namespace
   set $namespace = "%SYS"
   set sec = ##class("Security.Applications").%New()
@@ -238,9 +242,29 @@ ClassMethod SetupLocal(pDir As %String) As %Status
   set sec.DispatchClass ="FAQ.RestAPI"
   set sec.AutheEnabled = 96
   set status = sec.%Save()
+
+  set sec = ##class("Security.Applications").%New()
+  set sec.Name = "/csp/faqflask"
+  set sec.NameSpace = namespace
+  set sec.DispatchClass ="%SYS.Python.WSGI"
+  set installdir = $system.Util.InstallDir()
+
+  if (os = "UNIX") {
+    set sec.WSGIApplication = installdir_"/csp/faqflask/"
+  else {
+    set sec.WSGIApplication = installdir_"¥csp¥faqflask¥"
+  }
+
+  set sec.WSGIAppName = "topicbyid"
+  set sec.WSGICallable = "app"
+  set sec.WSGIType = 1
+  set sec.WSGIDebug = 1
+  set sec.AutheEnabled = 96
+  set status = sec.%Save()
+
   set $namespace = namespace
   
-  if ($system.Version.GetOS() = "UNIX") {
+  if (os = "UNIX") {
     Do $system.OBJ.Load(pDir_"/FAQ/Installer.cls","ck")
     Do $system.OBJ.Load(pDir_"/KB/Config.cls","ck")
     Do $system.OBJ.Load(pDir_"/KB/Utility.cls","ck")
