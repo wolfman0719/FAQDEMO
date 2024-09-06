@@ -1,4 +1,4 @@
-<SCRIPT LANGUAGE="cache" RUNAT="Server">
+﻿<SCRIPT LANGUAGE="cache" RUNAT="Server">
  set companylogourl = "https://www.intersystems.com/wp-content/uploads/assets/intersystems-logo.png"
  set url = "http://"_%request.CgiEnvs("HTTP_HOST")_%request.GetCgiEnv("REQUEST_URI")
  Set DocNo=%request.Get("DocNo")
@@ -254,31 +254,12 @@ if $Get(%session.Data("Access"))="" {
 <!--Topic Title-->
 <DIV class="title"><IMG class="titleicon" src="./images/others/Question.gif">&nbsp;&nbsp;#(title)#
 </DIV>
-<!--<DIV><hr></DIV>-->
 <!--Description-->
 <DIV class="description" border=1>
   <SCRIPT LANGUAGE="CACHE" runat=server>
   
    set edesc=topic.Description
    write edesc
-   /*
-
-   set crlf = $char(13,10)   
-                   
-   set lineno = $length(edesc,crlf)
-      
-   for i = 1:1:lineno {
-   
-	   set line(i)=$piece(edesc,crlf,i)
-	   set count = ##class(KB.Utility).NoOfTags(line(i),"script")
-	   
-	   for j = 1:1:count {
-	     set line(i) = ##class(KB.Utility).EscapeTag(line(i),"script")
-	   }
- 	    	   
-	   write line(i)_"<br>"
-   }
-   */
    </script>
 </DIV>
 <!--該当する製品-->
@@ -286,28 +267,19 @@ if $Get(%session.Data("Access"))="" {
 <!--関連トピック-->
 <DIV>
   <SPAN class="refhead">関連トピック：</SPAN>
-  <csp:if condition='refcount>0'>
-    <SCRIPT LANGUAGE="CACHE" runat=server>
-     set j = 0
-     for i=1:1:refcount {
- 		 set reftopic = ##class(KB.Topic).%OpenId(refid(i))
+  <SCRIPT LANGUAGE="CACHE" runat=server>
+    for i=1:1:refcount {
+ 		  set reftopic = ##class(KB.Topic).%OpenId(refid(i))
 		 
-		 if reftopic {
+		  if reftopic {
 		    if reftopic.Visible {
-		       set j = j + 1
-	           if j=1 {
-		          write "<SPAN class=""refbody""><A href=result.csp?DocNo="_refid(i)_">"_reftitle(i)_"</A></SPAN>"
-	           } else {
-		          write "<BR><SPAN style=""visibility:hidden"">関連トピック：</SPAN>"
-		          write "<SPAN class=""refbody""><A href=result.csp?DocNo="_refid(i)_">"_reftitle(i)_"</A></SPAN>"
-		       }
+		      write "<BR><SPAN class=""refbody""><A href=result.csp?DocNo="_refid(i)_">"_reftitle(i)_"</A></SPAN>"
 		    }
-         }   
-     }
-   </SCRIPT>
-  </csp:if>
-  </DIV>
-  <DIV>
+      }   
+    }
+  </SCRIPT>
+</DIV>
+<DIV>
   <SPAN class="refhead">添付ファイル：</SPAN>
   <csp:if condition='fileexists=1'>
     <SPAN class="refbody"><A href=downloads/#(filename)#>参考資料(zip)</A></SPAN>
