@@ -10,6 +10,19 @@ set sec.DispatchClass ="FAQ.RestAPI"
 set sec.AutheEnabled = 64 + 32
 set status = sec.%Save()
 
+set sec = ##class("Security.Applications").%New()
+set sec.Name = "/csp/faqflask"
+set sec.NameSpace = namespace
+set sec.DispatchClass ="%SYS.Python.WSGI"
+set sec.AutheEnabled = 96
+set sec.WSGIApplication = installdir_"csp/faqflask/"
+set sec.WSGIAppName = "topicbyid"
+set sec.WSGICallable = "app"
+set sec.WSGIDebug = 1
+set sec.WSGIType = 1
+set status = sec.%Save()
+
+
 zn "USER"
 
 set io = ##class(%SYS.NLS.Device).SetIO("UTF8")
