@@ -53,6 +53,9 @@ XData FAQManifest [ XMLNamespace = INSTALLER ]
 <Invoke Class="KB.Setup" Method="copyCSSs" CheckStatus="0" Return="RetVal"> 
     <Arg Value="${CSPFileDir}"/>
 </Invoke>
+<Invoke Class="KB.Setup" Method="copyFlask" CheckStatus="0" Return="RetVal"> 
+    <Arg Value="${CSPFileDir}"/>
+</Invoke>
 </If>
 </Namespace>
 </Manifest>
@@ -99,7 +102,7 @@ ClassMethod runInstaller(datestr As %String, envID As %Integer = 4) As %Status
 
 ClassMethod getVersion() As %String
 {
-	quit "1.0.023"
+	quit "1.0.024"
 }
 
 }
