@@ -105,12 +105,12 @@ ClassMethod setConfigParams(envID As %Integer) As %Status
 		set ns = "FAQ"
 		set auth = "96"		
 		set separator = "/"
-                set installdir = $system.Util.InstallDir()
-		set cspdir = installdir_"/csp/faq"
+		set installdir = $system.Util.InstallDirectory()
+		set cspdir = installdir_"csp/faq"
 		set cspurl = "/csp/faq"
-		set ftpdir = installdir_"/csp/faq/downloads"
-                set homedir = system.Util.GetEnviron("HOME")
-		set setupdir = homedir_"/git/FAQDEMO"
+		set ftpdir = installdir_"csp/faq/downloads"
+		set homedir = $system.Util.GetEnviron("HOME")
+		set setupdir = homedir_"/git/faqdemo"
 		set classfiledir = ""
 		set globalfilename = "TopicD.xml"
 	}
@@ -223,16 +223,37 @@ ClassMethod copyCSSs(pCSPFileDir As %String) As %Status
         quit $$$OK
 }
 
+ClassMethod copyFlask(pSetupDir As %String) As %Status
+{
+	//Flask関連ファイルをflaskディレクトリーにコピーする
+	//flaskディレクトリは、csp/faqと同レベルのcsp/faqflask
+	set dirSep = ##class(KB.Config).getDirectorySeparator()
+	//ディレクトリがなければコピーしない
+	if '##class(%File).Exists(pSetupDir_dirSep_"flask") quit $$$OK
+	  
+	set sourcedir = pSetupDir_dirSep_"flask"
+	set dest = $piece(##class(KB.Config).getCSPDirectory(),dirSep,1,*-1)_dirSep_"faqflask"
+	set overlay = 1
+	set boolean = ##class(%File).CopyDir(sourcedir,dest,overlay)  
+	
+	quit $$$OK
+}
+
 ClassMethod SetupLocal(pDir As %String) As %Status
 {
   // GitHubからclone
   // FAQ.Installer.runInstallerでenvID=5に設定(Windows)
   // FAQ.Installer.runInstallerでenvID=6に設定(MacOS)
   // Windowsの場合, c:\git\FAQDEMO
-  // MacOSの場合, /Users/hiroshisato/git/FAQDEMO
+  // MacOSの場合, /Users/<User Name>/git/FAQDEMO
   // setupディレクトリ等を変更したい場合は、setConfigParamsの処理を書き換える
 
-  set os = $system.Version.GetOS()
+  if ($system.Version.GetOS() = "UNIX") {
+    set sep = "/"
+  }
+  else {
+    set sep = "¥"
+  }
 
   set namespace = $namespace
   set $namespace = "%SYS"
@@ -247,24 +268,17 @@ ClassMethod SetupLocal(pDir As %String) As %Status
   set sec.Name = "/csp/faqflask"
   set sec.NameSpace = namespace
   set sec.DispatchClass ="%SYS.Python.WSGI"
-  set installdir = $system.Util.InstallDir()
-
-  if (os = "UNIX") {
-    set sec.WSGIApplication = installdir_"/csp/faqflask/"
-  else {
-    set sec.WSGIApplication = installdir_"¥csp¥faqflask¥"
-  }
-
+  set sec.AutheEnabled = 96
+  set installdir = $system.Util.InstallDirectory()
+  set sec.WSGIApplication = installdir_"csp"_sep_"faqflask"_sep
   set sec.WSGIAppName = "topicbyid"
   set sec.WSGICallable = "app"
-  set sec.WSGIType = 1
   set sec.WSGIDebug = 1
-  set sec.AutheEnabled = 96
+  set sec.WSGIType = 1
   set status = sec.%Save()
-
   set $namespace = namespace
   
-  if (os = "UNIX") {
+  if ($system.Version.GetOS() = "UNIX") {
     Do $system.OBJ.Load(pDir_"/FAQ/Installer.cls","ck")
     Do $system.OBJ.Load(pDir_"/KB/Config.cls","ck")
     Do $system.OBJ.Load(pDir_"/KB/Utility.cls","ck")
