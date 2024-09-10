@@ -79,12 +79,12 @@ ClassMethod setConfigParams(envID As %Integer) As %Status
 		
 		//Docker(お試し)環境
 	} elseif envID=4 {
-		set ns = "USER"
+		set ns = "FAQ"
 		set auth = "96"
 		set separator = "/"
-		set cspdir = "/usr/irissys/csp/user"
-		set cspurl = "/csp/user"
-		set ftpdir = "/usr/irissys/csp/user/downloads"
+		set cspdir = "/usr/irissys/csp/faq"
+		set cspurl = "/csp/faq"
+		set ftpdir = "/usr/irissys/csp/faq/downloads"
 		set setupdir = "/intersystems/iris"
 		set classfiledir = ""
 		set globalfilename = "TopicD.xml"
