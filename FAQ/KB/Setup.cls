@@ -275,7 +275,7 @@ ClassMethod SetupLocal(pDir As %String) As %Status
   set sec.WSGICallable = "app"
   set sec.WSGIDebug = 1
   set sec.WSGIType = 1
-  set sec.MatchRoles = ":%All"
+  do sec.MatchRoles.Insert("%All")
   set status = sec.%Save()
   set $namespace = namespace
   
