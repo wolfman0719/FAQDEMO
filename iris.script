@@ -12,7 +12,7 @@ set status = sec.%Save()
 
 set sec = ##class("Security.Applications").%New()
 set sec.Name = "/csp/faqflask"
-set sec.NameSpace = "USER"
+set sec.NameSpace = "FAQ"
 set sec.DispatchClass ="%SYS.Python.WSGI"
 set sec.AutheEnabled = 96
 set installdir = $system.Util.InstallDirectory()
@@ -25,7 +25,7 @@ set sec.MatchRoles = ":%All"
 set status = sec.%Save()
 
 
-zn "USER"
+zn "FAQ"
 
 set io = ##class(%SYS.NLS.Device).SetIO("UTF8")
 Do $system.OBJ.Load("/intersystems/iris/global/FAQ.inc")
