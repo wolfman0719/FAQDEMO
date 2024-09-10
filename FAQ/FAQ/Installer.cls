@@ -7,10 +7,7 @@ XData FAQManifest [ XMLNamespace = INSTALLER ]
 <Manifest>
 
 <Log Text="Creating namespace ${Namespace}" Level="0"/>
-<Namespace Name="${Namespace}" Create="yes" Ensemble=""> 
-  <Configuration> 
-  <Database Name="${Namespace}" Dir="${DataDBPath}" Create="yes" MountRequired="true" Resource="%DB_${Namespace}" PublicPermissions="RW" MountAtStartup="true"/> 
-  </Configuration>
+<Namespace Name="${Namespace}" Create=""> 
 <CSPApplication 
     Url="${CSPUrl}"
     Description=""
@@ -96,7 +93,6 @@ ClassMethod runInstaller(datestr As %String, envID As %Integer = 4) As %Status
 				
     set vars("SetupType") = setuptype
     set vars("NAMESPACE") = ##class(KB.Config).getNamespace()
-    set vars("DataDBPath") = $system.Util.InstallDirectory()_##class(KB.Config).getDirectorySeparator()_"mgr"_##class(KB.Config).getDirectorySeparator()_$zcvt(vars("NAMESPACE"),"L")
     set vars("CSPUrl") = ##class(KB.Config).getCSPUrl() 
     set vars("CSPDirectory") = ##class(KB.Config).getCSPDirectory() 
     set vars("CustomErrorPage") = ##class(KB.Config).getErrorPage()
