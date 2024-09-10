@@ -54,7 +54,7 @@ XData FAQManifest [ XMLNamespace = INSTALLER ]
     <Arg Value="${CSPFileDir}"/>
 </Invoke>
 <Invoke Class="KB.Setup" Method="copyFlask" CheckStatus="0" Return="RetVal"> 
-    <Arg Value="${CSPFileDir}"/>
+    <Arg Value="${FlaskFileDir}"/>
 </Invoke>
 </If>
 </Namespace>
@@ -96,7 +96,10 @@ ClassMethod runInstaller(datestr As %String, envID As %Integer = 4) As %Status
     set vars("CSPFileDir") = vars("CSPFileDir")_##class(KB.Config).getDirectorySeparator()_"CSP"
     set vars("CSPFileDir") = vars("CSPFileDir")_##class(KB.Config).getDirectorySeparator()_"csp"
     set vars("CSPFileDir") = vars("CSPFileDir")_##class(KB.Config).getDirectorySeparator()_"isj"
-        
+
+    set vars("FlaskFileDir") = setupdir_##class(KB.Config).getClassFileDir()
+    set vars("FlaskFileDir") = vars("FlaskFileDir")_##class(KB.Config).getDirectorySeparator()_"Flask"
+
     do ..setup(.vars,3)
 }
 
