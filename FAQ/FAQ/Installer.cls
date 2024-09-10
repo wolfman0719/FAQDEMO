@@ -23,7 +23,11 @@ XData FAQManifest [ XMLNamespace = INSTALLER ]
 <Invoke Class="KB.Utility" Method="cspUtf8AddBOM" CheckStatus="0" Return="RetVal"> 
     <Arg Value="${CSPFileDir}"/>
 </Invoke>
-<Import File="${ClassFileDir}" Flags="ckr" Recurse="1" IgnoreErrors="1"> 
+<Import File="${FAQClassFileDir}" Flags="ckr" Recurse="1" IgnoreErrors="1"> 
+</Import>
+<Import File="${KBClassFileDir}" Flags="ckr" Recurse="1" IgnoreErrors="1"> 
+</Import>
+<Import File="${CSPClassFileDir}" Flags="ckr" Recurse="1" IgnoreErrors="1"> 
 </Import>
 <Invoke Class="%SYSTEM.OBJ" Method="Compile" CheckStatus="0" Return="RetVal"> 
     <Arg Value="KB.Topic"/>
@@ -82,6 +86,9 @@ ClassMethod runInstaller(datestr As %String, envID As %Integer = 4) As %Status
     set vars("setupdir") = setupdir
     set vars("FTPDirectory") = ##class(KB.Config).getFTPDirectory()
     set vars("ClassFileDir") = setupdir_##class(KB.Config).getClassFileDir()
+    set vars("FAQClassFileDir") = setupdir_##class(KB.Config).getClassFileDir()_##class(KB.Config).getDirectorySeparator()_"FAQ"
+    set vars("KBClassFileDir") = setupdir_##class(KB.Config).getClassFileDir()_##class(KB.Config).getDirectorySeparator()_"KB"
+    set vars("CSPClassFileDir") = setupdir_##class(KB.Config).getClassFileDir()_##class(KB.Config).getDirectorySeparator()_"CSP"
     set vars("GlobalFileName") = setupdir_##class(KB.Config).getGlobalFileName()
 				
     set vars("SetupType") = setuptype
