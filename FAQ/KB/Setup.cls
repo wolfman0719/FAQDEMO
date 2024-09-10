@@ -279,12 +279,14 @@ ClassMethod SetupLocal(pDir As %String) As %Status
   set $namespace = namespace
   
   if ($system.Version.GetOS() = "UNIX") {
+    Do $system.OBJ.Load(pDir_"/FAQ.inc")
     Do $system.OBJ.Load(pDir_"/FAQ/Installer.cls","ck")
     Do $system.OBJ.Load(pDir_"/KB/Config.cls","ck")
     Do $system.OBJ.Load(pDir_"/KB/Utility.cls","ck")
     do ##class(FAQ.Installer).runInstaller("FAQ",6)
   }
   else {
+    Do $system.OBJ.Load(pDir_"/FAQ.inc")
     Do $system.OBJ.Load(pDir_"\FAQ\Installer.cls","ck")
     Do $system.OBJ.Load(pDir_"\KB\Config.cls","ck")
     Do $system.OBJ.Load(pDir_"\KB\Utility.cls","ck")
