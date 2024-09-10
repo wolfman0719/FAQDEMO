@@ -97,7 +97,7 @@ ClassMethod runInstaller(datestr As %String, envID As %Integer = 4) As %Status
 				
     set vars("SetupType") = setuptype
     set vars("NAMESPACE") = ##class(KB.Config).getNamespace()
-    set vars("DataDBPath") = $system.Util.InstallDir()_##class(KB.Config).getDirectorySeparator()_vars("NAMESPACE")
+    set vars("DataDBPath") = $system.Util.InstallDirectory_##class(KB.Config).getDirectorySeparator()_vars("NAMESPACE")
     set vars("CSPUrl") = ##class(KB.Config).getCSPUrl() 
     set vars("CSPDirectory") = ##class(KB.Config).getCSPDirectory() 
     set vars("CustomErrorPage") = ##class(KB.Config).getErrorPage()
