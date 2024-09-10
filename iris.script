@@ -5,14 +5,14 @@ Do ##class(Security.Users).UnExpireUserPasswords("*")
 Do ##class(Config.NLS.Locales).Install("jpuw")
 set sec = ##class("Security.Applications").%New()
 set sec.Name = "/api/faq"
-set sec.NameSpace = "FAQ"
+set sec.NameSpace = "USER"
 set sec.DispatchClass ="FAQ.RestAPI"
 set sec.AutheEnabled = 64 + 32
 set status = sec.%Save()
 
 set sec = ##class("Security.Applications").%New()
 set sec.Name = "/csp/faqflask"
-set sec.NameSpace = "FAQ"
+set sec.NameSpace = "USER"
 set sec.DispatchClass ="%SYS.Python.WSGI"
 set sec.AutheEnabled = 96
 set installdir = $system.Util.InstallDirectory()
