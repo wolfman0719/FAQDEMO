@@ -23,9 +23,9 @@
 }
 </style>
 <title>InterSystems FAQ Database Seach Result Detail</title>
-<LINK REL="stylesheet" TYPE="text/css" HREF="../../faq/style.css" >
-<LINK REL="stylesheet" TYPE="text/css" HREF="../../faq/styleedit.css" >
-<LINK REL="stylesheet" TYPE="text/css" HREF="../../faq/intersystems.css" >
+<LINK REL="stylesheet" TYPE="text/css" HREF="../../{{get_result['namespace']}}/style.css" >
+<LINK REL="stylesheet" TYPE="text/css" HREF="../../{{get_result['namespace']}}/styleedit.css" >
+<LINK REL="stylesheet" TYPE="text/css" HREF="../../{{get_result['namespace']}}/intersystems.css" >
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/styles/panda-syntax-light.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/highlight.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/languages/cos.min.js"></script>
@@ -60,7 +60,7 @@ hljs.highlightAll();
   <DIV class="version"><SPAN class="version">Version {{get_result['versionrange']}}</SPAN></DIV>
   {% endif %}
 <!--Topic Title-->
-<DIV class="title"><IMG class="titleicon" src="../../faq/images/others/Question.gif">&nbsp;&nbsp;{{get_result['title']}}
+<DIV class="title"><IMG class="titleicon" src="../../{{get_result['namespace']}}/images/others/Question.gif">&nbsp;&nbsp;{{get_result['title']}}
 </DIV>
 <!--Description-->
 <DIV class="description" border=1>
@@ -78,7 +78,7 @@ hljs.highlightAll();
 <DIV>
   <SPAN class="refhead">添付ファイル：</SPAN>
   {% if get_result['fileexists'] == 1 %}
-    <SPAN class="refbody"><A href=../../faq/downloads/{{get_result['downloadfile']}}>参考資料(zip)</A></SPAN>
+    <SPAN class="refbody"><A href=../../{{get_result['namespace']}}/downloads/{{get_result['downloadfile']}}>参考資料(zip)</A></SPAN>
   {% endif %}
 </DIV>
 {% endif %}
