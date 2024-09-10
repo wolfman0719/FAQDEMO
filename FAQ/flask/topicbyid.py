@@ -13,7 +13,8 @@ def topic_byid(id):
       description = record[1]
       # flaskの存在場所は、/csp/faqflaskで固定
       # cspの場所も/csp/faqで固定
-      replacetext = '../../faq/images'
+      namespace = iris.execute('return $zcvt($namespace,"L")')
+      replacetext = '../../' + namespace + '/images'
       description = description.replace('./images',replacetext)
       reftopics = record[2]
       refarray = []
@@ -31,11 +32,11 @@ def topic_byid(id):
       fileexists = iris.cls('%File').Exists(filepath)
       downloadFile = ''
       if (fileexists == 1):    
-        downloadFile =  '../../faq/downloads/' + filename
+        downloadFile =  '../../' + namespace + '/downloads/' + filename
       dcurl = record[4]
       productText = iris.cls('%CSP.Page').UnescapeHTML(iris.cls('KB.Utility').ProductText(record[3]))
       versionRange = record[5]	   
-      result = {'title': record[0], 'description': Markup(description),'fileexists': fileexists,'downloadfile': downloadFile,'DCURL': dcurl, 'producttext': productText, 'versionrange': versionRange, 'reftopics': refarray, 'error': ''}
+      result = {'title': record[0], 'description': Markup(description),'fileexists': fileexists,'downloadfile': downloadFile,'DCURL': dcurl, 'producttext': productText, 'versionrange': versionRange, 'reftopics': refarray,'namespace': namespace 'error': ''}
 
       return result
     except Exception as e:
