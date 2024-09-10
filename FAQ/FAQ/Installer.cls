@@ -6,14 +6,14 @@ XData FAQManifest [ XMLNamespace = INSTALLER ]
 {
 <Manifest>
 
-<Log Text="Creating namespace ${Namespace}" Level="0"/>
-<Namespace Name="${Namespace}" Create=""> 
+<Log Text="Setting up namespace ${Namespace}" Level="0"/>
+<Namespace Name="${Namespace}" Create="no"> 
 <CSPApplication 
     Url="${CSPUrl}"
     Description=""
     Directory="${CSPDirectory}"
     Resource=""
-    Grant="%DB_FAQ"
+    Grant="%DB_%DEFAULT"
     Recurse="true"
     LoginClass=""
     CookiePath="${CSPUrl}"
