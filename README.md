@@ -15,6 +15,10 @@ FAQシステムのデモサイト
 
 ## ローカルインストール(WindowsやMacOSにインストールしたIRISでセットアップする)
 
+##  Python　Flaskパッケージのインストール
+
+```python3 -m pip install --target c:¥Intersystems¥iris¥mgr¥python flask```
+
 ### FAQネームスペース作成
 
 管理ポータルでFAQネームスペースを作成
