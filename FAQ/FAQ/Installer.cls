@@ -11,7 +11,6 @@ XData FAQManifest [ XMLNamespace = INSTALLER ]
   <Configuration> 
   <Database Name="${Namespace}" Dir="${DataDBPath}" Create="yes" MountRequired="true" Resource="%DB_${Namespace}" PublicPermissions="RW" MountAtStartup="true"/> 
   </Configuration>
-</Namespace>
 <CSPApplication 
     Url="${CSPUrl}"
     Description=""
