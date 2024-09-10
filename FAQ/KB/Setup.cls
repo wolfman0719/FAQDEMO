@@ -223,15 +223,15 @@ ClassMethod copyCSSs(pCSPFileDir As %String) As %Status
         quit $$$OK
 }
 
-ClassMethod copyFlask(pSetupDir As %String) As %Status
+ClassMethod copyFlask(pFlaskDir As %String) As %Status
 {
 	//Flask関連ファイルをflaskディレクトリーにコピーする
 	//flaskディレクトリは、csp/faqと同レベルのcsp/faqflask
 	set dirSep = ##class(KB.Config).getDirectorySeparator()
 	//ディレクトリがなければコピーしない
-	if '##class(%File).Exists(pSetupDir_dirSep_"flask") quit $$$OK
+	if '##class(%File).Exists(pFlaskDir) quit $$$OK
 	  
-	set sourcedir = pSetupDir_dirSep_"flask"
+	set sourcedir = pFlaskDir
 	set dest = $piece(##class(KB.Config).getCSPDirectory(),dirSep,1,*-1)_dirSep_"faqflask"
 	set overlay = 1
 	set boolean = ##class(%File).CopyDir(sourcedir,dest,overlay)  
