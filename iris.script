@@ -12,7 +12,7 @@ set status = sec.%Save()
 
 set sec = ##class("Security.Applications").%New()
 set sec.Name = "/csp/faqflask"
-set sec.NameSpace = namespace
+set sec.NameSpace = "USER"
 set sec.DispatchClass ="%SYS.Python.WSGI"
 set sec.AutheEnabled = 96
 set sec.WSGIApplication = installdir_"csp/faqflask/"
