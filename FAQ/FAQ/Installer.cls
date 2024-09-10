@@ -98,7 +98,7 @@ ClassMethod runInstaller(datestr As %String, envID As %Integer = 4) As %Status
     set vars("CSPFileDir") = vars("CSPFileDir")_##class(KB.Config).getDirectorySeparator()_"isj"
 
     set vars("FlaskFileDir") = setupdir_##class(KB.Config).getClassFileDir()
-    set vars("FlaskFileDir") = vars("FlaskFileDir")_##class(KB.Config).getDirectorySeparator()_"Flask"
+    set vars("FlaskFileDir") = vars("FlaskFileDir")_##class(KB.Config).getDirectorySeparator()_"flask"
 
     do ..setup(.vars,3)
 }
