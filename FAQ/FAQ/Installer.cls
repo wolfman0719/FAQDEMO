@@ -16,7 +16,7 @@ XData FAQManifest [ XMLNamespace = INSTALLER ]
     Description=""
     Directory="${CSPDirectory}"
     Resource=""
-    Grant="%DB_%DEFAULT"
+    Grant="%DB_FAQ"
     Recurse="true"
     LoginClass=""
     CookiePath="${CSPUrl}"
@@ -96,7 +96,7 @@ ClassMethod runInstaller(datestr As %String, envID As %Integer = 4) As %Status
 				
     set vars("SetupType") = setuptype
     set vars("NAMESPACE") = ##class(KB.Config).getNamespace()
-    set vars("DataDBPath") = $system.Util.InstallDirectory()_##class(KB.Config).getDirectorySeparator()_vars("NAMESPACE")
+    set vars("DataDBPath") = $system.Util.InstallDirectory()_##class(KB.Config).getDirectorySeparator()_"mgr"_##class(KB.Config).getDirectorySeparator()_$zcvt(vars("NAMESPACE"),"L")
     set vars("CSPUrl") = ##class(KB.Config).getCSPUrl() 
     set vars("CSPDirectory") = ##class(KB.Config).getCSPDirectory() 
     set vars("CustomErrorPage") = ##class(KB.Config).getErrorPage()
