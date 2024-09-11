@@ -258,7 +258,7 @@ ClassMethod SetupLocal(pDir As %String) As %Status
   set namespace = $namespace
   set $namespace = "%SYS"
 
-  set status = ##class("Security.Applications).Delete("/api/faq")
+  set status = ##class("Security.Applications").Delete("/api/faq")
 
   set sec = ##class("Security.Applications").%New()
   set sec.Name = "/api/faq"
@@ -267,7 +267,7 @@ ClassMethod SetupLocal(pDir As %String) As %Status
   set sec.AutheEnabled = 96
   set status = sec.%Save()
 
-  set status = ##class("Security.Applications).Delete("/csp/faqflask")
+  set status = ##class("Security.Applications").Delete("/csp/faqflask")
 
   set sec = ##class("Security.Applications").%New()
   set sec.Name = "/csp/faqflask"
