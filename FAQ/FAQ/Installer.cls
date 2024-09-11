@@ -97,26 +97,21 @@ ClassMethod runInstaller(datestr As %String, envID As %Integer = 4) As %Status
     set vars("CSPDirectory") = ##class(KB.Config).getCSPDirectory() 
     set vars("CustomErrorPage") = ##class(KB.Config).getErrorPage()
     set vars("AuthenticationMethods") = ##class(KB.Config).getAuthenticationMethods()
-    
-    if (vars("ClassFileDir") '= "") {
-      set vars("CSPFileDir") = setupdir_##class(KB.Config).getClassFileDir()
-    }
-    else {
-      set vars("CSPFileDir") = $extract(setupdir,1,*-1)
-    }
 
+    set sep = ##class(KB.Config).getDirectorySeparator()
+    set vars("CSPFileDir") = setupdir_##class(KB.Config).getClassFileDir()
+    
     //以下のディレクトリ構造はGitHubリポジトリーに依存しているため固定
     set vars("CSPFileDir") = vars("CSPFileDir")_##class(KB.Config).getDirectorySeparator()_"CSP"
     set vars("CSPFileDir") = vars("CSPFileDir")_##class(KB.Config).getDirectorySeparator()_"csp"
     set vars("CSPFileDir") = vars("CSPFileDir")_##class(KB.Config).getDirectorySeparator()_"isj"
 
-    if (vars("ClassFileDir") '= "") {
-      set vars("FlaskFileDir") = setupdir_##class(KB.Config).getClassFileDir()
-    }
-    else {
-      set vars("FlaskFileDir") = $extract(setupdir,1,*-1)
-    }
+    set vars("CSPFileDir") = $replace(vars("CSPFileDir"),sep_sep,sep)
+
+    set vars("FlaskFileDir") = setupdir_##class(KB.Config).getClassFileDir()
     set vars("FlaskFileDir") = vars("FlaskFileDir")_##class(KB.Config).getDirectorySeparator()_"flask"
+
+    set vars("FlaskFileDir") = $replace(vars("FlaskFileDir"),sep_sep,sep)
 
     do ..setup(.vars,3)
 }
