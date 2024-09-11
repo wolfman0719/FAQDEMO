@@ -36,7 +36,7 @@ def topic_byid(id):
       dcurl = record[4]
       productText = iris.cls('%CSP.Page').UnescapeHTML(iris.cls('KB.Utility').ProductText(record[3]))
       versionRange = record[5]	   
-      result = {'title': record[0], 'description': Markup(description),'fileexists': fileexists,'downloadfile': downloadFile,'DCURL': dcurl, 'producttext': productText, 'versionrange': versionRange, 'reftopics': refarray,'namespace': namespace 'error': ''}
+      result = {'title': record[0], 'description': Markup(description),'fileexists': fileexists,'downloadfile': downloadFile,'DCURL': dcurl, 'producttext': productText, 'versionrange': versionRange, 'reftopics': refarray, 'namespace': namespace, 'error': ''}
 
       return result
     except Exception as e:
