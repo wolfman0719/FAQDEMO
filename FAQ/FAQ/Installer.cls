@@ -92,7 +92,7 @@ ClassMethod runInstaller(datestr As %String, envID As %Integer = 4) As %Status
     set vars("GlobalFileName") = setupdir_##class(KB.Config).getGlobalFileName()
 				
     set vars("SetupType") = setuptype
-    set vars("NAMESPACE") = ##class(KB.Config).getNamespace()
+    set vars("Namespace") = ##class(KB.Config).getNamespace()
     set vars("CSPUrl") = ##class(KB.Config).getCSPUrl() 
     set vars("CSPDirectory") = ##class(KB.Config).getCSPDirectory() 
     set vars("CustomErrorPage") = ##class(KB.Config).getErrorPage()
