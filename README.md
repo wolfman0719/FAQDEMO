@@ -15,7 +15,7 @@ FAQシステムのデモサイト
 
 ## ローカルインストール(WindowsやMacOSにインストールしたIRISでセットアップする)
 
-##  Python　Flaskパッケージのインストール
+###  Python　Flaskパッケージのインストール
 
 ```python3 -m pip install --target c:¥Intersystems¥iris¥mgr¥python flask```
 
