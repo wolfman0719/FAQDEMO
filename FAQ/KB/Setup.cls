@@ -79,7 +79,7 @@ ClassMethod setConfigParams(envID As %Integer) As %Status
 		
 		//Docker(お試し)環境
 	} elseif envID=4 {
-		set ns = "FAQ"
+		set ns = "USER"
 		set auth = "96"
 		set separator = "/"
 		set cspdir = "/usr/irissys/csp/user"
