@@ -91,24 +91,24 @@ ClassMethod setConfigParams(envID As %Integer) As %Status
 		
 	//その他、ローカルに環境を作りたいときなどに使用(上の3つの内容を変更せずにここを利用) for Windows
 	} elseif envID=5  {
-		set ns = "FAQ"
+		set ns = $namespace
 		set auth = "96"		
 		set separator = "\"
-		set cspdir = "c:\InterSystems\IRIS\CSP\faq"
-		set cspurl = "/csp/faq"
-		set ftpdir = "c:\InterSystems\IRIS\CSP\faq\downloads"
+		set cspdir = "c:\InterSystems\IRIS\CSP\"_$zcvt(ns,"L")
+		set cspurl = "/csp/"_$zcvt(ns,"L")
+		set ftpdir = "c:\InterSystems\IRIS\CSP\"_$zcvt(ns,"L")_"\downloads"
 		set setupdir = "c:\git\faqdemo"
 		set classfiledir = ""
 		set globalfilename = "TopicD.xml"
 	//その他、ローカルに環境を作りたいときなどに使用(上の3つの内容を変更せずにここを利用) for MacOS
 	} elseif envID=6  {
-		set ns = "FAQ"
+		set ns = $namespace
 		set auth = "96"		
 		set separator = "/"
 		set installdir = $system.Util.InstallDirectory()
-		set cspdir = installdir_"csp/faq"
-		set cspurl = "/csp/faq"
-		set ftpdir = installdir_"csp/faq/downloads"
+		set cspdir = installdir_"csp/"_$zcvt(ns,"L")
+		set cspurl = "/csp/"_$zcvt(ns,"L")
+		set ftpdir = installdir_"csp/"_$zcvt(ns,"L")_"/downloads"
 		set homedir = $system.Util.GetEnviron("HOME")
 		set setupdir = homedir_"/git/faqdemo"
 		set classfiledir = ""
@@ -257,12 +257,17 @@ ClassMethod SetupLocal(pDir As %String) As %Status
 
   set namespace = $namespace
   set $namespace = "%SYS"
+
+  set status = ##class("Security.Applications).Delete("/api/faq")
+
   set sec = ##class("Security.Applications").%New()
   set sec.Name = "/api/faq"
   set sec.NameSpace = namespace
   set sec.DispatchClass ="FAQ.RestAPI"
   set sec.AutheEnabled = 96
   set status = sec.%Save()
+
+  set status = ##class("Security.Applications).Delete("/csp/faqflask")
 
   set sec = ##class("Security.Applications").%New()
   set sec.Name = "/csp/faqflask"
