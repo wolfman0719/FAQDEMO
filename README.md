@@ -45,9 +45,9 @@ FAQシステムのデモサイト
 
   [localhost:52773/csp/user/FAQ.FAQApp.cls?IRISUsername=_system&IRISPassword=SYS](http://localhost:52773/csp/user/FAQ.FAQApp.cls?IRISUsername=_system&IRISPassword=SYS)
 
-　- ポート番号は、Dockerでビルドした場合の番号です。
+　1) ポート番号は、Dockerでビルドした場合の番号です。
  
-  - ローカルにセットアップした場合は、ポート番号とネームスペース名を環境に合わせて変更する必要があります
+  2) ローカルにセットアップした場合は、ポート番号とネームスペース名を環境に合わせて変更する必要があります
 
 
 - 管理ポータル
