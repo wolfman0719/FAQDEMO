@@ -1,6 +1,6 @@
 import React from 'react';
 import { useEffect } from "react";
-import { TopicContent } from './components/TopicContent';
+import { TopicInfo } from './components/TopicInfo';
 import { Home } from './components/Home';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
@@ -12,7 +12,7 @@ export const App = () => {
     <BrowserRouter>
 	<Routes>
 	  <Route path='/' element={<Home/>} />
-      <Route path="/Content/:topicid"  element={<TopicContent/>} />
+      <Route path="/Content/:topicid"  element={<TopicInfo/>} />
 	</Routes>
    </BrowserRouter>   
   );	
