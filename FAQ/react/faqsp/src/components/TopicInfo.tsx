@@ -97,7 +97,7 @@ const onClickItem2 = (topicid: any) => {
     <>
 	<button className = "btn btn-light" onClick={() => {navigate(-1)}}><i className="bi bi-caret-left-fill"></i></button>
 	{isError && <p style={{ color: "red" }}>エラーが発生しました　{`${errortext}`}</p>}
-	<div style = {{ width: "100%",height: "15%",overflow: "auto",border: "solid #000000 1px"}}><i className="bi bi-hand-index bg-light fs-2"></i><span className="text-primary fs-4" style = {{ marginLeft: "20px", marginRight: "20px"}}>{response.Title}</span><p className="text-info fs-4" style = {{ float: "right", marginRight: "20px"}}>{response.VersionRange}</p></div>
+	<div style = {{ width: "100%",height: "15%",overflow: "auto",border: "solid #000000 1px"}}><i className="i bi-question-circle-fill text-info fs-2"></i><span className="text-primary fs-4" style = {{ marginLeft: "20px", marginRight: "20px"}}>{response.Title}</span><p className="text-info fs-4" style = {{ float: "right", marginRight: "20px"}}>{response.VersionRange}</p></div>
     <div id="topiccontent" style = {{ width: "100%",height: `${height*0.60}px`,overflow: "auto",border: "solid #000000 1px"}}>
     <TopicContent response = {response} />
     </div>
