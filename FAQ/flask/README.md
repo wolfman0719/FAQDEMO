@@ -20,7 +20,7 @@
 
 ## ファイルのコピー
 
-faqflask配下のファイルを<IRISディレクトリ>/csp/faqflask/にコピーする
+このflask配下のファイルを<IRISディレクトリ>/csp/faqflask/にコピーする
 
 ## 実行方法
 
