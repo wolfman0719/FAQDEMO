@@ -14,7 +14,7 @@ export const RelatedTopics = (props: any) => {
 	  {	  
         reftopics.map((reftopic: any, index: number) => (
 		  <tr key={index}>
-		  <td></td><button style = {{width: "100%",textAlign: "left"}} className = "btn btn-outline-primary" onClick={() => onClickItem(reftopic.split(comma)[0])}>{`${reftopic.split(comma)[0]}:${reftopic.split(comma)[1]}`}</button></tr>td>
+		  <td><button style = {{width: "100%",textAlign: "left"}} className = "btn btn-outline-primary" onClick={() => onClickItem(reftopic.split(comma)[0])}>{`${reftopic.split(comma)[0]}:${reftopic.split(comma)[1]}`}</button></td>
 		  </tr>
     	)
     )}
