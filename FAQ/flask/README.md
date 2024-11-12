@@ -6,20 +6,21 @@
 
 システム>セキュリティ管理>ウェブ・アプリケーション>ウェブ・アプリケーションの編集>
 
-名前: /csp/faqflask
+- 名前: /csp/faqflask
 
-WSGI
+- WSGI
 
-アプリケーション名: topicbyid
+- アプリケーション名: topicbyid
 
-呼び出し可能な名前: app
+- 呼び出し可能な名前: app
 
-WSGIアプリディレクトリ: <IRISディレクトリ>/csp/faqflask/
+- WSGIアプリディレクトリ: <IRISディレクトリ>/csp/faqflask/
 
-Python Protocol Type: WSGI
+- Python Protocol Type: WSGI
 
-## faqflask配下のファイルを<IRISディレクトリ>/csp/faqflask/にコピーする
+## ファイルのコピー
 
+faqflask配下のファイルを<IRISディレクトリ>/csp/faqflask/にコピーする
 
 ## 実行方法
 
