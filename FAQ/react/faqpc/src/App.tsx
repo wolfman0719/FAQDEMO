@@ -21,6 +21,7 @@ export const App = () => {
   const [fileflag, setFileFlag] = useState(false);
   const [prevtopicid, setPrevTopicId] = useState(0);
   const [prevtopicflag, setPrevTopicFlag] = useState(false);
+  const [editingMode, setEditingMode] = useState(false);
   
   const ServerAddress = configinfo.ServerAddress;
   const ServerPort = configinfo.ServerPort;
@@ -37,6 +38,7 @@ export const App = () => {
 	axios
 	  .get<any>(`${Protocol}://${ServerAddress}:${ServerPort}${ApplicationName}/TopicSearchByKeyword/z${keyword}?IRISUsername=${Username}&IRISPassword=${Password}`)
 	  .then((result: any) => {
+	  setEditingMode(result.data.editingMode)
 	  const topics = result.data.map((topic: any) => ({
 		id: topic.id,
 		title: topic.title
@@ -170,7 +172,9 @@ export const App = () => {
     <div className="topiclist" style = {{ float: "left",width: "40%",height: `${height*0.81}px`,overflow: "auto",border: "solid #000000 1px"}}>	
     {TopicListMemo}
     </div>
-    <div id="topiccontent" style = {{ width: "60%",height: `${height*0.50}px`,overflow: "auto",border: "solid #000000 1px"}}>
+	<div id="topiccontent" style = {{ width: "60%",height: `${height*0.05}px`,overflow: "auto",border: "solid #000000 1px"}}><span  className="fs-5 text-primary" style = {{ marginLeft: "20px", marginRight: "20px"}}><img src="./images/Question.gif" /> {response.Title}</span><p className="text-info fs-4" style = {{ float: "right", marginRight: "20px"}}>{response.VersionRange}</p>
+    </div>
+    <div id="topiccontent" style = {{ width: "60%",height: `${height*0.45}px`,overflow: "auto",border: "solid #000000 1px"}}>
     <TopicContent response = {response} />
     </div>
     <div id="topiccontent" style = {{ width: "60%",height: `${height*0.05}px`,overflow: "auto",border: "solid #000000 1px"}}>
