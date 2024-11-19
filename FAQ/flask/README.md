@@ -14,15 +14,17 @@
 
 - 呼び出し可能な名前: app
 
-- WSGIアプリディレクトリ: <IRISディレクトリ>/csp/faqflask/
+- WSGIアプリディレクトリ: <IRISインストールディレクトリ>/csp/faqflask/
 
 - Python Protocol Type: WSGI
 
 ## ファイルのコピー
 
-このflask配下のファイルを<IRISディレクトリ>/csp/faqflask/にコピーする
+このflask配下のファイルを<IRISインストールディレクトリ>/csp/faqflask/にコピーする
 
 ## 実行方法
+
+ポート番号は、実際の環境に合わせる
 
 http://localhost:8080/csp/faqflask/topicid/:topicid
 
