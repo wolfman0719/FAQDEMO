@@ -9,7 +9,7 @@ export const RelatedTopics = (props: any) => {
   return (
     <>
     <p>関連トピック</p>
-    <table><tbody>
+    <table style = {{width: "100%"}}><tbody>
 	
 	  {	  
         reftopics.map((reftopic: any, index: number) => (
