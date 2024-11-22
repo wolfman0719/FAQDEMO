@@ -63,39 +63,39 @@ export const Home = (props: any) => {
 	  .get<any>(`${Protocol}://${ServerAddress}:${ServerPort}${ApplicationName}/TopicGetById/${topicid}?IRISUsername=${Username}&IRISPassword=${Password}`)
 	  .then((result: any) => {
 	    setResponse(result.data);
-	    if (response.FileFlg) {
-	      setFileFlag(true);
-	    }
-	    else {
-	      setFileFlag(false);
-	    }
-	      setRefTopics(result.data.RefArray);
+		if (response.FileFlg) {
+			setFileFlag(true);
+		}
+		else {
+			setFileFlag(false);
+		}
+		setRefTopics(result.data.RefArray);
 	  })
-          .catch((error: any) => {
+      .catch((error: any) => {
 	     setIsError(true)
-	     if (error.response) {			
-	       setErrorText(error.response.data.summary);
-	     }
-	     else if (error.request) {
-	       setErrorText(error.request);
-	     } 
-	     else {
-	       setErrorText(error.message);
-	     }
+		 if (error.response) {			
+		   setErrorText(error.response.data.summary);
+		 }
+		 else if (error.request) {
+		   setErrorText(error.request);
+		 } 
+		 else {
+		   setErrorText(error.message);
+		 }
 	  })
       .finally(() => setIsLoading(false))
       
-      }, []);
+      }, [Protocol,ServerAddress,ServerPort,ApplicationName,Password,Username,response,topicid]);
   
   return (
     <>
     <div className="title">
-    <Header />
-    </div>
-    {isError && <p style={{ color: "red" }}>エラーが発生しました　{`${errortext}`}</p>}
-    {isLoading && <p>Laoding...</p>}
-    <div id="topiccontent" style = {{ width: "100%",height: `${height*0.05}px`,overflow: "auto",border: "solid #000000 1px"}}><span  className="fs-5 text-primary" style = {{ marginLeft: "20px", marginRight: "20px"}}><img src="../images/Question.gif" alt="Question" /> {response.Title}</span><p className="text-info fs-4" style = {{ float: "right", marginRight: "20px"}}>{response.VersionRange}</p></div>
-    <div id="topiccontent" style = {{ width: "100%",height: `${height*0.45}px`,overflow: "auto",border: "solid #000000 1px"}}>
+	<Header />
+	</div>
+	{isError && <p style={{ color: "red" }}>エラーが発生しました　{`${errortext}`}</p>}
+	{isLoading && <p>Loading...</p>}
+	<div id="topiccontent" style = {{ width: "100%",height: `${height*0.05}px`,overflow: "auto",border: "solid #000000 1px"}}><span  className="fs-5 text-primary" style = {{ marginLeft: "20px", marginRight: "20px"}}><img src="../images/Question.gif" alt="Question"/> {response.Title}</span><p className="text-info fs-4" style = {{ float: "right", marginRight: "20px"}}>{response.VersionRange}</p></div>
+	<div id="topiccontent" style = {{ width: "100%",height: `${height*0.45}px`,overflow: "auto",border: "solid #000000 1px"}}>
     <TopicContent response = {response} />
     </div>
     <div id="topiccontent" style = {{ width: "100%",height: `${height*0.05}px`,overflow: "auto",border: "solid #000000 1px"}}>
@@ -105,7 +105,7 @@ export const Home = (props: any) => {
     <RelatedTopics reftopics = {reftopics} onClickItem = {onClickItem2} />
     </div>
     <div id="downloadfile" style = {{ width: "100%",height: `${height*0.06}px`,overflow: "auto",border: "solid #000000 1px"}}>
-    <DownloadFile fileflag = {fileflag} response = {response} />
+	<DownloadFile fileflag = {fileflag} response = {response} />
     </div>	
     </>	
   );	
