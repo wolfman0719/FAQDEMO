@@ -85,7 +85,7 @@ export const Home = (props: any) => {
 	  })
       .finally(() => setIsLoading(false))
       
-      }, [Protocol,ServerAddress,ServerPort,ApplicationName,Password,Username,response,topicid]);
+      }, []);
   
   return (
     <>
