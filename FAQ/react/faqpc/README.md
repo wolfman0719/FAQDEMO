@@ -38,6 +38,10 @@
 
   index.html
 
+  intersystems.css
+
+  images/
+
 - src
 
   index.tsx
