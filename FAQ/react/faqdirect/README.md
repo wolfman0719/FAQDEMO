@@ -38,6 +38,10 @@
 
     .htaccessにリネームする
 
+  intersystems.css
+
+  images/
+
 - src
 
   index.tsx
