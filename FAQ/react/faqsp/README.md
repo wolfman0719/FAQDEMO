@@ -37,7 +37,9 @@
 - public
 
   index.html
+  
   intersystems.css
+
   images/
 
 - src
