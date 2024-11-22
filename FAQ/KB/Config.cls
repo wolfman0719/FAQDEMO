@@ -81,6 +81,11 @@ ClassMethod getWebServerPort() As %String
 	quit $get(^Techinfo("WebServerPort"))
 }
 
+ClassMethod getWebServerProtocol() As %String
+{
+	quit $get(^Techinfo("WebServerProtocol"))
+}
+
 ClassMethod getWebServerAddress() As %String
 {
 	set address = $get(^Techinfo("WebServerAddress"))
@@ -200,6 +205,8 @@ ClassMethod setWebServer() As %Status
 	set $namespace = namespace
 	set ^Techinfo("WebServerAddress") = p("WebServerName")
 	set ^Techinfo("WebServerPort") = p("WebServerPort")
+	set ^Techinfo("WebServerProtocol") = p("WebServerProtocol")
+      
 	quit status
 }
 
