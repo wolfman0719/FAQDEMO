@@ -16,7 +16,7 @@ export const QueryById = () => {
  
   return (
     <>
-     <table style = {{width: "100%"}}>
+     <table>
      <tr>
 	  <td><label className="p-1">ID:</label></td>
 	  <td><input type="text" value = {inputtext} onChange={onChangeText} /></td>
