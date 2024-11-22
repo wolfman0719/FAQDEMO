@@ -134,7 +134,7 @@ export const App = () => {
 
   useEffect( () => {
 
-	setIsLoading(true);
+    setIsLoading(true);
     setIsError(false);
   
 	axios
@@ -148,7 +148,7 @@ export const App = () => {
 	  })
       .catch((error: any) => {
         setIsError(true)
-		setErrorText(error.message);
+	setErrorText(error.message);
 	  })
       .finally(() => setIsLoading(false));
       
@@ -161,18 +161,19 @@ export const App = () => {
     return (
     <>
     <div className="title">
-	<Header />
-	</div>
+    <Header />
+    </div>
     <div className="query">
-	<Query onClickItem = {onClickItem} onClickFetchTopicList = {onClickFetchTopicList} />
+    <Query onClickItem = {onClickItem} onClickFetchTopicList = {onClickFetchTopicList} />
     {prevtopicflag  ? (<button className="btn btn-secondary" onClick={() => onClickItem(prevtopicid)}><i className="bi bi-arrow-left"></i>前のトピックに戻る</button>):
     (<button  className="btn btn-secondary" onClick={() => onClickItem(prevtopicid)} disabled><i className="bi bi-arrow-left"></i>前のトピックに戻る</button>)}
-	{isError && <p style={{ color: "red" }}>エラーが発生しました　{`${errortext}`}</p>}
-	</div>
+    {isError && <p style={{ color: "red" }}>エラーが発生しました　{`${errortext}`}</p>}
+    {isLoading && <p>Laoding...</p>}
+    </div>
     <div className="topiclist" style = {{ float: "left",width: "40%",height: `${height*0.81}px`,overflow: "auto",border: "solid #000000 1px"}}>	
     {TopicListMemo}
     </div>
-	<div id="topiccontent" style = {{ width: "60%",height: `${height*0.05}px`,overflow: "auto",border: "solid #000000 1px"}}><span  className="fs-5 text-primary" style = {{ marginLeft: "20px", marginRight: "20px"}}><img src="./images/Question.gif" /> {response.Title}</span><p className="text-info fs-4" style = {{ float: "right", marginRight: "20px"}}>{response.VersionRange}</p>
+    <div id="topiccontent" style = {{ width: "60%",height: `${height*0.05}px`,overflow: "auto",border: "solid #000000 1px"}}><span  className="fs-5 text-primary" style = {{ marginLeft: "20px", marginRight: "20px"}}><img src="./images/Question.gif" /> {response.Title}</span><p className="text-info fs-4" style = {{ float: "right", marginRight: "20px"}}>{response.VersionRange}</p>
     </div>
     <div id="topiccontent" style = {{ width: "60%",height: `${height*0.45}px`,overflow: "auto",border: "solid #000000 1px"}}>
     <TopicContent response = {response} />
@@ -184,7 +185,7 @@ export const App = () => {
     <RelatedTopics reftopics = {reftopics} onClickItem = {onClickItem2} />
     </div>
     <div id="downloadfile" style = {{ width: "60%",height: `${height*0.06}px`,overflow: "auto",border: "solid #000000 1px"}}>
-	<DownloadFile fileflag = {fileflag} response = {response} />
+    <DownloadFile fileflag = {fileflag} response = {response} />
     </div>	
     </>	
   );	
