@@ -1,7 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import axios from "axios";
-import { useParams, useNavigate } from "react-router-dom";
-import configinfo from '../serverconfig.json';
+import React, { useEffect } from 'react';
 
 import hljs from 'highlight.js/lib/core';
 import 'highlight.js/styles/panda-syntax-light.css';
