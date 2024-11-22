@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import hljs from 'highlight.js/lib/core';
 import 'highlight.js/styles/panda-syntax-light.css';
 import xml from 'highlight.js/lib/languages/xml';
