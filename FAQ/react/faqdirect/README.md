@@ -94,7 +94,7 @@
 
 ## Topicの指定方法
 
-http://localhost:3000/Home/100
+http://localhost:3000/#/Content/100
 
 ## CORS設定
 
@@ -125,9 +125,9 @@ https://mihono-bourbon.com/iis-cors/
 
 ## htaccessの設定
 
-デプロイの際（npm run build）には.hsaccessを作成
+デプロイの際（npm run build）には.hsaccessを作成し、redirectの設定を行う
 
-### httpd.conf
+### http.conf
 
 ```
 <Directory />
@@ -137,7 +137,7 @@ https://mihono-bourbon.com/iis-cors/
 
 ### .htaccessの内容
 
-内容は、以下の様な内容
+以下の様な内容を記述する
 
 ```
 RewriteEngine On
