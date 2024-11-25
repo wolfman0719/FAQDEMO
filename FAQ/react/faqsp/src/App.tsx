@@ -10,11 +10,11 @@ export const App = () => {
 
   return (
     <HashRouter>
-	<Routes>
-	  <Route path='/' element={<Home/>} />
-      <Route path="/Content/:topicid"  element={<TopicInfo/>} />
-	</Routes>
-   </HashRouter>   
+    <Routes>
+    <Route path='/' element={<Home/>} />
+    <Route path="/Content/:topicid"  element={<TopicInfo/>} />
+    </Routes>
+    </HashRouter>   
   );	
 }
 export default App;
