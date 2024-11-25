@@ -94,7 +94,7 @@ export const Home = (props: any) => {
 	</div>
 	{isError && <p style={{ color: "red" }}>エラーが発生しました　{`${errortext}`}</p>}
 	{isLoading && <p>Loading...</p>}
-	<div id="topiccontent" style = {{ width: "100%",height: `${height*0.05}px`,overflow: "auto",border: "solid #000000 1px"}}><span  className="fs-5 text-primary" style = {{ marginLeft: "20px", marginRight: "20px"}}><img src="../images/Question.gif" alt="Question"/> {response.Title}</span><p className="text-info fs-4" style = {{ float: "right", marginRight: "20px"}}>{response.VersionRange}</p></div>
+	<div id="topiccontent" style = {{ width: "100%",height: `${height*0.05}px`,overflow: "auto",border: "solid #000000 1px"}}><span  className="fs-5 text-primary" style = {{ marginLeft: "20px", marginRight: "20px"}}><img src="./images/Question.gif" alt="Question"/> {response.Title}</span><p className="text-info fs-4" style = {{ float: "right", marginRight: "20px"}}>{response.VersionRange}</p></div>
 	<div id="topiccontent" style = {{ width: "100%",height: `${height*0.45}px`,overflow: "auto",border: "solid #000000 1px"}}>
     <TopicContent response = {response} />
     </div>
