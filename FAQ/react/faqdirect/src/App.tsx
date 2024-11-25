@@ -7,11 +7,10 @@ export const App = () => {
  
   return (
   <HashRouter>
-	<Routes>
+  <Routes>
   <Route path="/Content/:topicid"  element={<Home/>} />
   <Route path="/"  element={<Top/>} />
-  <Route path="/HowTo"  element={<Top/>} />
-	</Routes>
+  </Routes>
    </HashRouter>   
   );	
 }
