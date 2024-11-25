@@ -121,3 +121,26 @@ IISの場合は、以下の設定を参考
 
 https://mihono-bourbon.com/iis-cors/
 
+## htaccessの設定
+
+デプロイの際（npm run build）には.hsaccessを作成し、redirectの設定を行う
+
+### http.conf
+
+```
+<Directory />
+  AllowOverride All
+</Directory>
+```
+
+### .htaccessの内容
+
+以下の様な内容を記述する
+
+```
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-l
+RewriteRule ^ index.html [QSA,L]
+```
