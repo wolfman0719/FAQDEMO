@@ -123,9 +123,9 @@ IISの場合は、以下の設定を参考
 
 https://mihono-bourbon.com/iis-cors/
 
-## htaccessの設定
+## .htaccessの設定
 
-デプロイの際（npm run build）には.hsaccessを作成し、redirectの設定を行う
+デプロイの際（npm run build）には.htaccessを作成し、redirectの設定を行う
 
 ### http.conf
 
