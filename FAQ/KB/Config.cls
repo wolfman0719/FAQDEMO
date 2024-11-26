@@ -92,14 +92,6 @@ ClassMethod getWebServerAddress() As %String
 	quit $case(address,"":"localhost",:address)
 }
 
-ClassMethod getEditingMode() As %String
-{
-	// 1 - True
-	// 0 - False
-	set editingMode = $get(^Techinfo("EditingMode"))
-	quit $case(editingMode,1:1,:0)
-}
-
 ClassMethod setAttachedFileName(afile As %String) As %Status
 {
 	set ^Techinfo("AttachedFileName") = afile
@@ -207,13 +199,6 @@ ClassMethod setWebServer() As %Status
 	set ^Techinfo("WebServerPort") = p("WebServerPort")
 	set ^Techinfo("WebServerProtocol") = p("WebServerProtocol")
       
-	quit status
-}
-
-ClassMethod setEditingMode(editingMode As %Integer) As %Status
-{
-	set status = $$$OK
-	set ^Techinfo("editingMode") = editingMode
 	quit status
 }
 
