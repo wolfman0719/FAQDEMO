@@ -9,7 +9,6 @@ XData UrlMap
   <Route Url="/TopicGetById/:id" Method="GET" Call="FAQ.RestAPI:TopicGetById"/>
   <Route Url="/TopicSearchByNew" Method="GET" Call="FAQ.RestAPI:TopicSearchByNew"/>
   <Route Url="/ImageUpload" Method="POST" Call="FAQ.RestAPI:ImageUpload"/>
-  <Route Url="/EditingMode" Method="GET" Call="FAQ.RestAPI:EditingMode"/>
 </Routes>
 }
 
@@ -31,51 +30,51 @@ ClassMethod TopicSearchByKeyword(pKeyword As %String) As %Status
 	
     if $data(%request) {
       set %response.ContentType="application/json"
-	    set %response.CharSet = "utf-8"
+      set %response.CharSet = "utf-8"
     }
 
     set pKeyword = $extract(pKeyword,2,*)
 
     // キーワードが(または)で終わる場合、検索エラーとなる問題に対処する
-	 	set pKeyword = $replace($replace(pKeyword,"("," "),")"," ")
+    set pKeyword = $replace($replace(pKeyword,"("," "),")"," ")
  
- 	  // 検索文字列にNOT, AND, ORが含まれるときには¥を前置してエスケープする
+    // 検索文字列にNOT, AND, ORが含まれるときには¥を前置してエスケープする
     for i = 1:1:$length(pKeyword, " ") {
-	    set key(i) = $piece(pKeyword," ",i)
-	    if ($zcvt(key(i),"U") = "NOT") || ($zcvt(key(i),"U") = "AND") || ($zcvt(key(i),"U") = "OR") {
-		  set key(i) = "¥"_key(i)
-	    }  
-	  }
+      set key(i) = $piece(pKeyword," ",i)
+      if ($zcvt(key(i),"U") = "NOT") || ($zcvt(key(i),"U") = "AND") || ($zcvt(key(i),"U") = "OR") {
+      set key(i) = "¥"_key(i)
+    }  
+  }
 
-	  for j = 1:1:i {
-		  set ifindkey = $get(ifindkey)_" "_key(j)
-	  }
+  for j = 1:1:i {
+    set ifindkey = $get(ifindkey)_" "_key(j)
+  }
 
-    if pKeyword = "" {	  
-      set sql = "SELECT id,title from kb.topic where Completed=1 and Visible=1 and DeleteFlg!=1 order by id"
-    }
-    else {
-      set sql = "SELECT id,title from kb.topic where (%ID %FIND Search_Index(DescriptionIndex1,(?)) or %ID %FIND Search_Index(TitleIndex1,(?))) and Completed=1 and Visible=1 and DeleteFlg!=1 order by id"
-    }
+  if pKeyword = "" {	  
+    set sql = "SELECT id,title from kb.topic where Completed=1 and Visible=1 and DeleteFlg!=1 order by id"
+  }
+  else {
+    set sql = "SELECT id,title from kb.topic where (%ID %FIND Search_Index(DescriptionIndex1,(?)) or %ID %FIND Search_Index(TitleIndex1,(?))) and Completed=1 and Visible=1 and DeleteFlg!=1 order by id"
+  }
     
-    set statemt=##class(%SQL.Statement).%New()
-    set status=statemt.%Prepare(sql)
-    if sql [ "?" {
-      set rset=statemt.%Execute(ifindkey,ifindkey)
-    }
-    else {
-      set rset=statemt.%Execute()
-    }
-    set return = []
-    while rset.%Next()  {
-      set robj = {}
-      set robj.id = rset.%Get("Id")
-      set robj.title = rset.%Get("title")
-      do return.%Push(robj)
+  set statemt=##class(%SQL.Statement).%New()
+  set status=statemt.%Prepare(sql)
+  if sql [ "?" {
+    set rset=statemt.%Execute(ifindkey,ifindkey)
+  }
+  else {
+    set rset=statemt.%Execute()
+  }
+  set return = []
+  while rset.%Next()  {
+    set robj = {}
+    set robj.id = rset.%Get("Id")
+    set robj.title = rset.%Get("title")
+    do return.%Push(robj)
 		    
-     }
+  }
 	   
-     write return.%ToJSON()
+  write return.%ToJSON()
 	  	  
   }
   catch e {
@@ -95,7 +94,7 @@ ClassMethod TopicSearchAll() As %Status
 	
     if $data(%request) {
       set %response.ContentType="application/json"
-	    set %response.CharSet = "utf-8"
+      set %response.CharSet = "utf-8"
     }
 	  
     set sql = "SELECT id,title from kb.topic"
@@ -131,7 +130,7 @@ ClassMethod TopicSearchByNew() As %Status
 	
     if $data(%request) {
       set %response.ContentType="application/json"
-	    set %response.CharSet = "utf-8"
+      set %response.CharSet = "utf-8"
     }
 	  
     set sql = "SELECT id,title from kb.topic where Completed=1 and Visible=1 and DeleteFlg!=1 order by issuedate desc"
@@ -228,28 +227,28 @@ ClassMethod ImageUpload() As %Status
       set upload = $get(%request.MimeData("upload",1))
 
       if upload'="" {
-	      set fileext = $piece(upload.FileName,".",2)
-	      set filename = $translate($translate($zdatetime($zts,8)," ",""),":","")
-	      set filepath = ##class(KB.Config).getCSPDirectory()_##class(KB.Config).getDirectorySeparator()_"images"_##class(KB.Config).getDirectorySeparator()_filename_"."_fileext
-        set stream=##class(%Stream.FileBinary).%New()
-        do stream.FilenameSet(filepath)
-	      set st = stream.CopyFrom(upload)
-	      set st = stream.%Save()
+	 set fileext = $piece(upload.FileName,".",2)
+	 set filename = $translate($translate($zdatetime($zts,8)," ",""),":","")
+	 set filepath = ##class(KB.Config).getCSPDirectory()_##class(KB.Config).getDirectorySeparator()_"images"_##class(KB.Config).getDirectorySeparator()_filename_"."_fileext
+         set stream=##class(%Stream.FileBinary).%New()
+         do stream.FilenameSet(filepath)
+	   set st = stream.CopyFrom(upload)
+	   set st = stream.%Save()
 	
-	      if st=$$$OK {
-          set fileUrl = protocol_"://"_webserver_":"_webserverport_cspurl_"/faq/images/"_filename_"."_fileext
-          set funcNum = %request.Get("CKEditorFuncNum",1)
-          set message = "ファイルがアップロードされました。"
-          write "<script language=javascript>"
-          &javascript<window.parent.CKEDITOR.tools.callFunction(#(funcNum)#,'#(fileUrl)#','#(message)#');>
-          write "</script>"
-	      } 
-        else {
+	   if st=$$$OK {
+             set fileUrl = protocol_"://"_webserver_":"_webserverport_cspurl_"/faq/images/"_filename_"."_fileext
+             set funcNum = %request.Get("CKEditorFuncNum",1)
+             set message = "ファイルがアップロードされました。"
+             write "<script language=javascript>"
+             &javascript<window.parent.CKEDITOR.tools.callFunction(#(funcNum)#,'#(fileUrl)#','#(message)#');>
+             write "</script>"
+	   } 
+           else {
 
-          set status = e.AsStatus()
-          do ##class(FAQ.Error).StoreErrorInformation(e)
+            set status = e.AsStatus()
+            do ##class(FAQ.Error).StoreErrorInformation(e)
 		
-	      }
+	   }
       }
 
     } 
@@ -257,33 +256,6 @@ ClassMethod ImageUpload() As %Status
       set sts=ex.AsStatus()
     }
     quit sts
-}
-
-ClassMethod EditingMode() As %Status
-{
-  set status = $$$OK
-  
-  try  {
-	
-    set return = []
-    
-    if $roles["FAQEditor" && ##class(KB.Config).getEditingMode() {
-      set return.Editing = 1
-    }
-    else {
-      set return.Editing = 0
-    }
-
-    write return.%ToJSON()
-	  	  
-  }
-  catch e {
-		
-    set status = e.AsStatus()
-		
-  }
-  
-  quit status
 }
 
 Parameter HandleCorsRequest = 1;
