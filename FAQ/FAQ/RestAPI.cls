@@ -245,8 +245,7 @@ ClassMethod ImageUpload() As %Status
 	   } 
            else {
 
-            set status = e.AsStatus()
-            do ##class(FAQ.Error).StoreErrorInformation(e)
+            $$$ThrowOnError(st)
 		
 	   }
       }
