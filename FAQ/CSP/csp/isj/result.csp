@@ -111,10 +111,7 @@ if $Get(%session.Data("Access"))="" {
 
  Set DocNo=%request.Get("DocNo")
  
- Set roles=$Get(%session.Data("roles"))
- if roles="" {
-	 set roles=0
- }
+ Set roles=+$Get(%session.Data("roles"))
 
  if DocNo'="" {
    set dcurl = ""
