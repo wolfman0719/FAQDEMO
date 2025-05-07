@@ -115,9 +115,9 @@ ClassMethod TopicSearchAll() As %Status
       set robj.title = rset.%Get("title")
       do return.%Push(robj)
 		    
-     }
+    }
 	   
-     write return.%ToJSON()
+    write return.%ToJSON()
 	  	  
   }
   catch e {
@@ -151,9 +151,9 @@ ClassMethod TopicSearchByNew() As %Status
       set robj.title = rset.%Get("title")
       do return.%Push(robj)
 		    
-     }
+    }
 	   
-     write return.%ToJSON()
+    write return.%ToJSON()
 	  	  
   }
   catch e {
@@ -223,45 +223,45 @@ ClassMethod TopicGetById(pId As %Integer) As %Status
 
 ClassMethod ImageUpload() As %Status
 {
-	set sts=$$$OK
+  set sts=$$$OK
 
-    try {
+  try {
 
-      set webserver = ##class(KB.Config).getWebServerAddress()
-      set webserverport = ##class(KB.Config).getWebServerPort()
-      set cspurl = ##class(KB.Config).getCSPUrl()
-      set protocol = ##class(KB.Config).getWebServerProtocol()
-      set upload = $get(%request.MimeData("upload",1))
+    set webserver = ##class(KB.Config).getWebServerAddress()
+    set webserverport = ##class(KB.Config).getWebServerPort()
+    set cspurl = ##class(KB.Config).getCSPUrl()
+    set protocol = ##class(KB.Config).getWebServerProtocol()
+    set upload = $get(%request.MimeData("upload",1))
 
-      if upload'="" {
-	      set fileext = $piece(upload.FileName,".",2)
-	      set filename = $translate($translate($zdatetime($zts,8)," ",""),":","")
-	      set filepath = ##class(KB.Config).getCSPDirectory()_##class(KB.Config).getDirectorySeparator()_"images"_##class(KB.Config).getDirectorySeparator()_filename_"."_fileext
-        set stream=##class(%Stream.FileBinary).%New()
-        do stream.FilenameSet(filepath)
-	      set st = stream.CopyFrom(upload)
-	      set st = stream.%Save()
+    if upload'="" {
+      set fileext = $piece(upload.FileName,".",2)
+      set filename = $translate($translate($zdatetime($zts,8)," ",""),":","")
+      set filepath = ##class(KB.Config).getCSPDirectory()_##class(KB.Config).getDirectorySeparator()_"images"_##class(KB.Config).getDirectorySeparator()_filename_"."_fileext
+      set stream=##class(%Stream.FileBinary).%New()
+      do stream.FilenameSet(filepath)
+      set st = stream.CopyFrom(upload)
+      set st = stream.%Save()
 	
-	      if st=$$$OK {
-          set fileUrl = protocol_"://"_webserver_":"_webserverport_cspurl_"/faq/images/"_filename_"."_fileext
-          set funcNum = %request.Get("CKEditorFuncNum",1)
-          set message = "ファイルがアップロードされました。"
-          write "<script language=javascript>"
-          &javascript<window.parent.CKEDITOR.tools.callFunction(#(funcNum)#,'#(fileUrl)#','#(message)#');>
-          write "</script>"
-	      } 
-        else {
+      if st=$$$OK {
+        set fileUrl = protocol_"://"_webserver_":"_webserverport_cspurl_"/faq/images/"_filename_"."_fileext
+        set funcNum = %request.Get("CKEditorFuncNum",1)
+        set message = "ファイルがアップロードされました。"
+        write "<script language=javascript>"
+        &javascript<window.parent.CKEDITOR.tools.callFunction(#(funcNum)#,'#(fileUrl)#','#(message)#');>
+        write "</script>"
+      } 
+      else {
 
-          $$$ThrowOnError(st)
+        $$$ThrowOnError(st)
 		
-	      }
       }
-
-    } 
-    catch ex {
-      set sts=ex.AsStatus()
     }
-    quit sts
+
+  } 
+  catch ex {
+    set sts=ex.AsStatus()
+  }
+  quit sts
 }
 
 ClassMethod TopicSave() As %Status
@@ -275,8 +275,8 @@ ClassMethod TopicSave() As %Status
     }
 
     set len = 1000000
-		set jsontext = %request.Content.Read(.len,.status)
-		set json = {}.%FromJSON(jsontext)
+    set jsontext = %request.Content.Read(.len,.status)
+    set json = {}.%FromJSON(jsontext)
     set new = json.New
 
     if new {
