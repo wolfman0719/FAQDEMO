@@ -12,20 +12,19 @@ Property Password As %String(TRUNCATE = 1) [ Private ];
 /// パスワードの暗号化
 Method SetPassword(New As %String, Old As %String) As %Boolean
 {
-	If (..Password '= "")
-	{
-		If (Old '= $System.Encryption.AESCBCDecrypt(..Password,"1234567890")) Quit 0
-	}
-	Set ..Password = $System.Encryption.AESCBCEncrypt(New,"1234567890")
-	Quit $$$OK
+  If (..Password '= "") {
+    If (Old '= $System.Encryption.AESCBCDecrypt(..Password,"1234567890")) Quit 0
+  }
+  Set ..Password = $System.Encryption.AESCBCEncrypt(New,"1234567890")
+  Quit $$$OK
 }
 
 /// パスワードの復号化
 Method VerifyPassword(Arg1 As %String) As %Boolean
 {
-	If Arg1 = $System.Encryption.AESCBCDecrypt(..Password,"1234567890") 
-	{Quit $$$OK}
-	Else {Quit 0}
+  If Arg1 = $System.Encryption.AESCBCDecrypt(..Password,"1234567890") 
+  {Quit $$$OK}
+  Else {Quit 0}
 }
 
 Query ByName(Name As %String) As %SQLQuery(CONTAINID = 1)
