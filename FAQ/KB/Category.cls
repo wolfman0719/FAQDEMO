@@ -19,12 +19,12 @@ SELECT %ID,Description FROM Category
 
 ClassMethod Init()
 {
-	Do ##class(KB.Category).%KillExtent()
-	&SQL(insert into KB.Category (Description) values ('技術情報'))
-	&SQL(insert into KB.Category (Description) values ('サンプルコード'))
-	&SQL(insert into KB.Category (Description) values ('制限事項'))
-	&SQL(insert into KB.Category (Description) values ('アラート'))
-	&SQL(insert into KB.Category (Description) values ('その他'))
+  Do ##class(KB.Category).%KillExtent()
+  &SQL(insert into KB.Category (Description) values ('技術情報'))
+  &SQL(insert into KB.Category (Description) values ('サンプルコード'))
+  &SQL(insert into KB.Category (Description) values ('制限事項'))
+  &SQL(insert into KB.Category (Description) values ('アラート'))
+  &SQL(insert into KB.Category (Description) values ('その他'))
 }
 
 Storage Default
