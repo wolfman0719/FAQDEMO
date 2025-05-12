@@ -187,92 +187,96 @@ XData Contents [ XMLNamespace = "http://www.intersystems.com/zen" ]
 
 Method %OnAfterCreatePage() As %Status
 {
-	set admin = $roles["FAQAdministrator"
-	set editor = $roles["FAQEditor"
+  set admin = $roles["FAQAdministrator"
+  set editor = $roles["FAQEditor"
 
-	//テスト用
-	//set admin=1
-	//set editor=1
+  //テスト用
+  //set admin=1
+  //set editor=1
 	
-	if admin=1 {
-		set %session.Data("roles")=1
-	}elseif editor=1{
-		set %session.Data("roles")=2
-	}else {
-		set %session.Data("roles")=0
-	}
+  if admin=1 {
+    set %session.Data("roles")=1
+  }
+  elseif editor=1{
+    set %session.Data("roles")=2
+  }
+  else {
+    set %session.Data("roles")=0
+  }
 
-	if editor=1 {
-		set homeframe=..%GetComponentById("homeframe")
-		set homeframe.src= "howtoforeditors.csp"
-	}	
+  if editor=1 {
+    set homeframe=..%GetComponentById("homeframe")
+    set homeframe.src= "howtoforeditors.csp"
+  }	
 		
-	//FAQアプリへのアクセスカウント
-	if $Get(%session.Data("Access"))="" {
-		set ^AccessCount = $Get(^AccessCount)+1
-		set today=$zdate($h,8)
-		set ^AccessCount(today) = $Get(^AccessCount(today))+1
-		set %session.Data("Access")=1
-	}
-	quit $$$OK
+  //FAQアプリへのアクセスカウント
+  if $Get(%session.Data("Access"))="" {
+    set ^AccessCount = $Get(^AccessCount)+1
+    set today=$zdate($h,8)
+    set ^AccessCount(today) = $Get(^AccessCount(today))+1
+    set %session.Data("Access")=1
+  }
+  quit $$$OK
 }
 
 ClientMethod setTabSize() [ Language = javascript ]
 {
-	var tabgroup = zenPage.getComponentById('tabGroup');
+  var tabgroup = zenPage.getComponentById('tabGroup');
 
-	var winheight = zenGetWindowHeight();
+  var winheight = zenGetWindowHeight();
 				
-	var titlehg = zenPage.getComponentById('titlehgroup');
-	var divtitlehg = titlehg.getEnclosingDiv();
-	var divtitleheight = divtitlehg.offsetHeight;
+  var titlehg = zenPage.getComponentById('titlehgroup');
+  var divtitlehg = titlehg.getEnclosingDiv();
+  var divtitleheight = divtitlehg.offsetHeight;
 	
-	var tabheight = winheight - divtitleheight - 30;
+  var tabheight = winheight - divtitleheight - 30;
 	
-	var userAgent = window.navigator.userAgent.toLowerCase();
+  var userAgent = window.navigator.userAgent.toLowerCase();
 
-	if (userAgent.indexOf('chrome') != -1) {
-		tabgroup.setBodySize(tabheight);
-	}else {
-		tabgroup.setProperty('height',tabheight);
-	}
+  if (userAgent.indexOf('chrome') != -1) {
+    tabgroup.setBodySize(tabheight);
+  }
+  else {
+    tabgroup.setProperty('height',tabheight);
+  }
 }
 
 ClientMethod onlayoutHandler(load) [ Language = javascript ]
 {
-	var tabgroup = zenPage.getComponentById('tabGroup');
-	var gentab = zenPage.getComponentById('gentab');
-	var cachetab = zenPage.getComponentById('cachetab');
-	var enstab = zenPage.getComponentById('enstab');
+  var tabgroup = zenPage.getComponentById('tabGroup');
+  var gentab = zenPage.getComponentById('gentab');
+  var cachetab = zenPage.getComponentById('cachetab');
+  var enstab = zenPage.getComponentById('enstab');
 	
-	var homeframe = zenPage.getComponentById('homeframe');
-	var genframe = zenPage.getComponentById('genframe');
-	var cacheframe = zenPage.getComponentById('cacheframe');
-	var ensframe = zenPage.getComponentById('ensframe');
+  var homeframe = zenPage.getComponentById('homeframe');
+  var genframe = zenPage.getComponentById('genframe');
+  var cacheframe = zenPage.getComponentById('cacheframe');
+  var ensframe = zenPage.getComponentById('ensframe');
 
-	// find height of window
-	var winheight = zenGetWindowHeight();
+  // find height of window
+  var winheight = zenGetWindowHeight();
 				
-	// find divs for title & mainMenu
-	var titlehg = zenPage.getComponentById('titlehgroup');
-	var divtitlehg = titlehg.getEnclosingDiv();
-	var divtitleheight = divtitlehg.offsetHeight;
+  // find divs for title & mainMenu
+  var titlehg = zenPage.getComponentById('titlehgroup');
+  var divtitlehg = titlehg.getEnclosingDiv();
+  var divtitleheight = divtitlehg.offsetHeight;
 	
-	var tabheight = winheight - divtitleheight - 30;
-	var frameheight = tabheight - 7;
+  var tabheight = winheight - divtitleheight - 30;
+  var frameheight = tabheight - 7;
 	
-	var userAgent = window.navigator.userAgent.toLowerCase();
+  var userAgent = window.navigator.userAgent.toLowerCase();
 
-	if (userAgent.indexOf('chrome') != -1) {
-		tabgroup.setBodySize(tabheight);
-	}else {
-		tabgroup.setProperty('height',tabheight);
-	}
+  if (userAgent.indexOf('chrome') != -1) {
+    tabgroup.setBodySize(tabheight);
+  }
+  else {
+    tabgroup.setProperty('height',tabheight);
+  }
 	
-	homeframe.setProperty('height',frameheight);
-	genframe.setProperty('height',frameheight);
-	cacheframe.setProperty('height',frameheight);
-	ensframe.setProperty('height',frameheight);
+  homeframe.setProperty('height',frameheight);
+  genframe.setProperty('height',frameheight);
+  cacheframe.setProperty('height',frameheight);
+  ensframe.setProperty('height',frameheight);
 }
 
 ClientMethod onresizeHandler() [ Language = javascript ]
