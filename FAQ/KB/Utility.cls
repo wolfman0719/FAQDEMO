@@ -5,86 +5,86 @@ Class KB.Utility
 
 ClassMethod ShowVersion() As %String
 {
-	quit "1.2.123"
+  quit "1.2.123"
 }
 
 /// xmlインポートおよびxmlエクスポートでは、TopicのFileLoc(FileStream)は、交換できない
 ClassMethod xmlImport(filename As %String)
 {
-	// Create a new XML Reader class
-	Set reader = ##class(%XML.Reader).%New()
-	// Begin processing of the XML input
-	Set sc=reader.OpenFile(filename)
-	If $$$ISERR(sc) Do $system.OBJ.DisplayError(sc) Quit  
-	// Associate a class name with the XML element name
-	Do reader.Correlate("Topic","KB.Topic")
-	// read KB.Topic objects from xml file
-	Set Count=0
-	While reader.Next(.kb,.sc) {
-	  Set Count = Count + 1
-	  Set sc=kb.%Save()
-	  If $$$ISERR(sc) Do $system.OBJ.DisplayError(sc) Quit  
-	}
-	If $$$ISERR(sc) Do $system.OBJ.DisplayError(sc) Quit
+  // Create a new XML Reader class
+  Set reader = ##class(%XML.Reader).%New()
+  // Begin processing of the XML input
+  Set sc=reader.OpenFile(filename)
+  If $$$ISERR(sc) Do $system.OBJ.DisplayError(sc) Quit  
+  // Associate a class name with the XML element name
+  Do reader.Correlate("Topic","KB.Topic")
+  // read KB.Topic objects from xml file
+  Set Count=0
+  While reader.Next(.kb,.sc) {
+    Set Count = Count + 1
+    Set sc=kb.%Save()
+    If $$$ISERR(sc) Do $system.OBJ.DisplayError(sc) Quit  
+  }
+  If $$$ISERR(sc) Do $system.OBJ.DisplayError(sc) Quit
 }
 
 ClassMethod ExecxmlImport(dir As %String)
 {
-	set fileInfors = ##class(%ResultSet).%New("%File:FileSet")
-	set count = 0
-	set dirname=^Techinfo("XmlExport Directory")_"\"_dir
+  set fileInfors = ##class(%ResultSet).%New("%File:FileSet")
+  set count = 0
+  set dirname=^Techinfo("XmlExport Directory")_"\"_dir
 	
-	do fileInfors.Execute(dirname)
-	while(fileInfors.Next()) {
-	  set filename = fileInfors.GetData(1)
-	  set file = $Piece(filename,"\",$Length(filename,"\"))
-	  if ($Piece(filename,".",2)="xml") {
-	    do ..xmlImport(filename)
-	    set count = count + 1
-	  }
-	}
+  do fileInfors.Execute(dirname)
+  while(fileInfors.Next()) {
+    set filename = fileInfors.GetData(1)
+    set file = $Piece(filename,"\",$Length(filename,"\"))
+    if ($Piece(filename,".",2)="xml") {
+      do ..xmlImport(filename)
+      set count = count + 1
+    }
+  }
 
-	write count," topic(s) Loaded",!
+  write count," topic(s) Loaded",!
 }
 
 ClassMethod xmlExport(id As %String, fileName As %String)
 {
-	set writer=##class(%XML.Writer).%New()
-	set sc = writer.OutputToFile(fileName)
-	If $$$ISERR(sc) Do $system.OBJ.DisplayError(sc) Quit
-	set sc=writer.RootElement("KBTopic")
-	If $$$ISERR(sc) Do $system.OBJ.DisplayError(sc) Quit
-	set tp=##class(KB.Topic).%OpenId(id)
-	set writer.ReferencesInline = 1
-	set writer.Charset="UTF-8"
-	set writer.Format="encoded"
-	set sc=writer.Object(tp,"Topic")
-	If $$$ISERR(sc) Do $system.OBJ.DisplayError(sc) Quit
-	set sc=writer.EndRootElement()
-	If $$$ISERR(sc) Do $system.OBJ.DisplayError(sc) Quit
+  set writer=##class(%XML.Writer).%New()
+  set sc = writer.OutputToFile(fileName)
+  If $$$ISERR(sc) Do $system.OBJ.DisplayError(sc) Quit
+  set sc=writer.RootElement("KBTopic")
+  If $$$ISERR(sc) Do $system.OBJ.DisplayError(sc) Quit
+  set tp=##class(KB.Topic).%OpenId(id)
+  set writer.ReferencesInline = 1
+  set writer.Charset="UTF-8"
+  set writer.Format="encoded"
+  set sc=writer.Object(tp,"Topic")
+  If $$$ISERR(sc) Do $system.OBJ.DisplayError(sc) Quit
+  set sc=writer.EndRootElement()
+  If $$$ISERR(sc) Do $system.OBJ.DisplayError(sc) Quit
 }
 
 ClassMethod ExecxmlExport(startid, endid)
 {
 	
-	set exportdir=^Techinfo("XmlExport Directory")_"\"_$zdate($h,8)
+  set exportdir=^Techinfo("XmlExport Directory")_"\"_$zdate($h,8)
 	
-	set st1=##class(%File).DirectoryExists(exportdir)
-	if st1=0 {
-	  set st2 = ##class(%File).CreateDirectory(exportdir)
-	}
+  set st1=##class(%File).DirectoryExists(exportdir)
+  if st1=0 {
+    set st2 = ##class(%File).CreateDirectory(exportdir)
+  }
 	
-	set expcount=0
+  set expcount=0
 	
-	for id=startid:1:endid {
-	  set tp=##class(KB.Topic).%OpenId(id)
-	  if tp="" quit 
+  for id=startid:1:endid {
+    set tp=##class(KB.Topic).%OpenId(id)
+    if tp="" quit 
 		
-	  set filename=exportdir_"\Topic"_id_".xml"
-	  do ..xmlExport(id,filename)
-	  write filename,!
-	  set expcount=expcount+1
-	}
+    set filename=exportdir_"\Topic"_id_".xml"
+    do ..xmlExport(id,filename)
+    write filename,!
+    set expcount=expcount+1
+  }
 }
 
 ClassMethod ExecxmlExport1(startID As %String, endID As %String)
@@ -611,8 +611,8 @@ ClassMethod PickupTags(pText As %String, pTag As %String, ByRef pResults As %Str
       set pResults(counter) = $extract(pText,sfind,end)
       set pResults = counter
     }
-	    If 'sfind quit
-	    If 'efind quit
+    If 'sfind quit
+    If 'efind quit
     }
     	
     Quit $$$OK
