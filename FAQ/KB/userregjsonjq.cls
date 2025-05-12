@@ -29,8 +29,8 @@ ClassMethod OnPage() As %Status [ ServerOnly = 1 ]
    Set sts = $classmethod("Security.Users","Create",Username,,Password,Name,,,,,1,$Listbuild(Email,Company,Dep))
  }
  catch ErrorH {
-	 set tErrorText = ErrorH.Data
-	 set tError = ErrorH.AsStatus()
+   set tErrorText = ErrorH.Data
+   set tError = ErrorH.AsStatus()
  }
  Zn tNamespace
  If $$$ISERR(tError) Write tErrorText,! Quit $$$OK
@@ -92,8 +92,8 @@ ClassMethod OnPage() As %Status [ ServerOnly = 1 ]
 /// Return <b>0</b> to prevent <method>OnPage</method> from being called.
 ClassMethod OnPreHTTP() As %Boolean [ ServerOnly = 1 ]
 {
-    Set %response.ContentType = "text/plain" //So the browser understands that this is JSONP
-    Quit $$$OK
+  Set %response.ContentType = "text/plain" //So the browser understands that this is JSONP
+  Quit $$$OK
 }
 
 }
