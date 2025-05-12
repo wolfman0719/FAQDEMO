@@ -8,8 +8,8 @@ Class KB.Event Extends %CSP.SessionEvents
 /// </example>
 ClassMethod OnTimeout()
 {
-	Set %session.EndSession = 1
-	Quit
+  Set %session.EndSession = 1
+  Quit
 }
 
 }
