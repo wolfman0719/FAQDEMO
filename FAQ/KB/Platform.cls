@@ -19,16 +19,16 @@ SELECT %ID,Name FROM Platform
 
 ClassMethod Init()
 {
-	Do ##class(KB.Platform).%KillExtent()
-	&SQL(insert into KB.Platform (Name) values ('Windows'))
-	&SQL(insert into KB.Platform (Name) values ('Linux'))
-	&SQL(insert into KB.Platform (Name) values ('MAC OS X'))
-	&SQL(insert into KB.Platform (Name) values ('HP-UX'))
-	&SQL(insert into KB.Platform (Name) values ('Solaris'))
-	&SQL(insert into KB.Platform (Name) values ('AIX'))
-	&SQL(insert into KB.Platform (Name) values ('OpenVMS'))
-	&SQL(insert into KB.Platform (Name) values ('Linux/UNIX'))
-	&SQL(insert into KB.Platform (Name) values ('プラットフォーム共通'))
+  Do ##class(KB.Platform).%KillExtent()
+  &SQL(insert into KB.Platform (Name) values ('Windows'))
+  &SQL(insert into KB.Platform (Name) values ('Linux'))
+  &SQL(insert into KB.Platform (Name) values ('MAC OS X'))
+  &SQL(insert into KB.Platform (Name) values ('HP-UX'))
+  &SQL(insert into KB.Platform (Name) values ('Solaris'))
+  &SQL(insert into KB.Platform (Name) values ('AIX'))
+  &SQL(insert into KB.Platform (Name) values ('OpenVMS'))
+  &SQL(insert into KB.Platform (Name) values ('Linux/UNIX'))
+  &SQL(insert into KB.Platform (Name) values ('プラットフォーム共通'))
 }
 
 Storage Default
