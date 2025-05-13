@@ -55,7 +55,7 @@ FAQトピック検索システム・バージョン #(##class(KB.Utility).ShowVe
 
 <script language="javascript">
 function openWindow(cspname) {
-	window.open(cspname,'new',"width=1000,height=600,left='+(window.screen.width-1000)/2+',top='+(window.screen.height-600)/2+''),scrollbars=1;void(0)");
+  window.open(cspname,'new',"width=1000,height=600,left='+(window.screen.width-1000)/2+',top='+(window.screen.height-600)/2+''),scrollbars=1;void(0)");
 }
 </script>
 
