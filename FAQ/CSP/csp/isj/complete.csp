@@ -9,74 +9,74 @@
 <body>
 
 <SCRIPT language="cache" runat="server">
- Set DocNo=%request.Get("OBJID")
- Do ..RefCheckLink(DocNo)
+  Set DocNo=%request.Get("OBJID")
+  Do ..RefCheckLink(DocNo)
 
- //添付ファイルアップロード処理
-set fileupflg = $get(%session.Data("UpFlg"))
-if fileupflg=1 {
-	set filename=##class(KB.Config).getAttachedFileName()_DocNo_".zip"
-	set dir=##class(KB.Config).getFTPDirectory()
-	set sep=##class(KB.Config).getDirectorySeparator()
-	set filepath=dir_sep_filename
+  //添付ファイルアップロード処理
+  set fileupflg = $get(%session.Data("UpFlg"))
+  if fileupflg=1 {
+    set filename=##class(KB.Config).getAttachedFileName()_DocNo_".zip"
+    set dir=##class(KB.Config).getFTPDirectory()
+    set sep=##class(KB.Config).getDirectorySeparator()
+    set filepath=dir_sep_filename
 
-	set attached = $get(%request.MimeData("AttachedFile",1))
-	if attached'="" {
-	    set stream=##class(%Stream.FileBinary).%New()
-        do stream.FilenameSet(filepath)	
-		set st = stream.CopyFrom(attached)
-		set st = stream.%Save()
-		if st'=$$$OK {
-			&js<alert('添付ファイルは保存できませんでした');>
-		}
-	 }else{
-		 &js<alert('指定されたファイルが存在しません');>
-	 }
+    set attached = $get(%request.MimeData("AttachedFile",1))
+    if attached'="" {
+      set stream=##class(%Stream.FileBinary).%New()
+      do stream.FilenameSet(filepath)	
+      set st = stream.CopyFrom(attached)
+      set st = stream.%Save()
+      if st'=$$$OK {
+        &js<alert('添付ファイルは保存できませんでした');>
+      }
+    }
+    else {
+      &js<alert('指定されたファイルが存在しません');>
+    }
 	 
-	 set %session.Data("UpFlg") = ""
+    set %session.Data("UpFlg") = ""
 	 
-}
+  }
 
- //TopicId セット
-set topic=##class(KB.Topic).%OpenId(DocNo)
+  //TopicId セット
+  set topic=##class(KB.Topic).%OpenId(DocNo)
 
- //UsersVoice セット
-set uv=topic.UsersVoice
+  //UsersVoice セット
+  set uv=topic.UsersVoice
 
-if uv="" {
-	set uv=##class(KB.UsersVoice).%New()
-	set topic.UsersVoice=uv
-	set uv.TopicId=DocNo
-}
+  if uv="" {
+    set uv=##class(KB.UsersVoice).%New()
+    set topic.UsersVoice=uv
+    set uv.TopicId=DocNo
+  }
 
-set %session.Data("noAudit")=1
-set st=topic.%Save()
-set %session.Data("noAudit")=0
-
+  set %session.Data("noAudit")=1
+  set st=topic.%Save()
+  set %session.Data("noAudit")=0
 
 </SCRIPT>
 
 <SCRIPT language="cache" method="RefCheckLink" arguments="pDocNo:%String"runat="server">
 
-Set topic = ##Class(KB.Topic).%OpenId(pDocNo)
-Set tSC = topic.RefCheckLink(0)
-Set OldList = $Get(%session.Data("RefTopic"))
-Set NewList = topic.RefTopic
- //リスト内の重複トピックを取り除く 
-Set NewList = topic.RemoveDuplicatedRefNo(NewList)
-Set topic.RefTopic = NewList
- //編集した結果、前の関連トピックを削除した場合、相手のトピックからの参照も削除する
-set tSC = ##class(KB.Topic).RemoveLink(DocNo,OldList,NewList)
+  Set topic = ##Class(KB.Topic).%OpenId(pDocNo)
+  Set tSC = topic.RefCheckLink(0)
+  Set OldList = $Get(%session.Data("RefTopic"))
+  Set NewList = topic.RefTopic
+  //リスト内の重複トピックを取り除く 
+  Set NewList = topic.RemoveDuplicatedRefNo(NewList)
+  Set topic.RefTopic = NewList
+  //編集した結果、前の関連トピックを削除した場合、相手のトピックからの参照も削除する
+  set tSC = ##class(KB.Topic).RemoveLink(DocNo,OldList,NewList)
 </SCRIPT>
 
 <DIV align=center style="margin:20px; font-weight:bold;">
-  <SPAN>トピックを保存しました。（ID=#(DocNo)#) </SPAN><BR>
+<SPAN>トピックを保存しました。（ID=#(DocNo)#) </SPAN><BR>
 </DIV>
 <DIV align=center style="margin:20px;">
-  <Input type="image" src="./images/button/tojiru1.gif" border="0" onclick="window.close()"><BR>
+<Input type="image" src="./images/button/tojiru1.gif" border="0" onclick="window.close()"><BR>
 </DIV>
 <DIV align=center style="margin:10px;">
-  <A href=result.csp?DocNo=#(DocNo)# >&lt;&lt;トピック#(DocNo)#へ</A>
+<A href=result.csp?DocNo=#(DocNo)# >&lt;&lt;トピック#(DocNo)#へ</A>
 </DIV>
 
 </body>
