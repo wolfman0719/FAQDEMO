@@ -10,7 +10,7 @@ Index ProductNameIndex On ProductName;
 
 Query QueryAll() As %SQLQuery(CONTAINID = 1)
 {
-SELECT %ID FROM Category
+SELECT %ID FROM Product
  ORDER BY %ID
 }
 
