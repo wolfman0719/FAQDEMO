@@ -259,270 +259,293 @@ XData Contents [ XMLNamespace = "http://www.intersystems.com/zen" ]
 
 ClientMethod searchOption() [ Language = javascript ]
 {
-  var so=this.getComponentById('SearchOption');
-  var sovalue=so.getValue()
+	var so=this.getComponentById('SearchOption');
+	var sovalue=so.getValue()
 	
-  if (sovalue=='tid') {
+	if (sovalue=='tid') {
 		
-    var idlabel=this.getComponentById('IdLabel');
-    var idkey=this.getComponentById('SearchId');
-    idlabel.setProperty('enclosingStyle','color:black;');
-    idkey.setProperty('controlStyle','color:black;');
+		var idlabel=this.getComponentById('IdLabel');
+		var idkey=this.getComponentById('SearchId');
+		idlabel.setProperty('enclosingStyle','color:black;');
+		idkey.setProperty('controlStyle','color:black;');
 
-    var keylabel=this.getComponentById('KeyWordLabel');
-    var keyword=this.getComponentById('SearchKey');
-    keylabel.setProperty('enclosingStyle','color:gray;');
-    keyword.setProperty('controlStyle','color:gray;');
-    keyword.setProperty('hintStyle','color:gray;');
+		var keylabel=this.getComponentById('KeyWordLabel');
+		var keyword=this.getComponentById('SearchKey');
+		keylabel.setProperty('enclosingStyle','color:gray;');
+		keyword.setProperty('controlStyle','color:gray;');
+		keyword.setProperty('hintStyle','color:gray;');
 	
-    }else if (sovalue=='keycate') {
+	}else if (sovalue=='keycate') {
 		
-    var idlabel=this.getComponentById('IdLabel');
-    var idkey=this.getComponentById('SearchId');
-    idlabel.setProperty('enclosingStyle','color:gray;');
-    idkey.setProperty('controlStyle','color:gray;');
+		var idlabel=this.getComponentById('IdLabel');
+		var idkey=this.getComponentById('SearchId');
+		idlabel.setProperty('enclosingStyle','color:gray;');
+		idkey.setProperty('controlStyle','color:gray;');
 		
-    var keylabel=this.getComponentById('KeyWordLabel');
-    var keyword=this.getComponentById('SearchKey');
-    keylabel.setProperty('enclosingStyle','color:black;');
-    keyword.setProperty('controlStyle','color:black;');
-    keyword.setProperty('hintStyle','color:dimgray;');
+		var keylabel=this.getComponentById('KeyWordLabel');
+		var keyword=this.getComponentById('SearchKey');
+		keylabel.setProperty('enclosingStyle','color:black;');
+		keyword.setProperty('controlStyle','color:black;');
+		keyword.setProperty('hintStyle','color:dimgray;');
 		
-  }
+	}
 }
 
 ClientMethod autoCheck(option, chkval) [ Language = javascript ]
 {
 
-  if (chkval==null || chkval==1) {
-    var so=this.getComponentById('SearchOption');
-    so.setProperty('value',option)
+	if (chkval==null || chkval==1) {
+		var so=this.getComponentById('SearchOption');
+		so.setProperty('value',option)
 		
-    this.searchOption();
-  }
+		this.searchOption();
+	}
 }
 
 ClientMethod enterPress() [ Language = javascript ]
 {
-  if(zenEvent.keyCode == 13) {
-    zenPage.executeQuery();
-  }
+	if(zenEvent.keyCode == 13) {
+		zenPage.executeQuery();
+	}
 }
 
 ClientMethod executeQuery() [ Language = javascript ]
 {
-  var so=this.getComponentById('SearchOption');
-  var soval=so.getValue();
-  zenPage.setProperty('SearchOption',soval);
+	var so=this.getComponentById('SearchOption');
+	var soval=so.getValue();
+	zenPage.setProperty('SearchOption',soval);
 
-  var idkey=this.getComponentById('SearchId');
-  var idval=idkey.getValue();
-  zenPage.setProperty('SearchId',idval);
+	var idkey=this.getComponentById('SearchId');
+	var idval=idkey.getValue();
+	zenPage.setProperty('SearchId',idval);
 	
-  var key=this.getComponentById('SearchKey');
-  var keyval=key.getValue();
-  zenPage.setProperty('SearchKey',keyval);
+	var key=this.getComponentById('SearchKey');
+	var keyval=key.getValue();
+	zenPage.setProperty('SearchKey',keyval);
 	
-  zen('TopicTitleTable').executeQuery();
+	zen('TopicTitleTable').executeQuery();
 }
 
 Method CreateTitleRS(Output pSC As %Status, pInfo As %ZEN.Auxiliary.QueryInfo) As %ResultSet
 {
-  set pSC=$$$OK
+	set pSC=$$$OK
 	
-  set admin = $roles["FAQEditor"
-  set result = ##Class(%ResultSet).%New()
-  set cond=""
-  set keycond=""
-  set facicond=""
+	set admin = $roles["FAQEditor"
+	set result = ##Class(%ResultSet).%New()
+	set cond=""
+	set keycond=""
+	set facicond=""
 	
-  set searchoption=%page.SearchOption
-  set searchid=$translate(%page.SearchId,$zzenkaku("0123456789"),"0123456789")
-  set keylist=%page.SearchKey
-  set facilist=%page.SearchFacility
+	set searchoption=%page.SearchOption
+	set searchid=$translate(%page.SearchId,$zzenkaku("0123456789"),"0123456789")
+	set keylist=%page.SearchKey
+	set facilist=%page.SearchFacility
 				
-  set sqlselect=" ID,LPAD(ID,5,'0') TopicID,TopicSubID,Facility->Description Facility,Title,VersionRange As Version, DeleteFlg from KB.Topic "
+	set sqlselect=" ID,LPAD(ID,5,'0') TopicID,TopicSubID,Facility->Description Facility,Title,VersionRange As Version, DeleteFlg from KB.Topic "
 
-  //Guestユーザの参照共通条件のセット
-  set comcond="Completed=1 and Visible=1 and DeleteFlg!=1"
+	//Guestユーザの参照共通条件のセット
+	set comcond="Completed=1 and Visible=1 and DeleteFlg!=1"
 
-  //SQL文の構築
+	//SQL文の構築
 	
-  //全文検索条件のセット
-  if keylist '= "" {
-    set keycond = ..SetKeyCond(keylist)
-  }
+	//全文検索条件のセット
+	if keylist '= "" {
+		set keycond = ..SetKeyCond(keylist)
+	}
 
-  //条件文の組み立て
+	//条件文の組み立て
 	
-  if searchoption="tid" {
-    if searchid'="" {
-      set cond="where (ID='"_searchid_"') "
-    }
-  } 
-  elseif searchoption="keycate" {
-    if keycond'="" {
-      set cond="where "_keycond
-    }
-  }
+	if searchoption="tid" {
+		if searchid'="" {
+			set cond="where (ID='"_searchid_"') "
+		}
+	}elseif searchoption="keycate"{
+		if keycond'="" {
+			set cond="where "_keycond
+		}
+	}
 	
-  if admin'=1 {
-    if cond'="" {
-      set cond = cond_" and "_comcond
-    } else {
-      set cond = "where "_comcond
-    }
-  }
+	if admin'=1 {
+		if cond'="" {
+			set cond = cond_" and "_comcond
+		}else{
+			set cond = "where "_comcond
+		}
+	}
 	
-  set orderclause=" order by ID"
+	set orderclause=" order by ID"
 	
-  set sql="Select"_sqlselect_" "_cond_orderclause
+	set sql="Select"_sqlselect_" "_cond_orderclause
 			
-  Do result.Prepare(sql)
+	Do result.Prepare(sql)
 
-  set pInfo.queryText=sql
+	set pInfo.queryText=sql
 	
-  quit result
+	quit result
 }
 
 Method SetKeyCond(keylist As %String) As %String
 {
-  set keylist = $translate(keylist,"　"," ")   //全角スペース
-  set keylist = $translate(keylist,","," ")    //コンマ
-  set keylist = $translate(keylist,"、"," ")   //点
-  set keylen = $length(keylist," ")
+	try {
+	  set keylist = $translate(keylist,"　"," ")   //全角スペース
+	  set keylist = $translate(keylist,","," ")    //コンマ
+	  set keylist = $translate(keylist,"、"," ")   //点
+	  set keylen = $length(keylist," ")
  	
-  set keyno=0
-  for i=1:1:keylen {
-    set keyword = $piece(keylist," ",i) 
-    if keyword'= "" {
-      set keyno=keyno+1
+ 	  set keyno=0
+	  for i=1:1:keylen{
+ 		set keyword = $piece(keylist," ",i) 
+ 		if keyword'= "" {
+	 	  set keyno=keyno+1
 	 		
-      // キーワードが(または)で終わる場合、検索エラーとなる問題に対処する
-      set keyword(keyno) = $replace($replace(keyword,"("," "),")"," ")
-    }
-  }
+		  set keyword(keyno) = keyword
+ 		}
+	  }
  	 	
-  //キーワード5個まで全文検索実施	 
-  if keyno = 1 {
-    set ifindkey = keyword(1)
-  }
-  elseif keyno = 2 {
-    set ifindkey = keyword(1)_" "_keyword(2)
-  }
-  elseif keyno = 3 {
-    set ifindkey = keyword(1)_" "_keyword(2)_" "_keyword(3)
-  }
-  elseif keyno = 4 {
-    set ifindkey = keyword(1)_" "_keyword(2)_" "_keyword(3)_" "_keyword(4)
-  }
-  else {
-    set ifindkey = keyword(1)_" "_keyword(2)_" "_keyword(3)_" "_keyword(4)_" "_keyword(5)
-  }
-	
-  // 検索文字列にNOT, AND, ORが含まれるときには¥を前置してエスケープする
-  for i = 1:1:$length(ifindkey, " ") {
-    set key(i) = $piece(ifindkey," ",i)
-    if ($zcvt(key(i),"U") = "NOT") || ($zcvt(key(i),"U") = "AND") || ($zcvt(key(i),"U") = "OR") {
-      set key(i) = "¥"_key(i)
-    }  
-  }
+ 	  //キーワード5個まで全文検索実施	 
+	  if keyno = 1 {
+ 		set ifindkey = keyword(1)
+	  }
+	  elseif keyno = 2 {
+ 		set ifindkey = keyword(1)_" "_keyword(2)
+ 	  }
+	  elseif keyno = 3 {
+ 		set ifindkey = keyword(1)_" "_keyword(2)_" "_keyword(3)
+	  }
+	  elseif keyno = 4 {
+ 		set ifindkey = keyword(1)_" "_keyword(2)_" "_keyword(3)_" "_keyword(4)
+	  }
+	  else {
+ 		set ifindkey = keyword(1)_" "_keyword(2)_" "_keyword(3)_" "_keyword(4)_" "_keyword(5)
+	  }
 
-  kill ifindkey
+	  // 検索文字列に特別な意味がある文字が含まれるときには\を前置してエスケープする
+	  set ifindkey = $replace(ifindkey,"<","\<")
+	  set ifindkey = $replace(ifindkey,">","\>")
+	  set ifindkey = $replace(ifindkey,"(","\(")
+	  set ifindkey = $replace(ifindkey,")","\)")
+	  set ifindkey = $replace(ifindkey,"＜","\＜")
+	  set ifindkey = $replace(ifindkey,"＞","\＞")
+	  set ifindkey = $replace(ifindkey,"（","\（")
+	  set ifindkey = $replace(ifindkey,"）","\（")
+	  set ifindkey = $replace(ifindkey,"{","\{")
+	  set ifindkey = $replace(ifindkey,"}","\}")
+	  set ifindkey = $replace(ifindkey,"[","\[")
+	  set ifindkey = $replace(ifindkey,"]","\]")
+      
+	  // 検索文字に'がある場合は、それを除く
+      set ifindkey = $replace(ifindkey,"'","")
 
-  for j = 1:1:i {
-    set ifindkey = $get(ifindkey)_" "_key(j)
-  }
+      for i = 1:1:$length(ifindkey, " ") {
+	    set key(i) = $piece(ifindkey," ",i)
+	    if ($zcvt(key(i),"U") = "NOT") || ($zcvt(key(i),"U") = "AND") || ($zcvt(key(i),"U") = "OR") || ($zcvt(key(i),"U") = ">") {
+		  set key(i) = "\"_key(i)
+	    }  
+	  }
 
-  set ifindkey = "'"_ifindkey_"'"
+	  kill ifindkey
 
-  set keycond = "(%ID %FIND search_index(DescriptionIndex1,"_ifindkey_",0) or %ID %FIND search_index(TitleIndex1,"_ifindkey_",0))"
+	  // 検索文字列にNOT, AND, ORが含まれるときには\を前置してエスケープする
+	  for j = 1:1:i {
+		set ifindkey = $get(ifindkey)_" "_key(j)
+	  }
 
-  quit keycond
+	  set ifindkey = "'"_ifindkey_"'"
+
+	  set keycond = "(%ID %FIND search_index(DescriptionIndex1,"_ifindkey_",0) or %ID %FIND search_index(TitleIndex1,"_ifindkey_",0))"
+
+	}
+	catch e {
+	  Set tSC = $$$OK
+	  Set tSC = e.AsStatus()
+	  set tSC2 = ##class(FAQ.Error).StoreErrorInformation(e)	
+	}  
+
+	quit keycond
 }
 
 Method DrawTitleCell(pTable As %ZEN.Component.tablePane, pName As %String, pSeed As %String) As %Status
 {
  
-  set id = %query(pTable.valueColumn)
-  set pName=..EscapeHTML(%query(pName))
+ 	set id = %query(pTable.valueColumn)
+ 	set pName=..EscapeHTML(%query(pName))
  	
-  if %query("DeleteFlg") {
-    set pName = "<span class=""titlered"">"_pName_"</span>"
-  }
+ 	if %query("DeleteFlg") {
+	 	set pName = "<span class=""titlered"">"_pName_"</span>"
+ 	}
  	
-  &html<<a href="javascript:zenPage.openResult(#(id)#)" >#(pName)#</a>>
-  Quit $$$OK
+ 	&html<<a href="javascript:zenPage.openResult(#(id)#)" >#(pName)#</a>>
+	Quit $$$OK
 }
 
 ClientMethod tableRowClick() [ Language = javascript ]
 {
-  var table = this.getComponentById('TopicTitleTable');
-  var id = table.getProperty('value');
+	var table = this.getComponentById('TopicTitleTable');
+	var id = table.getProperty('value');
 	
-  var st =  zenPage.openResult(id);
+	var st =  zenPage.openResult(id);
 }
 
 ClientMethod openResult(id) [ Language = javascript ]
 {
-  var dcurl = zenPage.GetDCURL(id)
-  if (dcurl == '') {
-    var url = 'result.csp?DocNo='+id
-    const wwidth = 1000;
-    const wheight = 800;
-    window.open(url,'TopicDescription'+id,'width='+wwidth+',height='+wheight+',left='+(window.screen.width-wwidth)/2+',top='+(window.screen.height-wheight)/2,scrollbars=1);
-  }
-  else {
-    var url = dcurl
-    window.open(url);
-  }
+	var dcurl = zenPage.GetDCURL(id)
+	if (dcurl == '') {
+	  var url = 'result.csp?DocNo='+id
+	  const wwidth = 1000;
+	  const wheight = 800;
+      window.open(url,'TopicDescription'+id,'width='+wwidth+',height='+wheight+',left='+(window.screen.width-wwidth)/2+',top='+(window.screen.height-wheight)/2,scrollbars=1);
+	}
+	else {
+	  var url = dcurl
+      window.open(url);
+	}
 }
 
 ClientMethod showNewTopic(id) [ Language = javascript ]
 {
-  var dcurl = zenPage.GetDCURL(id)
-  if (dcurl == '') {
-    var url = 'result.csp?DocNo='+id
-    const wwidth = 1000;
-    const wheight = 800;
-    window.open(url,'TopicDescription'+id,'width='+wwidth+',height='+wheight+',left='+(window.screen.width-wwidth)/2+',top='+(window.screen.height-wheight)/2,scrollbars=1);
-  }
-  else {
-    var url = dcurl
-    window.open(url);
-  }
+	var dcurl = zenPage.GetDCURL(id)
+	if (dcurl == '') {
+	  var url = 'result.csp?DocNo='+id
+	  const wwidth = 1000;
+	  const wheight = 800;
+      window.open(url,'TopicDescription'+id,'width='+wwidth+',height='+wheight+',left='+(window.screen.width-wwidth)/2+',top='+(window.screen.height-wheight)/2,scrollbars=1);
+	}
+	else {
+	  var url = dcurl
+      window.open(url);
+	}
 }
 
 ClientMethod openPrivateWindow(cspname) [ Language = javascript ]
 {
-  var url = zenPage.SetURL(cspname);
-  const wwidth = 1000;
-  const wheight = 800;
+	var url = zenPage.SetURL(cspname);
+	const wwidth = 1000;
+	const wheight = 800;
 	 	
-  window.open(url,'','width='+wwidth+',height='+wheight+',left='+(window.screen.width-wwidth)/2+',top='+(window.screen.height-wheight)/2,scrollbars=1);
+    window.open(url,'','width='+wwidth+',height='+wheight+',left='+(window.screen.width-wwidth)/2+',top='+(window.screen.height-wheight)/2,scrollbars=1);
 }
 
 ClassMethod SetURL(cspname) As %String [ ZenMethod ]
 {
-  set url = ..Link(cspname_".csp")
+	set url = ..Link(cspname_".csp")
 	
-  quit url
+	quit url
 }
 
 ClassMethod GetDCURL(id) As %String [ ZenMethod ]
 {
-  set dcurl = ""
-  Set roles=$Get(%session.Data("roles"))
-  if roles="" {
-    set roles=0
-  }
+	set dcurl = ""
+	Set roles=$Get(%session.Data("roles"))
+    if roles="" {
+	set roles=0
+    }
     
-  if (roles = 0) {
-    set topic = ##class(KB.Topic).%OpenId(id)
-    if $isobject(topic) set dcurl = topic.DCURL
-  }
+    if (roles = 0) {
+	  set topic = ##class(KB.Topic).%OpenId(id)
+	  if $isobject(topic) set dcurl = topic.DCURL
+    }
 
-  quit dcurl
+	quit dcurl
 }
 
 ClientMethod onloadHandler() [ Language = javascript ]
@@ -531,9 +554,9 @@ ClientMethod onloadHandler() [ Language = javascript ]
 
 ClientMethod onlayoutHandler(load) [ Language = javascript ]
 {
-  var winheight = zenGetWindowHeight();
-  var leftvg = zenPage.getComponentById('LeftVgroup');
-  leftvg.setProperty('height',winheight);
+	var winheight = zenGetWindowHeight();
+	var leftvg = zenPage.getComponentById('LeftVgroup');
+	leftvg.setProperty('height',winheight);
 }
 
 ClientMethod onresizeHandler() [ Language = javascript ]
@@ -551,12 +574,12 @@ ClientMethod onresizeHandler() [ Language = javascript ]
 Method %OnAfterCreatePage() As %Status
 {
 	
-  set frequentTopicsGroup = %page.%GetComponentById("frequentTopicsGroup")
-  set frequentTopicsGroup.enclosingStyle="display:block;"  //="visibility: yes;"
-  set newTopicsGroup = %page.%GetComponentById("newTopicsGroup")
-  set newTopicsGroup.enclosingStyle="display:block;"  //="visibility: yes;"
+	set frequentTopicsGroup = %page.%GetComponentById("frequentTopicsGroup")
+	set frequentTopicsGroup.enclosingStyle="display:block;"  //="visibility: yes;"
+	set newTopicsGroup = %page.%GetComponentById("newTopicsGroup")
+	set newTopicsGroup.enclosingStyle="display:block;"  //="visibility: yes;"
 
-  Quit $$$OK
+	Quit $$$OK
 }
 
 }
