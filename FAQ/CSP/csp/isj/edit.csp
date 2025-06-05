@@ -105,7 +105,7 @@ content="text/html; charset=utf-8">
 <script>
 CKEDITOR.replace( 'dsc', {
 extraPlugins: 'colorbutton,font,justify,tableresize,uploadimage,uploadfile,pastefromword,liststyle,codesnippet',
-codeSnippet_languages: {cos: 'ObjectScript',sql: 'SQL',python: 'Python',json: 'JSON',yaml: 'YAML',javascript: 'JavaScript',dockerfile: 'Dockerfile',html: 'HTML',css: 'CSS',java: 'Java',xml: 'XML'},
+codeSnippet_languages: {cos: 'ObjectScript',sql: 'SQL',python: 'Python',json: 'JSON',yaml: 'YAML',javascript: 'JavaScript',dockerfile: 'Dockerfile',html: 'HTML',css: 'CSS',java: 'Java',xml: 'XML',bash: 'Bash',makefile: 'Makefile',markdown: 'Markdown'},
 filebrowserUploadUrl: 'imageupload.csp',
 filebrowserUploadMethod: 'form',
 versionCheck: false,
