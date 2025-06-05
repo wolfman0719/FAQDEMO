@@ -199,7 +199,7 @@ Method %OnAfterCreatePage() As %Status
     set %session.Data("roles")=0
   }
 
-  if editor=1 {
+  if editor>=1 {
     set homeframe=..%GetComponentById("homeframe")
     set homeframe.src= "howtoforeditors.csp"
   }	
