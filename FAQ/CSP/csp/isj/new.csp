@@ -40,8 +40,8 @@
 <td><textarea onkeydown="insertTab(this, event);" name="Description" cspbind="Description" cols="50" rows="15" id="dsc"></textarea></td>
 <script>
   CKEDITOR.replace( 'dsc', {
-  extraPlugins: 'colorbutton,font,justify,tableresize,uploadimage,uploadfile,pastefromword,liststyle,codesnippet',
-  codeSnippet_languages: {cos: 'ObjectScript',sql: 'SQL',python: 'Python',json: 'JSON',yaml: 'YAML',javascript: 'JavaScript',dockerfile: 'Dockerfile',html: 'HTML',css: 'CSS',java: 'Java',xml: 'XML'},
+  extraPlugins: 'colorbutton,font,justify,tableresize,uploadimage,uploadfile,liststyle,codesnippet',
+  codeSnippet_languages: {cos: 'ObjectScript',sql: 'SQL',python: 'Python',json: 'JSON',yaml: 'YAML',javascript: 'JavaScript',dockerfile: 'Dockerfile',html: 'HTML',css: 'CSS',java: 'Java',xml: 'XML',bash: 'Bash',makefile: 'Makefile',markdown: 'Markdown'},
   filebrowserUploadUrl: 'imageupload.csp',
   filebrowserUploadMethod: 'form',
   versionCheck: false,
