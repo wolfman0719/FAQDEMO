@@ -109,7 +109,6 @@ codeSnippet_languages: {cos: 'ObjectScript',sql: 'SQL',python: 'Python',json: 'J
 filebrowserUploadUrl: 'imageupload.csp',
 filebrowserUploadMethod: 'form',
 versionCheck: false,
-indentOffset = 4,
 allowedContent: true
 } );
 </script>
