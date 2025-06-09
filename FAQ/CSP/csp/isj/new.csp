@@ -41,6 +41,8 @@
 <script>
   CKEDITOR.replace( 'dsc', {
   extraPlugins: 'colorbutton,font,justify,tableresize,uploadimage,uploadfile,liststyle,codesnippet',
+  removePlugins: 'pastefromword,pastetools,clipboard,scayt,link,maximize',
+  removeButtons: 'Cut,Copy,Paste,PasteText,Anchor,Maxmize',
   codeSnippet_languages: {cos: 'ObjectScript',sql: 'SQL',python: 'Python',json: 'JSON',yaml: 'YAML',javascript: 'JavaScript',dockerfile: 'Dockerfile',html: 'HTML',css: 'CSS',java: 'Java',xml: 'XML',bash: 'Bash',makefile: 'Makefile',markdown: 'Markdown'},
   filebrowserUploadUrl: 'imageupload.csp',
   filebrowserUploadMethod: 'form',
