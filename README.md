@@ -31,6 +31,8 @@ FAQシステムのデモサイト
 >zn "FAQ"
 >set pDir = "c:\git\FAQDEMO\FAQ"
 >Do $system.OBJ.Load(pDir_"\KB\Setup.cls","ck")
+>Do $system.OBJ.Load(pDir_"\KB\UsersVoice.cls","ck")
+>Do $system.OBJ.Load(pDir_"\KB\Utility.cls","ck")
 ```
 
 ### SetupLocalの実行
