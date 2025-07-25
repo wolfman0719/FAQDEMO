@@ -184,86 +184,86 @@ XData Contents [ XMLNamespace = "http://www.intersystems.com/zen" ]
 
 Method %OnAfterCreatePage() As %Status
 {
-  set admin = $roles["FAQAdministrator"
-  set editor = $roles["FAQEditor"
+	set admin = $roles["FAQAdministrator"
+	set editor = $roles["FAQEditor"
 
-  //テスト用
-  //set admin=1
-  //set editor=1
+	//テスト用
+	//set admin=1
+	//set editor=1
 	
-  if admin=1 {
-    set %session.Data("roles")=1
-  }elseif editor=1{
-    set %session.Data("roles")=2
-  }else {
-    set %session.Data("roles")=0
-  }
+	if admin=1 {
+		set %session.Data("roles")=1
+	}elseif editor=1{
+		set %session.Data("roles")=2
+	}else {
+		set %session.Data("roles")=0
+	}
 
-  if editor>0 {
-    set homeframe=..%GetComponentById("homeframe")
-    set homeframe.src= "howtoforeditors.csp"
-  }	
+	if editor>=1 {
+		set homeframe=..%GetComponentById("homeframe")
+		set homeframe.src= "howtoforeditors.csp"
+	}	
 		
-  //FAQアプリへのアクセスカウント
-  if $Get(%session.Data("Access"))="" {
-    set ^AccessCount = $Increment(^AccessCount)
-    set today=$zdate($h,8)
-    set ^AccessCount(today) = $Increment(^AccessCount(today))
-    set %session.Data("Access")=1
-  }
-  quit $$$OK
+	//FAQアプリへのアクセスカウント
+	if $Get(%session.Data("Access"))="" {
+		set ^AccessCount = $Increment(^AccessCount)
+		set today=$zdate($h,8)
+		set ^AccessCount(today) = $Increment(^AccessCount(today))
+		set %session.Data("Access")=1
+	}
+	quit $$$OK
 }
 
 ClientMethod setTabSize() [ Language = javascript ]
 {
 	
-  var tabgroup = zenPage.getComponentById('tabGroup');
+	var tabgroup = zenPage.getComponentById('tabGroup');
 
-  var winheight = zenGetWindowHeight();
+	var winheight = zenGetWindowHeight();
 				
-  var titlehg = zenPage.getComponentById('titlehgroup');
-  var divtitlehg = titlehg.getEnclosingDiv();
-  var divtitleheight = divtitlehg.offsetHeight;
+	var titlehg = zenPage.getComponentById('titlehgroup');
+	var divtitlehg = titlehg.getEnclosingDiv();
+	var divtitleheight = divtitlehg.offsetHeight;
 	
-  var tabheight = winheight - divtitleheight - 30;
+	var tabheight = winheight - divtitleheight - 30;
 	
-  var userAgent = window.navigator.userAgent.toLowerCase();
-  var appVersion = window.navigator.appVersion.toLowerCase();
+	var userAgent = window.navigator.userAgent.toLowerCase();
+    var appVersion = window.navigator.appVersion.toLowerCase();
     	
-  tabgroup.setBodySize(tabheight);
+	tabgroup.setBodySize(tabheight);
 }
 
 ClientMethod onlayoutHandler(load) [ Language = javascript ]
 {
-  var tabgroup = zenPage.getComponentById('tabGroup');
-  var alltab = zenPage.getComponentById('alltab');
+	var tabgroup = zenPage.getComponentById('tabGroup');
+	var alltab = zenPage.getComponentById('alltab');
 	
-  var homeframe = zenPage.getComponentById('homeframe');
-  var allframe = zenPage.getComponentById('allframe');
+	var homeframe = zenPage.getComponentById('homeframe');
+	var allframe = zenPage.getComponentById('allframe');
 
-  // find height of window
-  var winheight = zenGetWindowHeight();
+	// find height of window
+	var winheight = zenGetWindowHeight();
 				
-  // find divs for title & mainMenu
-  var titlehg = zenPage.getComponentById('titlehgroup');
-  var divtitlehg = titlehg.getEnclosingDiv();
-  var divtitleheight = divtitlehg.offsetHeight;
+	// find divs for title & mainMenu
+	var titlehg = zenPage.getComponentById('titlehgroup');
+	var divtitlehg = titlehg.getEnclosingDiv();
+	var divtitleheight = divtitlehg.offsetHeight;
 	
-  var tabheight = winheight - divtitleheight - 30;
-  var frameheight = tabheight - 10;
+	var tabheight = winheight - divtitleheight - 30;
+	var frameheight = tabheight - 10;
 	
-  var userAgent = window.navigator.userAgent.toLowerCase();
-  var appVersion = window.navigator.appVersion.toLowerCase();
+	var userAgent = window.navigator.userAgent.toLowerCase();
+    var appVersion = window.navigator.appVersion.toLowerCase();
 	
-  tabgroup.setBodySize(tabheight);
+	tabgroup.setBodySize(tabheight);
 		
-  homeframe.setProperty('height',frameheight);
-  allframe.setProperty('height',frameheight);
+	homeframe.setProperty('height',frameheight);
+	allframe.setProperty('height',frameheight);
 }
 
 ClientMethod onresizeHandler() [ Language = javascript ]
 {
-  zenPage.setTabSize();
+	zenPage.setTabSize();
 }
 
 }
