@@ -1,4 +1,4 @@
-﻿<CSP:PARAMETER name="EXPIRES" value="">
+<CSP:PARAMETER name="EXPIRES" value="">
 <html style="height:100%;margin-bottom:1px;">
 
 <head>
@@ -18,95 +18,95 @@
 <BODY bgcolor="#FFFFFF">
 
 <TABLE width="100%" >
-<TBODY>
-<TR>
-<TD class="title" valign="top" align="center" >FAQ新規トピック作成</TD>
-</TR>
-<TR>
-<TD align=center>
-<csp:object NAME="topic" CLASSNAME="KB.Topic" OBJID=#(%request.Get("OBJID"))#>
-<table width=95% >
-<tbody>
-<form name="form" cspbind="topic" cspjs="All" enctype="multipart/form-data" method="POST">
-<tr>
-<td width="15%" class="coltitle" style="color:#666666;">ID：</div></b></font></td>
-<td><input type="text" name="TID" cspbind="%Id()" size="10" style="font-family:ＭＳ ゴシック" readonly></td>
-</tr>
-<tr>
-<td class="coltitle">タイトル：</td>
-<td><input type="text" name="Title" cspbind="Title" size="70" class="textbox"></td>
-</tr>
-<td class="coltitle">内容：</td>
-<td><textarea onkeydown="insertTab(this, event);" name="Description" cspbind="Description" cols="50" rows="15" id="dsc"></textarea></td>
-<script>
-  CKEDITOR.replace( 'dsc', {
-  extraPlugins: 'colorbutton,font,justify,tableresize,uploadimage,uploadfile,liststyle,codesnippet',
-  removePlugins: 'pastefromword,clipboard,scayt,link,maximize,about,a11yhelp,contextmenu,resize,elementspath,format,horizontalrule,horizontalrule,specialchar,tableselection,tabletools',
-  removeButtons: 'Cut,Copy,Paste,PasteText,Undo,Redo,Anchor,Strike,Subscript,Superscript',
-  codeSnippet_languages: {cos: 'ObjectScript',sql: 'SQL',python: 'Python',json: 'JSON',yaml: 'YAML',javascript: 'JavaScript',dockerfile: 'Dockerfile',html: 'HTML',css: 'CSS',java: 'Java',xml: 'XML',bash: 'Bash',makefile: 'Makefile',markdown: 'Markdown'},
-  filebrowserUploadUrl: 'imageupload.csp',
-  filebrowserUploadMethod: 'form',
-  versionCheck: false,
-  allowedContent: true
-  } );
-</script>
-</tr>
-<tr>
-<td class="coltitle">プロダクト：</td>
-<td><select name="Product" cspbind="Product" classname="KB.Product" query="ListProduct" field="ProductName" onchange="javascript:disableFacility()"></select></td>
-</tr>
-<tr>
-<td class="coltitle">機能名：</td>
-<td><select name="FacilityDescription" cspbind="Facility" classname="KB.Facility" query="ListDescription" field="Description"></select></td>
-</tr>
-<tr>
-<td class="coltitle">プラットフォーム名：</td>
-<td><select name="PlatformName" cspbind="Platform" classname="KB.Platform" query="ListDescription" field="Name"></select></td>
-</tr>
-<tr>
-<td class="coltitle">バージョン：</td>
-<td><select name="StartVersion" cspbind="StartVersion" classname="KB.Version" query="ListDescription" field="ExternalVersion"></select> ～  
-<select name="EndVersion" cspbind="EndVersion" classname="KB.Version" query="ListDescription" field="ExternalVersion"></select>
-<input type="hidden" name="VersionRange" cspbind="VersionRange"/>
-</td>       
-</tr>
-<tr>
-<td class="coltitle">関連トピック：</td>
-<td><input type="text" name="RefTopic" cspbind="RefTopic" size="30" class="textbox"></td>
-</tr>
-<tr>
-<td class="coltitle">添付ファイルUpload：</td>
-<td><input type="file" name="AttachedFile" size="30" style="font-family:ＭＳ Ｐゴシック"></td>
-</tr>
-<tr>
-<tr valign="center">
-<td class="coltitle">ステータス：</td>
-<td>
-<table style="padding:0;">
-<tr>
-<td class="childcoltitle">作成完了<input type="checkbox" name="Completed" cspbind="Completed"></td>
-</tr>
-</table>
-</td>
-</tr>
-<tr>
-<td class="coltitle">DCURL：</td>
-<td ><input type="text" name="DCURL" cspbind="DCURL" size="100" class="textbox"></td>
-</tr>
-<tr>
-<td class="coltitle">*社内用メモ*：</td>
-<td ><textarea name="Note" cspbind="Note" cols="65" rows="3" id="nt"></textarea></td>
-</tr>
-<tr height=40>
-<td colspan=2 align="center">
-<input type="image" name="btnSave" src="./images/button/Save1.gif" border="0" onclick="copyToTextArea(); formValidate();">
-</td>
-</tr>
-</tbody>
-</table>
-</TD>
-</TR>
-</form>
+  <TBODY>
+  <TR>
+    <TD class="title" valign="top" align="center" >FAQ新規トピック作成</TD>
+  </TR>
+  <TR>
+    <TD align=center>
+    <csp:object NAME="topic" CLASSNAME="KB.Topic" OBJID=#(%request.Get("OBJID"))#>
+      <table width=95% >
+      <tbody>
+        <form name="form" cspbind="topic" cspjs="All" enctype="multipart/form-data" method="POST">
+        <tr>
+          <td width="15%" class="coltitle" style="color:#666666;">ID：</div></b></font></td>
+          <td><input type="text" name="TID" cspbind="%Id()" size="10" style="font-family:ＭＳ ゴシック" readonly></td>
+        </tr>
+        <tr>
+          <td class="coltitle">タイトル：</td>
+          <td><input type="text" name="Title" cspbind="Title" size="70" class="textbox"></td>
+        </tr>
+          <td class="coltitle">内容：</td>
+          <td><textarea onkeydown="insertTab(this, event);" name="Description" cspbind="Description" cols="50" rows="15" id="dsc"></textarea></td>
+	    <script>
+		CKEDITOR.replace( 'dsc', {
+			extraPlugins: 'codesnippet,colorbutton,font,justify',
+			removeButtons: '',
+			codeSnippet_languages: {cos: 'ObjectScript',sql: 'SQL',python: 'Python',json: 'JSON',yaml: 'YAML',javascript: 'JavaScript',dockerfile: 'Dockerfile',html: 'HTML',css: 'CSS',java: 'Java',xml: 'XML'},
+			filebrowserUploadUrl: 'imageupload.csp',
+			filebrowserUploadMethod: 'form',
+			versionCheck: false,
+			toolbar:  [[ 'Bold', 'Italic', 'Underline', 'Strike', 'JustifyLeft', 'JustifyCenter', 'JustifyRight' , 'NumberedList', 'BulletedList', 'Indent',  'Outdent', 'Blockquote', 'Link', 'Unlink', 'Anchor', 'TextColor',  'Source', 'HorizontalRule', 'Table', 'RemoveFormat', 'Font', 'FontSize', 'Styles', 'Format', 'CodeSnippet', 'Image']],
+            allowedContent: true
+        } );
+		</script>
+	    </tr>
+		<tr>
+          <td class="coltitle">プロダクト：</td>
+          <td><select name="Product" cspbind="Product" classname="KB.Product" query="ListProduct" field="ProductName" onchange="javascript:disableFacility()"></select></td>
+        </tr>
+        <tr>
+          <td class="coltitle">機能名：</td>
+          <td><select name="FacilityDescription" cspbind="Facility" classname="KB.Facility" query="ListDescription" field="Description"></select></td>
+        </tr>
+        <tr>
+          <td class="coltitle">プラットフォーム名：</td>
+          <td><select name="PlatformName" cspbind="Platform" classname="KB.Platform" query="ListDescription" field="Name"></select></td>
+        </tr>
+        <tr>
+          <td class="coltitle">バージョン：</td>
+          <td><select name="StartVersion" cspbind="StartVersion" classname="KB.Version" query="ListDescription" field="ExternalVersion"></select> ～  
+              <select name="EndVersion" cspbind="EndVersion" classname="KB.Version" query="ListDescription" field="ExternalVersion"></select>
+              <input type="hidden" name="VersionRange" cspbind="VersionRange"/>
+          </td>       
+        </tr>
+        <tr>
+          <td class="coltitle">関連トピック：</td>
+          <td><input type="text" name="RefTopic" cspbind="RefTopic" size="30" class="textbox"></td>
+        </tr>
+        <tr>
+          <td class="coltitle">添付ファイルUpload：</td>
+          <td><input type="file" name="AttachedFile" size="30" style="font-family:ＭＳ Ｐゴシック"></td>
+        </tr>
+        <tr>
+        <tr valign="center">
+          <td class="coltitle">ステータス：</td>
+          <td>
+            <table style="padding:0;">
+              <tr>
+                <td class="childcoltitle">作成完了<input type="checkbox" name="Completed" cspbind="Completed"></td>
+		      </tr>
+		    </table>
+		  </td>
+		</tr>
+        <tr>
+          <td class="coltitle">DCURL：</td>
+          <td ><input type="text" name="DCURL" cspbind="DCURL" size="100" class="textbox"></td>
+        </tr>
+        <tr>
+          <td class="coltitle">*社内用メモ*：</td>
+          <td ><textarea name="Note" cspbind="Note" cols="65" rows="3" id="nt"></textarea></td>
+        </tr>
+        <tr height=40>
+          <td colspan=2 align="center">
+            <input type="image" name="btnSave" src="./images/button/Save1.gif" border="0" onclick="copyToTextArea(); formValidate();">
+          </td>
+        </tr>
+        </tbody>
+     </table>
+     </TD>
+  </TR>
+  </form>
 </TBODY>
 </TABLE>
 <HR align="center" width="95%">
@@ -116,123 +116,124 @@
 <p><font color="#FF0000"> 保存エラー: #($Get(err))# </p>
 </csp:IF>
 
+
 <SCRIPT LANGUAGE="javascript">
 
 function loadEvent() {
-  this.disableFacility();	
+	this.disableFacility();	
 }
 
 function disableFacility() {
-  if (document.form.Product.value == 1) {
-    document.form.FacilityDescription.value = 1;
-    document.form.FacilityDescription.disabled = true;
-  }
-  else {
-    document.form.FacilityDescription.disabled = false;
-  }
+	if (document.form.Product.value == 1) {
+		document.form.FacilityDescription.value = 1;
+		document.form.FacilityDescription.disabled = true;
+	}else{
+		document.form.FacilityDescription.disabled = false;
+	}
 }
 
 function formValidate() {
 	
-  //Titleのチェック
-  var topictitle = document.form.Title.value;
-  if (topictitle=='') {
-    alert('トピックのタイトルが入力されていません。');
-    return;
-  }
+	//Titleのチェック
+	var topictitle = document.form.Title.value;
+	if (topictitle=='') {
+		alert('トピックのタイトルが入力されていません。');
+		return;
+	}
 	
-  //Productのチェック
-  var product = document.form.Product.value;
-  if (product=='') {
-    alert('プロダクトが選択されていません。');
-    return;
-  }
+	//Productのチェック
+	var product = document.form.Product.value;
+	if (product=='') {
+		alert('プロダクトが選択されていません。');
+		return;
+	}
 	
-  //関連トピックのチェック
-  var reflist = document.form.RefTopic.value;
-  if (reflist) {
-    var refchk = #server(..RefListChk(reflist))#;
-    if (refchk==0) {
-      alert('関連トピックの指定が不正です。指定されたIDのトピックは存在しません。');
-      document.form.RefTopic.value=reflist;
-    }
-    else {
-      document.form.RefTopic.value=refchk;
-    }
-  }
+	//関連トピックのチェック
+	var reflist = document.form.RefTopic.value;
+	if (reflist) {
+		var refchk = #server(..RefListChk(reflist))#;
+		if (refchk==0) {
+			alert('関連トピックの指定が不正です。指定されたIDのトピックは存在しません。');
+			document.form.RefTopic.value=reflist;
+		}else {
+			document.form.RefTopic.value=refchk;
+		}
+	}
 		
-  //添付ファイルのチェック
-  var upflg=''
-  var atfile = document.form.AttachedFile.value;
-  if (atfile) {
-    if (atfile.match(/\.zip$/i)) {
-      #server(..SetFileUpFlg())#;	
-    }
-    else{
-      alert('添付ファイルの形式が不正です。ファイルはzipフォルダに格納して保存してください。');
-      return;
-    }
-  }
+	//添付ファイルのチェック
+	var upflg=''
+	var atfile = document.form.AttachedFile.value;
+	if (atfile) {
+		if (atfile.match(/\.zip$/i)) {
+			#server(..SetFileUpFlg())#;	
+		}else{
+			alert('添付ファイルの形式が不正です。ファイルはzipフォルダに格納して保存してください。');
+			return;
+		}
+	}
 	
-  //バージョン指定のチェック
-  var start = document.form.StartVersion.value;
-  var end = document.form.EndVersion.value;
+	//バージョン指定のチェック
+	var start = document.form.StartVersion.value;
+	var end = document.form.EndVersion.value;
 	
-  var vrange = #server(..SetVersionRange(start,end))#;
+	var vrange = #server(..SetVersionRange(start,end))#;
 
-  if (vrange=='0') {
-    alert('バージョン指定が不正です。');
-    return;
-  }
-  else {
-    document.form.VersionRange.value = vrange;
-  }	
+	if (vrange=='0') {
+		alert('バージョン指定が不正です。');
+		return;
+	}else{
+		document.form.VersionRange.value = vrange;
+	}	
 	
-  //Ckedit経由のデータにｃｒｌｆが入るので取り除く
+	//Ckedit経由のデータにｃｒｌｆが入るので取り除く
 	
-  var desc = document.form.Description.value;
-  //desc = desc.replace(/\r?\n/g, '');
-  document.form.Description.value = desc;
+	var desc = document.form.Description.value;
+	//desc = desc.replace(/\r?\n/g, '');
+	document.form.Description.value = desc;
 	
-  //トピック保存
-  var saveconf = confirm('このトピックを追加します。よろしいですか？')
-  if (saveconf) {
-    //#server(..CreateUsersVoice())#;
-    form_save(this);
-    form.action="complete.csp";	
-  }
+	//トピック保存
+	var saveconf = confirm('このトピックを追加します。よろしいですか？')
+	if (saveconf) {
+		//#server(..CreateUsersVoice())#;
+		form_save(this);
+		form.action="complete.csp";	
+	}
 }
 
 function formClear() {
-  var clearconf=confirm('記入されたすべての内容をクリアします。よろしいですか？')
-  if (clearconf) {
-    form_new();
-  }
+	var clearconf=confirm('記入されたすべての内容をクリアします。よろしいですか？')
+	if (clearconf) {
+		form_new();
+	}
 }
 
 function insertTab(o, e)
 {
-  var kC = e.keyCode ? e.keyCode : e.charCode ? e.charCode : e.which;
-  if (kC == 9 && !e.shiftKey && !e.ctrlKey && !e.altKey) {
-    var oS = o.scrollTop;
-    if (o.setSelectionRange) {
-      var sS = o.selectionStart;
-      var sE = o.selectionEnd;
-      o.value = o.value.substring(0, sS) + "\t" + o.value.substr(sE);
-      o.setSelectionRange(sS + 1, sS + 1);
-      o.focus();
-    }
-    else if (o.createTextRange) {
-      document.selection.createRange().text = "\t";
-      e.returnValue = false;
-    }
-    o.scrollTop = oS;
-    if (e.preventDefault) {
-      e.preventDefault();
-    }
-    return false;
-  }
-  return true;
+	var kC = e.keyCode ? e.keyCode : e.charCode ? e.charCode : e.which;
+	if (kC == 9 && !e.shiftKey && !e.ctrlKey && !e.altKey)
+	{
+		var oS = o.scrollTop;
+		if (o.setSelectionRange)
+		{
+			var sS = o.selectionStart;
+			var sE = o.selectionEnd;
+			o.value = o.value.substring(0, sS) + "\t" + o.value.substr(sE);
+			o.setSelectionRange(sS + 1, sS + 1);
+			o.focus();
+		}
+		else if (o.createTextRange)
+		{
+			document.selection.createRange().text = "\t";
+			e.returnValue = false;
+		}
+		o.scrollTop = oS;
+		if (e.preventDefault)
+		{
+			e.preventDefault();
+		}
+		return false;
+	}
+	return true;
 }
 
 function copyToTextArea()
@@ -241,85 +242,79 @@ function copyToTextArea()
 }
 </SCRIPT>
 
+
 <SCRIPT language="cache" method="RefListChk" arguments="rlist:%String" returntype="%String" runat="server">
 
-  set rlist = $REPLACE(rlist," ","")
-  set rlist = $REPLACE(rlist,"　","")
+set rlist = $REPLACE(rlist," ","")
+set rlist = $REPLACE(rlist,"　","")
 
-  set refchk=rlist
-  If refchk = "" Quit refchk
-  set rlen=$LENGTH(rlist,",")
-  if rlen=1 {
-    set reftopic=##class(KB.Topic).%OpenId(rlist)
-    if '$IsObject(reftopic) {
-      set refchk='$$$OK
-    }
-  }
-  else {
-    for i=1:1:rlen {
-      set refid=$PIECE(rlist,",",i)
-      set reftopic=##class(KB.Topic).%OpenId(refid)
-      if '$IsObject(reftopic) {
-        set refchk='$$$OK
-      }
-    }
-  }
+set refchk=rlist
+If refchk = "" Quit refchk
+set rlen=$LENGTH(rlist,",")
+if rlen=1 {
+	set reftopic=##class(KB.Topic).%OpenId(rlist)
+	if '$IsObject(reftopic) {
+		set refchk='$$$OK
+	}
+}else{
+	for i=1:1:rlen {
+		set refid=$PIECE(rlist,",",i)
+		set reftopic=##class(KB.Topic).%OpenId(refid)
+		if '$IsObject(reftopic) {
+			set refchk='$$$OK
+		}
+	}
+}
 
-  //チェックNGの場合は「0」、チェックOKの場合は、スペースを抜いた文字列を返す
- quit refchk
+ //チェックNGの場合は「0」、チェックOKの場合は、スペースを抜いた文字列を返す
+quit refchk
 
 </SCRIPT>
 
 <SCRIPT language="cache" method="SetVersionRange" arguments="startid:%String, endid:%String" runat="server">
 
-  if startid'= "" {
-    set startver=##class(KB.Version).%OpenId(startid)
-    set startname=startver.ExternalVersion
-    set startorder=startver.OrderId
-  }
-  else {
-    set startver="",startname="",startorder=""
-  }
+if startid'= "" {
+	set startver=##class(KB.Version).%OpenId(startid)
+	set startname=startver.ExternalVersion
+	set startorder=startver.OrderId
+}else{
+	set startver="",startname="",startorder=""
+}
 
-  if endid'= "" {
-    set endver=##class(KB.Version).%OpenId(endid)
-    set endname=endver.ExternalVersion
-    set endorder=endver.OrderId
-  }
-  else {
-    set endver="",endname="",endorder=""
-  }
+if endid'= "" {
+	set endver=##class(KB.Version).%OpenId(endid)
+	set endname=endver.ExternalVersion
+	set endorder=endver.OrderId
+}else{
+	set endver="",endname="",endorder=""
+}
 
-  if startid'="" {
-    if endid'="" {
-      if startorder > endorder {
-       set vrange="0"
-      }
-      elseif startid=endid {
-        set vrange=startname
-      }
-      else {
-	set vrange=startname_" ～ "_endname
-      }
-    }
-    else {
-      set vrange=startname_" ～"
-    }
-  }
-  elseif endid'="" {
-    set vrange=" ～ "_endname
-  }
-  else {
-    set vrange=""
-  }
+if startid'="" {
+	if endid'="" {
+		if startorder > endorder {
+			set vrange="0"
+		}
+		elseif startid=endid {
+			set vrange=startname
+		}else{
+			set vrange=startname_" ～ "_endname
+		}
+	}else{
+		set vrange=startname_" ～"
+	}
+ }elseif endid'="" {
+	set vrange=" ～ "_endname
+ }else {
+	set vrange=""
+ }
  
-  quit vrange	
+ quit vrange	
 	
 </SCRIPT>
 
 <SCRIPT language="cache" method="SetFileUpFlg" runat="server">
 
-  set %session.Data("UpFlg")=1
+set %session.Data("UpFlg")=1
     
 </SCRIPT>
 
