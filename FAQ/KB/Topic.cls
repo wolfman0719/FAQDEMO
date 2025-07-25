@@ -108,46 +108,72 @@ Index CreatorIndex On Creator;
 Method %OnBeforeSave(pInsert As %Boolean) As %Status [ Private, ServerOnly = 1 ]
 {
 	
-  If pInsert {
-    If (..Product.ProductId = $$$General) {
-      Set ..TopicSubID = ..GetCurTopicSubID()
-    }
-  }
+	If pInsert {
+		If (..Product.ProductId = $$$General) {
+		   Set ..TopicSubID = ..GetCurTopicSubID()
+		}
+	}
 	
-  if $Get(%session)'=""{
-    if pInsert {
-      set ..Creator = $username
-      set ..IssueDate = +$h
-    }
-    else {
-      if $Get(%session.Data("noAudit"))'=1{
-        set ..Updater = $username
-	set ..UpdateDate = +$h
+	if $Get(%session)'=""{
+		if pInsert {
+			set ..Creator = $username
+			set ..IssueDate = +$h
+		}else {
+			if $Get(%session.Data("noAudit"))'=1{
+				set ..Updater = $username
+				set ..UpdateDate = +$h
+			}
+		}
+	}
+	
+    // 	スペースを取り除く、存在しないトピック番号があれば取り除く
+	set ..RefTopic = ..RefListChk(..RefTopic)
+	// 参照トピックリスト内に自分自身が入っていたら取り除く
+	set ..RefTopic = ..RemoveRefNoForOwn(..RefTopic, ..%Id())
+	// 参照トピックリスト内の重複を取り除く
+	set ..RefTopic = ..RemoveDuplicatedRefNo(..RefTopic)
+	
+	// react経由の場合、イメージの記述形式がCSPとは異なるため、先頭のhttp://hostname:portを外して、相対パスに変更する
+	
+	set webserveraddress = ##class(KB.Config).getWebServerAddress()
+	set protocol = ##class(KB.Config).getWebServerProtocol()
+	set webserverport = ##class(KB.Config).getWebServerPort()
+	if $data(%request) {
+	  set webserver = %request.CgiEnvs("SERVER_NAME")
+      set webserverport = %request.CgiEnvs("SERVER_PORT")
+      if %request.CgiEnvs("SERVER_PORT_SECURE") {
+        set protocol = "https"
       }
-    }
-  }
+      else {
+        set protocol = "http"
+      }
 	
-  // 参照トピックリスト内に自分自身が入っていたら取り除く
-  set ..RefTopic = ..RemoveRefNoForOwn(..RefTopic, ..%Id())
-  // 参照トピックリスト内の重複を取り除く
-  set ..RefTopic = ..RemoveDuplicatedRefNo(..RefTopic)
+	}
+
+	set namespace = $ZCVT($namespace,"L")
+	set apath = "/csp/"_namespace_"/images"
+	set rpath = "./images"
+	set ourl = protocol_"://"_webserveraddress_":"_webserverport_apath
+	set rurl = "./images"
+    set ..Description = $replace(..Description,ourl,rurl)
+
+    //  for CSP/Zen版
+	//トピック内の参照イメージのurlを絶対パスから相対パスに変更する
+	//データ本番移行の際、namespaceの違いを考慮する必要をなくすため
 	
-  //トピック内の参照イメージのurlを絶対パスから相対パスに変更する
-  //データ本番移行の際、namespaceの違いを考慮する必要をなくすため
+	set ..Description = $replace(..Description,apath,rpath)
+
+	// Codesnippetの言語名を表示するための処理
+	set crlf = $char(13,10)
+	//二重に<div>を付加するのを防ぐ　ckeditorが自動的に<div>の後ろにcrlfを付加することを想定
+	set ..Description = $replace(..Description,"<div class=""hljs-wrap"">"_crlf_"<pre>","<pre>")
+	set ..Description = $replace(..Description,"</pre>"_crlf_"</div>","</pre>")
+	set ..Description = $replace(..Description,"<pre>","<div class=""hljs-wrap""><pre>")
+	set ..Description = $replace(..Description,"</pre>","</pre></div>")
+
+	set ..VersionRange = ##class(KB.Version).SetVersionRange(..StartVersion, ..EndVersion)
 	
-  set namespace = $ZCVT($namespace,"L")
-  set apath = "/csp/"_namespace_"/images"
-  set rpath = "./images"
-  set ..Description = $replace(..Description,apath,rpath)
-  // Codesnippetの言語名を表示するための処理
-  set crlf = $char(13,10)
-  //二重に<div>を付加するのを防ぐ　ckeditorが自動的に<div>の後ろにcrlfを付加することを想定
-  set ..Description = $replace(..Description,"<div class=""hljs-wrap"">"_crlf_"<pre>","<pre>")
-  set ..Description = $replace(..Description,"</pre>"_crlf_"</div>","</pre>")
-  set ..Description = $replace(..Description,"<pre>","<div class=""hljs-wrap""><pre>")
-  set ..Description = $replace(..Description,"</pre>","</pre></div>")
-	
-  Quit $$$OK
+	Quit $$$OK
 }
 
 /// This callback method is invoked by the <METHOD>%Save</METHOD> method to 
@@ -159,233 +185,262 @@ Method %OnBeforeSave(pInsert As %Boolean) As %Status [ Private, ServerOnly = 1 ]
 /// <P>If this method returns an error then the call to <METHOD>%Save</METHOD> will fail.
 Method %OnAfterSave(pInsert As %Boolean) As %Status [ Private, ServerOnly = 1 ]
 {
-  set tSC = $$$OK
+	set tSC = $$$OK
 		
-  Try {
-    if $Get(%session)'="" {
-      if pInsert {
-        set message = "作成トピック "_..%Id()
-	// tSC = 0 となることがあるが、エラーとしない
-        set tSC = $system.Security.Audit("FAQ","Create","Topic",message)
+	Try {
+	  if $Get(%session)'=""{
+		  if pInsert {
+    	      set message = "作成トピック "_..%Id()
+			  // tSC = 0 となることがあるが、エラーとしない
+        	  set tSC = $system.Security.Audit("FAQ","Create","Topic",message)
 			
-	//UsersVoiceの新規セット
-   	set uv=##class(UsersVoice).%New()
-	set ..UsersVoice=uv
-	set uv.TopicId=..%Id()
-      }
-      else {
-        if %session.Data("noAudit")'=1 {
-	  set message = "修正トピック "_..%Id()
-	  // tSC = 0 となることがあるが、エラーとしない
-    	  set tSC = $system.Security.Audit("FAQ","Update","Topic",message)
-        }
-      }		
-    }
-  }
-  Catch  tE {
-    Set tSC = $$$OK
-    Set tSC = tE.AsStatus()
-    set tSC2 = ##class(FAQ.Error).StoreErrorInformation(tE)
-  }
+			  //UsersVoiceの新規セット
+   			  set uv=##class(UsersVoice).%New()
+			  set ..UsersVoice=uv
+			  set uv.TopicId=..%Id()
+		  }
+		  else {
+ 			  if %session.Get("noAudit")'=1 {
+				  set message = "修正トピック "_..%Id()
+				  // tSC = 0 となることがあるが、エラーとしない
+    	   		  set tSC = $system.Security.Audit("FAQ","Update","Topic",message)
+ 			  }
+		  }		
+	  }
+	}
+	Catch  tE {
+		Set tSC = $$$OK
+		Set tSC = tE.AsStatus()
+		set tSC2 = ##class(FAQ.Error).StoreErrorInformation(tE)
+	}
 	
-  If (tSC = 0) Set tSC = $$$OK  // tSC = 0はエラー扱いしない
-  Quit tSC
+	If (tSC = 0) Set tSC = $$$OK  // tSC = 0はエラー扱いしない
+	Quit tSC
 }
 
 ClassMethod GetCurTopicSubID() As %String
 {
-  quit $translate($justify($Increment(^TopicSubID),3)," ","0")
-  //以下の方法は、アトミック性を確保できないことが判明
-  //&sql(select max(TopicSubID) into :tTopicSubID from KB.Topic )
-  //quit $Translate($justify($increment(tTopicSubID),3)," ",0)
+	quit $translate($justify($Increment(^TopicSubID),3)," ","0")
+	//以下の方法は、アトミック性を確保できないことが判明
+	//&sql(select max(TopicSubID) into :tTopicSubID from KB.Topic )
+	//quit $Translate($justify($increment(tTopicSubID),3)," ",0)
 }
 
 ClassMethod ResetTopicSubID() As %Status
 {
-  set tSC = $$$OK
-  &sql(select max(TopicSubID) into :tTopicSubID from KB.Topic )
-  set ^TopicSubID = tTopicSubID
-  quit $$$OK
+	set tSC = $$$OK
+	&sql(select max(TopicSubID) into :tTopicSubID from KB.Topic )
+	set ^TopicSubID = tTopicSubID
+	quit $$$OK
 }
 
 ClassMethod DecrementTopicSubID() As %String
 {
-  quit $translate($justify($Increment(^TopicSubID,-1),3)," ","0")
+	quit $translate($justify($Increment(^TopicSubID,-1),3)," ","0")
 }
 
 ClassMethod ComputeTopicID(pId As %Integer) As %String
 {
-  Try {
-    set tTopic = ##class(KB.Topic).%OpenId(pId,,.tSC)
+	Try {
+	  set tTopic = ##class(KB.Topic).%OpenId(pId,,.tSC)
 	  
-    If $IsObject(tTopic) {
-      If tTopic.Product.ProductId = $$$General {
-        set tTopicId = $Translate("G-"_$Justify(tTopic.TopicSubID,3)," ",0)
-      }
-      Else {
-        set tTopicId = $Translate($Justify(tTopic.%Id(),$$$TopicDigitsNo)," ",0)
-      }
-    }
-    Else {
-      $$$ThrowStatus(tSC)
-    }
-  }
-  catch tE {
-    set tSC = ##class(FAQ.Error).StoreErrorInformation(tE)
-  }
-  quit $Get(tTopicId)
+	  If $IsObject(tTopic) {
+		  If tTopic.Product.ProductId = $$$General {
+			  set tTopicId = $Translate("G-"_$Justify(tTopic.TopicSubID,3)," ",0)
+		  }
+		  Else {
+			  set tTopicId = $Translate($Justify(tTopic.%Id(),$$$TopicDigitsNo)," ",0)
+	      }
+	  }
+	  Else {
+		  $$$ThrowStatus(tSC)
+	  }
+	}
+	catch tE {
+		set tSC = ##class(FAQ.Error).StoreErrorInformation(tE)
+	}
+	quit $Get(tTopicId)
 }
 
 ClassMethod RemoveDuplicatedRefNo(pRefNoList As %String) As %String
 {
-  //関連Topicリスト内の重複Topicを取り除く
+	//関連Topicリスト内の重複Topicを取り除く
 	
-  if pRefNoList = "" quit ""
+	if pRefNoList = "" quit ""
 	
-  for i = 1:1:$length(pRefNoList,",") {
-    set refno = $piece(pRefNoList,",",i)
-    set ref(refno) = ""
-  }
+	for i = 1:1:$length(pRefNoList,",") {
+	  set refno = $piece(pRefNoList,",",i)
+	  set ref(refno) = ""
+	}
 	
-  set node = "", newref = ""
+	set node = "", newref = ""
 	
-  for {
-    set node = $order(ref(node))
-    if node = "" quit
-    set newref = newref_","_node
-  }
+	for {
+	  set node = $order(ref(node))
+	  if node = "" quit
+	  set newref = newref_","_node
+	}
 	
-  quit $extract(newref,2,*)
+	quit $extract(newref,2,*)
 }
 
 ClassMethod RemoveRefNoForOwn(pRefNoList As %String, pTopicId As %Integer) As %String
 {
-  //関連Topicリスト内の本トピックがある場合取り除く
+	//関連Topicリスト内の本トピックがある場合取り除く
 	
-  if pRefNoList = "" quit ""
+	if pRefNoList = "" quit ""
 	
-  for i = 1:1:$length(pRefNoList,",") {
-    set refno = $piece(pRefNoList,",",i)
-    if refno '= pTopicId {
-      set ref(refno) = ""
-    }
-  }
+	for i = 1:1:$length(pRefNoList,",") {
+	  set refno = $piece(pRefNoList,",",i)
+	  if refno '= pTopicId {
+	    set ref(refno) = ""
+	  }
+	}
 	
-  set node = "", newref = ""
+	set node = "", newref = ""
 	
-  for {
-    set node = $order(ref(node))
-    if node = "" quit
-      set newref = newref_","_node
-    }
+	for {
+	  set node = $order(ref(node))
+	  if node = "" quit
+	  set newref = newref_","_node
+	}
 	
-  quit $extract(newref,2,*)
+	quit $extract(newref,2,*)
 }
 
 Method RefCheckLink(pDebug As %Boolean) As %Status
 {
-  //相互リンクを行う
+	//相互リンクを行う
 	
-  //リンクをはずすためにtopic番号を削除した場合については考慮していない
+	//リンクをはずすためにtopic番号を削除した場合については考慮していない
 	
-  set tSC = $$$OK
+	set tSC = $$$OK
 	
-  Try {
+	Try {
 		
-    set tId = ..%Id()
+		  set tId = ..%Id()
 
-    set tRefTopic = ..RefTopic
+		  set tRefTopic = ..RefTopic
 		  				
-    if pDebug Write "tRefTopic = "_tRefTopic,!
+		  if pDebug Write "tRefTopic = "_tRefTopic,!
 		  
-    If '$Length(tRefTopic) Quit
+		  If '$Length(tRefTopic) Quit
 		  
-    for i =1:1:$Length(tRefTopic,",") {
-      set tOtherId = $Piece(tRefTopic,",",i)
-      set tOther = ##class(KB.Topic).%OpenId(tOtherId,,.tSC)
-      if '$IsObject(tOther) $$$ThrowStatus(tSC)
-      set tFindFlag = 0
-      set tORefTopic = tOther.RefTopic
-      for j = 1:1:$Length(tORefTopic,",") {
-        if tId = $Piece(tORefTopic,",",j) set tFindFlag = 1
-      }
-      if pDebug Write "tFindFlag = "_tFindFlag,!
-      if 'tFindFlag {
-        if pDebug Write "tOther.RefTopic = "_tOther.RefTopic,!
-	set tOther.RefTopic = tOther.RefTopic_","_tId
-	if pDebug Write "tOther.RefTopic = "_tOther.RefTopic,!
-	if $extract(tOther.RefTopic) = "," Set tOther.RefTopic = $Extract(tOther.RefTopic,2,*)
-	if pDebug Write "tOther.RefTopic = "_tOther.RefTopic,!
-	$$$THROWONERROR(tSC,tOther.%Save())
-      }
-    }
-  }
-  Catch tE {
-    Set tSC = tE.AsStatus()
-    set tSC2 = ##class(FAQ.Error).StoreErrorInformation(tE)
-  }
-  Quit tSC
+		  for i =1:1:$Length(tRefTopic,",") {
+			  set tOtherId = $Piece(tRefTopic,",",i)
+			  set tOther = ##class(KB.Topic).%OpenId(tOtherId,,.tSC)
+			  if '$IsObject(tOther) $$$ThrowStatus(tSC)
+			  set tFindFlag = 0
+	          set tORefTopic = tOther.RefTopic
+			  for j = 1:1:$Length(tORefTopic,",") {
+			    if tId = $Piece(tORefTopic,",",j) set tFindFlag = 1
+			  }
+			  if pDebug Write "tFindFlag = "_tFindFlag,!
+			  if 'tFindFlag {
+			      if pDebug Write "tOther.RefTopic = "_tOther.RefTopic,!
+				  set tOther.RefTopic = tOther.RefTopic_","_tId
+			      if pDebug Write "tOther.RefTopic = "_tOther.RefTopic,!
+				  if $extract(tOther.RefTopic) = "," Set tOther.RefTopic = $Extract(tOther.RefTopic,2,*)
+			      if pDebug Write "tOther.RefTopic = "_tOther.RefTopic,!
+				  $$$THROWONERROR(tSC,tOther.%Save())
+			  }
+		  }
+	}
+	Catch tE {
+		Set tSC = tE.AsStatus()
+		set tSC2 = ##class(FAQ.Error).StoreErrorInformation(tE)
+	}
+	Quit tSC
 }
 
 ClassMethod RemoveLink(pId As %Integer, pOldValue As %String, pNewValue As %String) As %Status
 {
-  //現在設定されているリンク番号を削除する場合、相手Topicからの参照をはずす必要がある
+	//現在設定されているリンク番号を削除する場合、相手Topicからの参照をはずす必要がある
 		
-  set tSC = $$$OK	
+	set tSC = $$$OK	
 	
-  Try {
+	Try {
 		
-    If (pOldValue = pNewValue) Quit
+	    If (pOldValue = pNewValue) Quit
 	    
-    If '$Length(pOldValue) Quit
+	    If '$Length(pOldValue) Quit
 	    	     
-    For i = 1:1:$Length(pOldValue,",") {
-      set id = $Piece(pOldValue,",",i)
-      if '(id?.n) $$$ThrowStatus(0)
-    }
+	    For i = 1:1:$Length(pOldValue,",") {
+		    set id = $Piece(pOldValue,",",i)
+		    if '(id?.n) $$$ThrowStatus(0)
+	    }
 	    
-    For i = 1:1:$Length(pNewValue,",") {
-      set id = $Piece(pNewValue,",",i)
-      if '(id?.n) $$$ThrowStatus(0)
-    }
+	    For i = 1:1:$Length(pNewValue,",") {
+		    set id = $Piece(pNewValue,",",i)
+		    if '(id?.n) $$$ThrowStatus(0)
+	    }
 
-    For i = 1:1:$Length(pOldValue,",") {
-      Set tTopicId(i) = $Piece(pOldValue,",",i)
-      Set tNoFindFlag = 1
+	    For i = 1:1:$Length(pOldValue,",") {
+		    Set tTopicId(i) = $Piece(pOldValue,",",i)
+		    Set tNoFindFlag = 1
 		    
-      //古い値にはあるが新しい値に含まれないidを探す
-      For j = 1:1:$Length(pNewValue,",") {
-        Set tTopicId = $Piece(pNewValue,",",j)
-        If (tTopicId(i) = tTopicId) Set tNoFindFlag = 0
-      }
+		    //古い値にはあるが新しい値に含まれないidを探す
+		    For j = 1:1:$Length(pNewValue,",") {
+			    Set tTopicId = $Piece(pNewValue,",",j)
+			    If (tTopicId(i) = tTopicId) Set tNoFindFlag = 0
+		    }
 		    
-      If tNoFindFlag {
-	Set tReferedTopic = ##class(KB.Topic).%OpenId(tTopicId(i))
-	Set tRefTopic = tReferedTopic.RefTopic
-	Set count = 0
-	//新しい値からその削除されたidを取り除く
-	For k = 1:1:$Length(tRefTopic,",") {
-	  Set tRefTopic2 = $Piece(tRefTopic,",",k)
-	  If (tRefTopic2 '= pId) {
-	    Set count = count + 1
-	    Set tNoRemovedRefTopic(count) = tRefTopic2
+		    If tNoFindFlag {
+			    Set tReferedTopic = ##class(KB.Topic).%OpenId(tTopicId(i))
+			    Set tRefTopic = tReferedTopic.RefTopic
+			    Set count = 0
+			    //新しい値からその削除されたidを取り除く
+			    For k = 1:1:$Length(tRefTopic,",") {
+				    Set tRefTopic2 = $Piece(tRefTopic,",",k)
+				    If (tRefTopic2 '= pId) {
+					    Set count = count + 1
+					    Set tNoRemovedRefTopic(count) = tRefTopic2
+				    }
+			    }
+			    
+			    For l = 1:1:count {
+				    Set tNewRefTopic = $Get(tNewRefTopic)_","_tNoRemovedRefTopic(l)
+			    }
+			    Set tReferedTopic.RefTopic = $extract($Get(tNewRefTopic),2,*)
+			    Set tSC = tReferedTopic.%Save()
+                Do tReferedTopic.%Reload()
+		    }
+	    }
+	}
+	Catch tE {
+		Set tSC = tE.AsStatus()
+		set tSC2 = ##class(FAQ.Error).StoreErrorInformation(tE)
+	}
+	Quit tSC
+}
+
+ClassMethod RefListChk(rlist As %String) As %String
+{
+
+  set rlist = $REPLACE(rlist," ","")
+  set rlist = $REPLACE(rlist,"　","")
+
+  set refchk=rlist
+  If refchk = "" Quit refchk
+  set rlen=$LENGTH(rlist,",")
+  if rlen=1 {
+	set reftopic=##class(KB.Topic).%OpenId(rlist)
+	if '$IsObject(reftopic) {
+	  set refchk=""
+	}
+  }
+  else {
+	for i=1:1:rlen {
+	  set refid=$PIECE(rlist,",",i)
+	  set reftopic=##class(KB.Topic).%OpenId(refid)
+	  if '$IsObject(reftopic) {
+	    set refchk=""
 	  }
 	}
-			    
-	For l = 1:1:count {
-	  Set tNewRefTopic = $Get(tNewRefTopic)_","_tNoRemovedRefTopic(l)
-	}
-	Set tReferedTopic.RefTopic = $extract($Get(tNewRefTopic),2,*)
-	Set tSC = tReferedTopic.%Save()
-        Do tReferedTopic.%Reload()
-      }
-    }
   }
-  Catch tE {
-    Set tSC = tE.AsStatus()
-    set tSC2 = ##class(FAQ.Error).StoreErrorInformation(tE)
-  }
-  Quit tSC
+
+   //チェックNGの場合は""、チェックOKの場合は、スペースを抜いた文字列を返す
+  quit refchk
 }
 
 ClassMethod ChangeUrlPathForImages()
