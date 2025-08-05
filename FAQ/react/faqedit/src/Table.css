@@ -1,0 +1,23 @@
+.table-bordered {
+  border: 2px solid;
+  border-collapse: collapse;
+  color: black; 
+}
+.table-bordered th,
+.table-bordered td {
+  border: 1px solid;
+  color: black; /* 必要に応じてボーダーの色を調整 */
+  border-collapse: collapse;
+}
+
+.table2-bordered {
+  border: 2px solid;
+  border-collapse: collapse;
+  color: black; 
+}
+.table2-bordered th,
+.table2-bordered td {
+  border: 2px double;
+  color: black; /* 必要に応じてボーダーの色を調整 */
+  border-collapse: collapse;
+}
