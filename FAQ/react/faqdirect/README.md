@@ -94,7 +94,7 @@
 
 ## Topicの指定方法
 
-http://localhost:3000/#/Content/100
+http://localhost:3000/faqdirect/Content/100
 
 ## CORS設定
 
