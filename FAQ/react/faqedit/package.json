@@ -1,8 +1,8 @@
 {
-  "name": "faqmobile",
+  "name": "faqedit",
   "version": "0.1.0",
   "private": true,
-  "homepage": ".",
+  "homepage": "/faqedit/",
   "dependencies": {
     "@hookform/error-message": "^2.0.1",
     "@testing-library/jest-dom": "^5.16.5",
