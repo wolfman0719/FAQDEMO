@@ -1,17 +1,20 @@
 import React from 'react';
 import { Home } from './components/Home';
 import { Top } from './components/Top';
-import { HashRouter, Routes, Route } from 'react-router-dom';
+import { Second } from './components/Second';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 export const App = () => {
  
   return (
-  <HashRouter>
-  <Routes>
-  <Route path="/Content/:topicid"  element={<Home/>} />
+  <BrowserRouter basename="/faqdirect/">
+	<Routes>
   <Route path="/"  element={<Top/>} />
-  </Routes>
-   </HashRouter>   
+  <Route path="/Second/"  element={<Second/>} />  
+  <Route path="/Content/:topicid/"  element={<Home/>} />
+  <Route  element={<Second/>} />
+	</Routes>
+   </BrowserRouter>   
   );	
 }
 export default App;
