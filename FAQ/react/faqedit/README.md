@@ -130,6 +130,16 @@
     Removes this tool and copies build dependencies, configuration files
     and scripts into the app directory. If you do this, you can’t go back!
 
+## ブラウザからのアクセス
+
+- http://localhost:3000/faqedit/
+
+  npm startの場合
+  
+- http://localhost:8080/faqedit/
+
+  npm run buildして生成されたbuildディレクトリをfaqeditに名前変更し、httpのドキュメントルートにコピーする
+
 ## CORS設定
 
 開発モード(npm start)で動作させるためには、CORSの設定が必要
