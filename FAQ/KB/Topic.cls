@@ -82,6 +82,8 @@ Relationship UpdateDetail As KB.UpdateHistory [ Cardinality = children, Inverse 
 /// 同じ内容のDC(Developer Community)記事URL
 Property DCURL As %String(MAXLEN = 100, XMLPROJECTION = "NONE");
 
+Property DescriptionVector As %Vector(DATATYPE = "DOUBLE", LEN = 384);
+
 Index IndexIssueDate On IssueDate;
 
 Index IndexTitle On Title;
@@ -97,6 +99,8 @@ Index TitleIndex1 On (Title) As %iFind.Index.Basic(INDEXOPTION = 0, LANGUAGE = "
 Index DescriptionIndex1 On (Description) As %iFind.Index.Basic(INDEXOPTION = 0, LANGUAGE = "ja", LOWER = 1);
 
 Index CreatorIndex On Creator;
+
+Index HNSWDescriptionIndex On (DescriptionVector) As %SQL.Index.HNSW(Distance = "DotProduct");
 
 /// This callback method is invoked by the <METHOD>%Save</METHOD> method to 
 /// provide notification that the object is being saved. It is called before 
@@ -114,16 +118,15 @@ Method %OnBeforeSave(pInsert As %Boolean) As %Status [ Private, ServerOnly = 1 ]
 		}
 	}
 	
-	if $Get(%session)'=""{
-		if pInsert {
-			set ..Creator = $username
-			set ..IssueDate = +$h
-		}else {
-			if $Get(%session.Data("noAudit"))'=1{
-				set ..Updater = $username
-				set ..UpdateDate = +$h
-			}
-		}
+	if pInsert {
+	  set ..Creator = $username
+	  set ..IssueDate = +$h
+	} 
+	else {
+	  if $Get(%session.Data("noAudit"))'=1{
+	    set ..Updater = $username
+		set ..UpdateDate = +$h
+	  }
 	}
 	
     // 	スペースを取り除く、存在しないトピック番号があれば取り除く
@@ -172,6 +175,23 @@ Method %OnBeforeSave(pInsert As %Boolean) As %Status [ Private, ServerOnly = 1 ]
 	set ..Description = $replace(..Description,"</pre>","</pre></div>")
 
 	set ..VersionRange = ##class(KB.Version).SetVersionRange(..StartVersion, ..EndVersion)
+
+    /*
+	// タイトルとトピック内容からベクトル変数を生成する
+	// ベクトル化にかなり処理時間がかかるため、インタラクティブな保存処理に組み込むかどうか検討要
+	set statement = ##class(%SQL.Statement).%New()
+	set sql = "select TO_VECTOR(?,DOUBLE,384) as embedding"
+	set status = statement.%Prepare(sql)
+	set description = ..RemoveHTMLTag(..Description)
+	set title = ..Title
+	set vector = $translate(..GetEmbedding(title_" "_description)," '[]")
+
+	set rs = statement.%Execute(vector)
+	while rs.%Next() {
+	  set embedding = rs.%Get("embedding")
+	  set ..DescriptionVector = embedding    	
+	}
+    */
 	
 	Quit $$$OK
 }
@@ -532,6 +552,57 @@ ClassMethod CopyFromTopics(pTopicIdList As %List, Output pNewTopicIdList As %Lis
     quit status
 }
 
+ClassMethod GetEmbedding(sentences) As %String [ Language = python, SqlProc ]
+{
+   from sentence_transformers import SentenceTransformer as ST
+   # vector =  DOUBLE,384
+   model = ST('stsb-xlm-r-multilingual')
+   embeddings = model.encode(sentences,normalize_embeddings=True)
+   # convert the embeddings to a string
+   embeddings_list = [str(embedding.tolist()) for embedding in embeddings]
+   return str(embeddings_list).replace('\'','')
+}
+
+ClassMethod RemoveHTMLTag(text) As %String [ Language = python ]
+{
+  import re
+
+  clean = re.compile('<.*?>')
+  return re.sub(clean, '', text)
+}
+
+ClassMethod BuildVectorForDescriptions() As %Status
+{
+  //　全トピックのDescriptionに対してベクター（エンべディング）を生成し、最後にHNSWインデックスを付加する	
+  set status = $$$OK
+  try {
+	set statement = ##class(%SQL.Statement).%New()
+	set sql = "select ID,TITLE,DESCRIPTION from kb.topic"
+	set status = statement.%Prepare(sql)
+	$$$ThrowOnError(status)
+	set updatestatement = ##class(%SQL.Statement).%New()
+	set updatesql = "update kb.topic set descriptionvector = TO_VECTOR(?,DOUBLE,384) where id = ?"
+	$$$ThrowOnError(status)
+	set rs = statement.%Execute()
+	while rs.%Next() {
+	  set id = rs.%Get("ID")
+	  set description = ..RemoveHTMLTag(rs.%Get("DESCRIPTION"))
+	  set title = rs.%Get("TITLE")
+	  set vector = $translate(..GetEmbedding(title_" "_description)," '[]")
+	  set rs2 = updatestatement.%ExecDirect(,updatesql,vector,id)    	
+	}
+
+    set status =  ..%BuildIndices($listbuild("HNSWDescriptionIndex"))
+	$$$ThrowOnError(status)
+  }
+  Catch e {
+	do e.Log()
+	Set status = e.AsStatus()
+	set status2 = ##class(FAQ.Error).StoreErrorInformation(e)
+  }
+  quit status
+}
+
 Storage Default
 {
 <Data name="TopicDefaultData">
@@ -663,6 +734,9 @@ Storage Default
 </Value>
 <Value name="43">
 <Value>DCURL</Value>
+</Value>
+<Value name="44">
+<Value>DescriptionVector</Value>
 </Value>
 </Data>
 <DataLocation>^KB.TopicD</DataLocation>
