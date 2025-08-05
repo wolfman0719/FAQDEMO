@@ -23,6 +23,7 @@ XData UrlMap
   <Route Url="/Login/:username/:password" Method="GET" Call="FAQ.RestAPI:SLogin"/>
   <Route Url="/AttachedUpload/:id" Method="POST" Call="FAQ.RestAPI:AttachedUpload"/>
   <Route Url="/DeleteAttached/:id" Method="GET" Call="FAQ.RestAPI:DeleteAttached"/>
+  <Route Url="/TopicVectorSearch/:querytext" Method="GET" Call="FAQ.RestAPI:TopicVectorSearch"/>
 </Routes>
 }
 
@@ -345,17 +346,29 @@ ClassMethod TopicSave() As %Status
       set facility = ##class(KB.Facility).%OpenId(json.FacilityId)
       set topic.Facility = facility
     }
+    else {
+      set topic.Facility = ""
+    }
     if (+json.PlatformId > 0) {
       set platform = ##class(KB.Platform).%OpenId(json.PlatformId)
       set topic.Platform = platform
+    }
+    else {
+      set topic.Platform = ""
     }
     if (+json.StartVersionId > 0) {
       set version = ##class(KB.Version).%OpenId(json.StartVersionId)
       set topic.StartVersion = version
     }
+    else {
+      set topic.StartVersion = ""
+    }
     if (+json.EndVersionId > 0) {
       set version = ##class(KB.Version).%OpenId(json.EndVersionId)
       set topic.EndVersion = version
+    }
+    else {
+      set topic.EndVersion = ""
     }
     set topic.RefTopic = json.RefTopic
     set topic.Completed = json.Completed
@@ -784,6 +797,69 @@ ClassMethod DeleteAttached(pId As %Integer) As %Status
       do ##class(FAQ.Error).StoreErrorInformation(ex)
     }
     quit sts
+}
+
+ClassMethod TopicVectorSearch(pQueryText As %String) As %Status
+{
+  set status = $$$OK
+  // 検索キーワードが未入力の場合、null,undefinedという文字列で渡ってくる
+  if pQueryText = "znull" set pQueryText = "z"
+  if pQueryText = "zundefined" set pQueryText = "z"
+
+  if ($roles [ "FAQAdministrator") || ($roles [ "FAQEditor") {
+    set editor = 1
+  } 
+  else {
+    set editor = 0
+  }
+  
+  try  {
+	
+    if $data(%request) {
+      set %response.ContentType="application/json"
+      set %response.CharSet = "utf-8"
+    }
+
+    //RESTインタフェースの制約で入力なしでも先頭にzをつけることで回避
+    set pQueryText = $extract(pQueryText,2,*)
+ 
+    set return = []
+
+    if pQueryText = "" {
+      write return.%ToJSON()
+    }
+    else {
+      set QueryEmbedding =$tr(##class(KB.Topic).GetEmbedding(pQueryText)," '[]")
+
+      if editor {
+        set sql = "SELECT top 10 id,title from kb.topic order by vector_dot_product(DescriptionVector, TO_VECTOR(?, DOUBLE, 384)) desc"
+      }
+      else {
+        set sql = "SELECT top 10 id,title from kb.topic where (Completed=1 and Visible=1 and DeleteFlg!=1) order by vector_dot_product(DescriptionVector, TO_VECTOR(?, DOUBLE, 384)) desc"
+      }
+    
+      set statemt=##class(%SQL.Statement).%New()
+      set status=statemt.%Prepare(sql)
+      set rset=statemt.%Execute(QueryEmbedding)
+
+      while rset.%Next()  {
+        set robj = {}
+        set robj.id = rset.%Get("Id")
+        set robj.title = rset.%Get("title")
+        do return.%Push(robj)
+		    
+      }
+	   
+      write return.%ToJSON()
+    }  	  
+  }
+  catch e {
+		
+    set status = e.AsStatus()
+		
+  }
+  
+  quit status
 }
 
 Parameter HandleCorsRequest = 1;

@@ -11,7 +11,8 @@ ClassMethod StoreErrorInformation(pException As %Exception.General) As %Status
 	Set tSC = $$$OK
 	Try {
 	    set tError = ##class(FAQ.Error).%New()
-	    set tError.EventDateTime = $zdatetime($zts,3)
+		//タイムゾーンを調整する
+	    set tError.EventDateTime = $zdatetime($zdatetimeh($zts,-3),3)
 	    set tStatus = pException.AsStatus()
 	    set tSC = $System.Status.DecomposeStatus(tStatus,.tErrorContent)
 	    set n = ""
