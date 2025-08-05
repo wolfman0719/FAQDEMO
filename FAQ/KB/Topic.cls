@@ -575,6 +575,8 @@ ClassMethod BuildVectorForDescriptions() As %Status
 {
   //　全トピックのDescriptionに対してベクター（エンべディング）を生成し、最後にHNSWインデックスを付加する	
   set status = $$$OK
+  write "ベクター（エンべディング）の生成処理",!
+  write "この処理は時間がかかります",!
   try {
 	set statement = ##class(%SQL.Statement).%New()
 	set sql = "select ID,TITLE,DESCRIPTION from kb.topic"
