@@ -124,4 +124,30 @@ macOSの場合
 
 IISの場合は、以下の設定を参考
 
+デプロイの際（npm run build）には.htaccessを作成し、redirectの設定を行う
+
+### http.conf
+
+```
+<Directory />
+  AllowOverride All
+</Directory>
+```
+
+### .htaccessの内容
+
+以下の様な内容を記述する
+(必ず最後に空白行が必要）
+
+```
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-l
+RewriteRule ^ index.html [QSA,L]
+
+```
+
+
+
 https://mihono-bourbon.com/iis-cors/
