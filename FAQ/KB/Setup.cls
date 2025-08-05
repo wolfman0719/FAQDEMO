@@ -257,7 +257,10 @@ ClassMethod SetupLocal(pDir As %String) As %Status
 
   set namespace = $namespace
   set $namespace = "%SYS"
-
+  if '##class(Security.Roles).Exists("FAQEditor") {
+    set status = ##class(Security.Roles).Create("FAQEditor","FAQ Editor Role")
+    set status = ##class(Security.Users).AddRoles("_system","FAQEditor")
+  }
   set status = ##class("Security.Applications").Delete("/api/faq")
 
   set sec = ##class("Security.Applications").%New()
