@@ -120,7 +120,7 @@ ClassMethod runInstaller(datestr As %String, envID As %Integer = 4) As %Status
 
 ClassMethod getVersion() As %String
 {
-  quit "1.0.122"
+  quit "1.0.123"
 }
 
 }
