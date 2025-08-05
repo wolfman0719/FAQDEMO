@@ -1,46 +1,122 @@
-# Getting Started with Create React App
+# FAQ編集アプリケーション設定
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## react app テンプレート作成
 
-## Available Scripts
+```% npx create-react-app faqedit --template typescript```
 
-In the project directory, you can run:
+## bootstrapインストール
 
-### `npm start`
+```% cd faqpc```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+```% npm install react-bootstrap bootstrap```
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## react-router-domインストール
 
-### `npm test`
+```% npm install react-router-dom```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## axios インストール
 
-### `npm run build`
+```% npm install axios```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## ckeditor4-react@4.3.0のインストール
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```% npm install ckeditor4-react@4.3.0```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## highlight.jsのインストール
 
-### `npm run eject`
+```% npm install highlight.js```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## ファイルコピー
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+以下のファイルをここからダウンロードし、上で作成したテンプレートディレクトリにコピーする
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+- ルート
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+  package.json
+  
+- public
 
-## Learn More
+  index.html
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+  intersystems.css
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+  images/
+
+- src
+
+  index.tsx
+
+  App.tsx
+
+  serverconfig.json
+
+ - components
+
+   DownloadFile.tsx
+   
+   Header.tsx
+
+   Query.tsx
+
+   RelatedTopics.tsx
+
+   TopicContent.tsx
+
+   TopicList.tsx
+
+  - hooks
+
+    useWindowSize.ts
+
+## serverconfig.jsonの調整
+
+ IRISサーバーのIPアドレス、ポート番号を反映
+ (デフォルト　IPアドレス = localhost IPポート番号: 52773)
+
+ ローカルにセットアップした環境では、ポート番号をその環境に合わせて変更する
+
+## reactアプリケーションの起動
+
+- npm start
+
+    Starts the development server.
+
+- npm run build
+
+    Bundles the app into static files for production.
+
+- npm test
+
+    Starts the test runner.
+
+- npm run eject
+
+    Removes this tool and copies build dependencies, configuration files
+    and scripts into the app directory. If you do this, you can’t go back!
+
+## CORS設定
+
+開発モード(npm start)で動作させるためには、CORSの設定が必要
+
+### http.confの修正（以下の行を追加）
+
+macOSの場合
+
+```
+/opt/homebrew/etc/httpd
+```
+
+```
+<IfModule mod_headers>
+    Header set Access-Control-Allow-Origin "*"
+    Header set Access-Control-Allow-Methods "GET,POST,PUT,DELETE,OPTIONS, PATCH"
+    Header set Access-Control-Allow-Headers "Content-Type,Authorization,X-Requested-With"
+    Header set Access-Control-Allow-Credentials "true"
+</IfModule>
+```
+
+### IIS
+
+IISの場合は、以下の設定を参考
+
+https://mihono-bourbon.com/iis-cors/
