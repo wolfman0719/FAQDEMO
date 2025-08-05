@@ -1,14 +1,11 @@
 import React from 'react';
 import { ChangeEvent, useState} from "react";
-import { useNavigate } from "react-router-dom";
 import { TopicVectorList } from './TopicVectorList';
 
 
 export const VectorSearchQuery = (props: any) => {
 
  const {username,password,edit} = props;
- 
- const navigate = useNavigate();
 
  const [inputtext, setInputText] = useState<any>(localStorage.getItem('inputtext'));
  const [queryText, setQueryText] = useState<any>('');

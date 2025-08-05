@@ -465,7 +465,7 @@ export const TopicEditor = (props: any) => {
           <td align="right" className="text-primary">関連トピック：</td>
           <td ><input type="text" name="RefTopic" value={refTopics} onChange={onChangeRefTopics}/></td>
         </tr>
-        { (topicid != 0) &&
+        { (topicid !== 0 && topicid !== '0') &&
 		    <tr>
           <td align="right" className="text-primary">添付ファイル：</td>
           {fileName && 
@@ -478,7 +478,7 @@ export const TopicEditor = (props: any) => {
           </table>
           </td>}
         </tr>}
-        { (topicid != 0) &&
+        { (topicid !== 0 && topicid !== '0') &&
         <tr>
         <td align="right" className="text-primary">Upload：</td>
         <td width="90%"><table><tr><td><input name="AttachedFile" type="file" onChange={onChangeFile}/></td>
@@ -505,7 +505,7 @@ export const TopicEditor = (props: any) => {
           <td align="right" className="text-primary">*社内用メモ*：</td>
           <td ><textarea name="Note" cols={65} rows={3} id="nt" value={note} onChange={onChangeNote}></textarea></td>
         </tr>
-      { (topicid != 0) &&
+      { (topicid !== 0 && topicid !== '0') &&
 	    <tr>
          <td align="right" className="text-primary">*更新履歴*：</td>
          <td>  
