@@ -18,6 +18,11 @@
 
 ```% npm install axios```
 
+## react-tabs インストール
+
+```% npm install react-tabs```
+
+
 ## ckeditor4-react@4.3.0のインストール
 
 ```% npm install ckeditor4-react@4.3.0```
