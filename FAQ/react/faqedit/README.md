@@ -53,6 +53,8 @@
 
   App.tsx
 
+  Table.css
+
   serverconfig.json
 
  - components
@@ -61,13 +63,37 @@
    
    Header.tsx
 
+   Home.tsx
+
+   NoSignin.tsx
+
    Query.tsx
+
+   QueryById.tsx
 
    RelatedTopics.tsx
 
+   Signin.css
+   
+   Signin.tsx
+
+   snippet.css
+
+   style.css
+
+   sysedit.css
+
    TopicContent.tsx
 
+   TopicEditor.tsx
+
+   TopicInfo.tsx   
+
    TopicList.tsx
+
+   TopicVectorList.tsx
+
+   VectorSearchQuery.tsx
 
   - hooks
 
@@ -79,6 +105,11 @@
  (デフォルト　IPアドレス = localhost IPポート番号: 52773)
 
  ローカルにセットアップした環境では、ポート番号をその環境に合わせて変更する
+
+ Edit
+
+  trueの場合、トピックの作成/編集が可能(FAQEditロールがあるユーザーでログインする必要あり）
+  falseの場合、トピック参照のみ
 
 ## reactアプリケーションの起動
 
@@ -124,7 +155,10 @@ macOSの場合
 
 IISの場合は、以下の設定を参考
 
-デプロイの際（npm run build）には.htaccessを作成し、redirectの設定を行う
+
+https://mihono-bourbon.com/iis-cors/
+
+## デプロイの際（npm run build）には.htaccessを作成し、redirectの設定を行う
 
 ### http.conf
 
@@ -147,7 +181,3 @@ RewriteCond %{REQUEST_FILENAME} !-l
 RewriteRule ^ index.html [QSA,L]
 
 ```
-
-
-
-https://mihono-bourbon.com/iis-cors/
