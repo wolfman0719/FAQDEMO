@@ -21,8 +21,6 @@ export default function Signin() {
 
     const ServerAddress = configinfo.ServerAddress;
     const ServerPort = configinfo.ServerPort;
-    const Username = configinfo.Username;
-    const Password = configinfo.Password;
     const ApplicationName = configinfo.ApplicationName;
     const Protocol = configinfo.Protocol;
         
@@ -43,7 +41,7 @@ export default function Signin() {
         axios
           .get<any>(`${Protocol}://${ServerAddress}:${ServerPort}${ApplicationName}/Login/${data.username}/${data.password}`)
           .then((result: any) => {
-            if (result.data.login == 1) {
+            if (result.data.login === 1 || result.data.login === '1') {
                 const params = {username: data.username, password: data.password, edit: result.data.edit}
                 loginSuccess(params);
             }
@@ -82,6 +80,8 @@ export default function Signin() {
 
     return (
         <div className="formContainer">
+        {isLoading && <p>Laoding...</p>}
+        {isError && <p className="text-danger fs-3"><span dangerouslySetInnerHTML={{__html: errorMsg}}></span></p>}
         <form onSubmit={handleSubmit(onSubmit)}>
             <h1>ログイン</h1>
             <hr />
@@ -114,6 +114,7 @@ export default function Signin() {
                         id = "password"
                         type="password" 
                         placeholder='password' 
+                        // eslint-disable-next-line
                         role = 'password'
                         {...register('password', { 
                             required: 'パスワードを入力してください。', 
