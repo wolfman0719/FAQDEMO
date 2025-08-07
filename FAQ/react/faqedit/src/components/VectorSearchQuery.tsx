@@ -7,10 +7,8 @@ export const VectorSearchQuery = (props: any) => {
 
  const {username,password,edit} = props;
 
- const [inputtext, setInputText] = useState<any>(localStorage.getItem('inputtext'));
+ const [inputtext, setInputText] = useState<any>();
  const [queryText, setQueryText] = useState<any>('');
-
- localStorage.removeItem('topicid');
     
  const onChangeText = (e:  ChangeEvent<HTMLTextAreaElement>) => {
      setInputText(e.target.value);
@@ -34,3 +32,4 @@ const onClickItem = (inputtext: any) => {
   );	
 }
 export default VectorSearchQuery;
+
