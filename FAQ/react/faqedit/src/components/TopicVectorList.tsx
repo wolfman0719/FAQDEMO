@@ -30,10 +30,12 @@ const [width] = useWindowSize();
 	setIsLoading(true);
     setIsError(false);
 
-    const encodedQueryText = encodeURI(queryText);
+    const senddata: any = {};
+
+    senddata.queryText = queryText;
   
 	axios
-	  .get<any>(`${Protocol}://${ServerAddress}:${ServerPort}${ApplicationName}/TopicVectorSearch/z${encodedQueryText}?IRISUsername=${username}&IRISPassword=${password}`)
+	  .post<any>(`${Protocol}://${ServerAddress}:${ServerPort}${ApplicationName}/TopicVectorSearch?IRISUsername=${username}&IRISPassword=${password}`,senddata)
 	  .then((result: any) => {
 	  const topics = result.data.map((topic: any) => ({
 		id: topic.id,
@@ -44,6 +46,7 @@ const [width] = useWindowSize();
 	  })
       .catch((error: any) => {
 	     setIsError(true)
+         console.dir(error);
 		 if (error.response) {			
 		   setErrorText(error.response.data.summary);
 		 }
