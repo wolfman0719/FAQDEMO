@@ -82,7 +82,7 @@ Relationship UpdateDetail As KB.UpdateHistory [ Cardinality = children, Inverse 
 /// 同じ内容のDC(Developer Community)記事URL
 Property DCURL As %String(MAXLEN = 100, XMLPROJECTION = "NONE");
 
-Property DescriptionVector As %Vector(DATATYPE = "DOUBLE", LEN = 384);
+Property DescriptionVector As %Vector(DATATYPE = "DOUBLE", LEN = 768);
 
 Index IndexIssueDate On IssueDate;
 
@@ -180,7 +180,7 @@ Method %OnBeforeSave(pInsert As %Boolean) As %Status [ Private, ServerOnly = 1 ]
 	// タイトルとトピック内容からベクトル変数を生成する
 	// ベクトル化にかなり処理時間がかかるため、インタラクティブな保存処理に組み込むかどうか検討要
 	set statement = ##class(%SQL.Statement).%New()
-	set sql = "select TO_VECTOR(?,DOUBLE,384) as embedding"
+	set sql = "select TO_VECTOR(?,DOUBLE,768) as embedding"
 	set status = statement.%Prepare(sql)
 	set description = ..RemoveHTMLTag(..Description)
 	set title = ..Title
@@ -555,7 +555,7 @@ ClassMethod CopyFromTopics(pTopicIdList As %List, Output pNewTopicIdList As %Lis
 ClassMethod GetEmbedding(sentences) As %String [ Language = python, SqlProc ]
 {
    from sentence_transformers import SentenceTransformer as ST
-   # vector =  DOUBLE,384
+   # vector =  DOUBLE,768
    model = ST('stsb-xlm-r-multilingual')
    embeddings = model.encode(sentences,normalize_embeddings=True)
    # convert the embeddings to a string
@@ -583,7 +583,7 @@ ClassMethod BuildVectorForDescriptions() As %Status
 	set status = statement.%Prepare(sql)
 	$$$ThrowOnError(status)
 	set updatestatement = ##class(%SQL.Statement).%New()
-	set updatesql = "update kb.topic set descriptionvector = TO_VECTOR(?,DOUBLE,384) where id = ?"
+	set updatesql = "update kb.topic set descriptionvector = TO_VECTOR(?,DOUBLE,768) where id = ?"
 	$$$ThrowOnError(status)
 	set rs = statement.%Execute()
 	while rs.%Next() {
