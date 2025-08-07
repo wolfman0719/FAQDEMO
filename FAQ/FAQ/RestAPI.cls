@@ -23,7 +23,7 @@ XData UrlMap
   <Route Url="/Login/:username/:password" Method="GET" Call="FAQ.RestAPI:SLogin"/>
   <Route Url="/AttachedUpload/:id" Method="POST" Call="FAQ.RestAPI:AttachedUpload"/>
   <Route Url="/DeleteAttached/:id" Method="GET" Call="FAQ.RestAPI:DeleteAttached"/>
-  <Route Url="/TopicVectorSearch/:querytext" Method="GET" Call="FAQ.RestAPI:TopicVectorSearch"/>
+  <Route Url="/TopicVectorSearch" Method="POST" Call="FAQ.RestAPI:TopicVectorSearch"/>
 </Routes>
 }
 
@@ -802,9 +802,6 @@ ClassMethod DeleteAttached(pId As %Integer) As %Status
 ClassMethod TopicVectorSearch(pQueryText As %String) As %Status
 {
   set status = $$$OK
-  // 検索キーワードが未入力の場合、null,undefinedという文字列で渡ってくる
-  if pQueryText = "znull" set pQueryText = "z"
-  if pQueryText = "zundefined" set pQueryText = "z"
 
   if ($roles [ "FAQAdministrator") || ($roles [ "FAQEditor") {
     set editor = 1
@@ -820,22 +817,29 @@ ClassMethod TopicVectorSearch(pQueryText As %String) As %Status
       set %response.CharSet = "utf-8"
     }
 
-    //RESTインタフェースの制約で入力なしでも先頭にzをつけることで回避
-    set pQueryText = $extract(pQueryText,2,*)
+    set len = 1000000
+		set jsontext = %request.Content.Read(.len,.status)
+		set json = {}.%FromJSON(jsontext)
+    
+    set queryText = json.queryText
+
+    // 検索キーワードが未入力の場合、null,undefinedという文字列で渡ってくる
+    if queryText = "null" set queryText = ""
+    if queryText = "undefined" set queryText = ""
  
     set return = []
 
-    if pQueryText = "" {
+    if queryText = "" {
       write return.%ToJSON()
     }
     else {
-      set QueryEmbedding =$tr(##class(KB.Topic).GetEmbedding(pQueryText)," '[]")
+      set QueryEmbedding =$tr(##class(KB.Topic).GetEmbedding(queryText)," '[]")
 
       if editor {
-        set sql = "SELECT top 10 id,title from kb.topic order by vector_dot_product(DescriptionVector, TO_VECTOR(?, DOUBLE, 384)) desc"
+        set sql = "SELECT top 10 id,title from kb.topic order by vector_dot_product(DescriptionVector, TO_VECTOR(?, DOUBLE, 768)) desc"
       }
       else {
-        set sql = "SELECT top 10 id,title from kb.topic where (Completed=1 and Visible=1 and DeleteFlg!=1) order by vector_dot_product(DescriptionVector, TO_VECTOR(?, DOUBLE, 384)) desc"
+        set sql = "SELECT top 10 id,title from kb.topic where (Completed=1 and Visible=1 and DeleteFlg!=1) order by vector_dot_product(DescriptionVector, TO_VECTOR(?, DOUBLE, 768)) desc"
       }
     
       set statemt=##class(%SQL.Statement).%New()
