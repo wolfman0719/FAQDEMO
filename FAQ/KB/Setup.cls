@@ -272,7 +272,7 @@ ClassMethod SetupLocal(pDir As %String) As %Status
   set sec.DispatchClass ="%SYS.Python.WSGI"
   set sec.AutheEnabled = 96
   set installdir = $system.Util.InstallDirectory()
-  set sec.WSGIApplication = installdir_"csp"_sep_"faqflask"_sep
+  set sec.WSGIAppLocation = installdir_"csp"_sep_"faqflask"_sep
   set sec.WSGIAppName = "topicbyid"
   set sec.WSGICallable = "app"
   set sec.WSGIDebug = 1
