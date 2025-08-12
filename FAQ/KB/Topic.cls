@@ -208,28 +208,26 @@ Method %OnAfterSave(pInsert As %Boolean) As %Status [ Private, ServerOnly = 1 ]
 	set tSC = $$$OK
 		
 	Try {
-	  if $Get(%session)'=""{
-		  if pInsert {
-    	      set message = "作成トピック "_..%Id()
-			  // tSC = 0 となることがあるが、エラーとしない
-        	  set tSC = $system.Security.Audit("FAQ","Create","Topic",message)
+	  if pInsert {
+        set message = "作成トピック "_..%Id()
+		// tSC = 0 となることがあるが、エラーとしない
+        set tSC = $system.Security.Audit("FAQ","Create","Topic",message)
 			
-			  //UsersVoiceの新規セット
-   			  set uv=##class(UsersVoice).%New()
-			  set ..UsersVoice=uv
-			  set uv.TopicId=..%Id()
-		  }
-		  else {
- 			  if %session.Get("noAudit")'=1 {
-				  set message = "修正トピック "_..%Id()
-				  // tSC = 0 となることがあるが、エラーとしない
-    	   		  set tSC = $system.Security.Audit("FAQ","Update","Topic",message)
- 			  }
-		  }		
+		//UsersVoiceの新規セット
+   		set uv=##class(UsersVoice).%New()
+		set ..UsersVoice=uv
+		set uv.TopicId=..%Id()
+	  }
+	  else {
+ 	    if %session.Get("noAudit")'=1 {
+		  set message = "修正トピック "_..%Id()
+		  // tSC = 0 となることがあるが、エラーとしない
+    	  set tSC = $system.Security.Audit("FAQ","Update","Topic",message)
+ 		}
 	  }
 	}
 	Catch  tE {
-		Set tSC = $$$OK
+		do tE.log()
 		Set tSC = tE.AsStatus()
 		set tSC2 = ##class(FAQ.Error).StoreErrorInformation(tE)
 	}
@@ -575,8 +573,6 @@ ClassMethod BuildVectorForDescriptions() As %Status
 {
   //　全トピックのDescriptionに対してベクター（エンべディング）を生成し、最後にHNSWインデックスを付加する	
   set status = $$$OK
-  write "ベクター（エンべディング）の生成処理",!
-  write "この処理は時間がかかります",!
   try {
 	set statement = ##class(%SQL.Statement).%New()
 	set sql = "select ID,TITLE,DESCRIPTION from kb.topic"
