@@ -13,7 +13,7 @@ XData FAQManifest [ XMLNamespace = INSTALLER ]
     Description=""
     Directory="${CSPDirectory}"
     Resource=""
-    Grant="%DB_${Namespace}"
+    Grant="%DB_%DEFAULT"
     Recurse="true"
     LoginClass=""
     CookiePath="${CSPUrl}"
@@ -60,8 +60,10 @@ XData FAQManifest [ XMLNamespace = INSTALLER ]
 <Invoke Class="KB.Setup" Method="copyFlask" CheckStatus="0" Return="RetVal"> 
     <Arg Value="${FlaskFileDir}"/>
 </Invoke>
+<If Condition='{VectorSearch}'>
 <Invoke Class="FAQ.Installer" Method="BuildVectorForDescriptions" CheckStatus="0" Return="RetVal">
 </Invoke>
+</If>
 </If>
 </Namespace>
 </Manifest>
@@ -70,8 +72,8 @@ XData FAQManifest [ XMLNamespace = INSTALLER ]
 /// これは XGL により生成されたメソッド・ジェネレーターです。.
 ClassMethod setup(ByRef pVars, pLogLevel As %Integer = 3, pInstaller As %Installer.Installer, pLogger As %Installer.AbstractLogger) As %Status [ CodeMode = objectgenerator, Internal ]
 {
-  #; XGL ドキュメントでこのメソッドのコードを生成する.
-  Quit ##class(%Installer.Manifest).%Generate(%compiledclass, %code, "FAQManifest")
+ #; XGL ドキュメントでこのメソッドのコードを生成する.
+ Quit ##class(%Installer.Manifest).%Generate(%compiledclass, %code, "FAQManifest")
 }
 
 // envID(環境ID)：クラウド(本番)環境＝1、jpnfilesrv＝2、クラウド(テスト)環境＝3、その他＝4
@@ -82,45 +84,47 @@ ClassMethod setup(ByRef pVars, pLogLevel As %Integer = 3, pInstaller As %Install
 
 ClassMethod runInstaller(datestr As %String, envID As %Integer = 4) As %Status
 {
-  set setuptype = 1
-  do ##class(KB.Setup).setConfigParams(envID)
-  set setupdir = ##class(KB.Config).getSetupDirectory()_##class(KB.Config).getDirectorySeparator()_datestr_##class(KB.Config).getDirectorySeparator()
-  set vars("setupdir") = setupdir
-  set vars("FTPDirectory") = ##class(KB.Config).getFTPDirectory()
-  set vars("ClassFileDir") = setupdir_##class(KB.Config).getClassFileDir()
-  set vars("FAQClassFileDir") = setupdir_##class(KB.Config).getClassFileDir()_##class(KB.Config).getDirectorySeparator()_"FAQ"
-  set vars("KBClassFileDir") = setupdir_##class(KB.Config).getClassFileDir()_##class(KB.Config).getDirectorySeparator()_"KB"
-  set vars("CSPClassFileDir") = setupdir_##class(KB.Config).getClassFileDir()_##class(KB.Config).getDirectorySeparator()_"CSP"
-  set vars("GlobalFileName") = setupdir_##class(KB.Config).getGlobalFileName()
+    set setuptype = 1
+    do ##class(KB.Setup).setConfigParams(envID)
+    set setupdir = ##class(KB.Config).getSetupDirectory()_##class(KB.Config).getDirectorySeparator()_datestr_##class(KB.Config).getDirectorySeparator()
+    set vars("setupdir") = setupdir
+    set vars("FTPDirectory") = ##class(KB.Config).getFTPDirectory()
+    set vars("ClassFileDir") = setupdir_##class(KB.Config).getClassFileDir()
+    set vars("FAQClassFileDir") = setupdir_##class(KB.Config).getClassFileDir()_##class(KB.Config).getDirectorySeparator()_"FAQ"
+    set vars("KBClassFileDir") = setupdir_##class(KB.Config).getClassFileDir()_##class(KB.Config).getDirectorySeparator()_"KB"
+    set vars("CSPClassFileDir") = setupdir_##class(KB.Config).getClassFileDir()_##class(KB.Config).getDirectorySeparator()_"CSP"
+    set vars("GlobalFileName") = setupdir_##class(KB.Config).getGlobalFileName()
 				
-  set vars("SetupType") = setuptype
-  set vars("Namespace") = ##class(KB.Config).getNamespace()
-  set vars("CSPUrl") = ##class(KB.Config).getCSPUrl() 
-  set vars("CSPDirectory") = ##class(KB.Config).getCSPDirectory() 
-  set vars("CustomErrorPage") = ##class(KB.Config).getErrorPage()
-  set vars("AuthenticationMethods") = ##class(KB.Config).getAuthenticationMethods()
+    set vars("SetupType") = setuptype
+    set vars("Namespace") = ##class(KB.Config).getNamespace()
+    set vars("CSPUrl") = ##class(KB.Config).getCSPUrl() 
+    set vars("CSPDirectory") = ##class(KB.Config).getCSPDirectory() 
+    set vars("CustomErrorPage") = ##class(KB.Config).getErrorPage()
+    set vars("AuthenticationMethods") = ##class(KB.Config).getAuthenticationMethods()
 
-  set sep = ##class(KB.Config).getDirectorySeparator()
-  set vars("CSPFileDir") = setupdir_##class(KB.Config).getClassFileDir()
+    set sep = ##class(KB.Config).getDirectorySeparator()
+    set vars("CSPFileDir") = setupdir_##class(KB.Config).getClassFileDir()
     
-  //以下のディレクトリ構造はGitHubリポジトリーに依存しているため固定
-  set vars("CSPFileDir") = vars("CSPFileDir")_##class(KB.Config).getDirectorySeparator()_"CSP"
-  set vars("CSPFileDir") = vars("CSPFileDir")_##class(KB.Config).getDirectorySeparator()_"csp"
-  set vars("CSPFileDir") = vars("CSPFileDir")_##class(KB.Config).getDirectorySeparator()_"isj"
+    //以下のディレクトリ構造はGitHubリポジトリーに依存しているため固定
+    set vars("CSPFileDir") = vars("CSPFileDir")_##class(KB.Config).getDirectorySeparator()_"CSP"
+    set vars("CSPFileDir") = vars("CSPFileDir")_##class(KB.Config).getDirectorySeparator()_"csp"
+    set vars("CSPFileDir") = vars("CSPFileDir")_##class(KB.Config).getDirectorySeparator()_"isj"
 
-  set vars("CSPFileDir") = $replace(vars("CSPFileDir"),sep_sep,sep)
+    set vars("CSPFileDir") = $replace(vars("CSPFileDir"),sep_sep,sep)
 
-  set vars("FlaskFileDir") = setupdir_##class(KB.Config).getClassFileDir()
-  set vars("FlaskFileDir") = vars("FlaskFileDir")_##class(KB.Config).getDirectorySeparator()_"flask"
+    set vars("FlaskFileDir") = setupdir_##class(KB.Config).getClassFileDir()
+    set vars("FlaskFileDir") = vars("FlaskFileDir")_##class(KB.Config).getDirectorySeparator()_"flask"
 
-  set vars("FlaskFileDir") = $replace(vars("FlaskFileDir"),sep_sep,sep)
+    set vars("FlaskFileDir") = $replace(vars("FlaskFileDir"),sep_sep,sep)
+    
+    set vars("VectorSearch") = ##class(KB.Config).getVectorSearch()
 
-  do ..setup(.vars,3)
+    do ..setup(.vars,3)
 }
 
 ClassMethod getVersion() As %String
 {
-  quit "1.0.123"
+	quit "1.0.025"
 }
 
 }
