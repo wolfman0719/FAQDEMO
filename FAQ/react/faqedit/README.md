@@ -139,10 +139,20 @@ VectorSearch
 
 ## ブラウザからのアクセス
 
+  npm startの場合
+
 - http://localhost:3000/faqedit/
 
-  npm startの場合
-  
+　Docker環境の場合は、
+
+ ユーザー名は、_system
+
+ パスワード　　SYS
+
+ ローカルセットアップの場合は、任意のユーザーアカウント
+ 
+ 編集機能を使うためには、FAQEditorロールが必要
+   
 - http://localhost:8080/faqedit/
 
   npm run buildして生成されたbuildディレクトリをfaqeditに名前変更し、httpのドキュメントルートにコピーする
@@ -199,8 +209,15 @@ RewriteRule ^ index.html [QSA,L]
 
 ```
 
+## 制限事項
+
 ### 開発モードの制限事項
 
 ckeditor4のファイルアップロード機能が動作しない
+（CORS環境ではckeditor4のアップローダが動作できないため）
 
 buildモードではOK
+
+## 新規トピック作成時の添付ファイルアップロード
+
+実装上の制約により（添付ファイル名にトピックIDが含まれる）、新規作成時にはファイルを添付できないように制限している。
