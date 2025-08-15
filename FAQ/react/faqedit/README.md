@@ -109,7 +109,14 @@
  Edit
 
   trueの場合、トピックの作成/編集が可能(FAQEditロールがあるユーザーでログインする必要あり）
+  
   falseの場合、トピック参照のみ
+
+VectorSearch
+
+  trueの場合、ベクトル検索用のタブが表示される
+  
+  falseの場合、ベクトル検索用のタブは表示されない
 
 ## reactアプリケーションの起動
 
@@ -191,3 +198,9 @@ RewriteCond %{REQUEST_FILENAME} !-l
 RewriteRule ^ index.html [QSA,L]
 
 ```
+
+### 開発モードの制限事項
+
+ckeditor4のファイルアップロード機能が動作しない
+
+buildモードではOK
