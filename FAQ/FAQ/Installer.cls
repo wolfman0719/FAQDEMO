@@ -60,7 +60,7 @@ XData FAQManifest [ XMLNamespace = INSTALLER ]
 <Invoke Class="KB.Setup" Method="copyFlask" CheckStatus="0" Return="RetVal"> 
     <Arg Value="${FlaskFileDir}"/>
 </Invoke>
-<If Condition='{VectorSearch}'>
+<If Condition='${VectorSearch}'>
 <Invoke Class="FAQ.Installer" Method="BuildVectorForDescriptions" CheckStatus="0" Return="RetVal">
 </Invoke>
 </If>
