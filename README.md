@@ -70,6 +70,10 @@ FAQシステムのデモサイト
 
 セットアップに関しては、FAQ/react/faqdirect/README.mdを参照してください。
 
+### トピック編集
+
+セットアップに関しては、FAQ/react/faqedit/README.mdを参照してください。
+
 ## Flaskアプリケーション
 
 起動方法は、FAQ/flask/README.mdを参照してください
