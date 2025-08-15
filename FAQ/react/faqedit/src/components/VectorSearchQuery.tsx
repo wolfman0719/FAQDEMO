@@ -32,4 +32,3 @@ const onClickItem = (inputtext: any) => {
   );	
 }
 export default VectorSearchQuery;
-
