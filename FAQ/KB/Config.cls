@@ -228,7 +228,7 @@ ClassMethod setEditingMode(editingMode As %Integer) As %Status
 ClassMethod setVectorSearch(vectorSearch As %Integer) As %Status
 {
 	set status = $$$OK
-	set ^Techinfo("VevctorSearch") = vectorSearch
+	set ^Techinfo("VectorSearch") = vectorSearch
 	quit status
 }
 
