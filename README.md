@@ -82,7 +82,7 @@ FAQシステムのデモサイト
 
 ### reactのfaqeditのserverconfig.json
 
-デフォルトではvectorSearch=falseとなっているが、trueに設定することで、ベクトル検索用のタブが追加される
+デフォルトではVectorSearch=falseとなっているが、trueに設定することで、ベクトル検索用のタブが追加される
 
 ### KB.SetupクラスのsetConfigParamsメソッド
 
