@@ -80,11 +80,11 @@ FAQシステムのデモサイト
 
 以下の操作を行うことで、機能がイネーブルになる
 
-### reactのserverconfig.json
+### reactのfaqeditのserverconfig.json
 
 デフォルトではvectorSearch=falseとなっているが、trueに設定することで、ベクトル検索用のタブが追加される
 
-### KB.SetupクラスのconfigParamsメソッド
+### KB.SetupクラスのsetConfigParamsメソッド
 
 最後の処理が以下のようになっているが、このパラメータを0から1に変更することでエンベッデングやインデックスの構築を行う
 
