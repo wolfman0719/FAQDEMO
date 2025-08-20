@@ -58,7 +58,7 @@ FAQシステムのデモサイト
 
  - Flask版トピックID検索
 
-  [localhost:52773/csp/faqflask/300](http://localhost:52773/csp/faqflask/300)
+  [localhost:52773/csp/faqflask/topicid/300](http://localhost:52773/csp/faqflask/topicid/300)
 
   /300の部分は、トピック番号を入力
 
