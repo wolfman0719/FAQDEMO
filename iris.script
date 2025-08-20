@@ -6,6 +6,10 @@ set status = ##class(Security.Users).AddRoles("_system","FAQEditor")
 set status = ##class(Security.Users).AddRoles("UnknownUser","%All")
 Do ##class(Security.Users).UnExpireUserPasswords("*")
 Do ##class(Config.NLS.Locales).Install("jpuw")
+set sec = ##class("Security.Applications").%OpenId("/csp/user")
+set sec.Timeout = 20000
+set status = sec.%Save()
+
 set sec = ##class("Security.Applications").%New()
 set sec.Name = "/api/faq"
 set sec.NameSpace = "USER"
