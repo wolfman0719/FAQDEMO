@@ -60,7 +60,7 @@ FAQシステムのデモサイト
  
    [localhost:52773/csp/faqflask/topicid/200](http://localhost:52773/csp/faqflask/topicid/200)
 
-   /300の部分は、トピック番号を入力
+   /200の部分は、トピック番号を入力
 
  - React版FAQ検索＆編集
 
