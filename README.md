@@ -57,18 +57,17 @@ FAQシステムのデモサイト
   [localhost:52773/csp/sys/%25CSP.Portal.Home.zen?IRISUsername=_system&IRISPassword=SYS](http://localhost:52773/csp/sys/%25CSP.Portal.Home.zen?IRISUsername=_system&IRISPassword=SYS)
 
  - Flask版トピックID検索
-
-  [localhost:52773/csp/faqflask/topicid/300](http://localhost:52773/csp/faqflask/topicid/300)
-
-  /300の部分は、トピック番号を入力
+ 
+   [localhost:52773/csp/faqflask/topicid/200](http://localhost:52773/csp/faqflask/topicid/200)
+   /300の部分は、トピック番号を入力
 
  - React版FAQ検索＆編集
 
-  [localhost:52773/csp/faqedit/index.html](http://localhost:52773/csp/faqedit/index.html)
+   [localhost:52773/csp/faqedit/index.html](http://localhost:52773/csp/faqedit/index.html)
 
-  ログインユーザー: _system
-  
-  パスワード: SYS
+   ログインユーザー: _system
+
+   パスワード: SYS
   
 
 ## reactアプリケーション
