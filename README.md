@@ -41,7 +41,7 @@ FAQシステムのデモサイト
 >do ##class(KB.Setup).SetupLocal(pDir)
 ```
 
-## アプリケーション起動
+## アプリケーション起動(Docker環境)
 
 * FAQシステムエントリー
 
@@ -55,6 +55,21 @@ FAQシステムのデモサイト
 - 管理ポータル
 
   [localhost:52773/csp/sys/%25CSP.Portal.Home.zen?IRISUsername=_system&IRISPassword=SYS](http://localhost:52773/csp/sys/%25CSP.Portal.Home.zen?IRISUsername=_system&IRISPassword=SYS)
+
+ - Flask版トピックID検索
+
+  [localhost:52773/csp/faqflask/300](http://localhost:52773/csp/faqflask/300)
+
+  /300の部分は、トピック番号を入力
+
+ - React版FAQ検索＆編集
+
+  [localhost:52773/csp/faqedit/index.html](http://localhost:52773/csp/faqedit/index.html)
+
+  ログインユーザー: _system
+  
+  パスワード: SYS
+  
 
 ## reactアプリケーション
 
