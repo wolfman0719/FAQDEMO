@@ -241,6 +241,22 @@ ClassMethod copyFlask(pSetupDir As %String) As %Status
 	quit $$$OK
 }
 
+ClassMethod copyReact(pSetupDir As %String, pAppName As %String) As %Status
+{
+	//React関連ファイルをflaskディレクトリーにコピーする
+	//reactディレクトリは、csp/faqと同レベルのcsp/faq/{pAppName}
+	set dirSep = ##class(KB.Config).getDirectorySeparator()
+	//ディレクトリがなければコピーしない
+	if '##class(%File).Exists(pSetupDir_dirSep_pAppName) quit $$$OK
+	  
+	set sourcedir = pSetupDir_dirSep_pAppName
+	set dest = ##class(KB.Config).getCSPDirectory()_dirSep_pAppName
+	set overlay = 1
+	set boolean = ##class(%File).CopyDir(sourcedir,dest,overlay)  
+	
+	quit $$$OK
+}
+
 ClassMethod SetupLocal(pDir As %String) As %Status
 {
   // GitHubからclone
