@@ -64,7 +64,7 @@ FAQシステムのデモサイト
 
  - React版FAQ検索＆編集
 
-   [localhost:52773/csp/faqedit/index.html](http://localhost:52773/csp/faqedit/index.html)
+   [localhost:52773/csp/faqedit/user/index.html](http://localhost:52773/csp/user/faqedit/index.html)
 
    ログインユーザー: _system
 
