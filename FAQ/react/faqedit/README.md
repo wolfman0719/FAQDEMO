@@ -139,19 +139,19 @@ VectorSearch
 
 ## ブラウザからのアクセス
 
+### 開発モード
+
   npm startの場合
 
 - http://localhost:3000/faqedit/
 
-　Docker環境の場合は、
-
- ユーザー名は、_system
-
- パスワード　　SYS
-
- ローカルセットアップの場合は、任意のユーザーアカウント
+ ユーザー名、パスワードは任意のユーザーアカウントのものを使用する
  
  編集機能を使うためには、FAQEditorロールが必要
+
+### デプロイモード
+
+npm run buildの場合
    
 - http://localhost:8080/faqedit/
 
