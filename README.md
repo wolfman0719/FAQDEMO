@@ -38,6 +38,20 @@ FAQシステムのデモサイト
 
 ### SetupLocalの実行
 
+#### pDirの場所を変更する場合
+
+c:¥git¥FAQDEMO(Windows)、$Home/git/faqdemo/git(MacOS)以外にリポジトリのファイルを展開した場合
+
+KB.SetupクラスのsetConfigParamsクラスメソッドの以下の行を変更
+
+(WindowsはEnvID=5, MacOSはEnvID=6)
+
+```
+set setupdir = "c:\git\faqdemo"
+```
+
+#### SetupLocalメソッドの実行
+
 ```
 >do ##class(KB.Setup).SetupLocal(pDir)
 ```
