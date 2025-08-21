@@ -473,7 +473,7 @@ export const TopicEditor = (props: any) => {
           <table>
           <tr>
           <td><label>{fileName}</label></td>
-          <td><button name="AttacheDel" className = "btn btn-outline-danger" disabled={!fileflag}  onClick={delAttachedFile} style={{height: "20"}}><i className="bi bi-trash"></i></button></td>
+          <td><button name="AttacheDel" className = "btn btn-outline-danger" disabled={!fileflag}  onClick={delAttachedFile} style={{height: "20"}}>削除<i className="bi bi-trash"></i></button></td>
           </tr>
           </table>
           </td>}
