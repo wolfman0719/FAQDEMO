@@ -85,9 +85,11 @@ set setupdir = "c:\git\faqdemo"
 
   パスワード: SYS
 
-  クラウド環境でDocker環境を構築した場合にlocalhostではないipアドレスまたは異なるポート番号を使用する場合
+  - クラウド環境でDocker環境を構築した場合等localhostではないipアドレスまたは異なるポート番号を使用する場合
 
-  FAQ/faqedit/staticの下にある.jsファイルからlocalhost（ポート番号）を検索し、そのipアドレス（ポート番号）に変更し、docker-composeを実行する
+  FAQ/faqedit/static/jsの所にあるjsファイルからlocalhost（ポート番号）を検索し、そのipアドレス（ポート番号）に変更/保存し、docker-composeを実行する
+
+  ブラウザキャッシュをクリアしないとその変更が反映しないケースがある
   
 
 ## reactアプリケーション
