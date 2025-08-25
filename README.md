@@ -71,28 +71,32 @@ set setupdir = "c:\git\faqdemo"
 
   [localhost:52773/csp/sys/%25CSP.Portal.Home.zen?IRISUsername=_system&IRISPassword=SYS](http://localhost:52773/csp/sys/%25CSP.Portal.Home.zen?IRISUsername=_system&IRISPassword=SYS)
 
- - Flask版トピックID検索
+- Flask版トピックID検索
  
-   [localhost:52773/csp/faqflask/topicid/200](http://localhost:52773/csp/faqflask/topicid/200)
+  [localhost:52773/csp/faqflask/topicid/200](http://localhost:52773/csp/faqflask/topicid/200)
 
-   /200の部分は、トピック番号を入力
+  /200の部分は、トピック番号を入力
 
- - React版FAQ検索＆編集
+- React版FAQ検索＆編集
 
-   [localhost:52773/csp/faqedit/user/index.html](http://localhost:52773/csp/user/faqedit/index.html)
+  [localhost:52773/csp/faqedit/user/index.html](http://localhost:52773/csp/user/faqedit/index.html)
 
-   ログインユーザー: _system
+  ログインユーザー: _system
 
-   パスワード: SYS
+  パスワード: SYS
+
+  クラウド環境でDocker環境を構築した場合にlocalhostではないipアドレスまたは異なるポート番号を使用する場合
+
+  FAQ/faqedit/staticの下にある.jsファイルからlocalhost（ポート番号）を検索し、そのipアドレス（ポート番号）に変更し、docker-composeを実行する
   
 
 ## reactアプリケーション
 
-### PC版
+### PC版トピック表示
 
 セットアップに関しては、FAQ/react/faqpc/README.mdを参照してください。
 
-### Mobile版
+### Mobile版トピック表示
 
 セットアップに関しては、FAQ/react/faqsp/README.mdを参照してください。
 
