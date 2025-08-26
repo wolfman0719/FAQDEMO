@@ -377,14 +377,16 @@ ClassMethod TopicSave() As %Status
     set topic.DCURL = json.DCURL
     set topic.Note = json.Note
 
-    set uhistory=##class(KB.UpdateHistory).%New()
+    if 'new {
+      set uhistory=##class(KB.UpdateHistory).%New()
+      set uhistory.Description=json.UpdateDescription
+      set uhistory.UpdateDate=$zdatetime($h,3,2)
+      set uhistory.Updater=$username
+      set uhistory.Topic=topic
+      set st=uhistory.%Save()
+      $$$ThrowOnError(st)
+    }
 
-    set uhistory.Description=json.UpdateDescription
-    set uhistory.UpdateDate=$zdatetime($h,3,2)
-    set uhistory.Updater=$username
-    set uhistory.Topic=topic
-    set st=uhistory.%Save()
-    $$$ThrowOnError(st)
     set st = topic.%Save()
     $$$ThrowOnError(st)
 
@@ -707,7 +709,7 @@ ClassMethod SLogin(pUsername As %String, pPassword As %String) As %Status
       set %response.CharSet = "utf-8"
     }
 
-    set success = $SYSTEM.Security.Login(pUsername,pPassword)
+    set success = %session.Login(pUsername,pPassword)
 
     if ($roles [ "FAQAdministrator") || ($roles [ "FAQEditor") set edit = 1
 
