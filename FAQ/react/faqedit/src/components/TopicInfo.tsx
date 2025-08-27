@@ -114,19 +114,19 @@ const onClickItem2 = (topicid: any) => {
 	}
 	{isLoading && <p>Laoding...</p>}
 	<div style = {{ width: "100%",height: "15%",overflow: "auto",border: "solid #000000 1px"}}><img src="../images/Question.gif" alt=''/><span className="text-primary fs-4" style = {{ marginLeft: "20px", marginRight: "20px"}}>{response.Title}</span><p className="text-info fs-4" style = {{ float: "right", marginRight: "20px"}}>{response.VersionRange}</p></div>
-    <div id="topiccontent" style = {{ width: "100%",height: `${height*0.60}px`,overflow: "auto",border: "solid #000000 1px"}}>
+    <div id="topiccontent" style = {{ width: "100%",height: `${height*0.65}px`,overflow: "auto",border: "solid #000000 1px"}}>
     <TopicContent response = {response} />
     </div>
     <div id="topiccontent" style = {{ width: "100%",height: `${height*0.05}px`,overflow: "auto",border: "solid #000000 1px"}}>
     <div><p className="text-primary">該当する製品: <span className="text-black">{response.ProductText}</span></p></div>
     </div>
-    <div id="relatedtopics" style = {{ width: "100%",height: `${height*0.2}px`,overflow: "auto",border: "solid #000000 1px"}}>
+    <div id="relatedtopics" style = {{ width: "100%",height: `${height*0.1}px`,overflow: "auto",border: "solid #000000 1px"}}>
     <RelatedTopics reftopics = {reftopics} onClickItem = {onClickItem2} />
     </div>
-    <div id="downloadfile" style = {{ width: "100%",height: `${height*0.06}px`,overflow: "auto",border: "solid #000000 1px"}}>
+    <div id="downloadfile" style = {{ width: "100%",height: `${height*0.05}px`,overflow: "auto",border: "solid #000000 1px"}}>
 	<DownloadFile fileflag = {fileflag} response = {response} />
     </div>	
-    {(Edit) && <div id="edit" style = {{ width: "100%",height: `${height*0.06}px`,overflow: "auto",border: "solid #000000 1px"}}>
+    {(Edit) && <div id="edit" style = {{ width: "100%",height: `${height*0.05}px`,overflow: "auto",border: "solid #000000 1px"}}>
 	<table><tr><td><button className = "btn btn-outline-primary" onClick={() => {navigate('/Edit/' + topicid)}}>編集<i className="bi bi-pencil-square"></i></button></td></tr></table>
     </div>}	
     </>	
