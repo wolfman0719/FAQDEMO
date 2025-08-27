@@ -168,9 +168,12 @@ Method %OnBeforeSave(pInsert As %Boolean) As %Status [ Private, ServerOnly = 1 ]
 
 	// Codesnippetの言語名を表示するための処理
 	set crlf = $char(13,10)
-	//二重に<div>を付加するのを防ぐ　ckeditorが自動的に<div>の後ろにcrlfを付加することを想定
+	set lf = $char(10)
+	//二重に<div>を付加するのを防ぐ　ckeditorが自動的に<div>の後ろにcrlfまたはlfを付加することを想定
 	set ..Description = $replace(..Description,"<div class=""hljs-wrap"">"_crlf_"<pre>","<pre>")
 	set ..Description = $replace(..Description,"</pre>"_crlf_"</div>","</pre>")
+	set ..Description = $replace(..Description,"<div class=""hljs-wrap"">"_lf_"<pre>","<pre>")
+	set ..Description = $replace(..Description,"</pre>"_lf_"</div>","</pre>")
 	set ..Description = $replace(..Description,"<pre>","<div class=""hljs-wrap""><pre>")
 	set ..Description = $replace(..Description,"</pre>","</pre></div>")
 
