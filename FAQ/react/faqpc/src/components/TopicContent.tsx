@@ -12,7 +12,9 @@ import dockerfile from 'highlight.js/lib/languages/dockerfile';
 import java from 'highlight.js/lib/languages/java';
 import css from 'highlight.js/lib/languages/css';
 import csharp from 'highlight.js/lib/languages/csharp';
-
+import bash from 'highlight.js/lib/languages/bash';
+import makefile from 'highlight.js/lib/languages/makefile';
+import markdown from 'highlight.js/lib/languages/markdown';
 
 hljs.registerLanguage('xml', xml);
 hljs.registerLanguage('python', python);
@@ -25,7 +27,9 @@ hljs.registerLanguage('dockerfile', dockerfile);
 hljs.registerLanguage('java', java);
 hljs.registerLanguage('css', css);
 hljs.registerLanguage('csharp', csharp);
-
+hljs.registerLanguage('bash', bash);
+hljs.registerLanguage('makefile', makefile);
+hljs.registerLanguage('markdown', markdown);
 
 export const TopicContent = (props: any) => {
 
@@ -60,3 +64,4 @@ export const TopicContent = (props: any) => {
   );	
 }
 export default TopicContent;
+
