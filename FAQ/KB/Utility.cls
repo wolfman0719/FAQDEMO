@@ -5,9 +5,10 @@ Class KB.Utility
 
 ClassMethod ShowVersion() As %String
 {
-	quit "1.2.130"
+	quit "1.2.131"
 }
 
+/*
 /// xmlインポートおよびxmlエクスポートでは、TopicのFileLoc(FileStream)は、交換できない
 ClassMethod xmlImport(filename As %String)
 {
@@ -309,6 +310,8 @@ ClassMethod ModFilename(startID As %String, endID As %String)
 	}
 }
 
+*/
+
 ClassMethod SetFileFlg(startID, endID)
 {
 	for i=startID:1:endID {
@@ -385,7 +388,6 @@ ClassMethod CopyFilename(startID, endID)
 
 	}
 }
-*/
 
 // 旧コード→新コードへ
 
@@ -463,6 +465,7 @@ ClassMethod RenameFiles(dir, wildcard) As %Status
 	
 	quit sc
 }
+*/
 
 ClassMethod SetVersionRange(tid) As %Status
 {
