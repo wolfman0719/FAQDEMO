@@ -402,7 +402,7 @@ export const TopicEditor = (props: any) => {
           config={{
             extraPlugins: 'codesnippet,colorbutton,font,justify',
             removeButtons: '',
-            codeSnippet_languages: {cos: 'ObjectScript',sql: 'SQL',python: 'Python',json: 'JSON',yaml: 'YAML',javascript: 'JavaScript',dockerfile: 'Dockerfile',html: 'HTML',css: 'CSS',java: 'Java',xml: 'XML',bash: 'Bash',makefile: 'Makefile',markdown: 'Markdown'},
+            codeSnippet_languages: {cos: 'ObjectScript',sql: 'SQL',python: 'Python',json: 'JSON',yaml: 'YAML',javascript: 'JavaScript',dockerfile: 'Dockerfile',html: 'HTML',css: 'CSS',java: 'Java',xml: 'XML',bash: 'Bash',makefile: 'Makefile',markdown: 'Markdown',shell: 'Shell Session'},
             filebrowserUploadUrl : `${Protocol}://${ServerAddress}:${ServerPort}${ApplicationName}/ImageUpload`,
             filebrowserUploadMethod: 'form',
             versionCheck: false,
