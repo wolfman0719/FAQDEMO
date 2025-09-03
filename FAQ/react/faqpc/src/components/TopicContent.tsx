@@ -15,6 +15,7 @@ import csharp from 'highlight.js/lib/languages/csharp';
 import bash from 'highlight.js/lib/languages/bash';
 import makefile from 'highlight.js/lib/languages/makefile';
 import markdown from 'highlight.js/lib/languages/markdown';
+import shell from 'highlight.js/lib/languages/shell';
 
 hljs.registerLanguage('xml', xml);
 hljs.registerLanguage('python', python);
@@ -30,6 +31,7 @@ hljs.registerLanguage('csharp', csharp);
 hljs.registerLanguage('bash', bash);
 hljs.registerLanguage('makefile', makefile);
 hljs.registerLanguage('markdown', markdown);
+hljs.registerLanguage('shell', shell);
 
 export const TopicContent = (props: any) => {
 
@@ -64,4 +66,5 @@ export const TopicContent = (props: any) => {
   );	
 }
 export default TopicContent;
+
 
