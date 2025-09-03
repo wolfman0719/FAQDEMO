@@ -42,7 +42,7 @@
 		CKEDITOR.replace( 'dsc', {
 			extraPlugins: 'codesnippet,colorbutton,font,justify',
 			removeButtons: '',
-			codeSnippet_languages: {cos: 'ObjectScript',sql: 'SQL',python: 'Python',json: 'JSON',yaml: 'YAML',javascript: 'JavaScript',dockerfile: 'Dockerfile',html: 'HTML',css: 'CSS',java: 'Java',xml: 'XML'},
+			codeSnippet_languages: {cos: 'ObjectScript',sql: 'SQL',python: 'Python',json: 'JSON',yaml: 'YAML',javascript: 'JavaScript',dockerfile: 'Dockerfile',html: 'HTML',css: 'CSS',java: 'Java',xml: 'XML',bash: 'Bash',makefile: 'Makefile',markdown: 'Markdown',shell: 'Shell Session'},
 			filebrowserUploadUrl: 'imageupload.csp',
 			filebrowserUploadMethod: 'form',
 			versionCheck: false,
