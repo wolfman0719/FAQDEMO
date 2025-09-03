@@ -10,6 +10,7 @@ ClassMethod StoreErrorInformation(pException As %Exception.General) As %Status
 {
 	Set tSC = $$$OK
 	Try {
+        do pException.Log()
 	    set tError = ##class(FAQ.Error).%New()
 		//タイムゾーンを調整する
 	    set tError.EventDateTime = $zdatetime($zdatetimeh($zts,-3),3)
