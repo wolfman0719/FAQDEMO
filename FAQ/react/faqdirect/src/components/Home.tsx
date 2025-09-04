@@ -77,7 +77,7 @@ export const Home = (props: any) => {
 		   setErrorText(error.response.data.summary);
 		 }
 		 else if (error.request) {
-		   setErrorText(error.request);
+		   setErrorText(error.toJSON);
 		 } 
 		 else {
 		   setErrorText(error.message);
@@ -111,3 +111,4 @@ export const Home = (props: any) => {
   );	
 }
 export default Home;
+
