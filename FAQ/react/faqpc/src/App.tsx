@@ -52,7 +52,7 @@ export const App = () => {
 		   setErrorText(error.toJSON());
 		 } 
 		 else {
-		   setErrorText(error.message);
+		   setErrorText(error.message + error.toJSON());
 		 }
 
 	  })
@@ -87,7 +87,7 @@ export const App = () => {
 		   setErrorText(error.toJSON());
 		 } 
 		 else {
-		   setErrorText(error.message);
+		   setErrorText(error.message + error.toJSON());
 		 }
 
 	  })
@@ -121,7 +121,7 @@ export const App = () => {
 		   setErrorText(error.toJSON());
 		 } 
 		 else {
-		   setErrorText(error.message);
+		   setErrorText(error.message + error.toJSON());
 		 }
 
 	  })
@@ -188,4 +188,5 @@ export const App = () => {
   );	
 }
 export default App;
+
 
