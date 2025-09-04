@@ -45,8 +45,7 @@ const [width] = useWindowSize();
 	  })
       .catch((error: any) => {
         setIsError(true)
-        console.log('error = ' + error);
-		setErrorText(error.response.data.summary);
+		setErrorText(error.toJSON());
 	  })
 	  // eslint-disable-next-line react-hooks/exhaustive-deps
       .finally(() => setIsLoading(false));}, [keyword]);   
@@ -66,4 +65,5 @@ const [width] = useWindowSize();
     </>	
   );	
 }
+
 export default TopicList;
