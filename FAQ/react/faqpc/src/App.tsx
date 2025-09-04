@@ -49,7 +49,7 @@ export const App = () => {
 		   setErrorText(error.response.data.summary);
 		 }
 		 else if (error.request) {
-		   setErrorText(error.request);
+		   setErrorText(error.toJSON());
 		 } 
 		 else {
 		   setErrorText(error.message);
@@ -84,7 +84,7 @@ export const App = () => {
 		   setErrorText(error.response.data.summary);
 		 }
 		 else if (error.request) {
-		   setErrorText(error.request);
+		   setErrorText(error.toJSON());
 		 } 
 		 else {
 		   setErrorText(error.message);
@@ -118,7 +118,7 @@ export const App = () => {
 		   setErrorText(error.response.data.summary);
 		 }
 		 else if (error.request) {
-		   setErrorText(error.request);
+		   setErrorText(error.toJSON());
 		 } 
 		 else {
 		   setErrorText(error.message);
@@ -146,7 +146,7 @@ export const App = () => {
 	  })
       .catch((error: any) => {
         setIsError(true)
-		setErrorText(error.message);
+		setErrorText(error.message + error.toJSON());
 	  })
       .finally(() => setIsLoading(false));
       
@@ -188,3 +188,4 @@ export const App = () => {
   );	
 }
 export default App;
+
