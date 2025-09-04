@@ -49,10 +49,10 @@ const onClickItem2 = (topicid: any) => {
 		   setErrorText(error.response.data.summary);
 		 }
 		 else if (error.request) {
-		   setErrorText(error.request);
+		   setErrorText(error.toJSON());
 		 } 
 		 else {
-		   setErrorText(error.message);
+		   setErrorText(error.message + error.toJSON());
 		 }
 
 	  })
@@ -82,10 +82,10 @@ const onClickItem2 = (topicid: any) => {
 		   setErrorText(error.response.data.summary);
 		 }
 		 else if (error.request) {
-		   setErrorText(error.request);
+		   setErrorText(error.toJSON());
 		 } 
 		 else {
-		   setErrorText(error.message);
+		   setErrorText(error.message + error.toJSON());
 		 }
 	  })
 	  // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -115,3 +115,4 @@ const onClickItem2 = (topicid: any) => {
   );	
 }
 export default TopicInfo;
+
