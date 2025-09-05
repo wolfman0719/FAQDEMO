@@ -298,7 +298,7 @@ ClassMethod SetupLocal(pDir As %String) As %Status
   set $namespace = namespace
   
   if ($system.Version.GetOS() = "UNIX") {
-　　Do $system.OBJ.Import(pDir_"/FAQ.INC","ck")
+    Do $system.OBJ.Import(pDir_"/FAQ.INC","ck")
     Do $system.OBJ.Import(pDir_"/KB/UsersVoice.cls","ck")
     Do $system.OBJ.Import(pDir_"/FAQ/Installer.cls","ck")
     Do $system.OBJ.Import(pDir_"/KB/Config.cls","ck")
