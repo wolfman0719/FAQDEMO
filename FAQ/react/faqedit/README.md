@@ -25,11 +25,15 @@
 
 ## ckeditor4-react@4.3.0のインストール
 
-```% npm install ckeditor4-react@4.3.0```
+```% npm --force install ckeditor4-react@4.3.0```
 
 ## highlight.jsのインストール
 
-```% npm install highlight.js```
+```% npm --force install highlight.js```
+
+## react-hook-formのインストール
+
+```% npm --force install react-hook-form```
 
 ## ファイルコピー
 
