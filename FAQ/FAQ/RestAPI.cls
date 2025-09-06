@@ -77,10 +77,10 @@ ClassMethod TopicSearchByKeyword(pKeyword As %String) As %Status
 
   if pKeyword = "" {
     if editor {
-      set sql = "SELECT id,title from kb.topic order by id"  
+      set sql = "SELECT id,title from kb.topic order by id desc"  
     }	
     else {
-      set sql = "SELECT id,title from kb.topic where Completed=1 and Visible=1 and DeleteFlg!=1 order by id"
+      set sql = "SELECT id,title from kb.topic where Completed=1 and Visible=1 and DeleteFlg!=1 order by id desc"
     }  
   }
   else {
