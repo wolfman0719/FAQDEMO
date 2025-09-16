@@ -221,7 +221,7 @@ margin:0 auto;
   content: attr(data-language);
   position: absolute;
   top: 1;
-  right: 0;
+  right: 10px;
   color: #808080;
   display: none;
   padding: 0.5rem;
