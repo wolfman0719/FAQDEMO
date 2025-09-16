@@ -1,17 +1,16 @@
-﻿<SCRIPT LANGUAGE="cache" RUNAT="Server">
-  set companylogourl = "https://www.intersystems.com/wp-content/uploads/assets/intersystems-logo.png"
-  set url = "http://"_%request.CgiEnvs("HTTP_HOST")_%request.GetCgiEnv("REQUEST_URI")
-  Set DocNo=%request.Get("DocNo")
-  set title = ""
-  set desc = ""
-  if DocNo'="" {
-    Set topic = ##Class(KB.Topic).%OpenId(DocNo)
-    if $isobject(topic) {
-      set title=topic.Title
-      set desc = ..EscapeHTML($extract(topic.Description,1,100))  //内容を100文字分だけ抽出
-    }
-    else {
-    }
+<SCRIPT LANGUAGE="cache" RUNAT="Server">
+ set companylogourl = "https://www.intersystems.com/wp-content/uploads/assets/intersystems-logo.png"
+ set url = "http://"_%request.CgiEnvs("HTTP_HOST")_%request.GetCgiEnv("REQUEST_URI")
+ Set DocNo=%request.Get("DocNo")
+ set title = ""
+ set desc = ""
+ if DocNo'="" {
+	 Set topic = ##Class(KB.Topic).%OpenId(DocNo)
+ 	if $isobject(topic) {
+	 	 set title=topic.Title
+	 	 set desc = ..EscapeHTML($extract(topic.Description,1,100))  //内容を100文字分だけ抽出
+ 	}else{
+ 	}
   }
 </SCRIPT>
 
@@ -34,17 +33,25 @@
 
 .hljs-wrap code[data-language]::before {
   content: attr(data-language);
-  position:absolute;
+  position: absolute;
   top: 1;
   right: 5;
   color: #808080;
-  display: inline-block;
+  display: none;
   padding: 0.5rem;
+  opacity: 0;
 }
 
 .hljs-wrap code[data-language] {
-  padding-top: 2rem;
+  padding-top: 0rem;
 }
+
+.hljs-wrap pre code[data-language]:hover:before {
+  opacity: 1;
+  visibility: visible;
+  display: inline-block;
+}
+
 </style>
 <title>InterSystems FAQ Database Seach Result Detail</title>
 <LINK REL="stylesheet" TYPE="text/css" HREF="style.css" >
@@ -59,12 +66,12 @@ hljs.addPlugin({
     // result の language プロパティが undefined でなければ
     if(result.language) {
       // language を result から取得して code 要素（el）の data-language 属性に設定
-      if (result.language === 'cos') {
+	  if (result.language === 'cos') {
         el.dataset.language = 'ObjectScript';
-      }
-      else {
-        el.dataset.language = result.language;
-      }
+	  }
+	  else {
+	    el.dataset.language = result.language;
+	  }
     }
   }
 });
@@ -83,14 +90,13 @@ function loadEvent()
    var wnamesub=wname.substring(0,16);
       
    if (wnamesub=='TopicDescription' || wname=='new') {
-     var closebtn=document.getElementById("closebtn");
-     closebtn.style.visibility='visible';
-     var gotoppage=document.getElementById("gotoppage");
-     gotoppage.style.visibility='hidden';
-   } 
-   else {
-     var toplink=document.getElementById("toplink");
-     toplink.style.visibility='visible';
+	   var closebtn=document.getElementById("closebtn");
+   	   closebtn.style.visibility='visible';
+	   var gotoppage=document.getElementById("gotoppage");
+   	   gotoppage.style.visibility='hidden';
+   }else{
+	   var toplink=document.getElementById("toplink");
+       toplink.style.visibility='visible';
    }   
 }
 
@@ -103,254 +109,253 @@ function loadEvent()
 
 <script language="cache" method="OnPreHTTP" arguments="" returntype="%Boolean">
 
-  //FAQアプリへのアクセスカウント(直接詳細を参照された場合+1)
-  if $Get(%session.Data("Access"))="" {
-    set ^AccessCount = $Get(^AccessCount)+1
-    set today=$zdate($h,8)
-    set ^AccessCount(today) = $Get(^AccessCount(today))+1
-    set %session.Data("Access")=1
-  }
+ //FAQアプリへのアクセスカウント(直接詳細を参照された場合+1)
+if $Get(%session.Data("Access"))="" {
+	set ^AccessCount = $Get(^AccessCount)+1
+	set today=$zdate($h,8)
+	set ^AccessCount(today) = $Get(^AccessCount(today))+1
+	set %session.Data("Access")=1
+}
 
-  Set DocNo=%request.Get("DocNo")
+ Set DocNo=%request.Get("DocNo")
  
-  Set roles=+$Get(%session.Data("roles"))
+ Set roles=+$Get(%session.Data("roles"))
 
-  if DocNo'="" {
-    set dcurl = ""
-    Set topic = ##Class(KB.Topic).%OpenId(DocNo)
-    if $isobject(topic) set dcurl = topic.DCURL
-    if topic="" {
-      set %response.Redirect="FAQ.FAQTopicNotFound.cls"
-    }
-    elseif (dcurl'="") && (roles = 0) {
-      set %response.Redirect=dcurl
-    } 
-    else {
-      set TopicID=topic.TopicID
-    }
-  }
+ if DocNo'="" {
+   set dcurl = ""
+   Set topic = ##Class(KB.Topic).%OpenId(DocNo)
+   if $isobject(topic) set dcurl = topic.DCURL
+   if topic="" {
+     set %response.Redirect="FAQ.FAQTopicNotFound.cls"
+   }
+   elseif (dcurl'="") && (roles = 0) {
+     set %response.Redirect=dcurl
+   } 
+   else{
+	 set TopicID=topic.TopicID
+   }
+ }
   
-  quit $$$OK
+ quit $$$OK
 </script>
 
 <SCRIPT LANGUAGE="cache" RUNAT="Server">
 
-  #include FAQ 
-  Set %session.Data("DocNo")=DocNo
+ #include FAQ 
+ Set %session.Data("DocNo")=DocNo
  
-  Set roles=$Get(%session.Data("roles"))
-  if roles="" {
-    set roles=0
-  }
+ Set roles=$Get(%session.Data("roles"))
+ if roles="" {
+	 set roles=0
+ }
   
-  //参照回数のセット
-  if $Get(%session.Data("RefFreqChk",DocNo)) ="" {
+ //参照回数のセット
+ if $Get(%session.Data("RefFreqChk",DocNo)) ="" {
 	
-    //set topic.RefFreq=topic.RefFreq+1
-    set uv=topic.UsersVoice
+	//set topic.RefFreq=topic.RefFreq+1
+	set uv=topic.UsersVoice
 	
-    if $isObject(uv) {
-      set uv.RefFreq=uv.RefFreq+1	
-    }
-    Else {
-      set uv = ##class(KB.UsersVoice).%New()
-      set topic.UsersVoice = uv
-      set uv.RefFreq=uv.RefFreq+1
-      set uv.TopicId = topic.%Id()	
-      set %session.Data("noAudit")=1
-      set st=topic.%Save()
-      set %session.Data("noAudit")=0
-    }
+	if $isObject(uv) {
+	    set uv.RefFreq=uv.RefFreq+1	
+	}
+	Else {
+		set uv = ##class(KB.UsersVoice).%New()
+		set topic.UsersVoice = uv
+	    set uv.RefFreq=uv.RefFreq+1
+	    set uv.TopicId = topic.%Id()	
+	    set %session.Data("noAudit")=1
+	    set st=topic.%Save()
+	    set %session.Data("noAudit")=0
+	}
 		
     set %session.Data("noAudit")=1
-    set st=uv.%Save()
-    set %session.Data("noAudit")=0
-    set %session.Data("RefFreqChk",DocNo)=%session.SessionId
-  }
+	set st=uv.%Save()
+	set %session.Data("noAudit")=0
+	set %session.Data("RefFreqChk",DocNo)=%session.SessionId
+}
 
-  Set UpdateDate = topic.UpdateDate
-  Set title = ..EscapeHTML(topic.Title)
-  If topic.VersionRange'= "" {
-    Set vrange = topic.VersionRange
-  }
-  Else {
-    Set vrange = ""
-  }
- 
-  // 関連トピックのセット
-  set refcount=0
-  if topic.RefTopic'="" {
-    set refcount=$LENGTH(topic.RefTopic,",")
- 
-    for refkey=1:1:refcount {
-      set refid = $PIECE(topic.RefTopic,",",refkey)
-      set reftopic = ##class(KB.Topic).%OpenId(refid)
-      if (reftopic '= "") {
-        set refid(refkey) = refid
-	set reftitle(refkey) = ..EscapeHTML(reftopic.Title)
-      }
-      else {
-        set refcount=0
-      }
-    }
-  }
- 
-  // 添付ファイル名のセット
-  set filename = ##class(KB.Config).getAttachedFileName()_DocNo_".zip"
-  set dir = ##class(KB.Config).getFTPDirectory()
-  set sep = ##class(KB.Config).getDirectorySeparator()
-  set filepath = dir_sep_filename
-  set fileexists = ##class(%File).Exists(filepath)
-  set %session.Data("filename")=filename
-  set %session.Data("dir")=dir
-  set %session.Data("sep")=sep
-  set %session.Data("filepath")=filepath
-  set %session.Data("fileexists")=fileexists
- 
-  Set tProductId = topic.Product.ProductId
-  Set tProductText = ""
-  // ProductIdを2進数に変換する
-  kill %B
-  set %DB = tProductId
-  do INT^%DB
-  set Productidb = $reverse(%B)
- 
-  set tProductText = ""
- 
-  If $extract(Productidb,$$$Cache) {
-    set tProductText = tProductText_"Cach&eacute;, "
-  }
 
-  If $extract(Productidb,$$$Ensemble) {
-    set tProductText = tProductText_"Ensemble, "
-  }
+ Set UpdateDate = topic.UpdateDate
+ Set title = ..EscapeHTML(topic.Title)
+ If topic.VersionRange'= "" {
+	 Set vrange = topic.VersionRange
+ }Else{
+	 Set vrange = ""
+ }
  
-  If $extract(Productidb,$$$HealthShare) {
-    set tProductText = tProductText_"旧HealthShare, "
-  }
+ // 関連トピックのセット
+ set refcount=0
+ if topic.RefTopic'="" {
+	 set refcount=$LENGTH(topic.RefTopic,",")
+ 
+	 for refkey=1:1:refcount {
+		 set refid = $PIECE(topic.RefTopic,",",refkey)
+		 set reftopic = ##class(KB.Topic).%OpenId(refid)
+		 if (reftopic '= "") {
+			 set refid(refkey) = refid
+			 set reftitle(refkey) = ..EscapeHTML(reftopic.Title)
+		 }else{
+			 set refcount=0
+		 }
+	 }
+ }
+ 
+ 
+ // 添付ファイル名のセット
+ set filename = ##class(KB.Config).getAttachedFileName()_DocNo_".zip"
+ set dir = ##class(KB.Config).getFTPDirectory()
+ set sep = ##class(KB.Config).getDirectorySeparator()
+ set filepath = dir_sep_filename
+ set fileexists = ##class(%File).Exists(filepath)
+ set %session.Data("filename")=filename
+ set %session.Data("dir")=dir
+ set %session.Data("sep")=sep
+ set %session.Data("filepath")=filepath
+ set %session.Data("fileexists")=fileexists
+ 
+ Set tProductId = topic.Product.ProductId
+ Set tProductText = ""
+ // ProductIdを2進数に変換する
+ kill %B
+ set %DB = tProductId
+ do INT^%DB
+ set Productidb = $reverse(%B)
+ 
+ set tProductText = ""
+ 
+ If $extract(Productidb,$$$Cache) {
+   set tProductText = tProductText_"Cach&eacute;, "
+   }
 
-  If $extract(Productidb,$$$IRIS) {
-    set tProductText = tProductText_"IRIS Data Platform, "
-  }
+ If $extract(Productidb,$$$Ensemble) {
+   set tProductText = tProductText_"Ensemble, "
+   }
+ 
+ If $extract(Productidb,$$$HealthShare) {
+   set tProductText = tProductText_"旧HealthShare, "
+   }
 
-  If $extract(Productidb,$$$IRIS4H) {
-    set tProductText = tProductText_"IRIS for Health, "
-  }
+ If $extract(Productidb,$$$IRIS) {
+   set tProductText = tProductText_"IRIS Data Platform, "
+   }
 
-  If $extract(Productidb,$$$General) {
-    set tProductText = tProductText_"一般的質問, "
-  }
+ If $extract(Productidb,$$$IRIS4H) {
+   set tProductText = tProductText_"IRIS for Health, "
+   }
 
-  set tProductText = $extract(tProductText,1,*-2)
+ If $extract(Productidb,$$$General) {
+   set tProductText = tProductText_"一般的質問, "
+   }
+
+ set tProductText = $extract(tProductText,1,*-2)
     
 </SCRIPT>
 
 <!--Product Version-->
 <csp:if condition='vrange=""'>
 <csp:else>
-<DIV class="version"><SPAN class="version">Version #(vrange)#</SPAN></DIV>
+  <DIV class="version"><SPAN class="version">Version #(vrange)#</SPAN></DIV>
 </csp:if>
 <!--Topic Title-->
 <DIV class="title"><IMG class="titleicon" src="./images/others/Question.gif">&nbsp;&nbsp;#(title)#
 </DIV>
 <!--Description-->
 <DIV class="description" border=1>
-<SCRIPT LANGUAGE="CACHE" runat=server>
+  <SCRIPT LANGUAGE="CACHE" runat=server>
   
-  set edesc=topic.Description
-  write edesc
-</script>
+   set edesc=topic.Description
+   write edesc
+   </script>
 </DIV>
 <!--該当する製品-->
 <DIV class="Product"><SPAN class="refhead">該当する製品:  <SPAN class="refbody"> #(tProductText)#</SPAN></SPAN></DIV>
 <!--関連トピック-->
 <DIV>
-<SPAN class="refhead">関連トピック：</SPAN>
-<SCRIPT LANGUAGE="CACHE" runat=server>
-  for i=1:1:refcount {
-    set reftopic = ##class(KB.Topic).%OpenId(refid(i))
+  <SPAN class="refhead">関連トピック：</SPAN>
+  <SCRIPT LANGUAGE="CACHE" runat=server>
+    for i=1:1:refcount {
+ 		  set reftopic = ##class(KB.Topic).%OpenId(refid(i))
 		 
-    if reftopic {
-      if reftopic.Visible {
-        write "<BR><SPAN class=""refbody""><A href=result.csp?DocNo="_refid(i)_">"_reftitle(i)_"</A></SPAN>"
-      }
-    }   
-  }
-</SCRIPT>
+		  if reftopic {
+		    if reftopic.Visible {
+		      write "<BR><SPAN class=""refbody""><A href=result.csp?DocNo="_refid(i)_">"_reftitle(i)_"</A></SPAN>"
+		    }
+      }   
+    }
+  </SCRIPT>
 </DIV>
 <DIV>
-<SPAN class="refhead">添付ファイル：</SPAN>
-<csp:if condition='fileexists=1'>
-<SPAN class="refbody"><A href=downloads/#(filename)#>参考資料(zip)</A></SPAN>
-<csp:else>
-</csp:if>
+  <SPAN class="refhead">添付ファイル：</SPAN>
+  <csp:if condition='fileexists=1'>
+    <SPAN class="refbody"><A href=downloads/#(filename)#>参考資料(zip)</A></SPAN>
+  <csp:else>
+  </csp:if>
 </DIV>
 <csp:if condition='roles=0'>
 <csp:else>
-<DIV class="toedit"><A href="edit.csp?DocNo=#(DocNo)#" target="_self" style="color:#00CC00;">&gt;&gt;&gt;編集</A></DIV>
+  <DIV class="toedit"><A href="edit.csp?DocNo=#(DocNo)#" target="_self" style="color:#00CC00;">&gt;&gt;&gt;編集</A></DIV>
 </csp:if>
 <DIV>
-<HR>
+  <HR>
 </DIV>
 <P>
 <DIV class=enquete>
-<SPAN class="enqhead">アンケートにご協力をお願いします</SPAN><BR>
-<SPAN class="enq">このトピックは参考になりましたか？</SPAN>
-<input type="image" src="./images/button/Yes1.gif" onmousedown="this.src='./images/button/Yes2.gif'" onmouseout="this.src='./images/button/Yes1.gif'" onclick=#call(..Enquete('Y'))#>
-<input type="image" src="./images/button/No1.gif" onmousedown="this.src='./images/button/No2.gif'" onmouseout="this.src='./images/button/No1.gif'" onclick=#call(..Enquete('N'))#>
+  <SPAN class="enqhead">アンケートにご協力をお願いします</SPAN><BR>
+  <SPAN class="enq">このトピックは参考になりましたか？</SPAN>
+  <input type="image" src="./images/button/Yes1.gif" onmousedown="this.src='./images/button/Yes2.gif'" onmouseout="this.src='./images/button/Yes1.gif'" onclick=#call(..Enquete('Y'))#>
+  <input type="image" src="./images/button/No1.gif" onmousedown="this.src='./images/button/No2.gif'" onmouseout="this.src='./images/button/No1.gif'" onclick=#call(..Enquete('N'))#>
 </DIV>
 <DIV class="mailto">
-<SPAN class="mail"><A href="mailto:jpnsup@intersystems.com?subject=Question>>>FAQ #(TopicID)#"><IMG src="./images/button/mail01-y.gif" border=0> このトピックに関するお問い合わせ</A></SPAN>
+  <SPAN class="mail"><A href="mailto:jpnsup@intersystems.com?subject=Question>>>FAQ #(TopicID)#"><IMG src="./images/button/mail01-y.gif" border=0> このトピックに関するお問い合わせ</A></SPAN>
 </DIV>
 </P>
 <DIV class="gotoppage" align="center">
-<A href="FAQ.FAQApp.cls" id="gotoppage"> FAQトップに戻る</A>
+  <A href="FAQ.FAQApp.cls" id="gotoppage"> FAQトップに戻る</A>
 </DIV>
 </P>
 <DIV class="closebtn" align="center">
-<Input type="image" id="closebtn" src="./images/button/tojiru1.gif" border="0" onclick="window.close()" style="visibility:hidden;"><br>
+  <Input type="image" id="closebtn" src="./images/button/tojiru1.gif" border="0" onclick="window.close()" style="visibility:hidden;"><br>
 </DIV>
 
 <script language="Cache" method="Enquete" arguments="ans:%String">
 
-  &js<alert('ご協力ありがとうございました');>
+&js<alert('ご協力ありがとうございました');>
 
-  set DocNo=%session.Data("DocNo")
+set DocNo=%session.Data("DocNo")
 
-  if $Get(%session.Data("EnqChk",DocNo)) '="" {
-    quit
-  }
+if $Get(%session.Data("EnqChk",DocNo)) '="" {
+	quit
+}
 
-  set tp=##class(KB.Topic).%OpenId(DocNo)
-  set uv=tp.UsersVoice
+set tp=##class(KB.Topic).%OpenId(DocNo)
+set uv=tp.UsersVoice
 
-  if $isObject(uv) {
-    set uv.RefFreq=uv.RefFreq+1	
-  }
-  else {
-    set uv = ##class(KB.UsersVoice).%New()
-    set tp.UsersVoice = uv
-    set uv.RefFreq=uv.RefFreq+1
-    set uv.TopicId = tp.%Id()	
-    set %session.Data("noAudit")=1
-    set st=tp.%Save()
-    set %session.Data("noAudit")=0
-  }
+if $isObject(uv) {
+	   set uv.RefFreq=uv.RefFreq+1	
+}
+else {
+	   set uv = ##class(KB.UsersVoice).%New()
+	   set tp.UsersVoice = uv
+	   set uv.RefFreq=uv.RefFreq+1
+	   set uv.TopicId = tp.%Id()	
+	   set %session.Data("noAudit")=1
+	   set st=tp.%Save()
+	   set %session.Data("noAudit")=0
+	}
 		
-  If ans="Y" {
-    set uv.EnqYes=uv.EnqYes+1
-  }
-  elseif ans="N" {
-    set uv.EnqNo=uv.EnqNo+1
-  }
+If ans="Y" {
+	set uv.EnqYes=uv.EnqYes+1
+}elseif ans="N"{
+	set uv.EnqNo=uv.EnqNo+1
+}
 
-  set %session.Data("noAudit")=1
-  set st=uv.%Save()
-  set %session.Data("noAudit")=0
+set %session.Data("noAudit")=1
+set st=uv.%Save()
+set %session.Data("noAudit")=0
 
-  set %session.Data("EnqChk",DocNo)=%session.SessionId
+set %session.Data("EnqChk",DocNo)=%session.SessionId
 
-  quit
+quit
 
 </script>
 
