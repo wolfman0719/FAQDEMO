@@ -212,3 +212,28 @@ max-width: 1920px;
 max-height: 1080px;
 margin:0 auto;
 }
+
+.hljs-wrap {
+  position: relative; /* 絶対配置の基準 */
+}
+
+.hljs-wrap code[data-language]::before {
+  content: attr(data-language);
+  position: absolute;
+  top: 1;
+  right: 5;
+  color: #808080;
+  display: none;
+  padding: 0.5rem;
+  opacity: 0;
+}
+
+.hljs-wrap code[data-language] {
+  padding-top: 0rem;
+}
+
+.hljs-wrap pre code[data-language]:hover:before {
+  opacity: 1;
+  visibility: visible;
+  display: inline-block;
+}
