@@ -97,19 +97,6 @@ border-radius: 5px;
 font-size: 14px;
 }
 
-codepre
-{
-display: block;
-white-space: pre-wrap; /* CSS 2.1 */
-word-wrap: break-word; /* IE7 */
--moz-tab-size: 4;
-tab-size: 4;
-border: solid 1px #ccc;
-padding: 10px;
-border-radius: 5px;
-background-color: #f9f9f9;
-font-family: Menlo,Monaco,Consolas,"Courier New",monospace;
-}
 code
 {
 padding: 2px 4px;
@@ -226,16 +213,27 @@ max-height: 1080px;
 margin:0 auto;
 }
 
+.hljs-wrap {
+  position: relative; /* 絶対配置の基準 */
+}
+
 .hljs-wrap code[data-language]::before {
   content: attr(data-language);
-  top: 0;
-  right: 0;
-  color: #C0C0C0;
-  display: block;
-  padding: 0rem;
-  text-align: right;
+  position: absolute;
+  top: 1;
+  right: 5;
+  color: #808080;
+  display: none;
+  padding: 0.5rem;
+  opacity: 0;
 }
 
 .hljs-wrap code[data-language] {
   padding-top: 0rem;
+}
+
+.hljs-wrap pre code[data-language]:hover:before {
+  opacity: 1;
+  visibility: visible;
+  display: inline-block;
 }
