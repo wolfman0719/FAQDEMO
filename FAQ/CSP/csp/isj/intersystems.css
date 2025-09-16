@@ -1,42 +1,4 @@
 
-@font-face{
- font-family: 'Roboto';
- font-weight: 400;
- font-style: normal;
- src:url(/sites/all/themes/intersys/fonts/Roboto/Roboto-Regular.ttf)
-}
-@font-face{
- font-family: 'Roboto';
- font-weight: 500;
- font-style: normal;
- src:url(/sites/all/themes/intersys/fonts/Roboto/Roboto-Medium.ttf)
-}
-@font-face{
- font-family: 'Roboto';
- font-weight: 700;
- font-style: normal;
- src:url(/sites/all/themes/intersys/fonts/Roboto/Roboto-Bold.ttf)
-}
-
-@font-face{
- font-family: 'Roboto';
- font-weight: 400;
- font-style: italic;
- src:url(/sites/all/themes/intersys/fonts/Roboto/Roboto-Italic.ttf)
-}
-@font-face{
- font-family: 'Roboto';
- font-weight: 500;
- font-style: italic;
- src:url(/sites/all/themes/intersys/fonts/Roboto/Roboto-MediumItalic.ttf)
-}
-@font-face{
- font-family: 'Roboto';
- font-weight: 700;
- font-style: italic;
- src:url(/sites/all/themes/intersys/fonts/Roboto/Roboto-BoldItalic.ttf)
-}
-
 body
 {font-family: 'Roboto', sans-serif;
 font-size: 15px;
@@ -136,19 +98,6 @@ border-radius: 5px;
 font-size: 14px;
 }
 
-codepre
-{
-display: block;
-white-space: pre-wrap; /* CSS 2.1 */
-word-wrap: break-word; /* IE7 */
--moz-tab-size: 4;
-tab-size: 4;
-border: solid 1px #ccc;
-padding: 10px;
-border-radius: 5px;
-background-color: #f9f9f9;
-font-family: Menlo,Monaco,Consolas,"Courier New",monospace;
-}
 code
 {
 padding: 2px 4px;
