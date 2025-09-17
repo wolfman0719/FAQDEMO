@@ -10,6 +10,10 @@
 
 ```% npm install react-bootstrap bootstrap```
 
+## bootstrap icon インストール
+
+```% npm install bootstrap bootstrap-icons```
+
 ## react-router-domインストール
 
 ```% npm install react-router-dom```
