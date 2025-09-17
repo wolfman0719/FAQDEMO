@@ -40,8 +40,6 @@ export const TopicContent = (props: any) => {
 	const {response} = props; 
   
    useEffect(() => {
-	 hljs.highlightAll();
-	 // hljs.initHighlighting.called = false;
   
 	 hljs.addPlugin({
 	  'after:highlightElement': ({ el, result }) => {
@@ -58,7 +56,10 @@ export const TopicContent = (props: any) => {
 	  }
 	 });
 	 
-	 },[response]);
+	 hljs.highlightAll();
+	 // hljs.initHighlighting.called = false;
+
+	},[response]);
 		  
 	return (
 	  <>
@@ -68,5 +69,3 @@ export const TopicContent = (props: any) => {
 	);	
   }
 export default TopicContent;
-
-

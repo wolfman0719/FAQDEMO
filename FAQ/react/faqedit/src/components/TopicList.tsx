@@ -43,7 +43,7 @@ const [width] = useWindowSize();
       .catch((error: any) => {
 	     setIsError(true)
 		 if (error.response) {			
-		   setErrorText(error.response.data.summary);
+		   setErrorText('再ログインが必要です');
 		 }
 		 else if (error.request) {
 		   setErrorText(error.request);
@@ -58,12 +58,12 @@ const [width] = useWindowSize();
   return (
     <>
 	<table style = {{width: "100%"}}><tbody>
-	  {isError && <p className="text-danger fs-3"><span dangerouslySetInnerHTML={{__html: errortext}}></span></p>}
-	  {isLoading ? (<p>Data Loading</p>)
+	  {isError && <tr><td><p className="text-danger fs-3"><span dangerouslySetInnerHTML={{__html: errortext}}></span></p></td></tr>}
+	  {isLoading ? (<tr><td><p>Data Loading</p></td></tr>)
 		 : (
 		 topicList.map((topic: any) => (
 		 
-		 <tr style = {{width: "100%"}}><td><Link to={topic.linkto}><button className = "btn btn-outline-primary" style = {{textAlign: "left"}}><td><div style = {{whiteSpace: "nowrap",overflow: "hidden", width: width-40,textOverflow: "ellipsis"}}>{`${topic.title}`}</div></td><td><i className="bi bi-chevron-right float-end"></i></td></button></Link></td></tr>
+		 <tr key={topic.id} style = {{width: "100%"}}><td><Link to={topic.linkto}><button className = "btn btn-outline-primary" style = {{textAlign: "left"}}><table><tbody><tr><td><div style = {{whiteSpace: "nowrap",overflow: "hidden", width: width-40,textOverflow: "ellipsis"}}>{`${topic.title}`}</div></td><td><i className="bi bi-chevron-right float-end"></i></td></tr></tbody></table></button></Link></td></tr>
 		 )))
 	  }
 	</tbody></table>

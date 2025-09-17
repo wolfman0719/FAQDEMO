@@ -91,7 +91,8 @@ export default function Signin() {
                     <label htmlFor="userID">ユーザーID</label>
                     <input 
                         id = "userID"
-                        type="text" 
+                        type="text"
+                        autoComplete="userID" 
                         placeholder='userID' 
                         {...register('username', { 
                             required: 'ユーザーIDを入力してください。', 
@@ -112,7 +113,8 @@ export default function Signin() {
                     <label htmlFor="password">パスワード</label>
                     <input 
                         id = "password"
-                        type="password" 
+                        type="password"
+                        autoComplete="current-password" 
                         placeholder='password' 
                         // eslint-disable-next-line
                         role = 'password'

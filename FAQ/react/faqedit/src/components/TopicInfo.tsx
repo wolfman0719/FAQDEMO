@@ -60,10 +60,10 @@ const onClickItem2 = (topicid: any) => {
 		   setErrorText(error.response.data.summary);
 		 }
 		 else if (error.request) {
-		   setErrorText(error.request);
+		   setErrorText(error.toJSON());
 		 } 
 		 else {
-		   setErrorText(error.message);
+		   setErrorText(error.message + error.toJSON() + ' 再ログインが必要です');
 		 }
 
 	  })
@@ -93,10 +93,10 @@ const onClickItem2 = (topicid: any) => {
 		   setErrorText(error.response.data.summary);
 		 }
 		 else if (error.request) {
-		   setErrorText(error.request);
+		   setErrorText(error.toJSON());
 		 } 
 		 else {
-		   setErrorText(error.message);
+		   setErrorText(error.message + error.toJSON() + ' 再ログインが必要です');
 		 }
 	  })
 	  // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -108,9 +108,9 @@ const onClickItem2 = (topicid: any) => {
     <>
 	{isError && <p className="text-danger fs-3"><span dangerouslySetInnerHTML={{__html: errortext}}></span></p>}
 	{(direct === false) &&
-	<table>	
+	<table><tbody>	
 	<tr><td><button className = "btn btn-outline-primary" onClick={() => {navigate('/Home',{ state: {username: Username, password: Password, edit: Edit}})}}>検索に戻る<i className="bi bi-search"></i></button></td></tr>
-    </table>
+    </tbody></table>
 	}
 	{isLoading && <p>Laoding...</p>}
 	<div style = {{ width: "100%",height: "15%",overflow: "auto",border: "solid #000000 1px"}}><img src="../images/Question.gif" alt=''/><span className="text-primary fs-4" style = {{ marginLeft: "20px", marginRight: "20px"}}>{response.Title}</span><p className="text-info fs-4" style = {{ float: "right", marginRight: "20px"}}>{response.VersionRange}</p></div>
@@ -127,7 +127,7 @@ const onClickItem2 = (topicid: any) => {
 	<DownloadFile fileflag = {fileflag} response = {response} />
     </div>	
     {(Edit) && <div id="edit" style = {{ width: "100%",height: `${height*0.05}px`,overflow: "auto",border: "solid #000000 1px"}}>
-	<table><tr><td><button className = "btn btn-outline-primary" onClick={() => {navigate('/Edit/' + topicid)}}>編集<i className="bi bi-pencil-square"></i></button></td></tr></table>
+	<table><tbody><tr><td><button className = "btn btn-outline-primary" onClick={() => {navigate('/Edit/' + topicid)}}>編集<i className="bi bi-pencil-square"></i></button></td></tr></tbody></table>
     </div>}	
     </>	
   );	
