@@ -10,7 +10,7 @@
 
 ```% npm install react-bootstrap bootstrap```
 
-## bootstrap icon インストール
+## bootstrap iconインストール
 
 ```% npm install bootstrap bootstrap-icons```
 
