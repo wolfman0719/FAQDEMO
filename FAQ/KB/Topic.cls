@@ -555,13 +555,48 @@ ClassMethod CopyFromTopics(pTopicIdList As %List, Output pNewTopicIdList As %Lis
 
 ClassMethod GetEmbedding(sentences) As %String [ Language = python, SqlProc ]
 {
+   import iris
    from sentence_transformers import SentenceTransformer as ST
-   # vector =  DOUBLE,768
-   model = ST('stsb-xlm-r-multilingual')
+   model = iris.cls('KB.Topic').GetModelData()
+   if model is None:
+     # vector =  DOUBLE,768
+     model = ST('stsb-xlm-r-multilingual')
+     iris.cls('KB.Topic').StoreModelData(model)
    embeddings = model.encode(sentences,normalize_embeddings=True)
    # convert the embeddings to a string
    embeddings_list = [str(embedding.tolist()) for embedding in embeddings]
    return str(embeddings_list).replace('\'','')
+}
+
+ClassMethod GetEmbeddingFlask(sentences) As %String [ Language = python, SqlProc ]
+{
+    import requests
+
+    url = "http://localhost:10905/embedding"
+    headers = {"Content-Type": "application/json; charset=utf-8"}
+    data = {"sentence": sentences}
+    try:
+        response = requests.post(url, headers=headers, json=data)
+        embedding = response.json()['embedding']
+        return embedding   # 既にカンマ区切り文字列
+    except Exception as e:
+        return ""
+}
+
+/// モデルをキャッシュから取得
+/// @return モデルインスタンスまたはNone
+ClassMethod GetModelData() [ Language = python ]
+{
+    import sys
+    return getattr(sys.modules[__name__], '_cached_model', None)
+}
+
+/// モデルをキャッシュに保存
+/// @param model 保存するモデルインスタンス
+ClassMethod StoreModelData(model) [ Language = python ]
+{
+    import sys
+    setattr(sys.modules[__name__], '_cached_model', model)
 }
 
 ClassMethod RemoveHTMLTag(text) As %String [ Language = python ]
