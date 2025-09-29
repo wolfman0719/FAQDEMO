@@ -835,13 +835,13 @@ ClassMethod TopicVectorSearch(pQueryText As %String) As %Status
       write return.%ToJSON()
     }
     else {
-      set QueryEmbedding =$tr(##class(KB.Topic).GetEmbedding(queryText)," '[]")
+      set QueryEmbedding =$tr(##class(KB.Topic).GetEmbeddingFlask(queryText)," '[]")
 
       if editor {
-        set sql = "SELECT top 10 id,title from kb.topic order by vector_dot_product(DescriptionVector, TO_VECTOR(?, DOUBLE, 768)) desc"
+        set sql = "SELECT top 5 id,title from kb.topic order by vector_dot_product(DescriptionVector, TO_VECTOR(?, DOUBLE, 768)) desc"
       }
       else {
-        set sql = "SELECT top 10 id,title from kb.topic where (Completed=1 and Visible=1 and DeleteFlg!=1) order by vector_dot_product(DescriptionVector, TO_VECTOR(?, DOUBLE, 768)) desc"
+        set sql = "SELECT top 5 id,title from kb.topic where (Completed=1 and Visible=1 and DeleteFlg!=1) order by vector_dot_product(DescriptionVector, TO_VECTOR(?, DOUBLE, 768)) desc"
       }
     
       set statemt=##class(%SQL.Statement).%New()
