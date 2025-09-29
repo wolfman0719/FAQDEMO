@@ -126,3 +126,7 @@ set setupdir = "c:\git\faqdemo"
 最後の処理が以下のようになっているが、このパラメータを0から1に変更することでエンベッデングやインデックスの構築を行う
 
 do ##class(KB.Config).setVectorSearch(0)
+
+### ロードしたモデルをキャッシュする
+
+詳細は、FAQ/Python/readme.mdを参照
