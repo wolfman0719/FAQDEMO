@@ -16,6 +16,7 @@ RUN chown ${ISC_PACKAGE_MGRUSER}:${ISC_PACKAGE_IRISGROUP} $ISC_TEMP_DIR/
 USER ${ISC_PACKAGE_MGRUSER}
 
 RUN python3 -m pip install --target /usr/irissys/mgr/python flask
+RUN python3 -m pip install --target /usr/irissys/mgr/python　sentence_transformers
 
 RUN iris start IRIS \
 	&& iris session IRIS < /tmp/iris.script \
