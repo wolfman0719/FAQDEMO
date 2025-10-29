@@ -15,13 +15,13 @@ FAQシステムのデモサイト
 
 ## ローカルインストール(WindowsやMacOSにインストールしたIRISでセットアップする)
 
-### Python　Flaskパッケージのインストール
+### Python Flaskパッケージのインストール
 
 --targetは環境により異なる
 
 ```python3 -m pip install --upgrade　--target c:¥Intersystems¥iris¥mgr¥python flask```
 
-### Python パッケージインストール
+### Python ベクトル検索用パッケージインストール
 
 --targetは環境により異なる
 
