@@ -17,6 +17,7 @@ USER ${ISC_PACKAGE_MGRUSER}
 
 RUN python3 -m pip install --target /usr/irissys/mgr/python flask
 RUN python3 -m pip install --target /usr/irissys/mgr/python　sentence_transformers
+RUN python3 -m pip install --upgrade --target /usr/irissys/mgr/python langchain_text_splitters
 
 RUN iris start IRIS \
 	&& iris session IRIS < /tmp/iris.script \
