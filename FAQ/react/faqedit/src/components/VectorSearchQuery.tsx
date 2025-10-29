@@ -7,10 +7,15 @@ export const VectorSearchQuery = (props: any) => {
 
  const {username,password,edit} = props;
 
- const [inputtext, setInputText] = useState<any>();
+ if (localStorage.getItem('inputtextv') === undefined || localStorage.getItem('inputtextv') === null) {
+   localStorage.setItem('inputtextv','')
+ } 
+
+ const [inputtext, setInputText] = useState<any>(localStorage.getItem('inputtextv'));
  const [queryText, setQueryText] = useState<any>('');
     
  const onChangeText = (e:  ChangeEvent<HTMLTextAreaElement>) => {
+     localStorage.setItem('inputtextv', e.target.value);
      setInputText(e.target.value);
   }
 
