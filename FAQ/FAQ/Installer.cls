@@ -65,7 +65,7 @@ XData FAQManifest [ XMLNamespace = INSTALLER ]
     <Arg Value="${ReactAppName}"/>
 </Invoke>
 <If Condition='${VectorSearch}'>
-<Invoke Class="KB.Topic" Method="BuildVectorForDescriptions" CheckStatus="0" Return="RetVal">
+<Invoke Class="FAQ.TopicVector" Method="BuildVectorForDescriptions" CheckStatus="0" Return="RetVal">
 </Invoke>
 </If>
 </If>
