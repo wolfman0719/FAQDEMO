@@ -17,7 +17,18 @@ FAQシステムのデモサイト
 
 ###  Python　Flaskパッケージのインストール
 
+--targetは環境により異なる
+
 ```python3 -m pip install --target c:¥Intersystems¥iris¥mgr¥python flask```
+
+### Python パッケージインストール
+
+--targetは環境により異なる
+
+```
+RUN python3 -m pip install --target c:¥Intersystems¥iris¥mgr¥python　sentence_transformers
+RUN python3 -m pip install --upgrade --target c:¥Intersystems¥iris¥mgr¥python langchain_text_splitters
+```
 
 ### FAQネームスペース作成
 
