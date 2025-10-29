@@ -77,18 +77,18 @@ ClassMethod TopicSearchByKeyword(pKeyword As %String) As %Status
 
   if pKeyword = "" {
     if editor {
-      set sql = "SELECT id,title from kb.topic order by id desc"  
+      set sql = "SELECT top 100 id,title from kb.topic order by id desc"  
     }	
     else {
-      set sql = "SELECT id,title from kb.topic where Completed=1 and Visible=1 and DeleteFlg!=1 order by id desc"
+      set sql = "SELECT top 100 id,title from kb.topic where Completed=1 and Visible=1 and DeleteFlg!=1 order by id desc"
     }  
   }
   else {
     if editor {
-      set sql = "SELECT top 100 id,title from kb.topic where (%ID %FIND Search_Index(DescriptionIndex1,(?)) or %ID %FIND Search_Index(TitleIndex1,(?))) order by id"
+      set sql = "SELECT id,title from kb.topic where (%ID %FIND Search_Index(DescriptionIndex1,(?)) or %ID %FIND Search_Index(TitleIndex1,(?))) order by id"
     }
     else {
-      set sql = "SELECT top 100 id,title from kb.topic where (%ID %FIND Search_Index(DescriptionIndex1,(?)) or %ID %FIND Search_Index(TitleIndex1,(?))) and Completed=1 and Visible=1 and DeleteFlg!=1 order by id"
+      set sql = "SELECT id,title from kb.topic where (%ID %FIND Search_Index(DescriptionIndex1,(?)) or %ID %FIND Search_Index(TitleIndex1,(?))) and Completed=1 and Visible=1 and DeleteFlg!=1 order by id"
     }
     
   }
@@ -341,6 +341,12 @@ ClassMethod TopicSave() As %Status
     if (+json.ProductId > 0) {
       set product = ##class(KB.Product).%OpenId(json.ProductId)
       set topic.Product = product
+    }
+    else {
+      // Productが選択されていない場合、全ての製品（16）とみなす
+      set product = ##class(KB.Product).%OpenId(16)
+      set topic.Product = product
+
     }
     if (+json.FacilityId > 0) {
       set facility = ##class(KB.Facility).%OpenId(json.FacilityId)
@@ -801,7 +807,7 @@ ClassMethod DeleteAttached(pId As %Integer) As %Status
     quit sts
 }
 
-ClassMethod TopicVectorSearch(pQueryText As %String) As %Status
+ClassMethod TopicVectorSearch() As %Status
 {
   set status = $$$OK
 
@@ -835,25 +841,31 @@ ClassMethod TopicVectorSearch(pQueryText As %String) As %Status
       write return.%ToJSON()
     }
     else {
-      set QueryEmbedding =$tr(##class(KB.Topic).GetEmbeddingFlask(queryText)," '[]")
+      set QueryEmbedding =$tr(##class(FAQ.TopicVector).GetEmbeddingFlask(queryText)," '[]")
 
       if editor {
-        set sql = "SELECT top 5 id,title from kb.topic order by vector_dot_product(DescriptionVector, TO_VECTOR(?, DOUBLE, 768)) desc"
+        set sql = "SELECT top 50 tv.topicid as Id, t.title as title from faq.topicvector as tv inner join kb.topic as t on tv.topicid = t.id order by vector_dot_product(tv.DescriptionVector, TO_VECTOR(?, DOUBLE, 768)) desc"
       }
       else {
-        set sql = "SELECT top 5 id,title from kb.topic where (Completed=1 and Visible=1 and DeleteFlg!=1) order by vector_dot_product(DescriptionVector, TO_VECTOR(?, DOUBLE, 768)) desc"
+        set sql = "SELECT top 50 tv.topicid as Id, t.title as title from faq.topicvector as tv inner join kb.topic as t on tv.topicid = t.id where (t.Completed=1 and t.Visible=1 and t.DeleteFlg!=1) order by vector_dot_product(tv.DescriptionVector, TO_VECTOR(?, DOUBLE, 768)) desc"
       }
     
       set statemt=##class(%SQL.Statement).%New()
       set status=statemt.%Prepare(sql)
       set rset=statemt.%Execute(QueryEmbedding)
 
+      kill ^idlist
+      set listcount = 0
       while rset.%Next()  {
         set robj = {}
-        set robj.id = rset.%Get("Id")
+        set id = rset.%Get("Id")
+        if $data(^idlist(id)) continue
+        set ^idlist(id) = ""
+        set listcount = listcount + 1
+        set robj.id = id
         set robj.title = rset.%Get("title")
         do return.%Push(robj)
-		    
+        if listcount = 10 quit		    
       }
 	   
       write return.%ToJSON()
