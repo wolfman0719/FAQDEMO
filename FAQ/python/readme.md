@@ -1,12 +1,9 @@
 # ベクトル検索のロードしたモデルをキャッシュする
-## 必要なモジュールのインストール
+## プログラムをIRISのpythonディレクトリにコピーする
 ```
-python3 -m pip install sentence_transformers flask
+cp embedding.py /opt/iris/mgr/python
 ```
+## FAQでベクトル検索する前に、起動する(バックグランド起動)
 ```
-python3 -m pip install --upgrade --target /opt/iris/mgr/python langchain_text_splitters
-```
-## FAQでベクトル検索する前に、起動する
-```
-python3 embedding.py
+python3 /opt/iris/mgr/python/embedding.py &
 ```
