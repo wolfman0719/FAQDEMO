@@ -13,6 +13,7 @@ export const App = () => {
  
   useEffect( () => {
     localStorage.setItem('inputtext','');
+    localStorage.setItem('inputtextv','');
     localStorage.removeItem('topicid');
     localStorage.removeItem('username');
     localStorage.removeItem('password');
@@ -35,3 +36,4 @@ export const App = () => {
   );	
 }
 export default App;
+
