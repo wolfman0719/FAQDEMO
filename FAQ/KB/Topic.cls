@@ -82,8 +82,6 @@ Relationship UpdateDetail As KB.UpdateHistory [ Cardinality = children, Inverse 
 /// 同じ内容のDC(Developer Community)記事URL
 Property DCURL As %String(MAXLEN = 100, XMLPROJECTION = "NONE");
 
-Property DescriptionVector As %Vector(DATATYPE = "DOUBLE", LEN = 768);
-
 Index IndexIssueDate On IssueDate;
 
 Index IndexTitle On Title;
