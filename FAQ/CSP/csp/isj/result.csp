@@ -118,17 +118,19 @@ if $Get(%session.Data("Access"))="" {
 }
 
  Set DocNo=%request.Get("DocNo")
+
+ Set NODC = %request.Get("NODC")
  
  Set roles=+$Get(%session.Data("roles"))
 
- if DocNo'="" {
+ if (DocNo'="") {
    set dcurl = ""
    Set topic = ##Class(KB.Topic).%OpenId(DocNo)
    if $isobject(topic) set dcurl = topic.DCURL
    if topic="" {
      set %response.Redirect="FAQ.FAQTopicNotFound.cls"
    }
-   elseif (dcurl'="") && (roles = 0) {
+   elseif (dcurl'="") && (roles = 0) && ('NODC) {
      set %response.Redirect=dcurl
    } 
    else{
