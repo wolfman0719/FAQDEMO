@@ -270,7 +270,7 @@ ClassMethod SetupLocal(pDir As %String) As %Status
     set sep = "/"
   }
   else {
-    set sep = "¥"
+    set sep = "\"
   }
 
   set namespace = $namespace
@@ -318,3 +318,4 @@ ClassMethod SetupLocal(pDir As %String) As %Status
 }
 
 }
+
