@@ -844,11 +844,11 @@ ClassMethod TopicVectorSearch() As %Status
       set QueryEmbedding =$tr(##class(FAQ.TopicVector).GetEmbeddingFlask(queryText)," '[]")
 
       if editor {
-        set sql = "SELECT top 100 tv.topicid as Id, t.title as title, tv.splitteddescription as sdescription from faq.topicvector as tv inner join kb.topic as t on tv.topicid = t.id order by vector_dot_product(tv.DescriptionVector, TO_VECTOR(?, DOUBLE, 768)) desc"
+        set sql = "SELECT top 50 tv.topicid as Id, t.title as title, tv.splitteddescription as sdescription from faq.topicvector as tv inner join kb.topic as t on tv.topicid = t.id order by vector_dot_product(tv.DescriptionVector, TO_VECTOR(?, DOUBLE, 768)) desc"
         //set sql = "SELECT top 50 tv.topicid as Id, t.title as title, tv.splitteddescription as sdescription from faq.topicvector as tv inner join kb.topic as t on tv.topicid = t.id order by vector_cosine(tv.DescriptionVector, TO_VECTOR(?, DOUBLE, 768)) desc"
       }
       else {
-        set sql = "SELECT top 100 tv.topicid as Id, t.title as title, tv.splitteddescription as sdescription from faq.topicvector as tv inner join kb.topic as t on tv.topicid = t.id where (t.Completed=1 and t.Visible=1 and t.DeleteFlg!=1) order by vector_dot_product(tv.DescriptionVector, TO_VECTOR(?, DOUBLE, 768)) desc"
+        set sql = "SELECT top 50 tv.topicid as Id, t.title as title, tv.splitteddescription as sdescription from faq.topicvector as tv inner join kb.topic as t on tv.topicid = t.id where (t.Completed=1 and t.Visible=1 and t.DeleteFlg!=1) order by vector_dot_product(tv.DescriptionVector, TO_VECTOR(?, DOUBLE, 768)) desc"
         //set sql = "SELECT top 50 tv.topicid as Id, t.title as title, tv.splitteddescription as sdescription from faq.topicvector as tv inner join kb.topic as t on tv.topicid = t.id where (t.Completed=1 and t.Visible=1 and t.DeleteFlg!=1) order by vector_cosine(tv.DescriptionVector, TO_VECTOR(?, DOUBLE, 768)) desc"
       }
     
@@ -868,7 +868,7 @@ ClassMethod TopicVectorSearch() As %Status
         set robj.id = id
         set robj.title = rset.%Get("title")
         do return.%Push(robj)
-        if listcount = 100 quit		    
+        if listcount = 20 quit		    
       }
 	   
       write return.%ToJSON()
