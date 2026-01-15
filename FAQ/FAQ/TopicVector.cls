@@ -3,13 +3,15 @@ Class FAQ.TopicVector Extends %Persistent
 
 Property TopicId As %Integer;
 
-Property SplittedDescription As %String(MAXLEN = 1000);
+Property SplittedDescription As %String(MAXLEN = 10000);
 
 Property DescriptionVector As %Vector(DATATYPE = "DOUBLE", LEN = 768);
 
 Index TopicIdIndex On TopicId;
 
-Index HNSWDescriptionIndex On (DescriptionVector) As %SQL.Index.HNSW(Distance = "DotProduct");
+Index HNSWDescriptionIndex1 On (DescriptionVector) As %SQL.Index.HNSW(Distance = "DotProduct");
+
+Index HNSWDescriptionIndex2 On (DescriptionVector) As %SQL.Index.HNSW(Distance = "Cosine");
 
 ClassMethod GetEmbeddingFlask(sentences) As %String [ Language = python, SqlProc ]
 {
@@ -58,15 +60,17 @@ from sentence_transformers import SentenceTransformer as ST
 
 # --- インスタンス生成 ---
 text_splitter = RecursiveCharacterTextSplitter(
-    # separators=["\n\n", "\n", " ", ""], # チャンクの区切り文字リスト
-    chunk_size=200,           # チャンクの最大文字数
-    chunk_overlap=20,         # チャンク間の重複する文字数
-    length_function=len,      # 文字数で分割
-    is_separator_regex=False, # separatorを正規表現として扱う場合はTrue
+separators=["\n\n", "\n", " ", ""], # チャンクの区切り文字リスト
+chunk_size=1000,           # チャンクの最大文字数
+chunk_overlap=50,         # チャンク間の重複する文字数
+length_function=len,      # 文字数で分割
+is_separator_regex=False, # separatorを正規表現として扱う場合はTrue
 )
 
 # --- テキスト分割してリストを取得 ---
 texts = text_splitter.create_documents([pText])
+# 句読点　。で分割
+# texts = pText.split("。")
 for document in texts:
   sql = 'insert into faq.topicvector (topicid,descriptionvector,SplittedDescription) values(?,TO_VECTOR(?,DOUBLE,768),?)'
   model = iris.cls('FAQ.TopicVector').GetModelData()
@@ -97,27 +101,73 @@ ClassMethod BuildVectorForDescriptions() As %Status
   set status = $$$OK
   try {
     set status = ##class(FAQ.TopicVector).%KillExtent()
-	set statement = ##class(%SQL.Statement).%New()
-	set sql = "select ID,TITLE,DESCRIPTION from kb.topic"
-	set status = statement.%Prepare(sql)
-	$$$ThrowOnError(status)
-	set rs = statement.%Execute()
-	while rs.%Next() {
-	  set id = rs.%Get("ID")
-	  set description = ..RemoveHTMLTag(rs.%Get("DESCRIPTION"))
-	  set title = rs.%Get("TITLE")
+	  set statement = ##class(%SQL.Statement).%New()
+	  set sql = "select ID,TITLE,DESCRIPTION from kb.topic"
+	  set status = statement.%Prepare(sql)
+	  $$$ThrowOnError(status)
+	  set rs = statement.%Execute()
+	  while rs.%Next() {
+	    set id = rs.%Get("ID")
+	    set description = ..RemoveHTMLTag(rs.%Get("DESCRIPTION"))
+	    set title = rs.%Get("TITLE")
       set status = ..BuildVectorsForDescription(title_" "_description,id)
-	}
+	  }
 
-    set status =  ..%BuildIndices($listbuild("HNSWDescriptionIndex"))
-	$$$ThrowOnError(status)
+    set status =  ..%BuildIndices($listbuild("HNSWDescriptionIndex1","HNSWDescriptionIndex2"))
+	  $$$ThrowOnError(status)
   }
   Catch e {
-	do e.Log()
-	Set status = e.AsStatus()
-	set status2 = ##class(FAQ.Error).StoreErrorInformation(e)
+	  do e.Log()
+	  Set status = e.AsStatus()
+	  set status2 = ##class(FAQ.Error).StoreErrorInformation(e)
   }
   quit status
+}
+
+ClassMethod BuildVectorsFromDescriptionSummaries(pFile As %String) [ Language = python ]
+{
+import iris    
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+from sentence_transformers import SentenceTransformer as ST
+import openpyxl
+
+iris.cls('FAQ.TopicVector')._KillExtent()
+
+wb = openpyxl.load_workbook(pFile)
+
+ws = wb.worksheets[0]
+
+for row in ws.iter_rows():
+  data = []
+  for cell in row:
+    data.append(cell.value)
+
+  id = data[0]
+  summary = data[1]
+
+  summarychunks = summary.split("。")
+
+  for document in summarychunks:
+
+    sql = 'insert into faq.topicvector (topicid,descriptionvector,SplittedDescription) values(?,TO_VECTOR(?,DOUBLE,768),?)'
+    model = iris.cls('FAQ.TopicVector').GetModelData()
+    if model is None:
+      # vector =  DOUBLE,768
+      model = ST('stsb-xlm-r-multilingual')
+      iris.cls('FAQ.TopicVector').StoreModelData(model)
+    embeddings = model.encode(document,normalize_embeddings=True)
+    # convert the embeddings to a string
+    embeddings_list = [str(embedding.tolist()) for embedding in embeddings]
+    dv = str(embeddings_list).replace('\'','')
+    dv.replace('[','')
+    dv.replace(']','')
+    st =iris.sql.prepare(sql)
+    try:
+      st.execute(id,dv,document)
+    except Exception as e:
+      print(e)
+
+  iris.cls('FAQ.TopicVector')._BuildIndices()
 }
 
 Storage Default

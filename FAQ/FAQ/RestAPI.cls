@@ -844,28 +844,31 @@ ClassMethod TopicVectorSearch() As %Status
       set QueryEmbedding =$tr(##class(FAQ.TopicVector).GetEmbeddingFlask(queryText)," '[]")
 
       if editor {
-        set sql = "SELECT top 50 tv.topicid as Id, t.title as title from faq.topicvector as tv inner join kb.topic as t on tv.topicid = t.id order by vector_dot_product(tv.DescriptionVector, TO_VECTOR(?, DOUBLE, 768)) desc"
+        set sql = "SELECT top 100 tv.topicid as Id, t.title as title, tv.splitteddescription as sdescription from faq.topicvector as tv inner join kb.topic as t on tv.topicid = t.id order by vector_dot_product(tv.DescriptionVector, TO_VECTOR(?, DOUBLE, 768)) desc"
+        //set sql = "SELECT top 50 tv.topicid as Id, t.title as title, tv.splitteddescription as sdescription from faq.topicvector as tv inner join kb.topic as t on tv.topicid = t.id order by vector_cosine(tv.DescriptionVector, TO_VECTOR(?, DOUBLE, 768)) desc"
       }
       else {
-        set sql = "SELECT top 50 tv.topicid as Id, t.title as title from faq.topicvector as tv inner join kb.topic as t on tv.topicid = t.id where (t.Completed=1 and t.Visible=1 and t.DeleteFlg!=1) order by vector_dot_product(tv.DescriptionVector, TO_VECTOR(?, DOUBLE, 768)) desc"
+        set sql = "SELECT top 100 tv.topicid as Id, t.title as title, tv.splitteddescription as sdescription from faq.topicvector as tv inner join kb.topic as t on tv.topicid = t.id where (t.Completed=1 and t.Visible=1 and t.DeleteFlg!=1) order by vector_dot_product(tv.DescriptionVector, TO_VECTOR(?, DOUBLE, 768)) desc"
+        //set sql = "SELECT top 50 tv.topicid as Id, t.title as title, tv.splitteddescription as sdescription from faq.topicvector as tv inner join kb.topic as t on tv.topicid = t.id where (t.Completed=1 and t.Visible=1 and t.DeleteFlg!=1) order by vector_cosine(tv.DescriptionVector, TO_VECTOR(?, DOUBLE, 768)) desc"
       }
     
       set statemt=##class(%SQL.Statement).%New()
       set status=statemt.%Prepare(sql)
       set rset=statemt.%Execute(QueryEmbedding)
 
-      kill ^idlist
       set listcount = 0
+      set count = 0
       while rset.%Next()  {
+        set count = count + 1
         set robj = {}
         set id = rset.%Get("Id")
-        if $data(^idlist(id)) continue
-        set ^idlist(id) = ""
+        if $data(idlist(id)) continue
+        set idlist(id) = ""
         set listcount = listcount + 1
         set robj.id = id
         set robj.title = rset.%Get("title")
         do return.%Push(robj)
-        if listcount = 10 quit		    
+        if listcount = 100 quit		    
       }
 	   
       write return.%ToJSON()
