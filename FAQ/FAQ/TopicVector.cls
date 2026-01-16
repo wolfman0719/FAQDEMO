@@ -145,16 +145,39 @@ for row in ws.iter_rows():
   id = data[0]
   summary = data[1]
 
+  topic = iris.KB.Topic._OpenId(id)
+
+  title = topic.Title
+
   summarychunks = summary.split("。")
+
+  model = iris.cls('FAQ.TopicVector').GetModelData()
+
+  if model is None:
+    # vector =  DOUBLE,768
+    model = ST('stsb-xlm-r-multilingual')
+    iris.cls('FAQ.TopicVector').StoreModelData(model)
+
+  sql = 'insert into faq.topicvector (topicid,descriptionvector,SplittedDescription) values(?,TO_VECTOR(?,DOUBLE,768),?)'
+  model = iris.cls('FAQ.TopicVector').GetModelData()
+
+  embeddings = model.encode(title,normalize_embeddings=True)
+  # convert the embeddings to a string
+  embeddings_list = [str(embedding.tolist()) for embedding in embeddings]
+  dv = str(embeddings_list).replace('\'','')
+  dv.replace('[','')
+  dv.replace(']','')
+  st =iris.sql.prepare(sql)
+  try:
+    st.execute(id,dv,title)
+  except Exception as e:
+    print(e)
 
   for document in summarychunks:
 
-    sql = 'insert into faq.topicvector (topicid,descriptionvector,SplittedDescription) values(?,TO_VECTOR(?,DOUBLE,768),?)'
-    model = iris.cls('FAQ.TopicVector').GetModelData()
-    if model is None:
-      # vector =  DOUBLE,768
-      model = ST('stsb-xlm-r-multilingual')
-      iris.cls('FAQ.TopicVector').StoreModelData(model)
+    if len(document) < 2:
+      break
+
     embeddings = model.encode(document,normalize_embeddings=True)
     # convert the embeddings to a string
     embeddings_list = [str(embedding.tolist()) for embedding in embeddings]
