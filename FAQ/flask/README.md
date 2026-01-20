@@ -30,4 +30,14 @@ http://localhost:8080/csp/faqflask/topicid/:topicid
 
 :topicidの所には実際のトピック番号を指定します。
 
-例: http://localhost:8080/csp/faqflask/topicid/100
+例: http://localhost:8080/csp/faqflask/topicid/300
+
+http://localhost:8080/csp/faqflask/topicid/:topicid/:nodc
+
+DCにredirectしないようにするためにnodcに1を指定
+
+:topicidの所には実際のトピック番号を指定します。
+
+:nodcには1を指定（実際はどの値でもOK）
+
+例: http://localhost:8080/csp/faqflask/topicid/300/1
