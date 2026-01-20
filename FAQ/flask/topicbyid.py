@@ -62,6 +62,7 @@ app = Flask(__name__)
 def index():
     return 'Top Page'
 
+
 @app.route('/topicid/<topic_id>', methods=['GET'])
 def get_topic(topic_id):
     dcurl = dcurl_byid(topic_id)
@@ -70,6 +71,11 @@ def get_topic(topic_id):
     else:
       result = topic_byid(topic_id)
       return render_template("result.html",get_result=result)
+
+@app.route('/topicid/<topic_id>/<nodc>', methods=['GET'])
+def get_topic2(topic_id, nodc):
+    result = topic_byid(topic_id)
+    return render_template("result2.html",get_result=result)
 
 if __name__ == '__main__':
     app.run(debug=True) 
