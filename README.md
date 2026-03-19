@@ -41,7 +41,7 @@ python3 -m pip install --upgrade --target c:¥Intersystems¥iris¥mgr¥python la
 ```
 >zn "FAQ"
 >set pDir = "c:\git\FAQDEMO\FAQ"
->Do $system.OBJ.Load(pDir_"\KB\Setup.cls","ck")
+>Do $system.OBJ.Import(pDir_"\KB\Setup.cls","ck")
 ```
 
 ### SetupLocalの実行
