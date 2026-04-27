@@ -9,8 +9,7 @@ export const App = () => {
   return (
   <BrowserRouter basename="/faqdirect/">
 	<Routes>
-  <Route path="/"  element={<Top/>} />
-  <Route path="/Second/"  element={<Second/>} />  
+  <Route path="/"  element={<Top/>} />  
   <Route path="/Content/:topicid/"  element={<Home/>} />
   <Route  element={<Second/>} />
 	</Routes>
