@@ -11,6 +11,7 @@ import configinfo from '../serverconfig.json';
 export const Home = () => {
 
   const location = useLocation();
+  const editflag = (location.state.edit as unknown) == 1 ? true : false;
   const vectorSearch = configinfo.VectorSearch;
 
   return (
@@ -26,7 +27,7 @@ export const Home = () => {
 	  <Header />
 	  </div>
     <div className="query">
-	  <Query username = {location.state.username} password = {location.state.password} edit = {location.state.edit} />
+	  <Query username = {location.state.username} password = {location.state.password} edit = {editflag} />
 	  </div>      
     </TabPanel>
     <TabPanel>
@@ -34,14 +35,14 @@ export const Home = () => {
 	  <Header />
 	  </div>
     <div className="querybyid">
-	  <QueryById username = {location.state.username} password = {location.state.password} edit = {location.state.edit} />
+	  <QueryById />
 	  </div>
     </TabPanel>
     {vectorSearch && <TabPanel>
     <div className="title">
 	  <Header />
 	  </div><div className="vectorsearchquery">
-	  <VectorSearchQuery username = {location.state.username} password = {location.state.password} edit = {location.state.edit} />
+	  <VectorSearchQuery username = {location.state.username} password = {location.state.password} edit = {editflag} />
 	  </div>
     </TabPanel>}
     </Tabs>

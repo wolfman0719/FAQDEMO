@@ -29,7 +29,7 @@ export const Query = (props: any) => {
     <tr>  
 	  <td><label className="p-2">検索キーワード: </label></td>
 	  <td><input type="text" value = {inputtext} onChange={onChangeText} /></td>
-    {edit && <td><button className = "btn btn-outline-primary" onClick={() => {navigate('/Edit/' + 0)}}>新規トピック<span className="bi bi-file-text"></span></button></td>}
+    {edit ? <td><button className = "btn btn-outline-primary" onClick={() => {navigate('/Edit/' + 0)}}>新規トピック<span className="bi bi-file-text"></span></button></td> : <td />}
     </tr>
     </tbody>
     </table>

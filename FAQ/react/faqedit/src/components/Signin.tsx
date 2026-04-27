@@ -58,7 +58,7 @@ export default function Signin() {
     };
     
     //ログインに成功した場合、次のページへ遷移
-    const loginSuccess = (params: any) => {
+    const loginSuccess = (params: any) => {  
       localStorage.clear();
       localStorage.setItem('username',params.username);
       localStorage.setItem('password',params.password);

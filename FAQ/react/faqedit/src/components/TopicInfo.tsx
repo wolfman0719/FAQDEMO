@@ -33,7 +33,8 @@ const Protocol = configinfo.Protocol;
 
 const Username = localStorage.getItem('username');
 const Password = localStorage.getItem('password');
-const Edit = localStorage.getItem('edit');
+const editflag = localStorage.getItem('edit');
+const Edit = (editflag as unknown) == 1 ? true : false;
 
 const onClickItem2 = (topicid: any) => {
 	setIsLoading(true);
@@ -126,7 +127,7 @@ const onClickItem2 = (topicid: any) => {
     <div id="downloadfile" style = {{ width: "100%",height: `${height*0.05}px`,overflow: "auto",border: "solid #000000 1px"}}>
 	<DownloadFile fileflag = {fileflag} response = {response} />
     </div>	
-    {(Edit) && <div id="edit" style = {{ width: "100%",height: `${height*0.05}px`,overflow: "auto",border: "solid #000000 1px"}}>
+    {Edit && <div id="edit" style = {{ width: "100%",height: `${height*0.05}px`,overflow: "auto",border: "solid #000000 1px"}}>
 	<table><tbody><tr><td><button className = "btn btn-outline-primary" onClick={() => {navigate('/Edit/' + topicid)}}>編集<i className="bi bi-pencil-square"></i></button></td></tr></tbody></table>
     </div>}	
     </>	
