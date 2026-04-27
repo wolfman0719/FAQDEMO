@@ -19,11 +19,13 @@ export const QueryById = (props: any) => {
   return (
     <>
     <table>
+    <tbody>
     <tr>
 	  <td><label className="p-1">ID:</label></td>
 	  <td><input type="text" value = {inputtext} onChange={onChangeText} /></td>
 	  <td><button className="btn btn-outline-primary" onClick={() => onClickItem(inputtext)}>検索</button></td>
     </tr>
+    </tbody>
     </table>
     </>	
   );	
