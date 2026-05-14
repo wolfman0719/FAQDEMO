@@ -35,7 +35,7 @@ const Protocol = configinfo.Protocol;
 const Username = localStorage.getItem('username');
 const Password = localStorage.getItem('password');
 const editflag = localStorage.getItem('edit');
-const Edit = (editflag as unknown) == 1 ? true : false;
+const Edit = (editflag as unknown) === 1 ? true : false;
 
 const onClickItem2 = (topicid: any) => {
 	setIsLoading(true);
