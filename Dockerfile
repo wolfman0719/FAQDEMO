@@ -16,9 +16,9 @@ RUN chown ${ISC_PACKAGE_MGRUSER}:${ISC_PACKAGE_IRISGROUP} $ISC_TEMP_DIR/
 USER ${ISC_PACKAGE_MGRUSER}
 
 RUN python3 -m pip install --upgrade --target /usr/irissys/mgr/python flask
-RUN python3 -m pip install --upgrade --target /usr/irissys/mgr/python　sentence_transformers
-RUN python3 -m pip install --upgrade --target /usr/irissys/mgr/python langchain_text_splitters
-RUN python3 /usr/irissys/mgr/python/embedding.py &
+# RUN python3 -m pip install --upgrade --target /usr/irissys/mgr/python　sentence_transformers
+# RUN python3 -m pip install --upgrade --target /usr/irissys/mgr/python langchain_text_splitters
+# RUN python3 /usr/irissys/mgr/python/embedding.py &
 
 RUN iris start IRIS \
 	&& iris session IRIS < /tmp/iris.script \
