@@ -31,6 +31,7 @@ const ServerPort = configinfo.ServerPort;
 const ApplicationName = configinfo.ApplicationName;
 const Protocol = configinfo.Protocol;
 
+// console.log(localStorage.getItem('username'));
 const Username = localStorage.getItem('username');
 const Password = localStorage.getItem('password');
 const editflag = localStorage.getItem('edit');

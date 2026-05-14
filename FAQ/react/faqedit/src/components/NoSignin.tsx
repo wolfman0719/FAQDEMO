@@ -1,16 +1,16 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import configinfo from '../serverconfig.json';
 
 export default function NoSignin() {
 
 const navigate = useNavigate();
+
+const username = configinfo.Username;
+const password = configinfo.Password;
     
-useEffect( () => {
-  localStorage.clear();
-  localStorage.setItem('username','_system');
-  localStorage.setItem('password','SYS');
-  localStorage.setItem('edit','0');
-  navigate("/Home",  { state: {username: '_system', password: 'SYS', edit: 0}});
+useEffect( () => {  
+  navigate("/Home",  { state: {username: username, password: password, edit: '0'}});
   // eslint-disable-next-line react-hooks/exhaustive-deps
 }, []);   
 
