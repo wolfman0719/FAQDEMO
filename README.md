@@ -85,7 +85,7 @@ set setupdir = "c:\git\faqdemo"
 
   /200の部分は、トピック番号を入力
 
-- React版FAQ検索＆編集
+- React版FAQ検索
 
   [localhost:8882/csp/user/faqedit/](http://localhost:8882/csp/user/faqedit/)
 
