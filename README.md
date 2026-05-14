@@ -87,7 +87,7 @@ set setupdir = "c:\git\faqdemo"
 
 - React版FAQ検索＆編集
 
-  [localhost:52773/csp/user/faqedit/index.html](http://localhost:52773/csp/user/faqedit/index.html)
+  [localhost:8882/csp/user/faqedit/](http://localhost:8882/csp/user/faqedit/)
 
   ログインユーザー: _system
 
