@@ -8,7 +8,8 @@ ENV ISC_TEMP_DIR=/intersystems/iris/global
 COPY FAQ/ $ISC_TEMP_DIR/
 COPY TopicD.xml $ISC_TEMP_DIR
 COPY iris.script /tmp
-COPY $ISC_TEMP_DIR/python/embedding.py
+COPY FAQ/python/embedding.py /usr/irissys/mgr/python/
+
 USER root
 
 RUN chown ${ISC_PACKAGE_MGRUSER}:${ISC_PACKAGE_IRISGROUP} $ISC_TEMP_DIR/
