@@ -1,0 +1,4 @@
+ARG IMAGE=ng
+FROM $IMAGE
+
+COPY FAQ/faqedit/ /var/www/html/faqedit/

@@ -35,3 +35,13 @@ services:
     - type: bind
       source: ./webgateway
       target: /webgateway-shared
+      
+  nginx:
+    image: nginx:latest
+    container_name: nginx   
+    ports:
+    # nginx port
+    - "8885:80"
+    volumes: 
+    # - ./FAQ/nginx.conf:/etc/nginx/nginx.conf
+    - ./FAQ/faqeditnginx:/usr/share/nginx/html/faqedit   
