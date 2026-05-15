@@ -31,11 +31,11 @@ const ServerPort = configinfo.ServerPort;
 const ApplicationName = configinfo.ApplicationName;
 const Protocol = configinfo.Protocol;
 
-// console.log(localStorage.getItem('username'));
 const Username = localStorage.getItem('username');
 const Password = localStorage.getItem('password');
 const editflag = localStorage.getItem('edit');
-const Edit = (editflag as unknown) === 1 ? true : false;
+// eslint-disable-next-line
+const Edit = (editflag as unknown) == 1 ? true : false;
 
 const onClickItem2 = (topicid: any) => {
 	setIsLoading(true);
@@ -111,7 +111,7 @@ const onClickItem2 = (topicid: any) => {
 	{isError && <p className="text-danger fs-3"><span dangerouslySetInnerHTML={{__html: errortext}}></span></p>}
 	{(direct === false) &&
 	<table><tbody>	
-	<tr><td><button className = "btn btn-outline-primary" onClick={() => {navigate('/Home',{ state: {username: Username, password: Password, edit: Edit}})}}>検索に戻る<i className="bi bi-search"></i></button></td></tr>
+	<tr><td><button className = "btn btn-outline-primary" onClick={() => {navigate('/Home',{ state: {username: Username, password: Password, edit: editflag}})}}>検索に戻る<i className="bi bi-search"></i></button></td></tr>
     </tbody></table>
 	}
 	{isLoading && <p>Laoding...</p>}

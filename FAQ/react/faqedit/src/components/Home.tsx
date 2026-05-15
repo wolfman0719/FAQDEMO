@@ -11,12 +11,14 @@ import configinfo from '../serverconfig.json';
 export const Home = () => {
 
   const location = useLocation();
-  const editflag = (location.state.edit as unknown) === 1 ? true : false;
+  // eslint-disable-next-line
+  const editflag = (location.state.edit as unknown) == 1 ? true : false;
+  
   const vectorSearch = configinfo.VectorSearch;
   
   localStorage.setItem('username',location.state.username);
   localStorage.setItem('password',location.state.password);
-  localStorage.setItem('edit',location.state.password);
+  localStorage.setItem('edit',location.state.edit);
 
   
   return (
