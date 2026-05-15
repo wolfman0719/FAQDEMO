@@ -10,15 +10,12 @@ set sec = ##class("Security.Applications").%OpenId("/csp/user")
 set sec.Timeout = 20000
 set status = sec.%Save()
 
-set sec = ##class("Security.Applications").%New()
-set sec.Name = "/api/faq"
-set sec.NameSpace = "USER"
-set sec.DispatchClass ="FAQ.RestAPI"
-set sec.AutheEnabled = 64 + 32
-set sec.CorsAllowlist = "*"
-set sec.CorsHeadersList = "Access-Control-Allow-Methods ""GET,POST,PUT,DELETE,OPTIONS, PATCH"",Access-Control-Allow-Headers ""Content-Type,Authorization,X-Requested-With"""
-set sec.CorsCredentialsAllowed = 1
-set status = sec.%Save()
+set app("NameSpace") = "USER"
+set app("DispatchClass") = "FAQ.RestAPI"
+set app("AutheEnabled") = 64 + 32
+set app("CorsAllowlist") = "http://localhost:8885"
+set app("CorsCredentialsAllowed") = 1
+set status = ##class(Security.Applications).Create("/api/faq",.app)  
 
 set sec = ##class("Security.Applications").%New()
 set sec.Name = "/csp/faqflask"
