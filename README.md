@@ -89,11 +89,11 @@ set setupdir = "c:\git\faqdemo"
 
   webgatewayコンテナ経由のアクセス
 
-  [localhost:8882/csp/user/faqedit/](http://localhost:8882/csp/user/faqedit/)
+  [localhost:8882/faqedit/](http://localhost:8882/faqedit/)
 
   nginxコンテナ経由のアクセス
 
-  [localhost:8885/csp/user/faqedit/](http://localhost:8885/csp/user/faqedit/)
+  [localhost:8885/faqedit/](http://localhost:8885/faqedit/)
 
   ログインユーザー: _system
 
@@ -107,7 +107,7 @@ set setupdir = "c:\git\faqdemo"
 
   - nginxコンテナ経由アクセスの制限
 
-    トピック編集のエディター（CKEditor）の機能であるイメージのアップロード機能は動作しない
+    トピック編集のHTMLエディター（CKEditor）の機能であるイメージのアップロード機能は動作しない
 
     （この機能は、CORS環境では動作しないため）
   
