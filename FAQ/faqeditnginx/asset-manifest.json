@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/faqedit/static/css/main.987503a0.css",
+    "main.js": "/faqedit/static/js/main.496e905d.js",
+    "static/media/bootstrap-icons.woff?": "/faqedit/static/media/bootstrap-icons.1295669cd4e305c97f2c.woff",
+    "static/media/bootstrap-icons.woff2?": "/faqedit/static/media/bootstrap-icons.92ea18a81d737146ff04.woff2",
+    "index.html": "/faqedit/index.html",
+    "main.987503a0.css.map": "/faqedit/static/css/main.987503a0.css.map",
+    "main.496e905d.js.map": "/faqedit/static/js/main.496e905d.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.987503a0.css",
+    "static/js/main.496e905d.js"
+  ]
+}
