@@ -4,15 +4,15 @@
 
 ```% npx create-react-app faqedit --template typescript```
 
-## bootstrapインストール
+## materializeインストール
 
 ```% cd faqedit```
 
-```% npm install react-bootstrap bootstrap```
+```% npm i -S materialize-css```
 
-## bootstrap iconインストール
+## materialize typesインストール
 
-```% npm install bootstrap bootstrap-icons```
+```% npm i -D @types/materialize-css```
 
 ## react-router-domインストール
 
