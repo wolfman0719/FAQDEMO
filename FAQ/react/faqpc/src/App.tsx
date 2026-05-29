@@ -49,10 +49,10 @@ export const App = () => {
 		   setErrorText(error.response.data.summary);
 		 }
 		 else if (error.request) {
-		   setErrorText(error.toJSON());
+		   setErrorText(error.request);
 		 } 
 		 else {
-		   setErrorText(error.message + error.toJSON());
+		   setErrorText(error.message);
 		 }
 
 	  })
@@ -84,10 +84,10 @@ export const App = () => {
 		   setErrorText(error.response.data.summary);
 		 }
 		 else if (error.request) {
-		   setErrorText(error.toJSON());
+		   setErrorText(error.request);
 		 } 
 		 else {
-		   setErrorText(error.message + error.toJSON());
+		   setErrorText(error.message);
 		 }
 
 	  })
@@ -118,10 +118,10 @@ export const App = () => {
 		   setErrorText(error.response.data.summary);
 		 }
 		 else if (error.request) {
-		   setErrorText(error.toJSON());
+		   setErrorText(error.request);
 		 } 
 		 else {
-		   setErrorText(error.message + error.toJSON());
+		   setErrorText(error.message);
 		 }
 
 	  })
@@ -146,7 +146,7 @@ export const App = () => {
 	  })
       .catch((error: any) => {
         setIsError(true)
-		setErrorText(error.message + error.toJSON());
+		setErrorText(error.message);
 	  })
       .finally(() => setIsLoading(false));
       
@@ -156,37 +156,41 @@ export const App = () => {
     // eslint-disable-next-line
     const TopicListMemo = useMemo(() => <TopicList isLoading = {isLoading} topicList = {topicList} onClickItem = {onClickItem} />, [onClickItem,topicList]);
 
+    const cardStyle: React.CSSProperties = { backgroundColor: "white", borderRadius: "12px" };
+
     return (
     <>
-    <div className="title">
-	<Header />
-	</div>
-    <div className="query">
-	<Query onClickItem = {onClickItem} onClickFetchTopicList = {onClickFetchTopicList} />
-    {prevtopicflag  ? (<button className="btn btn-secondary" onClick={() => onClickItem(prevtopicid)}><i className="bi bi-arrow-left"></i>前のトピックに戻る</button>):
-    (<button  className="btn btn-secondary" onClick={() => onClickItem(prevtopicid)} disabled><i className="bi bi-arrow-left"></i>前のトピックに戻る</button>)}
-	{isError && <p style={{ color: "red" }}>エラーが発生しました　{`${errortext}`}</p>}
-	</div>
-    <div className="topiclist" style = {{ float: "left",width: "40%",height: `${height*0.81}px`,overflow: "auto",border: "solid #000000 1px"}}>	
-    {TopicListMemo}
+    <div className="title" style={{ ...cardStyle, padding: "12px 16px", marginBottom: "8px" }}>
+      <Header />
     </div>
-	<div id="topiccontent" style = {{ width: "60%",height: `${height*0.05}px`,overflow: "auto",border: "solid #000000 1px"}}><span  className="fs-5 text-primary" style = {{ marginLeft: "20px", marginRight: "20px"}}><img src="./images/Question.gif" alt="Question"/> {response.Title}</span><p className="text-info fs-4" style = {{ float: "right", marginRight: "20px"}}>{response.VersionRange}</p>
+    <div className="query" style={{ ...cardStyle, padding: "12px 16px", marginBottom: "8px" }}>
+      <Query onClickItem = {onClickItem} onClickFetchTopicList = {onClickFetchTopicList} />
+      {prevtopicflag  ? (<button className="btn grey lighten-1 white-text waves-effect waves-light" style={{ borderRadius: "24px" }} onClick={() => onClickItem(prevtopicid)}><i className="material-icons left">arrow_back</i>前のトピックに戻る</button>):
+      (<button  className="btn grey lighten-1 white-text waves-effect waves-light disabled" style={{ borderRadius: "24px" }} onClick={() => onClickItem(prevtopicid)} disabled><i className="material-icons left">arrow_back</i>前のトピックに戻る</button>)}
+      {isError && <p style={{ color: "red" }}>エラーが発生しました　{`${errortext}`}</p>}
     </div>
-    <div id="topiccontent" style = {{ width: "60%",height: `${height*0.45}px`,overflow: "auto",border: "solid #000000 1px"}}>
-    <TopicContent response = {response} />
+    <div className="topiclist" style={{ ...cardStyle, float: "left", width: "calc(40% - 4px)", height: `${height*0.81}px`, overflow: "auto", marginRight: "8px" }}>
+      {TopicListMemo}
     </div>
-    <div id="topiccontent" style = {{ width: "60%",height: `${height*0.05}px`,overflow: "auto",border: "solid #000000 1px"}}>
-    <div><p className="text-primary">該当する製品: <span className="text-black">{response.ProductText}</span></p></div>
+    <div style={{ width: "calc(60% - 4px)", height: `${height*0.81}px`, display: "flex", flexDirection: "column", gap: "8px" }}>
+      <div id="topiccontent" style={{ ...cardStyle, flex: 5, overflow: "auto" }}>
+        <span className="blue-text text-darken-2" style={{ marginLeft: "20px", marginRight: "20px", fontSize: "1.25rem" }}><img src="./images/Question.gif" alt="Question"/> {response.Title}</span>
+        <p className="teal-text" style={{ float: "right", marginRight: "20px", fontSize: "1.5rem" }}>{response.VersionRange}</p>
+      </div>
+      <div id="topiccontent" style={{ ...cardStyle, flex: 45, overflow: "auto" }}>
+        <TopicContent response = {response} />
+      </div>
+      <div id="topiccontent" style={{ ...cardStyle, flex: 5, overflow: "auto" }}>
+        <p className="blue-text text-darken-2" style={{ margin: "4px 16px" }}>該当する製品: <span className="black-text">{response.ProductText}</span></p>
+      </div>
+      <div id="relatedtopics" style={{ ...cardStyle, flex: 20, overflow: "auto" }}>
+        <RelatedTopics reftopics = {reftopics} onClickItem = {onClickItem2} />
+      </div>
+      <div id="downloadfile" style={{ ...cardStyle, flex: 6, overflow: "auto" }}>
+        <DownloadFile fileflag = {fileflag} response = {response} />
+      </div>
     </div>
-    <div id="relatedtopics" style = {{ width: "60%",height: `${height*0.2}px`,overflow: "auto",border: "solid #000000 1px"}}>
-    <RelatedTopics reftopics = {reftopics} onClickItem = {onClickItem2} />
-    </div>
-    <div id="downloadfile" style = {{ width: "60%",height: `${height*0.06}px`,overflow: "auto",border: "solid #000000 1px"}}>
-	<DownloadFile fileflag = {fileflag} response = {response} />
-    </div>	
-    </>	
+    </>
   );	
 }
 export default App;
-
-
