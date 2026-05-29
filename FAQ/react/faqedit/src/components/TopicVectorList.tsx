@@ -31,7 +31,6 @@ const [width] = useWindowSize();
     setIsError(false);
 
     const senddata: any = {};
-
     senddata.queryText = queryText;
   
 	axios
@@ -51,10 +50,10 @@ const [width] = useWindowSize();
 		   setErrorText(error.response.data.summary);
 		 }
 		 else if (error.request) {
-		   setErrorText(error.request);
+		   setErrorText(error.toJSON());
 		 } 
 		 else {
-		   setErrorText(error.message);
+		   setErrorText(error.message + error.toJSON() + ' 再ログインが必要です');
 		 }
 	  })
 	  // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -63,12 +62,12 @@ const [width] = useWindowSize();
   return (
     <>
 	<table style = {{width: "100%"}}><tbody>
-	  {isError && <p className="text-danger fs-3"><span dangerouslySetInnerHTML={{__html: errortext}}></span></p>}
-	  {isLoading ? (<p className="text-info">データ取得中... しばらくお待ちください</p>)
+	  {isError && <p className="red-text"><span dangerouslySetInnerHTML={{__html: errortext}}></span></p>}
+	  {isLoading ? (<p className="light-blue-text">データ取得中... しばらくお待ちください</p>)
 		 : (
 		 topicList.map((topic: any) => (
 		 
-		 <tr style = {{width: "100%"}}><td><Link to={topic.linkto}><button className = "btn btn-outline-primary" style = {{textAlign: "left"}}><td><div style = {{whiteSpace: "nowrap",overflow: "hidden", width: width-40,textOverflow: "ellipsis"}}>{`${topic.title}`}</div></td><td><i className="bi bi-chevron-right float-end"></i></td></button></Link></td></tr>
+		 <tr className="topic-list-row"><td><Link to={topic.linkto} className="topic-list-link"><div className="topic-list-title" style={{maxWidth: width - 60}}>{topic.title}</div></Link></td></tr>
 		 )))
 	  }
 	</tbody></table>

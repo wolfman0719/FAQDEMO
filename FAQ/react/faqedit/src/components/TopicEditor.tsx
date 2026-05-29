@@ -130,10 +130,10 @@ export const TopicEditor = (props: any) => {
           setErrorText(error.response.data.summary);
         }
         else if (error.request) {
-          setErrorText(error.request);
+          setErrorText(error.toJSON());
         } 
         else {
-          setErrorText(error.message);
+          setErrorText(error.message + error.toJSON() + ' 再ログインが必要です');
         }
       
       })
@@ -145,7 +145,6 @@ export const TopicEditor = (props: any) => {
       const delfile = window.confirm('添付ファイルを削除します。よろしいですか？');
       if (delfile===true) {
         attachedFileDelete(topicid);
-        setFileName('');
       }
       
     }
@@ -169,6 +168,8 @@ export const TopicEditor = (props: any) => {
         .then((result: any) => {
         if (result.data.result===1) {
           setFileFlag(false);
+          setFile(null);
+          setFileName('');
         }
         else {
           setFileFlag(true);
@@ -180,10 +181,10 @@ export const TopicEditor = (props: any) => {
           setErrorText(error.response.data.summary);
         }
         else if (error.request) {
-          setErrorText(error.request);
+          setErrorText(error.toJSON());
         } 
         else {
-          setErrorText(error.message);
+          setErrorText(error.message + error.toJSON() + ' 再ログインが必要です');
         }
       
       })
@@ -195,8 +196,8 @@ export const TopicEditor = (props: any) => {
         
          if (files && files[0]) {
             setFile(files[0]);
-            setFileName(files[0].name);
-            setFileFlag(false);
+            //setFileName(files[0].name);
+            //setFileFlag(false);
           }
       }
 
@@ -228,7 +229,7 @@ export const TopicEditor = (props: any) => {
             setErrorText(error.response.data.summary);
           }
           else if (error.request) {
-            setErrorText(error.request);
+            setErrorText(error.toJSON());
           } 
           else {
             setErrorText(error.message);
@@ -267,7 +268,7 @@ export const TopicEditor = (props: any) => {
           })
           .catch((error: any) => {
             setIsError(true)
-            setErrorText(error.message);
+            setErrorText(error.message + error.toJSON());
           })
           axios
           .get<any>(`${Protocol}://${ServerAddress}:${ServerPort}${ApplicationName}/PlatformGet?IRISUsername=${Username}&IRISPassword=${Password}`)
@@ -280,7 +281,7 @@ export const TopicEditor = (props: any) => {
           })
           .catch((error: any) => {
             setIsError(true)
-            setErrorText(error.message);
+            setErrorText(error.message + error.toJSON());
           })
           axios
           .get<any>(`${Protocol}://${ServerAddress}:${ServerPort}${ApplicationName}/VersionGet?IRISUsername=${Username}&IRISPassword=${Password}`)
@@ -293,7 +294,7 @@ export const TopicEditor = (props: any) => {
           })
           .catch((error: any) => {
             setIsError(true)
-            setErrorText(error.message);
+            setErrorText(error.message + error.toJSON());
           })
           axios
           .get<any>(`${Protocol}://${ServerAddress}:${ServerPort}${ApplicationName}/VersionGet?IRISUsername=${Username}&IRISPassword=${Password}`)
@@ -306,7 +307,7 @@ export const TopicEditor = (props: any) => {
           })
           .catch((error: any) => {
             setIsError(true)
-            setErrorText(error.message);
+            setErrorText(error.message + error.toJSON());
           })
 
           if (topicid !== 0 && topicid !== '0') {
@@ -343,10 +344,10 @@ export const TopicEditor = (props: any) => {
                 setErrorText(error.response.data.summary);
               }
               else if (error.request) {
-                setErrorText(error.request);
+                setErrorText(error.toJSON());
               } 
               else {
-                setErrorText(error.message);
+                setErrorText(error.message + error.toJSON() + ' 再ログインが必要です');
             }
       
             })
@@ -361,17 +362,11 @@ export const TopicEditor = (props: any) => {
             },[ckeditor]);
           
       return (
-        <>
-        {isLoading && <p>Laoding...</p>}
-        {isError && <p className="text-danger fs-3"><span dangerouslySetInnerHTML={{__html: errorText}}></span></p>}
-        <div className="text-primary text-center fs-2">
-        <div className="row">
-        <div className="col">
+        <div className="faq-card" style={{margin: "8px"}}>
+        {isLoading && <p>Loading...</p>}
+        {isError && <p className="red-text"><span dangerouslySetInnerHTML={{__html: errorText}}></span></p>}
+        <div style={{color: "#0d6efd", textAlign: "center", fontSize: "1.5rem", fontWeight: "bold", marginBottom: "12px"}}>
         FAQトピック 編集
-        </div>
-        <div className="col-8">
-        </div>
-        </div>
         </div>
         <table width="100%">
        <tr>
@@ -383,26 +378,26 @@ export const TopicEditor = (props: any) => {
        </tr>
        {(topicid === '0') ?
         (<tr>
-          <td align="right" className="text-primary">ID：</td>
+          <td align="right" style={{color: "#0d6efd"}}>ID：</td>
           <td><label>新規</label></td><td></td><td></td><td></td>
         </tr>):
         (<tr>
-          <td align="right" className="text-primary">ID：</td>
+          <td align="right" style={{color: "#0d6efd"}}>ID：</td>
           <td><label>{topicId}</label></td><td></td><td></td><td></td>
         </tr>)}
         <tr>
-        <td  align="right" className="text-primary"><label>タイトル： </label></td>  
+        <td  align="right" style={{color: "#0d6efd"}}><label>タイトル： </label></td>  
         <td ><input type="text" name="Title" size={100} value={title} onChange={onChangeTitle}/></td>  
         </tr>
         <tr>
-        <td  align="right" className="text-primary"><label>内容： </label></td>  
+        <td  align="right" style={{color: "#0d6efd"}}><label>内容： </label></td>  
         <td width="90%">
         <CKEditor
           name="faqeditor"
           config={{
             extraPlugins: 'codesnippet,colorbutton,font,justify',
             removeButtons: '',
-            codeSnippet_languages: {cos: 'ObjectScript',sql: 'SQL',python: 'Python',json: 'JSON',yaml: 'YAML',javascript: 'JavaScript',dockerfile: 'Dockerfile',html: 'HTML',css: 'CSS',java: 'Java',xml: 'XML',bash: 'Bash',makefile: 'Makefile',markdown: 'Markdown',shell: 'Shell Session'},
+            codeSnippet_languages: {cos: 'ObjectScript',sql: 'SQL',python: 'Python',json: 'JSON',yaml: 'YAML',javascript: 'JavaScript',dockerfile: 'Dockerfile',html: 'HTML',css: 'CSS',java: 'Java',xml: 'XML',bash: 'Bash',makefile: 'Makefile',markdown: 'Markdown',shell: 'Shell'},
             filebrowserUploadUrl : `${Protocol}://${ServerAddress}:${ServerPort}${ApplicationName}/ImageUpload`,
             filebrowserUploadMethod: 'form',
             versionCheck: false,
@@ -419,7 +414,7 @@ export const TopicEditor = (props: any) => {
         </td>
         </tr>
         <tr>
-          <td align="right" className="text-primary">プロダクト：</td>
+          <td align="right" style={{color: "#0d6efd"}}>プロダクト：</td>
           <td>
           <select size={5} name="ProductList" value={productId} onChange={onChangeProduct}>
           { productList.map((product: any) => (
@@ -429,7 +424,7 @@ export const TopicEditor = (props: any) => {
           </td>
         </tr>
         <tr>
-          <td align="right" className="text-primary">機能名：</td>
+          <td align="right" style={{color: "#0d6efd"}}>機能名：</td>
           <td >
           <select name="FacilityList" value={facilityId} onChange={onChangeFacility}>
           { facilityList.map((facility: any) => (
@@ -438,7 +433,7 @@ export const TopicEditor = (props: any) => {
           </select></td>
         </tr>
         <tr>
-          <td align="right" className="text-primary">プラットフォーム：</td>
+          <td align="right" style={{color: "#0d6efd"}}>プラットフォーム：</td>
           <td>
           <select name="PlatformList" value={platformId} onChange={onChangePlatform}>
           { platformList.map((platform: any) => (
@@ -447,7 +442,7 @@ export const TopicEditor = (props: any) => {
           </select></td>  
         </tr>
         <tr>
-          <td align="right" className="text-primary">バージョン：</td>
+          <td align="right" style={{color: "#0d6efd"}}>バージョン：</td>
           <td >
           <select name="StartVersion" value={startVersionId} onChange={onChangeStartVersion}>
           { startVersionList.map((startVersion: any) => (
@@ -462,70 +457,68 @@ export const TopicEditor = (props: any) => {
           </td>       
         </tr>
         <tr>
-          <td align="right" className="text-primary">関連トピック：</td>
+          <td align="right" style={{color: "#0d6efd"}}>関連トピック：</td>
           <td ><input type="text" name="RefTopic" value={refTopics} onChange={onChangeRefTopics}/></td>
         </tr>
         { (topicid !== 0 && topicid !== '0') &&
 		    <tr>
-          <td align="right" className="text-primary">添付ファイル：</td>
+          <td align="right" style={{color: "#0d6efd"}}>添付ファイル：</td>
           {fileName && 
           <td>
           <table>
           <tr>
           <td><label>{fileName}</label></td>
-          <td><button name="AttacheDel" className = "btn btn-outline-danger" disabled={!fileflag}  onClick={delAttachedFile} style={{height: "20"}}>削除<i className="bi bi-trash"></i></button></td>
+          <td><button name="AttacheDel" className="btn red waves-effect waves-light" disabled={!fileflag}  onClick={delAttachedFile} style={{height: "20"}}>削除<i className="material-icons">delete</i></button></td>
           </tr>
           </table>
           </td>}
         </tr>}
         { (topicid !== 0 && topicid !== '0') &&
         <tr>
-        <td align="right" className="text-primary">Upload：</td>
-        <td width="90%"><table><tr><td><input name="AttachedFile" type="file" onChange={onChangeFile}/></td>
-        <td><button name="Upload" className = "btn btn-outline-primary" disabled={!file} onClick={attachedFileUpload}>アップロード<i className="bi bi-upload"></i></button></td>
-        </tr></table></td>
+        <td align="right" style={{color: "#0d6efd"}}>Upload：</td>
+        <td width="90%"><div style={{display: "inline-flex", alignItems: "center", gap: "8px"}}><input name="AttachedFile" type="file" onChange={onChangeFile}/><button name="Upload" disabled={!file} onClick={attachedFileUpload} style={{backgroundColor: "#9e9e9e", color: "#ffffff", border: "none", borderRadius: "20px", padding: "6px 14px", cursor: "pointer", display: "inline-flex", alignItems: "center", gap: "4px", fontSize: "0.9rem", width: "fit-content", opacity: !file ? 0.5 : 1}}>アップロード<i className="material-icons" style={{fontSize: "18px"}}>file_upload</i></button></div></td>
         </tr>}
         <tr>
-          <td align="right" className="text-primary">ステータス：</td>
+          <td align="right" style={{color: "#0d6efd"}}>ステータス：</td>
           <td>
             <table width="100%" style={{padding:0}}>
             <tr>
-            <td width="25%" className="text-primary"><label><input type="checkbox" name="Completed" checked={complete} onChange={onChangeComplete}/>作成完了</label></td>
-            <td width="25%" className="text-primary"><label><input type="checkbox" name="DeleteFlg" checked={deleteFlg} onChange={onChangeDelete}/>削除可</label></td>
-            <td width="20%" className="text-primary"><label><input type="checkbox" name="Visible" checked={visible} onChange={onChangeVisible}/>公開[管理用]</label></td>
+            <td width="25%" style={{color: "#0d6efd"}}><label><input type="checkbox" name="Completed" checked={complete} onChange={onChangeComplete}/>作成完了</label></td>
+            <td width="25%" style={{color: "#0d6efd"}}><label><input type="checkbox" name="DeleteFlg" checked={deleteFlg} onChange={onChangeDelete}/>削除可</label></td>
+            <td width="20%" style={{color: "#0d6efd"}}><label><input type="checkbox" name="Visible" checked={visible} onChange={onChangeVisible}/>公開[管理用]</label></td>
 		      </tr>
           </table>
 		  </td>
 		</tr>
         <tr>
-          <td align="right" className="text-primary">DCURL：</td>
+          <td align="right" style={{color: "#0d6efd"}}>DCURL：</td>
           <td ><input type="text" name="DCURL" size={100} className="textbox" value={DCURL} onChange={onChangeDCURL}/></td>
         </tr>
         <tr>
-          <td align="right" className="text-primary">*社内用メモ*：</td>
+          <td align="right" style={{color: "#0d6efd"}}>*社内用メモ*：</td>
           <td ><textarea name="Note" cols={65} rows={3} id="nt" value={note} onChange={onChangeNote}></textarea></td>
         </tr>
       { (topicid !== 0 && topicid !== '0') &&
 	    <tr>
-         <td align="right" className="text-primary">*更新履歴*：</td>
+         <td align="right" style={{color: "#0d6efd"}}>*更新履歴*：</td>
          <td>  
         <div>  
-        <table className="table table2-bordered border-primary" width="100%">
+        <table className="striped bordered" width="100%">
         <tr>
-          <th className="text-primary">更新日付</th>
-  				<th className="text-primary">更新者</th>
-  				<th className="text-primary">更新内容</th>
+          <th style={{color: "#0d6efd"}}>更新日付</th>
+  				<th style={{color: "#0d6efd"}}>更新者</th>
+  				<th style={{color: "#0d6efd"}}>更新内容</th>
           </tr>
           { updateHistory.map((update: any) => (
           <tr>
-          <td className="border-secondary">{update.UpdateDate}</td>
-          <td className="border-secondary">{update.Updater}</td>
-          <td className="border-secondary">{update.Description}</td>
+          <td >{update.UpdateDate}</td>
+          <td >{update.Updater}</td>
+          <td >{update.Description}</td>
           </tr>  
           ))}  
           <tr>
-  				<td className="border-secondary">{newUpdateDate}</td>
-  				<td className="border-secondary">{newUpdater}</td>
+  				<td >{newUpdateDate}</td>
+  				<td >{newUpdater}</td>
   				<td><textarea name="UpdateDescription" rows={2} id="ud" value={updateDescription} onChange={onChangeUpdateDescription}></textarea></td>
 			  </tr>
         </table>
@@ -535,16 +528,14 @@ export const TopicEditor = (props: any) => {
         <tr>
           <td></td>
           <td colSpan={6} align="center">
-            <table>
-            <tr>  
-            <td><button className = "btn btn-outline-primary" onClick={() => onClickSave()}>保存<i className="bi bi-save"></i></button></td>
-            <td><button className = "btn btn-outline-primary" onClick={() => onClickCancel()}>キャンセル<i className="bi bi-x-circle"></i></button></td>
-            </tr>
-            </table>
+            <div style={{display: "inline-flex", gap: "8px"}}>
+              <button onClick={() => onClickSave()} style={{backgroundColor: "#9e9e9e", color: "#ffffff", border: "none", borderRadius: "20px", padding: "8px 16px", cursor: "pointer", display: "inline-flex", alignItems: "center", gap: "4px", fontSize: "0.9rem", width: "fit-content"}}>保存<i className="material-icons" style={{fontSize: "18px"}}>save</i></button>
+              <button onClick={() => onClickCancel()} style={{backgroundColor: "#9e9e9e", color: "#ffffff", border: "none", borderRadius: "20px", padding: "8px 16px", cursor: "pointer", display: "inline-flex", alignItems: "center", gap: "4px", fontSize: "0.9rem", width: "fit-content"}}>キャンセル<i className="material-icons" style={{fontSize: "18px"}}>cancel</i></button>
+            </div>
           </td>
         </tr>
         </table>
-    </>
+        </div>
     );
 
     }

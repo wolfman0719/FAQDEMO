@@ -1,44 +1,42 @@
 import React from 'react';
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useState} from "react";
+import { useNavigate } from "react-router-dom";
+import { TopicList } from './TopicList';
+
 
 export const Query = (props: any) => {
 
-  const {onClickFetchTopicList, onClickItem} = props;
-  const [inputtext, setInputText] = useState<any>("");
-  const [inputtext2, setInputText2] = useState<any>("");
+ const {username,password,edit} = props;
+ 
+ const navigate = useNavigate();
+
+ if (localStorage.getItem('inputtext') === undefined || localStorage.getItem('inputtext') === null) {
+   localStorage.setItem('inputtext','')
+ } 
+ const [inputtext, setInputText] = useState<any>(localStorage.getItem('inputtext'));
+
+ localStorage.removeItem('topicid');
     
-  const onChangeText = (e: ChangeEvent<HTMLInputElement>) => setInputText(e.target.value);
-  const onChangeText2 = (e: ChangeEvent<HTMLInputElement>) => setInputText2(e.target.value);
-    
-  const inputWrapperStyle: React.CSSProperties = {
-    position: "relative",
-    display: "flex",
-    alignItems: "center",
-  };
-  const iconStyle: React.CSSProperties = {
-    position: "absolute",
-    left: "8px",
-    color: "#888",
-    fontSize: "20px",
-    pointerEvents: "none",
-  };
-  const inputStyle: React.CSSProperties = {
-    paddingLeft: "32px",
-    width: "100%",
-    boxSizing: "border-box",
-  };
+ const onChangeText = (e: ChangeEvent<HTMLInputElement>) => {
+     localStorage.setItem('inputtext', e.target.value);
+     setInputText(e.target.value);
+  }
 
   return (
-    <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
-      <div style={{ ...inputWrapperStyle, flex: 2 }}>
-        <i className="material-icons" style={iconStyle}>search</i>
-        <input type="text" value={inputtext} onChange={onChangeText} onKeyDown={(e) => e.key === "Enter" && onClickFetchTopicList(inputtext)} placeholder="検索キーワード" style={inputStyle} />
+    <>
+    <div style={{display: "flex", alignItems: "center", gap: "8px"}}>
+      <div className="search-input-wrapper" style={{minWidth: "500px"}}>
+        <i className="material-icons">search</i>
+        <input type="text" value={inputtext} onChange={onChangeText} placeholder="キーワードで検索" />
       </div>
-      <div style={{ ...inputWrapperStyle, flex: 1 }}>
-        <i className="material-icons" style={iconStyle}>search</i>
-        <input type="text" value={inputtext2} onChange={onChangeText2} onKeyDown={(e) => e.key === "Enter" && onClickItem(inputtext2)} placeholder="検索ID" style={inputStyle} />
-      </div>
+      {edit && (
+        <button onClick={() => {navigate('/Edit/' + 0)}} style={{backgroundColor: "#9e9e9e", color: "#ffffff", border: "none", borderRadius: "20px", padding: "8px 16px", cursor: "pointer", display: "inline-flex", alignItems: "center", gap: "4px", fontSize: "0.9rem", width: "fit-content", flexShrink: 0}}>
+          新規トピック<i className="material-icons" style={{fontSize: "18px"}}>description</i>
+        </button>
+      )}
     </div>
+	  <TopicList keyword  = {inputtext} username = {username} password = {password} edit = {edit}/>
+    </>	
   );	
 }
 export default Query;

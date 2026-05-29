@@ -13,47 +13,51 @@ export const Home = () => {
   const location = useLocation();
   // eslint-disable-next-line
   const editflag = (location.state.edit as unknown) == 1 ? true : false;
-  
-  const vectorSearch = configinfo.VectorSearch;
-  
-  localStorage.setItem('username',location.state.username);
-  localStorage.setItem('password',location.state.password);
-  localStorage.setItem('edit',location.state.edit);
 
-  
+  const vectorSearch = configinfo.VectorSearch;
+
+  localStorage.setItem('username', location.state.username);
+  localStorage.setItem('password', location.state.password);
+  localStorage.setItem('edit', location.state.edit);
+
   return (
     <>
     <Tabs>
     <TabList>
     <Tab>キーワード検索</Tab>
     <Tab>ID検索</Tab>
-    {vectorSearch &&<Tab>ベクトル検索</Tab>}
+    {vectorSearch && <Tab>ベクトル検索</Tab>}
     </TabList>
+
     <TabPanel>
-    <div className="title">
-	  <Header />
-	  </div>
-    <div className="query">
-	  <Query username = {location.state.username} password = {location.state.password} edit = {editflag} />
-	  </div>      
+      <div className="faq-card" style={{margin: "8px"}}>
+        <Header />
+      </div>
+      <div className="faq-card" style={{margin: "8px"}}>
+        <Query username={location.state.username} password={location.state.password} edit={editflag} />
+      </div>
     </TabPanel>
+
     <TabPanel>
-    <div className="title">
-	  <Header />
-	  </div>
-    <div className="querybyid">
-	  <QueryById />
-	  </div>
+      <div className="faq-card" style={{margin: "8px"}}>
+        <Header />
+      </div>
+      <div className="faq-card" style={{margin: "8px"}}>
+        <QueryById />
+      </div>
     </TabPanel>
+
     {vectorSearch && <TabPanel>
-    <div className="title">
-	  <Header />
-	  </div><div className="vectorsearchquery">
-	  <VectorSearchQuery username = {location.state.username} password = {location.state.password} edit = {editflag} />
-	  </div>
+      <div className="faq-card" style={{margin: "8px"}}>
+        <Header />
+      </div>
+      <div className="faq-card" style={{margin: "8px"}}>
+        <VectorSearchQuery username={location.state.username} password={location.state.password} edit={editflag} />
+      </div>
     </TabPanel>}
+
     </Tabs>
-    </>	
-  );	
+    </>
+  );
 }
 export default Home;

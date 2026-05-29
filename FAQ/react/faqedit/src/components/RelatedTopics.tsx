@@ -5,21 +5,21 @@ export const RelatedTopics = (props: any) => {
   const {onClickItem, reftopics} = props;
   const comma: string = ",";
 
-
+      
   return (
     <>
-    <p className="blue-text text-darken-2">関連トピック</p>
-    <table style={{ width: "100%" }}><tbody>
-
-	  {
+    <p style={{color: "#0d6efd", margin: "0 0 6px"}}>関連トピック</p>
+    <table style = {{width: "100%"}}><tbody>
+	
+	  {	  
         reftopics.map((reftopic: any, index: number) => (
-		  <tr key={index} style={{ backgroundColor: index % 2 === 0 ? "#f5f5f5" : "#ffffff" }}>
-		  <td><button style={{ width: "100%", textAlign: "left", color: "#000000" }} className="btn-flat waves-effect" onClick={() => onClickItem(reftopic.split(comma)[0])}>{`${reftopic.split(comma)[0]}:${reftopic.split(comma)[1]}`}</button></td>
-		  </tr>
-    	)
+        <tr key={index}>
+        <button style={{width: "100%", textAlign: "left"}} className="btn-flat waves-effect black-text" onClick={() => onClickItem(reftopic.split(comma)[0])}>{`${reftopic.split(comma)[0]}:${reftopic.split(comma)[1]}`}</button>
+        </tr>
+        )        
     )}
 	</tbody></table>
-    </>
-  );
+    </>	
+  );	
 }
 export default RelatedTopics;
