@@ -6,7 +6,7 @@ const {fileflag, response} = props;
     
   return (
     <>
-    {fileflag && <a className="btn btn-secondary" href = {response.DownloadFile}>添付ファイル<i className="bi bi-download fs-4"></i></a>}
+    {fileflag && <a className="btn grey lighten-1 white-text waves-effect waves-light" style={{ borderRadius: "24px" }} href={response.DownloadFile}>添付ファイル<i className="material-icons right">get_app</i></a>}
     </>	
   );	
 }
