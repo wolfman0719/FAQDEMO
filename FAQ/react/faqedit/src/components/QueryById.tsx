@@ -30,7 +30,7 @@ export const QueryById = (props: any) => {
 	  <td>
         <div className="search-input-wrapper">
           <i className="material-icons">search</i>
-          <input type="text" value={inputtext} onChange={onChangeText} onKeyDown={onKeyDown} placeholder="トピックIDで検索" />
+          <input type="text" value={inputtext} onChange={onChangeText} onKeyDown={onKeyDown} placeholder="トピックIDで検索" style={{minWidth: 0, width: "10ch"}} />
         </div>
       </td>
     </tr>

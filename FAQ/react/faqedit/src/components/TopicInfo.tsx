@@ -92,7 +92,7 @@ const onClickItem2 = (topicid: any) => {
     {isError && <p className="red-text" style={{padding: "8px"}}><span dangerouslySetInnerHTML={{__html: errortext}}></span></p>}
     {(direct === false) && (
       <div style={{padding: "8px 8px 4px"}}>
-        <button onClick={() => navigate('/Home', {state: {username: Username, password: Password, edit: editflag}})} style={{backgroundColor: "#757575", color: "#ffffff", border: "none", borderRadius: "20px", cursor: "pointer", display: "inline-flex", alignItems: "center", gap: "4px", fontSize: "0.9rem", width: "fit-content", padding: "6px 14px"}}>
+        <button className="back-btn" onClick={() => navigate('/Home', {state: {username: Username, password: Password, edit: editflag}})}>
           <i className="material-icons" style={{fontSize: "18px"}}>arrow_back</i>検索に戻る
         </button>
       </div>
@@ -102,7 +102,7 @@ const onClickItem2 = (topicid: any) => {
     <div style={{padding: "0 8px 8px", display: "flex", flexDirection: "column", gap: "8px"}}>
       <div className="faq-card" style={{display: "flex", alignItems: "center", justifyContent: "space-between"}}>
         <div style={{display: "flex", alignItems: "center", gap: "8px"}}>
-          <img src="../images/Question.gif" alt=''/>
+          <img src="../images/Question.gif" alt='' style={{height: "24px", width: "auto"}}/>
           <span style={{fontSize: "1.2rem", fontWeight: "bold", color: "#0d6efd"}}>{response.Title}</span>
         </div>
         <span className="light-blue-text">{response.VersionRange}</span>
@@ -123,7 +123,7 @@ const onClickItem2 = (topicid: any) => {
       )}
       {Edit && (
         <div className="faq-card">
-          <button onClick={() => navigate('/Edit/' + topicid)} style={{backgroundColor: "#9e9e9e", color: "#ffffff", border: "none", borderRadius: "20px", padding: "8px 16px", cursor: "pointer", display: "inline-flex", alignItems: "center", gap: "4px", fontSize: "0.9rem", width: "fit-content"}}>
+          <button className="gray-action-btn" onClick={() => navigate('/Edit/' + topicid)}>
             編集<i className="material-icons" style={{fontSize: "18px"}}>edit</i>
           </button>
         </div>

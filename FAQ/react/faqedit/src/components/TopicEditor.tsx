@@ -468,7 +468,7 @@ export const TopicEditor = (props: any) => {
           <table>
           <tr>
           <td><label>{fileName}</label></td>
-          <td><button name="AttacheDel" className="btn red waves-effect waves-light" disabled={!fileflag}  onClick={delAttachedFile} style={{height: "20"}}>削除<i className="material-icons">delete</i></button></td>
+          <td><button name="AttacheDel" className="delete-btn" disabled={!fileflag} onClick={delAttachedFile}>削除<i className="material-icons" style={{fontSize: "18px"}}>delete</i></button></td>
           </tr>
           </table>
           </td>}
@@ -476,7 +476,7 @@ export const TopicEditor = (props: any) => {
         { (topicid !== 0 && topicid !== '0') &&
         <tr>
         <td align="right" style={{color: "#0d6efd"}}>Upload：</td>
-        <td width="90%"><div style={{display: "inline-flex", alignItems: "center", gap: "8px"}}><input name="AttachedFile" type="file" onChange={onChangeFile}/><button name="Upload" disabled={!file} onClick={attachedFileUpload} style={{backgroundColor: "#9e9e9e", color: "#ffffff", border: "none", borderRadius: "20px", padding: "6px 14px", cursor: "pointer", display: "inline-flex", alignItems: "center", gap: "4px", fontSize: "0.9rem", width: "fit-content", opacity: !file ? 0.5 : 1}}>アップロード<i className="material-icons" style={{fontSize: "18px"}}>file_upload</i></button></div></td>
+        <td width="90%"><div style={{display: "inline-flex", alignItems: "center", gap: "8px"}}><input name="AttachedFile" type="file" onChange={onChangeFile}/><button name="Upload" className="gray-action-btn" disabled={!file} onClick={attachedFileUpload} style={{opacity: !file ? 0.5 : 1, cursor: !file ? "default" : "pointer"}}>アップロード<i className="material-icons" style={{fontSize: "18px"}}>file_upload</i></button></div></td>
         </tr>}
         <tr>
           <td align="right" style={{color: "#0d6efd"}}>ステータス：</td>
@@ -529,8 +529,8 @@ export const TopicEditor = (props: any) => {
           <td></td>
           <td colSpan={6} align="center">
             <div style={{display: "inline-flex", gap: "8px"}}>
-              <button onClick={() => onClickSave()} style={{backgroundColor: "#9e9e9e", color: "#ffffff", border: "none", borderRadius: "20px", padding: "8px 16px", cursor: "pointer", display: "inline-flex", alignItems: "center", gap: "4px", fontSize: "0.9rem", width: "fit-content"}}>保存<i className="material-icons" style={{fontSize: "18px"}}>save</i></button>
-              <button onClick={() => onClickCancel()} style={{backgroundColor: "#9e9e9e", color: "#ffffff", border: "none", borderRadius: "20px", padding: "8px 16px", cursor: "pointer", display: "inline-flex", alignItems: "center", gap: "4px", fontSize: "0.9rem", width: "fit-content"}}>キャンセル<i className="material-icons" style={{fontSize: "18px"}}>cancel</i></button>
+              <button className="gray-action-btn" onClick={() => onClickSave()}>保存<i className="material-icons" style={{fontSize: "18px"}}>save</i></button>
+              <button className="gray-action-btn" onClick={() => onClickCancel()}>キャンセル<i className="material-icons" style={{fontSize: "18px"}}>cancel</i></button>
             </div>
           </td>
         </tr>

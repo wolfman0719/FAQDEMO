@@ -25,12 +25,12 @@ export const Query = (props: any) => {
   return (
     <>
     <div style={{display: "flex", alignItems: "center", gap: "8px"}}>
-      <div className="search-input-wrapper" style={{minWidth: "500px"}}>
+      <div className="search-input-wrapper" style={{width: "50vw"}}>
         <i className="material-icons">search</i>
         <input type="text" value={inputtext} onChange={onChangeText} placeholder="キーワードで検索" />
       </div>
       {edit && (
-        <button onClick={() => {navigate('/Edit/' + 0)}} style={{backgroundColor: "#9e9e9e", color: "#ffffff", border: "none", borderRadius: "20px", padding: "8px 16px", cursor: "pointer", display: "inline-flex", alignItems: "center", gap: "4px", fontSize: "0.9rem", width: "fit-content", flexShrink: 0}}>
+        <button className="new-topic-btn" onClick={() => {navigate('/Edit/' + 0)}}>
           新規トピック<i className="material-icons" style={{fontSize: "18px"}}>description</i>
         </button>
       )}
