@@ -16,8 +16,6 @@
 
 ## materializeインストール
 
-```% cd faqedit```
-
 ```% npm i -S materialize-css```
 
 ## materialize typesインストール
