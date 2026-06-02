@@ -16,8 +16,6 @@
 
 ## materializeインストール
 
-```% cd faqpc```
-
 ```% npm i -S materialize-css```
 
 ## materialize typesインストール
