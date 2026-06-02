@@ -37,17 +37,12 @@ export const Home = (props: any) => {
 	  .get<any>(`${Protocol}://${ServerAddress}:${ServerPort}${ApplicationName}/TopicGetById/${topicid}?IRISUsername=${Username}&IRISPassword=${Password}`)
 	  .then((result: any) => {
 	    setResponse(result.data);
-		if (response.FileFlg) {
-			setFileFlag(true);
-		}
-		else {
-			setFileFlag(false);
-		}
+		setFileFlag(!!result.data.FileFlg);
 		setRefTopics(result.data.RefArray);
 	  })
       .catch((error: any) => {
 	     setIsError(true)
-		 setErrorText(error.message + error.toJSON());
+		 setErrorText(error.message);
 	  })
       .finally(() => setIsLoading(false))
   };
@@ -63,12 +58,7 @@ export const Home = (props: any) => {
 	  .get<any>(`${Protocol}://${ServerAddress}:${ServerPort}${ApplicationName}/TopicGetById/${topicid}?IRISUsername=${Username}&IRISPassword=${Password}`)
 	  .then((result: any) => {
 	    setResponse(result.data);
-		if (response.FileFlg) {
-			setFileFlag(true);
-		}
-		else {
-			setFileFlag(false);
-		}
+		setFileFlag(!!result.data.FileFlg);
 		setRefTopics(result.data.RefArray);
 	  })
       .catch((error: any) => {
@@ -77,39 +67,46 @@ export const Home = (props: any) => {
 		   setErrorText(error.response.data.summary);
 		 }
 		 else if (error.request) {
-		   setErrorText(error.toJSON());
+		   setErrorText(error.request);
 		 } 
 		 else {
-		   setErrorText(error.message + error.toJSON());
+		   setErrorText(error.message);
 		 }
 	  })
       .finally(() => setIsLoading(false))
-      // eslint-disable-next-line react-hooks/exhaustive-deps
+      // eslint-disable-next-line react-hooks/exhaustive-deps     
       }, []);
   
+  const cardStyle: React.CSSProperties = {
+    backgroundColor: "#ffffff",
+    borderRadius: "12px",
+    border: "solid #000000 1px",
+    overflow: "auto",
+    marginBottom: "8px",
+    width: "100%",
+  };
+
   return (
-    <>
-    <div className="title">
+    <div style={{ padding: "16px" }}>
+    <div className="title" style={{ ...cardStyle, padding: "12px" }}>
 	<Header />
 	</div>
-	{isError && <p style={{ color: "red" }}>エラーが発生しました　{`${errortext}`}</p>}
+	{isError && <p style={{ color: "red" }} dangerouslySetInnerHTML={{ __html: `エラーが発生しました　${errortext}` }} />}
 	{isLoading && <p>Loading...</p>}
-	<div id="topiccontent" style = {{ width: "100%",height: `${height*0.05}px`,overflow: "auto",border: "solid #000000 1px"}}><span  className="fs-5 text-primary" style = {{ marginLeft: "20px", marginRight: "20px"}}><img src="./images/Question.gif" alt="Question"/> {response.Title}</span><p className="text-info fs-4" style = {{ float: "right", marginRight: "20px"}}>{response.VersionRange}</p></div>
-	<div id="topiccontent" style = {{ width: "100%",height: `${height*0.45}px`,overflow: "auto",border: "solid #000000 1px"}}>
+	<div id="topiccontent" style={{ ...cardStyle, height: `${height*0.05}px` }}><span  className="blue-text" style={{ marginLeft: "20px", marginRight: "20px", fontSize: "1.65rem" }}><img src="../images/Question.gif" alt="Question"/> {response.Title}</span><p className="cyan-text" style={{ float: "right", marginRight: "20px", fontSize: "1.3rem" }}>{response.VersionRange}</p></div>
+	<div id="topiccontent" style={{ ...cardStyle, height: `${height*0.45}px` }}>
     <TopicContent response = {response} />
     </div>
-    <div id="topiccontent" style = {{ width: "100%",height: `${height*0.05}px`,overflow: "auto",border: "solid #000000 1px"}}>
-    <div><p className="text-primary">該当する製品: <span className="text-black">{response.ProductText}</span></p></div>
+    <div id="topiccontent" style={{ ...cardStyle, height: `${height*0.05}px` }}>
+    <div><p className="blue-text">該当する製品: <span className="black-text">{response.ProductText}</span></p></div>
     </div>
-    <div id="relatedtopics" style = {{ width: "100%",height: `${height*0.2}px`,overflow: "auto",border: "solid #000000 1px"}}>
+    <div id="relatedtopics" style={{ ...cardStyle, height: `${height*0.2}px` }}>
     <RelatedTopics reftopics = {reftopics} onClickItem = {onClickItem2} />
     </div>
-    <div id="downloadfile" style = {{ width: "100%",height: `${height*0.06}px`,overflow: "auto",border: "solid #000000 1px"}}>
+    <div id="downloadfile" style={{ ...cardStyle, height: `${height*0.06}px` }}>
 	<DownloadFile fileflag = {fileflag} response = {response} />
-    </div>	
-    </>	
+    </div>
+    </div>
   );	
 }
 export default Home;
-
-
