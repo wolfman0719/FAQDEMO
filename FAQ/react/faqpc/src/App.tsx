@@ -18,6 +18,7 @@ export const App = () => {
   const [response, setResponse] = useState<any>("");
   const [reftopics, setRefTopics] = useState<any>([]);
   const [errortext, setErrorText] = useState<any>("");
+  const [backBtnHovered, setBackBtnHovered] = useState(false);
   const [fileflag, setFileFlag] = useState(false);
   const [prevtopicid, setPrevTopicId] = useState(0);
   const [prevtopicflag, setPrevTopicFlag] = useState(false);
@@ -165,7 +166,7 @@ export const App = () => {
     </div>
     <div className="query" style={{ ...cardStyle, padding: "12px 16px", marginBottom: "8px" }}>
       <Query onClickItem = {onClickItem} onClickFetchTopicList = {onClickFetchTopicList} />
-      {prevtopicflag  ? (<button className="btn grey lighten-1 white-text waves-effect waves-light" style={{ borderRadius: "24px" }} onClick={() => onClickItem(prevtopicid)}><i className="material-icons left">arrow_back</i>前のトピックに戻る</button>):
+      {prevtopicflag  ? (<button className="btn white-text waves-effect waves-light" style={{ borderRadius: "24px", backgroundColor: backBtnHovered ? "#757575" : "#bdbdbd" }} onClick={() => onClickItem(prevtopicid)} onMouseEnter={() => setBackBtnHovered(true)} onMouseLeave={() => setBackBtnHovered(false)}><i className="material-icons left">arrow_back</i>前のトピックに戻る</button>):
       (<button  className="btn grey lighten-1 white-text waves-effect waves-light disabled" style={{ borderRadius: "24px" }} onClick={() => onClickItem(prevtopicid)} disabled><i className="material-icons left">arrow_back</i>前のトピックに戻る</button>)}
       {isError && <p style={{ color: "red" }}>エラーが発生しました　{`${errortext}`}</p>}
     </div>
@@ -181,7 +182,7 @@ export const App = () => {
         <TopicContent response = {response} />
       </div>
       <div id="topiccontent" style={{ ...cardStyle, flex: 5, overflow: "auto" }}>
-        <p className="blue-text text-darken-2" style={{ margin: "4px 16px" }}>該当する製品: <span className="black-text">{response.ProductText}</span></p>
+        <p className="blue-text text-darken-2" style={{ margin: "4px 0" }}>該当する製品: <span className="black-text">{response.ProductText}</span></p>
       </div>
       <div id="relatedtopics" style={{ ...cardStyle, flex: 20, overflow: "auto" }}>
         <RelatedTopics reftopics = {reftopics} onClickItem = {onClickItem2} />
