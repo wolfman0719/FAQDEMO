@@ -4,6 +4,16 @@
 
 ```% npx create-react-app faqpc --template typescript```
 
+## bootstrapインストール
+
+```% cd faqpc```
+
+```% npm install react-bootstrap bootstrap```
+
+## bootstrap iconインストール
+
+```% npm install bootstrap bootstrap-icons```
+
 ## materializeインストール
 
 ```% cd faqpc```
