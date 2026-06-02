@@ -14,6 +14,14 @@
 
 ```% npm install bootstrap bootstrap-icons```
 
+## materializeインストール
+
+```% npm i -S materialize-css```
+
+## materialize typesインストール
+
+```% npm i -D @types/materialize-css```
+
 ## react-router-domインストール
 
 ```% npm install react-router-dom```
