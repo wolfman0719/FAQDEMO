@@ -45,7 +45,8 @@ const [width] = useWindowSize();
 	  })
       .catch((error: any) => {
         setIsError(true)
-		setErrorText(error.toJSON());
+        console.log('error = ' + error);
+		setErrorText(error.response.data.summary);
 	  })
 	  // eslint-disable-next-line react-hooks/exhaustive-deps
       .finally(() => setIsLoading(false));}, [keyword]);   
@@ -56,14 +57,13 @@ const [width] = useWindowSize();
 	  {isError && <p style={{ color: "red" }}>エラーが発生しました　{`${errortext}`}</p>}
 	  {isLoading ? (<p>Data Loading</p>)
 		 : (
-		 topicList.map((topic: any) => (
+		 topicList.map((topic: any, index: number) => (
 		 
-		 <tr style = {{width: "100%"}}><Link to={topic.linkto}><button className = "btn btn-outline-primary" style = {{textAlign: "left"}}><td><div style = {{whiteSpace: "nowrap",overflow: "hidden", width: width-40,textOverflow: "ellipsis"}}>{`${topic.title}`}</div></td><td><i className="bi bi-chevron-right float-end"></i></td></button></Link></tr>
+		 <tr key={topic.id} style={{width: "100%", backgroundColor: index % 2 === 0 ? "#ffffff" : "#f5f5f5"}}><td style={{padding: "0"}}><Link to={topic.linkto} style={{textDecoration: "none"}}><div className="topic-list-item" style={{display: "flex", alignItems: "center", justifyContent: "space-between", padding: "10px 14px", cursor: "pointer"}}><div style={{whiteSpace: "nowrap", overflow: "hidden", width: width-80, textOverflow: "ellipsis", color: "#000000"}}>{`${topic.title}`}</div><i className="bi bi-chevron-right" style={{color: "#888"}}></i></div></Link></td></tr>
 		 )))
 	  }
 	</tbody></table>
     </>	
   );	
 }
-
 export default TopicList;

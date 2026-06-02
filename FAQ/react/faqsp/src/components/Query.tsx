@@ -14,10 +14,12 @@ export const Query = () => {
 
   return (
     <>
-	  <label className="p-2">検索キーワード: </label>
-	  <input type="text" value = {inputtext} onChange={onChangeText} />
-	  <TopicList keyword  = {inputtext} />
-    </>	
+      <div className="search-input-wrapper" style={{width: "50%"}}>
+        <i className="bi bi-search"></i>
+        <input type="text" placeholder="検索キーワード" value={inputtext} onChange={onChangeText} />
+      </div>
+      <TopicList keyword={inputtext} />
+    </>
   );	
 }
 export default Query;

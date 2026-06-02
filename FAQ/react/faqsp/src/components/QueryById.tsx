@@ -1,5 +1,5 @@
 import React from 'react';
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, KeyboardEvent, useState } from "react";
 import { useNavigate} from 'react-router-dom'
 
 
@@ -7,24 +7,20 @@ export const QueryById = () => {
 
  const [inputtext, setInputText] = useState<any>("");
  const navigate = useNavigate();
-    
+
  const onChangeText = (e: ChangeEvent<HTMLInputElement>) => setInputText(e.target.value);
- 
- const onClickItem = (topicid: any) => {
-   navigate("/Content/" + topicid);
+
+ const onKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+   if (e.key === 'Enter') navigate("/Content/" + inputtext);
  };
- 
+
   return (
     <>
-     <table>
-     <tr>
-	  <td><label className="p-1">ID:</label></td>
-	  <td><input type="text" value = {inputtext} onChange={onChangeText} /></td>
-	  <td><button className="btn btn-secondary" onClick={() => onClickItem(inputtext)}>検索</button></td>
-	  </tr>
-	  </table>
-
-    </>	
-  );	
+      <div className="search-input-wrapper" style={{width: "fit-content"}}>
+        <i className="bi bi-search"></i>
+        <input type="text" placeholder="検索ID" value={inputtext} onChange={onChangeText} onKeyDown={onKeyDown} style={{width: "10ch"}} />
+      </div>
+    </>
+  );
 }
 export default QueryById;

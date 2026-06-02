@@ -49,10 +49,10 @@ const onClickItem2 = (topicid: any) => {
 		   setErrorText(error.response.data.summary);
 		 }
 		 else if (error.request) {
-		   setErrorText(error.toJSON());
+		   setErrorText(error.request);
 		 } 
 		 else {
-		   setErrorText(error.message + error.toJSON());
+		   setErrorText(error.message);
 		 }
 
 	  })
@@ -82,10 +82,10 @@ const onClickItem2 = (topicid: any) => {
 		   setErrorText(error.response.data.summary);
 		 }
 		 else if (error.request) {
-		   setErrorText(error.toJSON());
+		   setErrorText(error.request);
 		 } 
 		 else {
-		   setErrorText(error.message + error.toJSON());
+		   setErrorText(error.message);
 		 }
 	  })
 	  // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -94,25 +94,30 @@ const onClickItem2 = (topicid: any) => {
 	  const [,height] = useWindowSize();
         
   return (
-    <>
-    <button className = "btn btn-light" onClick={() => {navigate(-1)}}><i className="bi bi-caret-left-fill"></i></button>
-    {isError && <p style={{ color: "red" }}>エラーが発生しました　{`${errortext}`}</p>}
-    {isLoading && <p>Laoding...</p>}
-    <div style = {{ width: "100%",height: "15%",overflow: "auto",border: "solid #000000 1px"}}><img src="./images/Question.gif" alt="Question" /><span className="text-primary fs-4" style = {{ marginLeft: "20px", marginRight: "20px"}}>{response.Title}</span><p className="text-info fs-4" style = {{ float: "right", marginRight: "20px"}}>{response.VersionRange}</p></div>
-    <div id="topiccontent" style = {{ width: "100%",height: `${height*0.60}px`,overflow: "auto",border: "solid #000000 1px"}}>
-    <TopicContent response = {response} />
+    <div style={{padding: "8px", display: "flex", flexDirection: "column", gap: "8px"}}>
+      <button className="faq-btn" onClick={() => {navigate(-1)}} style={{alignSelf: "flex-start"}}>
+        <i className="bi bi-caret-left-fill" style={{color: "#ffffff"}}></i>検索に戻る
+      </button>
+      {isError && <p style={{ color: "red" }}>エラーが発生しました　{`${errortext}`}</p>}
+      {isLoading && <p>Laoding...</p>}
+      <div style={{background: "#ffffff", borderRadius: "12px", padding: "12px", marginBottom: "8px", display: "flex", alignItems: "center", gap: "12px", overflow: "hidden"}}>
+        <img src="../images/Question.gif" alt="Question" style={{width: "32px", height: "32px", flexShrink: 0}} />
+        <span style={{fontSize: "1.5rem", color: "#1565c0", flex: 1, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>{response.Title}</span>
+        <span style={{fontSize: "1.5rem", color: "#00897b", flexShrink: 0, whiteSpace: "nowrap"}}>{response.VersionRange}</span>
+      </div>
+      <div className="faq-card" style={{height: `${height*0.55}px`, overflow: "auto"}}>
+        <TopicContent response={response} />
+      </div>
+      <div className="faq-card" style={{overflow: "auto"}}>
+        <p style={{margin: 0, color: "var(--faq-primary-color)"}}>該当する製品: <span style={{color: "#000000"}}>{response.ProductText}</span></p>
+      </div>
+      <div className="faq-card" style={{overflow: "auto"}}>
+        <RelatedTopics reftopics={reftopics} onClickItem={onClickItem2} />
+      </div>
+      {fileflag && <div className="faq-card" style={{overflow: "auto"}}>
+        <DownloadFile fileflag={fileflag} response={response} />
+      </div>}
     </div>
-    <div id="topiccontent" style = {{ width: "1000%",height: `${height*0.05}px`,overflow: "auto",border: "solid #000000 1px"}}>
-    <div><p className="text-primary">該当する製品: <span className="text-black">{response.ProductText}</span></p></div>
-    </div>
-    <div id="relatedtopics" style = {{ width: "100%",height: `${height*0.2}px`,overflow: "auto",border: "solid #000000 1px"}}>
-    <RelatedTopics reftopics = {reftopics} onClickItem = {onClickItem2} />
-    </div>
-    <div id="downloadfile" style = {{ width: "100%",height: `${height*0.06}px`,overflow: "auto",border: "solid #000000 1px"}}>
-	<DownloadFile fileflag = {fileflag} response = {response} />
-    </div>	
-    </>	
   );	
 }
 export default TopicInfo;
-

@@ -8,30 +8,26 @@ import 'react-tabs/style/react-tabs.css';
 export const Home = () => {
 
   return (
-    <>
+    <div style={{padding: "8px"}}>
     <Tabs>
       <TabList>
         <Tab>キーワード検索</Tab>
         <Tab>ID検索</Tab>
       </TabList>
       <TabPanel>
-      <div className="title">
-	  <Header />
-	  </div>
-      <div className="query">
-	  <Query />
-	  </div>      
+      <div className="faq-card">
+        <Header />
+      </div>
+      <Query />
       </TabPanel>
       <TabPanel>
-      <div className="title">
-	  <Header />
-	  </div>
-      <div className="querybyid">
-	  <QueryById />
-	  </div>
+      <div className="faq-card">
+        <Header />
+      </div>
+      <QueryById />
       </TabPanel>
     </Tabs>
-    </>	
+    </div>
   );	
 }
 export default Home;
