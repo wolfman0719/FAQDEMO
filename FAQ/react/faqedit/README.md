@@ -6,7 +6,7 @@
 
 ## bootstrapインストール
 
-```% cd faqmobile```
+```% cd faqedit```
 
 ```% npm install react-bootstrap bootstrap```
 
@@ -15,8 +15,6 @@
 ```% npm install bootstrap bootstrap-icons```
 
 ## materializeインストール
-
-```% cd faqedit```
 
 ```% npm i -S materialize-css```
 
