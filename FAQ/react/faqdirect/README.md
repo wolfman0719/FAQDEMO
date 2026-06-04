@@ -154,9 +154,50 @@ https://mihono-bourbon.com/iis-cors/
 
 ### http.conf
 
+rewrite_moduleのロード
+
+```
+### コメントを外す
+LoadModule rewrite_module lib/httpd/modules/mod_rewrite.so
+```
+
+AllowOverride Allの設定（ルート）
+
 ```
 <Directory />
   AllowOverride All
+</Directory>
+```
+
+AllowOverride Allの設定（ドキュメントルート）
+
+```
+<Directory "/opt/homebrew/var/www">
+    #
+    # Possible values for the Options directive are "None", "All",
+    # or any combination of:
+    #   Indexes Includes FollowSymLinks SymLinksifOwnerMatch ExecCGI MultiViews
+    #
+    # Note that "MultiViews" must be named *explicitly* --- "Options All"
+    # doesn't give it to you.
+    #
+    # The Options directive is both complicated and important.  Please see
+    # http://httpd.apache.org/docs/2.4/mod/core.html#options
+    # for more information.
+    #
+    Options Indexes FollowSymLinks
+
+    #
+    # AllowOverride controls what directives may be placed in .htaccess files.
+    # It can be "All", "None", or any combination of the keywords:
+    #   AllowOverride FileInfo AuthConfig Limit
+    #
+    AllowOverride All
+
+    #
+    # Controls who can get stuff from this server.
+    #
+    Require all granted
 </Directory>
 ```
 
@@ -166,9 +207,15 @@ https://mihono-bourbon.com/iis-cors/
 
 ```
 RewriteEngine On
+RewriteBase /faqdirect/
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-l
 RewriteRule ^ index.html [QSA,L]
 ```
 
+### packege.jsonの設定
+
+以下の内容を追加
+
+"homepage": "/faqdirect"
