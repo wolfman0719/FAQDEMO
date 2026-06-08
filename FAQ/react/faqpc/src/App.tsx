@@ -175,7 +175,7 @@ export const App = () => {
     </div>
     <div style={{ width: "calc(60% - 4px)", height: `${height*0.81}px`, display: "flex", flexDirection: "column", gap: "8px" }}>
       <div id="topiccontent" style={{ ...cardStyle, flex: 5, overflow: "auto" }}>
-        <span className="blue-text text-darken-2" style={{ marginLeft: "20px", marginRight: "20px", fontSize: "1.25rem" }}><img src="./images/Question.gif" alt="Question"/> {response.Title}</span>
+        <span className="blue-text text-darken-2" style={{ marginLeft: "20px", marginRight: "20px", fontSize: "2.0rem" }}><img src="./images/Question.gif" alt="Question"/> {response.Title}</span>
         <p className="teal-text" style={{ float: "right", marginRight: "20px", fontSize: "1.5rem" }}>{response.VersionRange}</p>
       </div>
       <div id="topiccontent" style={{ ...cardStyle, flex: 45, overflow: "auto" }}>
