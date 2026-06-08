@@ -168,8 +168,8 @@ export const App = () => {
       <Query onClickItem = {onClickItem} onClickFetchTopicList = {onClickFetchTopicList} />
       {prevtopicflag  ? (<button className="btn white-text waves-effect waves-light" style={{ borderRadius: "24px", backgroundColor: backBtnHovered ? "#757575" : "#bdbdbd" }} onClick={() => onClickItem(prevtopicid)} onMouseEnter={() => setBackBtnHovered(true)} onMouseLeave={() => setBackBtnHovered(false)}><i className="material-icons left">arrow_back</i>前のトピックに戻る</button>):
       (<button  className="btn grey lighten-1 white-text waves-effect waves-light disabled" style={{ borderRadius: "24px" }} onClick={() => onClickItem(prevtopicid)} disabled><i className="material-icons left">arrow_back</i>前のトピックに戻る</button>)}
-      {isError && <p style={{ color: "red" }}>エラーが発生しました　{`${errortext}`}</p>}
-    </div>
+      {isError && <p style={{ color: "red" }} dangerouslySetInnerHTML={{ __html: `エラーが発生しました　${errortext}` }} />}
+	</div>
     <div className="topiclist" style={{ ...cardStyle, float: "left", width: "calc(40% - 4px)", height: `${height*0.81}px`, overflow: "auto", marginRight: "8px" }}>
       {TopicListMemo}
     </div>
