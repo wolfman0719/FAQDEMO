@@ -98,7 +98,7 @@ const onClickItem2 = (topicid: any) => {
       <button className="faq-btn" onClick={() => {navigate(-1)}} style={{alignSelf: "flex-start"}}>
         <i className="bi bi-caret-left-fill" style={{color: "#ffffff"}}></i>検索に戻る
       </button>
-      {isError && <p style={{ color: "red" }}>エラーが発生しました　{`${errortext}`}</p>}
+      {isError && <p style={{ color: "red" }} dangerouslySetInnerHTML={{ __html: `エラーが発生しました　${errortext}` }} />}
       {isLoading && <p>Laoding...</p>}
       <div style={{background: "#ffffff", borderRadius: "12px", padding: "12px", marginBottom: "8px", display: "flex", alignItems: "center", gap: "12px", overflow: "hidden"}}>
         <img src="../../images/Question.gif" alt="Question" style={{width: "32px", height: "32px", flexShrink: 0}} />
