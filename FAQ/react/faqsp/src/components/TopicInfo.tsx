@@ -101,7 +101,7 @@ const onClickItem2 = (topicid: any) => {
       {isError && <p style={{ color: "red" }} dangerouslySetInnerHTML={{ __html: `エラーが発生しました　${errortext}` }} />}
       {isLoading && <p>Laoding...</p>}
       <div style={{background: "#ffffff", borderRadius: "12px", padding: "12px", marginBottom: "8px", display: "flex", alignItems: "center", gap: "12px", overflow: "hidden"}}>
-        <img src="../../images/Question.gif" alt="Question" style={{width: "32px", height: "32px", flexShrink: 0}} />
+        <img src="../images/Question.gif" alt="Question" style={{width: "32px", height: "32px", flexShrink: 0}} />
         <span style={{fontSize: "1.5rem", color: "#1565c0", flex: 1, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>{response.Title}</span>
         <span style={{fontSize: "1.5rem", color: "#00897b", flexShrink: 0, whiteSpace: "nowrap"}}>{response.VersionRange}</span>
       </div>
