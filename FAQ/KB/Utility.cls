@@ -5,7 +5,7 @@ Class KB.Utility
 
 ClassMethod ShowVersion() As %String
 {
-	quit "1.2.133"
+	quit "1.2.136"
 }
 
 /*
