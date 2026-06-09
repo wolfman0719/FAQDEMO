@@ -1,15 +1,13 @@
 {
   "files": {
-    "main.css": "/faqedit/static/css/main.987503a0.css",
-    "main.js": "/faqedit/static/js/main.d2ba27ef.js",
-    "static/media/bootstrap-icons.woff?": "/faqedit/static/media/bootstrap-icons.1295669cd4e305c97f2c.woff",
-    "static/media/bootstrap-icons.woff2?": "/faqedit/static/media/bootstrap-icons.92ea18a81d737146ff04.woff2",
+    "main.css": "/faqedit/static/css/main.b8ca2aff.css",
+    "main.js": "/faqedit/static/js/main.dfbeddbd.js",
     "index.html": "/faqedit/index.html",
-    "main.987503a0.css.map": "/faqedit/static/css/main.987503a0.css.map",
-    "main.d2ba27ef.js.map": "/faqedit/static/js/main.d2ba27ef.js.map"
+    "main.b8ca2aff.css.map": "/faqedit/static/css/main.b8ca2aff.css.map",
+    "main.dfbeddbd.js.map": "/faqedit/static/js/main.dfbeddbd.js.map"
   },
   "entrypoints": [
-    "static/css/main.987503a0.css",
-    "static/js/main.d2ba27ef.js"
+    "static/css/main.b8ca2aff.css",
+    "static/js/main.dfbeddbd.js"
   ]
 }
