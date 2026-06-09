@@ -219,3 +219,41 @@ RewriteRule ^ index.html [QSA,L]
 以下の内容を追加
 
 "homepage": "/faqdirect"
+
+## web.configの設定
+
+IISの場合には、.htaccessの代わりにweb.configを設定する
+
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <system.webServer>
+    <rewrite>
+      <rules>
+        <rule name="React Router" stopProcessing="true">
+          <match url=".*" />
+          <conditions logicalGrouping="MatchAll">
+            <add input="{REQUEST_FILENAME}" matchType="IsFile" negate="true" />
+            <add input="{REQUEST_FILENAME}" matchType="IsDirectory" negate="true" />
+          </conditions>
+          <action type="Rewrite" url="/faqdirect/index.html" />
+        </rule>
+      </rules>
+    </rewrite>
+  </system.webServer>
+</configuration>
+```
+
+### 配置方法：
+
+1. public/web.config としてファイルを作成
+2. npm run build を実行 → build/web.config として自動的にコピーされる
+3. build フォルダの中身をIISのサイトディレクトリにデプロイ
+
+### 前提条件（IIS側の設定）：
+
+|必要なもの|	確認方法|
+|--------|--------|
+|URL Rewrite モジュール	|IISマネージャー → モジュール一覧に RewriteModule があるか|
+|インストールされていない場合|	Microsoft公式サイトからダウンロード|
+
