@@ -148,7 +148,7 @@ IISの場合は、以下の設定を参考
 
 https://mihono-bourbon.com/iis-cors/
 
-## .htaccessの設定
+## .htaccessの設定（Apacheの場合）
 
 デプロイの際（npm run build）には.htaccessを作成し、redirectの設定を行う
 
@@ -220,7 +220,7 @@ RewriteRule ^ index.html [QSA,L]
 
 "homepage": "/faqdirect"
 
-## web.configの設定
+## web.configの設定(IISの場合)
 
 IISの場合には、.htaccessの代わりにweb.configを設定する
 
