@@ -107,8 +107,7 @@ set setupdir = "c:\git\faqdemo"
 
     JSON.parse('{"CJ":"localhost","NO":8080,"jZ":"_system","_2":"SYS","cq":"/api/faq","Zs":"http"}
 
-　　
-  　ブラウザキャッシュをクリアしないとその変更が反映しないケースがある
+    ブラウザキャッシュをクリアしないとその変更が反映しないケースがある
 
   - nginxコンテナ経由アクセスの制限
 
