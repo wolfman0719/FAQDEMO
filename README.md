@@ -101,8 +101,13 @@ set setupdir = "c:\git\faqdemo"
 
   - クラウド環境でDocker環境を構築した場合等localhostではないipアドレスまたは異なるポート番号を使用する場合
 
-  　FAQ/faqedit/static/jsの所にあるjsファイルからlocalhost（ポート番号）を検索し、そのipアドレス（ポート番号）に変更/保存し、docker-composeを実行する
+    FAQ/faqedit/static/jsの所にあるjsファイルからlocalhost（ポート番号）を検索し、そのipアドレス（ポート番号）に変更/保存し、docker-composeを実行する
 
+    以下のような文字列を検索
+
+    JSON.parse('{"CJ":"localhost","NO":8080,"jZ":"_system","_2":"SYS","cq":"/api/faq","Zs":"http"}
+
+　　
   　ブラウザキャッシュをクリアしないとその変更が反映しないケースがある
 
   - nginxコンテナ経由アクセスの制限
