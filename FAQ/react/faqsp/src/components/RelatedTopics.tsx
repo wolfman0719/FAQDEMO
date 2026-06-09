@@ -9,12 +9,12 @@ export const RelatedTopics = (props: any) => {
   return (
     <>
     <p style={{color: "var(--faq-primary-color)", fontWeight: "normal"}}>関連トピック</p>
-    <table style={{width: "100%"}}><tbody>
+    <table style={{width: "100%", borderCollapse: "collapse"}}><tbody>
 
 	  {
         reftopics.map((reftopic: any, index: number) => (
         <tr key={index} style={{backgroundColor: index % 2 === 0 ? "#ffffff" : "#f5f5f5"}}>
-        <td><button className="related-topic-btn" onClick={() => onClickItem(reftopic.split(comma)[0])}>{`${reftopic.split(comma)[0]}:${reftopic.split(comma)[1]}`}</button></td>
+        <td style={{padding: 0}}><button className="related-topic-btn" onClick={() => onClickItem(reftopic.split(comma)[0])}>{`${reftopic.split(comma)[0]}:${reftopic.split(comma)[1]}`}</button></td>
         </tr>
         )
     )}
