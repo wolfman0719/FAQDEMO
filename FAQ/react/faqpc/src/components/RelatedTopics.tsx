@@ -14,7 +14,7 @@ export const RelatedTopics = (props: any) => {
 	  {
         reftopics.map((reftopic: any, index: number) => (
 		  <tr key={index} style={{ backgroundColor: index % 2 === 0 ? "#f5f5f5" : "#ffffff" }}>
-		  <td><button style={{ width: "100%", textAlign: "left", color: "#000000" }} className="btn-flat waves-effect topic-item-btn" onClick={() => onClickItem(reftopic.split(comma)[0])}>{`${reftopic.split(comma)[0]}:${reftopic.split(comma)[1]}`}</button></td>
+		  <td style={{ padding: 0 }}><button style={{ width: "100%", textAlign: "left", color: "#000000", padding: "8px 16px" }} className="btn-flat waves-effect topic-item-btn" onClick={() => onClickItem(reftopic.split(comma)[0])}>{`${reftopic.split(comma)[0]}:${reftopic.split(comma)[1]}`}</button></td>
 		  </tr>
     	)
     )}
