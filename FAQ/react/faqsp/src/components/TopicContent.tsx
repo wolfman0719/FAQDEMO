@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import './snippet.css';
 
 import hljs from 'highlight.js/lib/core';
 import 'highlight.js/styles/panda-syntax-light.css';
@@ -67,5 +68,3 @@ export const TopicContent = (props: any) => {
 	);	
   }
 export default TopicContent;
-
-
