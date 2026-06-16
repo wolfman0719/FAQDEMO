@@ -1,4 +1,6 @@
 import React, { useEffect } from 'react';
+import './snippet.css';
+
 import hljs from 'highlight.js/lib/core';
 import 'highlight.js/styles/panda-syntax-light.css';
 import xml from 'highlight.js/lib/languages/xml';
@@ -12,7 +14,10 @@ import dockerfile from 'highlight.js/lib/languages/dockerfile';
 import java from 'highlight.js/lib/languages/java';
 import css from 'highlight.js/lib/languages/css';
 import csharp from 'highlight.js/lib/languages/csharp';
-
+import bash from 'highlight.js/lib/languages/bash';
+import makefile from 'highlight.js/lib/languages/makefile';
+import markdown from 'highlight.js/lib/languages/markdown';
+import shell from 'highlight.js/lib/languages/shell';
 
 hljs.registerLanguage('xml', xml);
 hljs.registerLanguage('python', python);
@@ -25,6 +30,10 @@ hljs.registerLanguage('dockerfile', dockerfile);
 hljs.registerLanguage('java', java);
 hljs.registerLanguage('css', css);
 hljs.registerLanguage('csharp', csharp);
+hljs.registerLanguage('bash', bash);
+hljs.registerLanguage('makefile', makefile);
+hljs.registerLanguage('markdown', markdown);
+hljs.registerLanguage('shell', shell);
 
 
 export const TopicContent = (props: any) => {
