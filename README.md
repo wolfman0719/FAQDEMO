@@ -144,18 +144,16 @@ set setupdir = "c:\git\faqdemo"
 
 現時点ではヒット率や精度が満足できるレベルに達していないため、デフォルトではこの機能はディセーブルにしています。
 
-以下の操作を行うことで、機能がイネーブルになります。
 
-### reactのfaqeditのserverconfig.json
+### Vector DBの構築
 
-デフォルトではVectorSearch=falseとなっているが、trueに設定することで、ベクトル検索用のタブが追加される
+```
+>do ##class(FAQ.TopicVector).BuildVectorsFromDescriptionSummaries(file)
+```
 
-### KB.SetupクラスのsetConfigParamsメソッド
+fileには、各トピック内容をGoogleのNoteBookLMでサマライズした内容を保存したエクセルファイル名を指定する
 
-最後の処理が以下のようになっているが、このパラメータを0から1に変更することでエンベッデングやインデックスの構築を行う
-
-do ##class(KB.Config).setVectorSearch(0)
-
+このレポジトリのFAQ/excel/faq-summary.xlsxを使用する
 ### ロードしたモデルをキャッシュする
 
 詳細は、FAQ/python/readme.mdを参照
