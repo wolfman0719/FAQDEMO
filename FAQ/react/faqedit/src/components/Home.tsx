@@ -5,7 +5,6 @@ import { QueryById } from './QueryById';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import { useLocation } from "react-router-dom";
-import configinfo from '../serverconfig.json';
 
 export const Home = () => {
 
