@@ -50,6 +50,8 @@ ClassMethod Init()
   &SQL(insert into KB.Facility (Description) values ('Foreign Tables'))
   &SQL(insert into KB.Facility (Description) values ('IntegratedML'))
   &SQL(insert into KB.Facility (Description) values ('ベクトル検索'))
+  &SQL(insert into KB.Facility (Description) values ('セキュリティ'))
+
 	
 }
 
