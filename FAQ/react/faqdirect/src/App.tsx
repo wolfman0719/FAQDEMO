@@ -6,11 +6,10 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 export const App = () => {
  
   return (
-  <BrowserRouter basename="/faqdirect/">
+  <BrowserRouter basename="/faqreact/faqdirect/">
 	<Routes>
-  <Route path="/"  element={<Top/>} />
+  <Route path="/"  element={<Top/>} />  
   <Route path="/Content/:topicid/"  element={<Home/>} />
-  <Route  element={<Second/>} />
 	</Routes>
    </BrowserRouter>   
   );	
