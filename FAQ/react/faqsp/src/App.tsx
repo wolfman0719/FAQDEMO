@@ -9,12 +9,12 @@ export const App = () => {
   useEffect( () => {localStorage.setItem('inputtext','');}, []);   
 
   return (
-    <BrowserRouter basename="/faqmobile/">
-    <Routes>
-    <Route path='/' element={<Home/>} />
-    <Route path="/Content/:topicid"  element={<TopicInfo/>} />
-    </Routes>
-    </BrowserRouter>   
+    <BrowserRouter basename="/faqreact/faqmobile/">
+	<Routes>
+	  <Route path='/' element={<Home/>} />
+      <Route path="/Content/:topicid"  element={<TopicInfo/>} />
+	</Routes>
+   </BrowserRouter>   
   );	
 }
 export default App;
