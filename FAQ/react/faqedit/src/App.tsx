@@ -22,7 +22,7 @@ export const App = () => {
   const edit = configinfo.Edit
 
   return (
-  <BrowserRouter basename = {'/faqedit/'}>
+  <BrowserRouter basename = {'/faqreact/faqedit/'}>
 	<Routes>
     {edit ? <Route path='/' element={<Signin />} />
   : <Route path='/' element={<NoSignin />} />}
