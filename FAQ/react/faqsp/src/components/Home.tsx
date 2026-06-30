@@ -18,13 +18,17 @@ export const Home = () => {
       <div className="faq-card">
         <Header />
       </div>
-      <Query />
+      <div className="faq-card">
+        <Query />
+      </div>
       </TabPanel>
       <TabPanel>
       <div className="faq-card">
         <Header />
       </div>
-      <QueryById />
+      <div className="faq-card">
+        <QueryById />
+      </div>
       </TabPanel>
     </Tabs>
     </div>
