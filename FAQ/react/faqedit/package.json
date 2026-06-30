@@ -2,7 +2,7 @@
   "name": "faqedit",
   "version": "0.1.0",
   "private": true,
-  "homepage": "/faqedit/",
+  "homepage": "/faqreact/faqedit/",
   "dependencies": {
     "@hookform/error-message": "^2.0.1",
     "@testing-library/jest-dom": "^5.16.5",
@@ -13,10 +13,12 @@
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
     "axios": "^1.4.0",
-    "bootstrap": "^5.3.0",
+    "bootstrap": "^5.3.8",
+    "bootstrap-icons": "^1.13.1",
     "ckeditor4-react": "^4.3.0",
     "error-message": "^1.0.13",
     "highlight.js": "^11.10.0",
+    "materialize-css": "^1.0.0",
     "react": "^18.2.0",
     "react-bootstrap": "^2.8.0",
     "react-dom": "^18.2.0",
@@ -50,5 +52,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/materialize-css": "^1.0.15"
   }
 }
