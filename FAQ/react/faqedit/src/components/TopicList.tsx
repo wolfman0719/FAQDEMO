@@ -63,7 +63,7 @@ const [width] = useWindowSize();
 		 : (
 		 topicList.map((topic: any) => (
 		 
-		 <tr key={topic.id} className="topic-list-row"><td><Link to={topic.linkto} className="topic-list-link"><div className="topic-list-title" style={{maxWidth: width - 40}}>{topic.title}</div></Link></td></tr>
+		 <tr key={topic.id} className="topic-list-row"><td style={{whiteSpace: "nowrap", paddingLeft: "10px", color: "#757575", width: "3em"}}>{topic.id}</td><td><Link to={topic.linkto} className="topic-list-link"><div className="topic-list-title" style={{maxWidth: width - 40}}>{topic.title}</div></Link></td></tr>
 		 )))
 	  }
 	</tbody></table>

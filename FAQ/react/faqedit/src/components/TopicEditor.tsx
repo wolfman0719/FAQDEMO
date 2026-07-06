@@ -365,7 +365,7 @@ export const TopicEditor = (props: any) => {
         <div className="faq-card" style={{margin: "8px"}}>
         {isLoading && <p>Loading...</p>}
         {isError && <p className="red-text"><span dangerouslySetInnerHTML={{__html: errorText}}></span></p>}
-        <div style={{color: "#0d6efd", textAlign: "center", fontSize: "1.5rem", fontWeight: "bold", marginBottom: "12px"}}>
+        <div style={{color: "#0d6efd", textAlign: "left", fontSize: "1.5rem", fontWeight: "bold", marginBottom: "12px"}}>
         FAQトピック 編集
         </div>
         <table width="100%">
@@ -387,14 +387,16 @@ export const TopicEditor = (props: any) => {
         </tr>)}
         <tr>
         <td  align="right" style={{color: "#0d6efd"}}><label>タイトル： </label></td>  
-        <td ><input type="text" name="Title" size={100} value={title} onChange={onChangeTitle}/></td>  
+        <td ><input type="text" name="Title" value={title} onChange={onChangeTitle} style={{width: "33%"}}/></td>
         </tr>
         <tr>
         <td  align="right" style={{color: "#0d6efd"}}><label>内容： </label></td>  
-        <td width="90%">
+        <td>
+        <div style={{width: "33%"}}>
         <CKEditor
           name="faqeditor"
           config={{
+            width: '100%',
             extraPlugins: 'codesnippet,colorbutton,font,justify',
             removeButtons: '',
             codeSnippet_languages: {cos: 'ObjectScript',sql: 'SQL',python: 'Python',json: 'JSON',yaml: 'YAML',javascript: 'JavaScript',dockerfile: 'Dockerfile',html: 'HTML',css: 'CSS',java: 'Java',xml: 'XML',bash: 'Bash',makefile: 'Makefile',markdown: 'Markdown',shell: 'Shell'},
@@ -406,17 +408,17 @@ export const TopicEditor = (props: any) => {
             allowedContent: true
           }}
           onInstanceReady={ ( { editor } ) => {
-            // Handles native `instanceReady` event.
-            setCkeditor(editor);           
+            setCkeditor(editor);
         } }
 
         />
+        </div>
         </td>
         </tr>
         <tr>
           <td align="right" style={{color: "#0d6efd"}}>プロダクト：</td>
           <td>
-          <select size={5} name="ProductList" value={productId} onChange={onChangeProduct}>
+          <select size={5} name="ProductList" value={productId} onChange={onChangeProduct} style={{width: "33%"}}>
           { productList.map((product: any) => (
           <option value={product.id} key={product.id}>{product.name}</option>  
           ))}  
@@ -426,7 +428,7 @@ export const TopicEditor = (props: any) => {
         <tr>
           <td align="right" style={{color: "#0d6efd"}}>機能名：</td>
           <td >
-          <select name="FacilityList" value={facilityId} onChange={onChangeFacility}>
+          <select name="FacilityList" value={facilityId} onChange={onChangeFacility} style={{width: "33%"}}>
           { facilityList.map((facility: any) => (
           <option value={facility.id} key={facility.id}>{facility.name}</option>  
           ))}  
@@ -435,7 +437,7 @@ export const TopicEditor = (props: any) => {
         <tr>
           <td align="right" style={{color: "#0d6efd"}}>プラットフォーム：</td>
           <td>
-          <select name="PlatformList" value={platformId} onChange={onChangePlatform}>
+          <select name="PlatformList" value={platformId} onChange={onChangePlatform} style={{width: "33%"}}>
           { platformList.map((platform: any) => (
           <option value={platform.id} key={platform.id}>{platform.name}</option>  
           ))}
@@ -444,12 +446,12 @@ export const TopicEditor = (props: any) => {
         <tr>
           <td align="right" style={{color: "#0d6efd"}}>バージョン：</td>
           <td >
-          <select name="StartVersion" value={startVersionId} onChange={onChangeStartVersion}>
+          <select name="StartVersion" value={startVersionId} onChange={onChangeStartVersion} style={{width: "15%"}}>
           { startVersionList.map((startVersion: any) => (
           <option value={startVersion.id} key={startVersion.id}>{startVersion.name}</option>  
           ))}
           </select> ～ 
-          <select name="EndVersion"  value={endVersionId} onChange={onChangeEndVersion}>
+          <select name="EndVersion" value={endVersionId} onChange={onChangeEndVersion} style={{width: "15%"}}>
           { endVersionList.map((endVersion: any) => (
           <option value={endVersion.id} key={endVersion.id}>{endVersion.name}</option>  
           ))}
@@ -458,19 +460,17 @@ export const TopicEditor = (props: any) => {
         </tr>
         <tr>
           <td align="right" style={{color: "#0d6efd"}}>関連トピック：</td>
-          <td ><input type="text" name="RefTopic" value={refTopics} onChange={onChangeRefTopics}/></td>
+          <td ><input type="text" name="RefTopic" value={refTopics} onChange={onChangeRefTopics} style={{width: "33%"}}/></td>
         </tr>
         { (topicid !== 0 && topicid !== '0') &&
 		    <tr>
           <td align="right" style={{color: "#0d6efd"}}>添付ファイル：</td>
-          {fileName && 
+          {fileName &&
           <td>
-          <table>
-          <tr>
-          <td><label>{fileName}</label></td>
-          <td><button name="AttacheDel" className="delete-btn" disabled={!fileflag} onClick={delAttachedFile}>削除<i className="material-icons" style={{fontSize: "18px"}}>delete</i></button></td>
-          </tr>
-          </table>
+            <div style={{display: "inline-flex", alignItems: "center", gap: "8px"}}>
+              <label>{fileName}</label>
+              <button name="AttacheDel" className="delete-btn" disabled={!fileflag} onClick={delAttachedFile}>削除<i className="material-icons" style={{fontSize: "18px"}}>delete</i></button>
+            </div>
           </td>}
         </tr>}
         { (topicid !== 0 && topicid !== '0') &&
@@ -481,29 +481,27 @@ export const TopicEditor = (props: any) => {
         <tr>
           <td align="right" style={{color: "#0d6efd"}}>ステータス：</td>
           <td>
-            <table width="100%" style={{padding:0}}>
-            <tr>
-            <td width="25%" style={{color: "#0d6efd"}}><label><input type="checkbox" name="Completed" checked={complete} onChange={onChangeComplete}/>作成完了</label></td>
-            <td width="25%" style={{color: "#0d6efd"}}><label><input type="checkbox" name="DeleteFlg" checked={deleteFlg} onChange={onChangeDelete}/>削除可</label></td>
-            <td width="20%" style={{color: "#0d6efd"}}><label><input type="checkbox" name="Visible" checked={visible} onChange={onChangeVisible}/>公開[管理用]</label></td>
-		      </tr>
-          </table>
-		  </td>
+            <div style={{display: "flex", gap: "16px"}}>
+              <label style={{color: "#0d6efd"}}><input type="checkbox" name="Completed" checked={complete} onChange={onChangeComplete}/>作成完了</label>
+              <label style={{color: "#0d6efd"}}><input type="checkbox" name="DeleteFlg" checked={deleteFlg} onChange={onChangeDelete}/>削除可</label>
+              <label style={{color: "#0d6efd"}}><input type="checkbox" name="Visible" checked={visible} onChange={onChangeVisible}/>公開[管理用]</label>
+            </div>
+          </td>
 		</tr>
         <tr>
           <td align="right" style={{color: "#0d6efd"}}>DCURL：</td>
-          <td ><input type="text" name="DCURL" size={100} className="textbox" value={DCURL} onChange={onChangeDCURL}/></td>
+          <td ><input type="text" name="DCURL" className="textbox" value={DCURL} onChange={onChangeDCURL} style={{width: "33%"}}/></td>
         </tr>
         <tr>
           <td align="right" style={{color: "#0d6efd"}}>*社内用メモ*：</td>
-          <td ><textarea name="Note" cols={65} rows={3} id="nt" value={note} onChange={onChangeNote}></textarea></td>
+          <td ><textarea name="Note" rows={3} id="nt" value={note} onChange={onChangeNote} style={{width: "33%"}}></textarea></td>
         </tr>
       { (topicid !== 0 && topicid !== '0') &&
 	    <tr>
          <td align="right" style={{color: "#0d6efd"}}>*更新履歴*：</td>
          <td>  
-        <div>  
-        <table className="striped bordered" width="100%">
+        <div style={{width: "33%"}}>
+        <table className="striped bordered" style={{width: "100%"}}>
         <tr>
           <th style={{color: "#0d6efd"}}>更新日付</th>
   				<th style={{color: "#0d6efd"}}>更新者</th>
