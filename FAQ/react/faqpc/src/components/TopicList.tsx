@@ -11,7 +11,8 @@ const {isLoading, onClickItem, topicList} = props;
          : (
          topicList.map((topic: any, index: number) => (
          <tr key={index} style={{ backgroundColor: index % 2 === 0 ? "#f5f5f5" : "#ffffff" }}>
-         <td style={{ padding: 0 }}><button className="btn-flat waves-effect topic-item-btn" style={{ width: "100%", textAlign: "left", color: "#000000", textTransform: "none", padding: "8px 16px" }} onClick={() => onClickItem(topic.id)}>{`${topic.id}:${topic.title}`}</button></td>
+         <td style={{ width: "60px", minWidth: "60px", maxWidth: "60px", padding: "8px", color: "#000000", whiteSpace: "nowrap", verticalAlign: "middle" }}>{topic.id}</td>
+         <td style={{ padding: 0, verticalAlign: "middle" }}><button className="btn-flat waves-effect topic-item-btn" style={{ width: "100%", textAlign: "left", color: "#000000", textTransform: "none", padding: "8px 16px", display: "block" }} onClick={() => onClickItem(topic.id)}>{topic.title}</button></td>
          </tr>
          )))
       }
