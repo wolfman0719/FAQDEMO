@@ -70,7 +70,8 @@ export const TopicEditor = (props: any) => {
   const navigate = useNavigate();
 
   const onClickSave = () => {
-  
+    if (!window.confirm('保存します。よろしいですか？')) return;
+
     setIsLoading(true);
     setIsError(false);
 
@@ -101,6 +102,14 @@ export const TopicEditor = (props: any) => {
       .post<any>(`${Protocol}://${ServerAddress}:${ServerPort}${ApplicationName}/TopicSave?IRISUsername=${Username}&IRISPassword=${Password}`,senddata)
       .then((result: any) => {
         window.alert('保存しました');
+        if (topicid !== '0' && topicid !== 0) {
+          setUpdateHistory((prev: any) => [...prev, {
+            UpdateDate: newUpdateDate,
+            Updater: newUpdater,
+            Description: updateDescription
+          }]);
+          setUpdateDescription('');
+        }
         if (topicid === '0') {
           setTitle('');
           setRefTopics('');
