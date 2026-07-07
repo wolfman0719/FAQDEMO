@@ -225,19 +225,22 @@ html, body {
   display: block;
 }
 .related-topic-btn:hover {
-  background-color: #e3f2fd;
+  background-color: transparent;
   color: #212121;
+}
+.related-topic-btn:focus {
+  background-color: transparent;
+  outline: none;
 }
 
 /* ゼブラパターン */
-.related-topic-row:nth-child(odd) .related-topic-btn {
+.related-topic-row:nth-child(odd) td {
   background-color: #ffffff;
 }
-.related-topic-row:nth-child(even) .related-topic-btn {
+.related-topic-row:nth-child(even) td {
   background-color: #f2f2f2;
 }
-.related-topic-row:nth-child(odd) .related-topic-btn:hover,
-.related-topic-row:nth-child(even) .related-topic-btn:hover {
+.related-topic-row:hover td {
   background-color: #e3f2fd;
 }
 
