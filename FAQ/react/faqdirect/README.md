@@ -207,7 +207,7 @@ AllowOverride Allの設定（ドキュメントルート）
 
 ```
 RewriteEngine On
-RewriteBase /faqdirect/
+RewriteBase /faqreact/faqdirect/
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-l
@@ -236,7 +236,7 @@ IISの場合には、.htaccessの代わりにweb.configを設定する
             <add input="{REQUEST_FILENAME}" matchType="IsFile" negate="true" />
             <add input="{REQUEST_FILENAME}" matchType="IsDirectory" negate="true" />
           </conditions>
-          <action type="Rewrite" url="/faqdirect/index.html" />
+          <action type="Rewrite" url="/faqreact/faqdirect/index.html" />
         </rule>
       </rules>
     </rewrite>
