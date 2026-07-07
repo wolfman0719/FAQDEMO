@@ -13,7 +13,7 @@ export const RelatedTopics = (props: any) => {
 
 	  {
         reftopics.map((reftopic: any, index: number) => (
-        <tr key={index} style={{backgroundColor: index % 2 === 0 ? "#ffffff" : "#f5f5f5"}}>
+        <tr key={index} className="topic-list-row" style={{backgroundColor: index % 2 === 0 ? "#ffffff" : "#f5f5f5"}}>
         <td style={{padding: "10px 14px", whiteSpace: "nowrap", color: "#000000"}}>{reftopic.split(comma)[0]}</td>
         <td style={{padding: 0, width: "100%"}}><button className="related-topic-btn" onClick={() => onClickItem(reftopic.split(comma)[0])}>{reftopic.split(comma)[1]}</button></td>
         </tr>

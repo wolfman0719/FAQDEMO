@@ -59,7 +59,7 @@ const [width] = useWindowSize();
 		 : (
 		 topicList.map((topic: any, index: number) => (
 		 
-		 <tr key={topic.id} style={{width: "100%", backgroundColor: index % 2 === 0 ? "#ffffff" : "#f5f5f5"}}><td style={{padding: "10px 14px", whiteSpace: "nowrap", color: "#000000"}}>{`${topic.id}`}</td><td style={{padding: "0", width: "100%"}}><Link to={topic.linkto} style={{textDecoration: "none"}}><div className="topic-list-item" style={{display: "flex", alignItems: "center", justifyContent: "space-between", padding: "10px 14px", cursor: "pointer"}}><div style={{whiteSpace: "nowrap", overflow: "hidden", width: width-120, textOverflow: "ellipsis", color: "#000000"}}>{`${topic.title}`}</div><i className="bi bi-chevron-right" style={{color: "#888"}}></i></div></Link></td></tr>
+		 <tr key={topic.id} className="topic-list-row" style={{width: "100%", backgroundColor: index % 2 === 0 ? "#ffffff" : "#f5f5f5"}}><td style={{padding: "10px 14px", whiteSpace: "nowrap", color: "#000000"}}>{`${topic.id}`}</td><td style={{padding: "0", width: "100%"}}><Link to={topic.linkto} style={{textDecoration: "none"}}><div className="topic-list-item" style={{display: "flex", alignItems: "center", justifyContent: "space-between", padding: "10px 14px", cursor: "pointer"}}><div style={{whiteSpace: "nowrap", overflow: "hidden", width: width-120, textOverflow: "ellipsis", color: "#000000"}}>{`${topic.title}`}</div><i className="bi bi-chevron-right" style={{color: "#888"}}></i></div></Link></td></tr>
 		 )))
 	  }
 	</tbody></table>
