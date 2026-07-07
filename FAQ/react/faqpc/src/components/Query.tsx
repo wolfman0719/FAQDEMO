@@ -30,11 +30,11 @@ export const Query = (props: any) => {
 
   return (
     <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
-      <div style={{ ...inputWrapperStyle, flex: 2 }}>
+      <div style={{ ...inputWrapperStyle, width: "600px" }}>
         <i className="material-icons" style={iconStyle}>search</i>
         <input type="text" value={inputtext} onChange={onChangeText} onKeyDown={(e) => e.key === "Enter" && onClickFetchTopicList(inputtext)} placeholder="検索キーワード" style={inputStyle} />
       </div>
-      <div style={{ ...inputWrapperStyle, flex: 1 }}>
+      <div style={{ ...inputWrapperStyle, width: "80px" }}>
         <i className="material-icons" style={iconStyle}>search</i>
         <input type="text" value={inputtext2} onChange={onChangeText2} onKeyDown={(e) => e.key === "Enter" && onClickItem(inputtext2)} placeholder="検索ID" style={inputStyle} />
       </div>
