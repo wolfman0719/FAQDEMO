@@ -149,6 +149,13 @@ html, body {
   background-color: #616161;
   color: #ffffff;
 }
+.gray-action-btn:focus {
+  background-color: #9e9e9e;
+  outline: none;
+}
+.gray-action-btn:focus:hover {
+  background-color: #616161;
+}
 
 /* === 削除ボタン === */
 .delete-btn {
@@ -171,6 +178,10 @@ html, body {
   opacity: 0.5;
   cursor: default;
 }
+.delete-btn:focus {
+  background-color: #ef9a9a;
+  outline: none;
+}
 
 /* === 検索に戻るボタン === */
 .back-btn {
@@ -189,6 +200,10 @@ html, body {
 }
 .back-btn:hover {
   background-color: #424242;
+}
+.back-btn:focus {
+  background-color: #757575;
+  outline: none;
 }
 
 /* === 新規トピックボタン === */
@@ -209,6 +224,10 @@ html, body {
 }
 .new-topic-btn:hover {
   background-color: #616161;
+}
+.new-topic-btn:focus {
+  background-color: #9e9e9e;
+  outline: none;
 }
 
 /* === RelatedTopics ボタン === */
