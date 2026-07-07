@@ -4,7 +4,7 @@ export const Top = (props: any) => {
     
   return (
     <>
-	<h1>直接指定の方法: http://ipaddress:port/faqdirect/Content/:topicid</h1>
+	<h1>直接指定の方法: http://ipaddress:port/faqreact/faqdirect/Content/:topicid</h1>
     </>	
   );	
 }
