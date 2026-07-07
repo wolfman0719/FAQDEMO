@@ -1,3 +1,8 @@
+.bi {
+  font-family: "bootstrap-icons" !important;
+  font-style: normal;
+}
+
 :root {
   --faq-primary-color: #039be5;
 }
@@ -36,11 +41,13 @@ body {
   font-size: 1rem;
 }
 
-.topic-list-item:hover {
+.topic-list-row:hover td,
+.topic-list-row:hover .topic-list-item {
   background-color: #e1f5fe !important;
 }
 
-.topic-list-item:active {
+.topic-list-row:active td,
+.topic-list-row:active .topic-list-item {
   background-color: #b3e5fc !important;
 }
 
