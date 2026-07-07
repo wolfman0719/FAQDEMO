@@ -105,10 +105,6 @@
 
    TopicList.tsx
 
-   TopicVectorList.tsx
-
-   VectorSearchQuery.tsx
-
   - hooks
 
     useWindowSize.ts
@@ -125,12 +121,6 @@
   trueの場合、トピックの作成/編集が可能(FAQEditロールがあるユーザーでログインする必要あり）
   
   falseの場合、トピック参照のみ
-
-VectorSearch
-
-  trueの場合、ベクトル検索用のタブが表示される
-  
-  falseの場合、ベクトル検索用のタブは表示されない
 
 ## reactアプリケーションの起動
 
@@ -157,7 +147,7 @@ VectorSearch
 
   npm startの場合
 
-- http://localhost:3000/faqedit/
+- http://localhost:3000/faqreact/faqedit/
 
  ユーザー名、パスワードは任意のユーザーアカウントのものを使用する
  
@@ -167,7 +157,7 @@ VectorSearch
 
 npm run buildの場合
    
-- http://localhost:8080/faqedit/
+- http://localhost:8080/faqreact/faqedit/
 
   npm run buildして生成されたbuildディレクトリをfaqeditに名前変更し、httpのドキュメントルートにコピーする
 
@@ -212,30 +202,6 @@ IISの場合は、以下の設定を参考
 
 https://mihono-bourbon.com/iis-cors/
 
-## デプロイの際（npm run build）には.htaccessを作成し、redirectの設定を行う
-
-### http.conf
-
-```
-<Directory />
-  AllowOverride All
-</Directory>
-```
-
-### .htaccessの内容
-
-以下の様な内容を記述する
-(必ず最後に空白行が必要）
-
-```
-RewriteEngine On
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_FILENAME} !-l
-RewriteRule ^ index.html [QSA,L]
-
-```
-
 ## 制限事項
 
 ### 開発モードの制限事項
@@ -248,13 +214,3 @@ buildモードではOK
 ### 新規トピック作成時の添付ファイルアップロード
 
 実装上の制約により（添付ファイル名にトピックIDが含まれる）、新規作成時にはファイルを添付できないように制限している。
-
-### Docker環境の制限
-
-Dockerで実装されているコミュニテイ版の簡易Webサーバーでは、BrowserRouterでは動作しないため、HashRouterに置き換える必要がある
-
-App.tsxのBrowserRouterをHashRouterに全て置き換える。
-
-basenameの部分も削除
-
-変更後、npm run buildで再構築
