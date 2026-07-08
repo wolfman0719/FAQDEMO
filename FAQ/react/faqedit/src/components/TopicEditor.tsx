@@ -47,8 +47,6 @@ export const TopicEditor = (props: any) => {
   const Username = localStorage.getItem('username');
   const Password = localStorage.getItem('password');
 
-  const updater = Username;
-
   const onChangeProduct = (e: ChangeEvent<HTMLSelectElement>) => setProductId(e.target.value);
   const onChangeFacility = (e: ChangeEvent<HTMLSelectElement>) => setFacilityId(e.target.value);
   const onChangePlatform = (e: ChangeEvent<HTMLSelectElement>) => setPlatformId(e.target.value);  
@@ -66,6 +64,8 @@ export const TopicEditor = (props: any) => {
   // topicidが0の場合は、新規トピック
   
   const topicid: any = useParams().topicid;
+
+  const updater = (topicid === '0' || topicid === 0) ? "" : Username;
 
   const navigate = useNavigate();
 
@@ -378,11 +378,14 @@ export const TopicEditor = (props: any) => {
         FAQトピック 編集
         </div>
         <table width="100%">
+       <tbody>
        <tr>
        <td align="right" colSpan={2} className="readonlytitle" style={{color: "#666666"}}>作成者:　<label>{creator}</label>　<label>最終更新者：　</label><label>{updater}</label></td>
         </tr>
+        </tbody>
       </table>
-      <table>       
+      <table>
+      <tbody>
       <tr>
        </tr>
        {(topicid === '0') ?
@@ -511,6 +514,7 @@ export const TopicEditor = (props: any) => {
          <td>  
         <div style={{width: "33%"}}>
         <table className="striped bordered" style={{width: "100%"}}>
+        <tbody>
         <tr>
           <th style={{color: "#0d6efd"}}>更新日付</th>
   				<th style={{color: "#0d6efd"}}>更新者</th>
@@ -528,6 +532,7 @@ export const TopicEditor = (props: any) => {
   				<td >{newUpdater}</td>
   				<td><textarea name="UpdateDescription" rows={2} id="ud" value={updateDescription} onChange={onChangeUpdateDescription}></textarea></td>
 			  </tr>
+        </tbody>
         </table>
         </div>
           </td>
@@ -541,6 +546,7 @@ export const TopicEditor = (props: any) => {
             </div>
           </td>
         </tr>
+        </tbody>
         </table>
         </div>
     );

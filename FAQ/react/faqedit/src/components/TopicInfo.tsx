@@ -33,8 +33,8 @@ const Protocol = configinfo.Protocol;
 const Username = localStorage.getItem('username');
 const Password = localStorage.getItem('password');
 const editflag = localStorage.getItem('edit');
-// eslint-disable-next-line
-const Edit = (editflag as unknown) == 1 ? true : false;
+
+const Edit = editflag === '1' || editflag === 'true';
 
 const onClickItem2 = (topicid: any) => {
 	setIsLoading(true);

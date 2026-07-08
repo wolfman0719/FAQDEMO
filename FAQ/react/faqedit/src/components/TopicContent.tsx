@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import './snippet.css';
 
 import hljs from 'highlight.js/lib/core';
@@ -35,37 +35,42 @@ hljs.registerLanguage('makefile', makefile);
 hljs.registerLanguage('markdown', markdown);
 hljs.registerLanguage('shell', shell);
 
+hljs.addPlugin({
+  'after:highlightElement': ({ el, result }) => {
+	// result の language プロパティが undefined でなければ
+	if(result.language) {
+	  // language を result から取得して code 要素（el）の data-language 属性に設定
+	if (result.language === 'cos') {
+	  el.setAttribute('data-language','ObjectScript');
+	}
+	else {
+	  el.setAttribute('data-language',result.language);
+	}
+	}
+  }
+});
+
 export const TopicContent = (props: any) => {
 
-	const {response} = props; 
-  
+	const {response} = props;
+	const containerRef = useRef<HTMLDivElement>(null);
+
    useEffect(() => {
-  
-	 hljs.addPlugin({
-	  'after:highlightElement': ({ el, result }) => {
-		// result の language プロパティが undefined でなければ
-		if(result.language) {
-		  // language を result から取得して code 要素（el）の data-language 属性に設定
-		if (result.language === 'cos') {
-		  el.setAttribute('data-language','ObjectScript');
-		}
-		else {
-		  el.setAttribute('data-language',result.language); 
-		}
-		}
-	  }
+
+	 const blocks = containerRef.current?.querySelectorAll<HTMLElement>('pre code');
+	 blocks?.forEach((block) => {
+	   // 同じDOM要素を再ハイライトしようとするとhljsがエラーを投げるため、フラグを解除しておく
+	   delete block.dataset.highlighted;
+	   hljs.highlightElement(block);
 	 });
-	 
-	 hljs.highlightAll();
-	 // hljs.initHighlighting.called = false;
 
 	},[response]);
-		  
+
 	return (
-	  <>
-	  {(response.DCURL === "") && <div style = {{ marginLeft: "20px", marginRight: "20px"}}><span dangerouslySetInnerHTML={{__html: response.Description}}></span></div>}	
-	  {(response.DCURL !== "") && (response.DCURL !== undefined ) && <div style = {{ marginLeft: "20px", marginRight: "20px"}}><span><p>最新内容は、デベロッパーコミュニティをご参照ください</p><a href={response.DCURL}  target="_blank" rel="noreferrer">デベロッパーコミュニティの記事</a></span></div>}	
-	  </>	
-	);	
+	  <div ref={containerRef}>
+	  {(response.DCURL === "") && <div style = {{ marginLeft: "20px", marginRight: "20px"}}><span dangerouslySetInnerHTML={{__html: response.Description}}></span></div>}
+	  {(response.DCURL !== "") && (response.DCURL !== undefined ) && <div style = {{ marginLeft: "20px", marginRight: "20px"}}><span><p>最新内容は、デベロッパーコミュニティをご参照ください</p><a href={response.DCURL}  target="_blank" rel="noreferrer">デベロッパーコミュニティの記事</a></span></div>}
+	  </div>
+	);
   }
 export default TopicContent;
