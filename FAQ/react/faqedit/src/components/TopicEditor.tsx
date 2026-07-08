@@ -379,7 +379,7 @@ export const TopicEditor = (props: any) => {
         </div>
         <table width="100%">
        <tr>
-       <td align="right" colSpan={2} className="readonlytitle" style={{color: "#666666"}}>作成者:　<label>{creator}</label><label>最終更新者：　</label><label>{updater}</label></td>
+       <td align="right" colSpan={2} className="readonlytitle" style={{color: "#666666"}}>作成者:　<label>{creator}</label>　<label>最終更新者：　</label><label>{updater}</label></td>
         </tr>
       </table>
       <table>       
