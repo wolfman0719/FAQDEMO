@@ -94,18 +94,21 @@ ClassMethod TopicVectorSearch(pQueryText As %String) As %Status
   try  {
 	
       set QueryEmbedding =$tr(##class(FAQ.TopicVector).GetEmbeddingFlask(pQueryText)," '[]")
+      write QueryEmbedding
 
-      set sql = "SELECT top 50 id,topicid,splitteddescription from faq.topicvector order by vector_dot_product(DescriptionVector, TO_VECTOR(?, DOUBLE, 768)) desc"
+      set sql = "SELECT top 100 id,topicid,splitteddescription, vector_cosine(DescriptionVector, TO_VECTOR(?, DOUBLE, 768)) as vdp from faq.topicvector order by vector_cosine(DescriptionVector, TO_VECTOR(?, DOUBLE, 768)) desc"
+      set sql = "SELECT top 100 id,topicid,splitteddescription, vector_dot_product(DescriptionVector, TO_VECTOR(?, DOUBLE, 768)) as vdp from faq.topicvector order by vector_dot_product(DescriptionVector, TO_VECTOR(?, DOUBLE, 768)) desc"
     
       set statemt=##class(%SQL.Statement).%New()
       set status=statemt.%Prepare(sql)
-      set rset=statemt.%Execute(QueryEmbedding)
+      set rset=statemt.%Execute(QueryEmbedding, QueryEmbedding)
 
       while rset.%Next()  {
         set id = rset.%Get("id")
-		set topicid = rset.%Get("topicid")
+		    set topicid = rset.%Get("topicid")
         set splitteddescription = rset.%Get("splitteddescription")
-        write id," ",topicid," ",splitteddescription,!
+        set vdp = rset.%Get("vdp")
+        write id," ",vdp, " ",topicid," ",splitteddescription,!
 		    
       }
  	  
@@ -117,6 +120,45 @@ ClassMethod TopicVectorSearch(pQueryText As %String) As %Status
   }
   
   quit status
+}
+
+ClassMethod EnbeddingTest(sentence1 As %String, sentence2 As %String) As %Status [ Language = python ]
+{
+  from sentence_transformers import SentenceTransformer, util
+
+  model = SentenceTransformer('stsb-xlm-r-multilingual')
+  embeddings1 = model.encode(sentence1, convert_to_tensor=True)
+  embeddings2 = model.encode(sentence2, convert_to_tensor=True)
+  cosine_score = util.pytorch_cos_sim(embeddings1, embeddings2)[0][0]
+  print(f"stsb-xlm-r-multilingual 文章1と文章2の類似度: {cosine_score}")
+  return 1
+}
+
+ClassMethod EmbeddingTest2(sentence1 As %String) As %Status [ Language = python ]
+{
+  import iris
+  from sentence_transformers import SentenceTransformer, util
+
+  print('sentence1 = ' + sentence1)
+  model = SentenceTransformer('stsb-xlm-r-multilingual')
+  embeddings1 = model.encode(sentence1, normalize_embeddings=True)
+  embedding1 = str(embeddings1.tolist()).replace('[', '').replace(']', '')
+
+  # sql = iris.sql.prepare("Select top 100 splitteddescription,topicid from faq.topicvector order by vector_dot_product(DescriptionVector, TO_VECTOR(?, DOUBLE, 768)) desc")
+  sql = iris.sql.prepare("SELECT top 100 tv.splitteddescription, tv.topicid from faq.topicvector as tv inner join kb.topic as t on tv.topicid = t.id order by vector_dot_product(tv.DescriptionVector, TO_VECTOR(?, DOUBLE, 768)) desc")
+  itemline = sql.execute(embedding1).dataframe()
+  
+  for index,row in itemline.iterrows():
+      rowline = list(row)
+      sentence2 = rowline[0]
+      topicid = rowline[1]
+      if sentence2 is not None:
+        embeddings2 = model.encode(sentence2, normalize_embeddings=True)
+        cosine_score = util.pytorch_cos_sim(embeddings1, embeddings2)[0][0]
+        print(f"topicid = {topicid}")
+        print('sentence2 = ' + sentence2)
+        print(f"stsb-xlm-r-multilingual 文章1と文章2の類似度: {cosine_score}")
+  return 1
 }
 
 }
