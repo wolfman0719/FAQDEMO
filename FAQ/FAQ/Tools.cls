@@ -20,7 +20,7 @@ ClassMethod ListURLsInTopics() As %Status
   }
 	  
   quit status
-  }
+}
 
 ClassMethod URLsExistingTest() As %Status
 {
@@ -42,7 +42,7 @@ ClassMethod URLsExistingTest() As %Status
   }
   quit status
 }
-     
+
 ClassMethod ReplaceTextInTopics(pTargetText As %String, pReplaceText As %String) As %Status
 {
   set status = $$$OK
@@ -59,6 +59,100 @@ ClassMethod ReplaceTextInTopics(pTargetText As %String, pReplaceText As %String)
   }
 	  
   quit status
+}
+
+/// KB.Topicのインスタンスを全件読んで、ID,Facility,Titleをcsv形式でファイルに出力する
+/// pFile : 出力するcsvファイル名
+ClassMethod topicFacility2CSV(pFile As %String) As %Status
+{
+  set status = $$$OK
+
+  try {
+    set stream = ##class(%Stream.FileCharacter).%New()
+    set stream.Filename = pFile
+    set stream.TranslateTable = "UTF8"
+
+    do stream.Write($char(65279))
+    do stream.WriteLine("ID,Facility,Title")
+
+    set statement = ##class(%SQL.Statement).%New()
+    set status = statement.%Prepare("SELECT ID, Facility, Title FROM KB.Topic ORDER BY ID")
+    if $$$ISERR(status) quit
+
+    set rs = statement.%Execute()
+    while rs.%Next() {
+      set line = ..CSVField(rs.%Get("ID"))_","_..CSVField(rs.%Get("Facility"))_","_..CSVField(rs.%Get("Title"))
+      do stream.WriteLine(line)
+    }
+
+    set status = stream.%Save()
+  } catch ex {
+    set status = ex.AsStatus()
+  }
+
+  quit status
+}
+
+/// CSVフィールド用にエスケープする（カンマ、ダブルクォート、改行を含む場合はクォートで囲む）
+ClassMethod CSVField(pValue As %String) As %String [ Private ]
+{
+  set value = $get(pValue)
+  if (value [ ",") || (value [ """") || (value [ $char(10)) || (value [ $char(13)) {
+    set value = """"_$replace(value,"""","""""")_""""
+  }
+  quit value
+}
+
+/// 指定したcsvファイルを全件読んで、KB.TopicのFacilityを更新する
+/// pFile : 入力csvファイル名（先頭行はヘッダー ID,Facility,Title）
+ClassMethod topicFacilityUpdate(pFile As %String) As %Status
+{
+  set status = $$$OK
+
+  try {
+    set stream = ##class(%Stream.FileCharacter).%New()
+    set status = stream.LinkToFile(pFile)
+    if $$$ISERR(status) quit
+    set stream.TranslateTable = "UTF8"
+
+    // 先頭行（ヘッダー）を読み捨てる
+    if 'stream.AtEnd do stream.ReadLine()
+
+    set statement = ##class(%SQL.Statement).%New()
+    set status = statement.%Prepare("UPDATE KB.Topic SET Facility = ? WHERE ID = ?")
+    if $$$ISERR(status) quit
+
+    while 'stream.AtEnd {
+      set line = stream.ReadLine()
+      if line = "" continue
+
+      set id = ..CSVUnquote($piece(line,",",1))
+      set facility = ..CSVUnquote($piece(line,",",2))
+      if id = "" continue
+
+      set rs = statement.%Execute(facility,id)
+      if rs.%SQLCODE < 0 {
+        write !,"Topic ID ",id," の更新に失敗しました（SQLCODE=",rs.%SQLCODE,"：",rs.%Message,"）",!
+      } elseif rs.%ROWCOUNT = 0 {
+        write !,"Topic ID ",id," が見つかりません",!
+      }
+    }
+  } catch ex {
+    set status = ex.AsStatus()
+  }
+
+  quit status
+}
+
+/// CSVフィールドのクォートを除去する（CSVField()の逆変換）
+ClassMethod CSVUnquote(pValue As %String) As %String [ Private ]
+{
+  set value = $get(pValue)
+  if ($extract(value,1) = """") && ($extract(value,*) = """") {
+    set value = $extract(value,2,*-1)
+    set value = $replace(value,"""""","""")
+  }
+  quit value
 }
 
 ClassMethod httprequest(pUrl As %String, pPort As %Integer = 80) As %Status
