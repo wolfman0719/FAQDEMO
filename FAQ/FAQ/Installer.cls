@@ -64,6 +64,10 @@ XData FAQManifest [ XMLNamespace = INSTALLER ]
     <Arg Value="${ReactFileDir}"/>
     <Arg Value="${ReactAppName}"/>
 </Invoke>
+<If Condition='${VectorSearch}'>
+<Invoke Class="FAQ.Installer" Method="BuildVectorForDescriptions" CheckStatus="0" Return="RetVal">
+</Invoke>
+</If>
 </If>
 </Namespace>
 </Manifest>
@@ -119,7 +123,9 @@ ClassMethod runInstaller(datestr As %String, envID As %Integer = 4) As %Status
     
     set vars("ReactFileDir") = setupdir_##class(KB.Config).getClassFileDir()
 
-    set vars("ReactAppName") = "faqedit"
+    set vars("ReactAppName") = "faqreact/faqsearch"
+
+    set vars("VectorSearch") = ##class(KB.Config).getVectorSearch()
 
     do ..setup(.vars,3)
 }
