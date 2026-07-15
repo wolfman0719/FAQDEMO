@@ -117,10 +117,6 @@ ClassMethod runInstaller(datestr As %String, envID As %Integer = 4) As %Status
 
     set vars("FlaskFileDir") = $replace(vars("FlaskFileDir"),sep_sep,sep)
     
-    set vars("ReactFileDir") = setupdir_##class(KB.Config).getClassFileDir()
-
-    set vars("ReactAppName") = "faqreact/faqsearch"
-
     set vars("VectorSearch") = ##class(KB.Config).getVectorSearch()
 
     do ..setup(.vars,3)
