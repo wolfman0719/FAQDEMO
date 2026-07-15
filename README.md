@@ -85,19 +85,16 @@ set setupdir = "c:\git\faqdemo"
 
   /200の部分は、トピック番号を入力
 
-- React版FAQ検索＆編集
+- React版FAQ検索
 
   webgatewayコンテナ経由のアクセス
 
-  [localhost:8882/faqedit/](http://localhost:8882/faqedit/)
+  [localhost:8882/faqreact/faqsearch/](http://localhost:8882/faqreact/faqsearch)
 
   nginxコンテナ経由のアクセス
 
-  [localhost:8885/faqedit/](http://localhost:8885/faqedit/)
+  [localhost:8885/faqreact/faqsearch/](http://localhost:8885/faqreact/faqsearch/)
 
-  ログインユーザー: _system
-
-  パスワード: SYS
 
   - クラウド環境でDocker環境を構築した場合等localhostではないipアドレスまたは異なるポート番号を使用する場合
 
@@ -108,12 +105,6 @@ set setupdir = "c:\git\faqdemo"
     JSON.parse('{"CJ":"localhost","NO":8080,"jZ":"_system","_2":"SYS","cq":"/api/faq","Zs":"http"}
 
     ブラウザキャッシュをクリアしないとその変更が反映しないケースがある
-
-  - nginxコンテナ経由アクセスの制限
-
-    トピック編集のHTMLエディター（CKEditor）の機能であるイメージのアップロード機能は動作しない
-
-    （この機能は、CORS環境では動作しないため）
   
 
 ## reactアプリケーション
