@@ -243,8 +243,8 @@ ClassMethod copyFlask(pSetupDir As %String) As %Status
 
 ClassMethod copyReact(pSetupDir As %String, pAppName As %String) As %Status
 {
-	//React関連ファイルをflaskディレクトリーにコピーする
-	//reactディレクトリは、csp/faqと同レベルのcsp/faq/{pAppName}
+	//React関連ファイルをReactディレクトリーにコピーする
+	//reactディレクトリは、DocuemntRoot/faqreact/{pAppName}
 	set dirSep = ##class(KB.Config).getDirectorySeparator()
 	//ディレクトリがなければコピーしない
 	if '##class(%File).Exists(pSetupDir_dirSep_pAppName) quit $$$OK
@@ -270,7 +270,7 @@ ClassMethod SetupLocal(pDir As %String) As %Status
     set sep = "/"
   }
   else {
-    set sep = "\"
+    set sep = "¥"
   }
 
   set namespace = $namespace
@@ -298,16 +298,12 @@ ClassMethod SetupLocal(pDir As %String) As %Status
   set $namespace = namespace
   
   if ($system.Version.GetOS() = "UNIX") {
-    Do $system.OBJ.Import(pDir_"/FAQ.INC","ck")
-    Do $system.OBJ.Import(pDir_"/KB/UsersVoice.cls","ck")
     Do $system.OBJ.Import(pDir_"/FAQ/Installer.cls","ck")
     Do $system.OBJ.Import(pDir_"/KB/Config.cls","ck")
     Do $system.OBJ.Import(pDir_"/KB/Utility.cls","ck")
     do ##class(FAQ.Installer).runInstaller("FAQ",6)
   }
   else {
-　  Do $system.OBJ.Import(pDir_"\FAQ.INC","ck")
-    Do $system.OBJ.Import(pDir_"\KB/UsersVoice.cls","ck")
     Do $system.OBJ.Import(pDir_"\FAQ\Installer.cls","ck")
     Do $system.OBJ.Import(pDir_"\KB\Config.cls","ck")
     Do $system.OBJ.Import(pDir_"\KB\Utility.cls","ck")
@@ -318,4 +314,3 @@ ClassMethod SetupLocal(pDir As %String) As %Status
 }
 
 }
-
