@@ -44,4 +44,4 @@ services:
     - "8885:80"
     volumes: 
     # - ./FAQ/nginx.conf:/etc/nginx/nginx.conf
-    - ./FAQ/faqsearchnginx:/usr/share/nginx/html/faqreact/faqsearchnginx   
+    - ./FAQ/faqsearchnginx:/usr/share/nginx/html/faqreact/faqsearch   
