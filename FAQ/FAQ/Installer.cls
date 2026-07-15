@@ -60,10 +60,6 @@ XData FAQManifest [ XMLNamespace = INSTALLER ]
 <Invoke Class="KB.Setup" Method="copyFlask" CheckStatus="0" Return="RetVal"> 
     <Arg Value="${FlaskFileDir}"/>
 </Invoke>
-<Invoke Class="KB.Setup" Method="copyReact" CheckStatus="0" Return="RetVal"> 
-    <Arg Value="${ReactFileDir}"/>
-    <Arg Value="${ReactAppName}"/>
-</Invoke>
 <If Condition='${VectorSearch}'>
 <Invoke Class="FAQ.Installer" Method="BuildVectorForDescriptions" CheckStatus="0" Return="RetVal">
 </Invoke>
