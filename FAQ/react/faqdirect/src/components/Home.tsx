@@ -26,8 +26,6 @@ export const Home = (props: any) => {
   const Protocol = configinfo.Protocol;
   
   const {topicid} = useParams();
-  
-  console.log('topic id = ' + topicid);
 
   const onClickItem2 = (topicid: any) => {
 	setIsLoading(true);
