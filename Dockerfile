@@ -6,7 +6,6 @@ USER ${ISC_PACKAGE_MGRUSER}
 ENV ISC_TEMP_DIR=/intersystems/iris/global
 
 COPY FAQ/ $ISC_TEMP_DIR/
-COPY TopicD.xml $ISC_TEMP_DIR
 COPY iris.script /tmp
 COPY FAQ/python/embedding.py /usr/irissys/mgr/python/
 
