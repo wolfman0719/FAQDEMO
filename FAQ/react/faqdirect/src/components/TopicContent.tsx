@@ -30,7 +30,7 @@ hljs.registerLanguage('csharp', csharp);
 
 export const TopicContent = (props: any) => {
 
-  const {response} = props; 
+  const {response, showDescription} = props;
 
  useEffect(() => {
    hljs.initHighlighting();
@@ -54,9 +54,14 @@ export const TopicContent = (props: any) => {
         
   return (
     <>
-    {(response.DCURL === "") && <div style = {{ marginLeft: "20px", marginRight: "20px"}}><span dangerouslySetInnerHTML={{__html: response.Description}}></span></div>}	
-    {(response.DCURL !== "") && (response.DCURL !== undefined ) && <div style = {{ marginLeft: "20px", marginRight: "20px"}}><span><p>最新内容は、デベロッパーコミュニティをご参照ください</p><a href={response.DCURL}  target="_blank" rel="noreferrer">デベロッパーコミュニティの記事</a></span></div>}	
-    </>	
+    {showDescription
+      ? <div style={{ marginLeft: "20px", marginRight: "20px"}}><span dangerouslySetInnerHTML={{__html: response.Description}}></span></div>
+      : <>
+          {(response.DCURL === "") && <div style={{ marginLeft: "20px", marginRight: "20px"}}><span dangerouslySetInnerHTML={{__html: response.Description}}></span></div>}
+          {(response.DCURL !== "") && (response.DCURL !== undefined) && <div style={{ marginLeft: "20px", marginRight: "20px"}}><span><p>最新内容は、デベロッパーコミュニティをご参照ください</p><a href={response.DCURL} target="_blank" rel="noreferrer">デベロッパーコミュニティの記事</a></span></div>}
+        </>
+    }
+    </>
   );	
 }
 export default TopicContent;

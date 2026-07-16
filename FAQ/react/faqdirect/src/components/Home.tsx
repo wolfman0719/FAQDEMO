@@ -26,6 +26,8 @@ export const Home = (props: any) => {
   const Protocol = configinfo.Protocol;
   
   const {topicid} = useParams();
+  
+  console.log('topic id = ' + topicid);
 
   const onClickItem2 = (topicid: any) => {
 	setIsLoading(true);
@@ -72,8 +74,7 @@ export const Home = (props: any) => {
 		 }
 	  })
       .finally(() => setIsLoading(false))
-      // eslint-disable-next-line react-hooks/exhaustive-deps     
-      }, []);
+      }, [topicid]);
   
   const cardStyle: React.CSSProperties = {
     backgroundColor: "#ffffff",
@@ -99,7 +100,7 @@ export const Home = (props: any) => {
     <div><p className="blue-text">該当する製品: <span className="black-text">{response.ProductText}</span></p></div>
     </div>
     <div id="relatedtopics" style={{ ...cardStyle, height: `${height*0.2}px` }}>
-    <RelatedTopics reftopics = {reftopics} onClickItem = {onClickItem2} />
+    <RelatedTopics reftopics = {reftopics} onClickItem = {onClickItem2} linkBase="/Contentdc" />
     </div>
     <div id="downloadfile" style={{ ...cardStyle, height: `${height*0.06}px` }}>
 	<DownloadFile fileflag = {fileflag} response = {response} />
