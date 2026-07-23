@@ -12,7 +12,7 @@ const {isLoading, onClickItem, topicList} = props;
          topicList.map((topic: any, index: number) => (
          <tr key={index} className="topic-row" style={{ backgroundColor: index % 2 === 0 ? "#f5f5f5" : "#ffffff" }}>
          <td style={{ width: "60px", minWidth: "60px", maxWidth: "60px", padding: "8px", color: "#000000", whiteSpace: "nowrap", verticalAlign: "middle" }}>{topic.id}</td>
-         <td style={{ padding: 0, verticalAlign: "middle" }}><button className="btn-flat waves-effect topic-item-btn" style={{ width: "100%", textAlign: "left", color: "#000000", textTransform: "none", padding: "8px 16px", display: "flex", alignItems: "center" }} onClick={() => onClickItem(topic.id)}>{topic.title}</button></td>
+         <td style={{ padding: 0, verticalAlign: "middle", overflow: "hidden" }}><button className="btn-flat waves-effect topic-item-btn" style={{ width: "100%", textAlign: "left", color: "#000000", textTransform: "none", padding: "8px 16px", display: "flex", alignItems: "center" }} onClick={() => onClickItem(topic.id)}><span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{topic.title}</span></button></td>
          </tr>
          )))
       }
