@@ -27,8 +27,11 @@ XData FAQManifest [ XMLNamespace = INSTALLER ]
 </Import>
 <Import File="${KBClassFileDir}" Flags="ckr" Recurse="1" IgnoreErrors="1"> 
 </Import>
-<Import File="${CSPClassFileDir}" Flags="ckr" Recurse="1" IgnoreErrors="1"> 
-</Import>
+<Invoke Class="%SYSTEM.OBJ" Method="Import" CheckStatus="0" Return="Retval">
+    <Arg Value="${CSPFileDir}"/>
+    <Arg Value="ckr"/>
+    <Arg Value="*.csp"/>
+</Invoke>
 <Invoke Class="%SYSTEM.OBJ" Method="Compile" CheckStatus="0" Return="RetVal"> 
     <Arg Value="KB.Topic"/>
     <Arg Value="ck"/>
@@ -61,7 +64,7 @@ XData FAQManifest [ XMLNamespace = INSTALLER ]
     <Arg Value="${FlaskFileDir}"/>
 </Invoke>
 <If Condition='${VectorSearch}'>
-<Invoke Class="FAQ.Installer" Method="BuildVectorForDescriptions" CheckStatus="0" Return="RetVal">
+<Invoke Class="FAQ.TopicVector" Method="BuildVectorForDescriptions" CheckStatus="0" Return="RetVal">
 </Invoke>
 </If>
 </If>
@@ -90,9 +93,9 @@ ClassMethod runInstaller(datestr As %String, envID As %Integer = 4) As %Status
     set vars("setupdir") = setupdir
     set vars("FTPDirectory") = ##class(KB.Config).getFTPDirectory()
     set vars("ClassFileDir") = setupdir_##class(KB.Config).getClassFileDir()
-    set vars("FAQClassFileDir") = setupdir_##class(KB.Config).getClassFileDir()_##class(KB.Config).getDirectorySeparator()_"FAQ"
-    set vars("KBClassFileDir") = setupdir_##class(KB.Config).getClassFileDir()_##class(KB.Config).getDirectorySeparator()_"KB"
-    set vars("CSPClassFileDir") = setupdir_##class(KB.Config).getClassFileDir()_##class(KB.Config).getDirectorySeparator()_"CSP"
+    set vars("FAQClassFileDir") = setupdir_##class(KB.Config).getClassFileDir()_"FAQ"
+    set vars("KBClassFileDir") = setupdir_##class(KB.Config).getClassFileDir()_"KB"
+    set vars("CSPClassFileDir") = setupdir_##class(KB.Config).getClassFileDir()_"CSP"
     set vars("GlobalFileName") = setupdir_##class(KB.Config).getGlobalFileName()
 				
     set vars("SetupType") = setuptype
