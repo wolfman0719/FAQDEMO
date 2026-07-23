@@ -13,6 +13,69 @@ FAQシステムのデモサイト
 
 を実行
 
+### 後処理
+
+2025.3以降、Dockerビルド実行後、以下の後処理を実行しないとCSPが正しく動作しない
+
+```
+docker exec -it faqdemo /bin/sh
+$ iris session iris
+
+ノード: iris インスタンス: IRIS
+
+USER>do $system.CSP.LoadPageDir("/csp/user","ck")
+
+CSPページのロード開始 07/23/2026 14:52:07
+ファイル /usr/irissys/csp/user/complete.csp を csp としてロード中
+ファイルのコンパイル中 /csp/user/complete.csp
+ファイル /usr/irissys/csp/user/history.csp を csp としてロード中
+ファイルのコンパイル中 /csp/user/history.csp
+ファイル /usr/irissys/csp/user/howto.csp を csp としてロード中
+ファイルのコンパイル中 /csp/user/howto.csp
+ファイル /usr/irissys/csp/user/howtoforeditors.csp を csp としてロード中
+ファイルのコンパイル中 /csp/user/howtoforeditors.csp
+ファイル /usr/irissys/csp/user/imageupload.csp を csp としてロード中
+ファイルのコンパイル中 /csp/user/imageupload.csp
+ファイル /usr/irissys/csp/user/edit.csp を csp としてロード中
+ファイルのコンパイル中 /csp/user/edit.csp
+ファイル /usr/irissys/csp/user/menu.csp を csp としてロード中
+ファイルのコンパイル中 /csp/user/menu.csp
+ファイル /usr/irissys/csp/user/new.csp を csp としてロード中
+ファイルのコンパイル中 /csp/user/new.csp
+ファイル /usr/irissys/csp/user/result.csp を csp としてロード中
+ファイルのコンパイル中 /csp/user/result.csp
+ファイル /usr/irissys/csp/user/transfer.csp を csp としてロード中
+ファイルのコンパイル中 /csp/user/transfer.csp
+ファイル /usr/irissys/csp/user/showsource.csp を csp としてロード中
+ファイルのコンパイル中 /csp/user/showsource.csp
+, 11 クラスをコンパイル中
+クラスのコンパイル中 csp.complete
+クラスのコンパイル中 csp.edit
+クラスのコンパイル中 csp.history
+クラスのコンパイル中 csp.howto
+クラスのコンパイル中 csp.howtoforeditors
+クラスのコンパイル中 csp.imageupload
+クラスのコンパイル中 csp.menu
+クラスのコンパイル中 csp.new
+クラスのコンパイル中 csp.result
+クラスのコンパイル中 csp.transfer
+クラスのコンパイル中 csp.showsource
+ルーチンのコンパイル中 csp.complete.1
+ルーチンのコンパイル中 csp.history.1
+ルーチンのコンパイル中 csp.howto.1
+ルーチンのコンパイル中 csp.howtoforeditors.1
+ルーチンのコンパイル中 csp.imageupload.1
+ルーチンのコンパイル中 csp.edit.1
+ルーチンのコンパイル中 csp.menu.1
+ルーチンのコンパイル中 csp.result.1
+ルーチンのコンパイル中 csp.showsource.1
+ルーチンのコンパイル中 csp.transfer.1
+ルーチンのコンパイル中 csp.new.1
+ロードが正常に完了しました。
+
+USER>
+```
+
 ## ローカルインストール(WindowsやMacOSにインストールしたIRISでセットアップする)
 
 ### Python Flaskパッケージのインストール
