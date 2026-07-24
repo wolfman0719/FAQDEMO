@@ -92,7 +92,7 @@ export const Home = (props: any) => {
 	</div>
 	{isError && <p style={{ color: "red" }} dangerouslySetInnerHTML={{ __html: `エラーが発生しました　${errortext}` }} />}
 	{isLoading && <p>Loading...</p>}
-	<div id="topiccontent" style={{ ...cardStyle, height: `${height*0.05}px` }}><span  className="blue-text" style={{ marginLeft: "20px", marginRight: "20px", fontSize: "1.65rem" }}><img src="../images/Question.gif" alt="Question"/> {response.Title}</span><p className="cyan-text" style={{ float: "right", marginRight: "20px", fontSize: "1.3rem" }}>{response.VersionRange}</p></div>
+	<div id="topiccontent" style={{ ...cardStyle, height: `${height*0.05}px`, display: "flex", alignItems: "center", justifyContent: "space-between", overflow: "hidden" }}><span className="blue-text" style={{ marginLeft: "20px", fontSize: "1.65rem", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", flex: 1 }}><img src="../images/Question.gif" alt="Question"/> {response.Title}</span><p className="cyan-text" style={{ marginRight: "20px", marginLeft: "12px", fontSize: "1.3rem", whiteSpace: "nowrap", flexShrink: 0 }}>{response.VersionRange}</p></div>
 	<div id="topiccontent" style={{ ...cardStyle, height: `${height*0.45}px` }}>
     <TopicContent response = {response} />
     </div>

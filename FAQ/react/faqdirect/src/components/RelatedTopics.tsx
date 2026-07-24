@@ -26,7 +26,7 @@ export const RelatedTopics = (props: any) => {
 		      onMouseEnter={() => setHoveredIndex(index)}
 		      onMouseLeave={() => setHoveredIndex(null)}>
 		  <td style={{padding: "6px 8px", color: "#000000", whiteSpace: "nowrap"}}>{reftopic.split(comma)[0]}</td>
-		  <td style={{padding: "6px 8px", width: "100%"}}><button style={{width: "100%", textAlign: "left", color: "#000000", background: "transparent", border: "none", padding: "0"}} onClick={() => linkBase ? navigate(`${linkBase}/${reftopic.split(comma)[0]}`) : onClickItem(reftopic.split(comma)[0])}>{reftopic.split(comma)[1]}</button></td>
+		  <td style={{padding: "6px 8px", width: "100%", maxWidth: 0, overflow: "hidden"}}><button style={{width: "100%", textAlign: "left", color: "#000000", background: "transparent", border: "none", padding: "0", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", display: "block"}} onClick={() => linkBase ? navigate(`${linkBase}/${reftopic.split(comma)[0]}`) : onClickItem(reftopic.split(comma)[0])}>{reftopic.split(comma)[1]}</button></td>
 		  </tr>
     	)
     )}
