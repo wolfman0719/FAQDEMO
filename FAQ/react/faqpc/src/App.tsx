@@ -169,14 +169,14 @@ export const App = () => {
       {prevtopicflag  ? (<button className="btn white-text waves-effect waves-light" style={{ borderRadius: "24px", backgroundColor: backBtnHovered ? "#757575" : "#bdbdbd" }} onClick={() => onClickItem(prevtopicid)} onMouseEnter={() => setBackBtnHovered(true)} onMouseLeave={() => setBackBtnHovered(false)}><i className="material-icons left">arrow_back</i>前のトピックに戻る</button>):
       (<button  className="btn grey lighten-1 white-text waves-effect waves-light disabled" style={{ borderRadius: "24px" }} onClick={() => onClickItem(prevtopicid)} disabled><i className="material-icons left">arrow_back</i>前のトピックに戻る</button>)}
       {isError && <p style={{ color: "red" }} dangerouslySetInnerHTML={{ __html: `エラーが発生しました　${errortext}` }} />}
-	</div>
-    <div className="topiclist" style={{ ...cardStyle, float: "left", width: "calc(40% - 4px)", height: `${height*0.81}px`, overflow: "auto", marginRight: "8px" }}>
+    </div>
+    <div className="topiclist" style={{ ...cardStyle, float: "left", width: "calc(40% - 4px)", height: `${height*0.81}px`, overflowY: "auto", overflowX: "hidden", marginRight: "8px" }}>
       {TopicListMemo}
     </div>
     <div style={{ width: "calc(60% - 4px)", height: `${height*0.81}px`, display: "flex", flexDirection: "column", gap: "8px" }}>
-      <div id="topiccontent" style={{ ...cardStyle, flex: 5, overflow: "auto" }}>
-        <span className="blue-text text-darken-2" style={{ marginLeft: "20px", marginRight: "20px", fontSize: "2.0rem" }}><img src="./images/Question.gif" alt="Question"/> {response.Title}</span>
-        <p className="teal-text" style={{ float: "right", marginRight: "20px", fontSize: "1.5rem" }}>{response.VersionRange}</p>
+      <div id="topiccontent" style={{ ...cardStyle, flex: 5, overflowX: "hidden", overflowY: "auto", display: "flex", alignItems: "center" }}>
+        <span className="blue-text text-darken-2" style={{ flex: 1, minWidth: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", marginLeft: "20px", fontSize: "2.0rem" }}><img src="./images/Question.gif" alt="Question"/> {response.Title}</span>
+        <p className="teal-text" style={{ flexShrink: 0, marginLeft: "8px", marginRight: "20px", fontSize: "1.5rem" }}>{response.VersionRange}</p>
       </div>
       <div id="topiccontent" style={{ ...cardStyle, flex: 45, overflow: "auto" }}>
         <TopicContent response = {response} />
