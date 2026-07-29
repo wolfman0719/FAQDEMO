@@ -64,6 +64,16 @@ set setupdir = "c:\git\faqdemo"
 >do ##class(KB.Setup).SetupLocal(pDir)
 ```
 
+### ローカルマシン（localhost）以外で動作させる場合の設定
+
+管理ポータル＞システム管理>構成>追加の設定>開始
+
+WebServerName
+WebServerPort
+WebServerProtocol
+
+これらの値を予め正しく設定すること
+
 ## アプリケーション起動(Docker環境)
 
 * FAQシステムエントリー
