@@ -141,6 +141,8 @@ Method %OnBeforeSave(pInsert As %Boolean) As %Status [ Private, ServerOnly = 1 ]
 	set webserveraddress = ##class(KB.Config).getWebServerAddress()
 	set protocol = ##class(KB.Config).getWebServerProtocol()
 	set webserverport = ##class(KB.Config).getWebServerPort()
+
+    /*　以下の処理で正しくデータ取得できないケースがあり、採用しないことにした
 	if $data(%request) {
 	  set webserver = %request.CgiEnvs("SERVER_NAME")
       set webserverport = %request.CgiEnvs("SERVER_PORT")
@@ -152,11 +154,12 @@ Method %OnBeforeSave(pInsert As %Boolean) As %Status [ Private, ServerOnly = 1 ]
       }
 	
 	}
+    */
 
 	set namespace = $ZCVT($namespace,"L")
 	set apath = "/csp/"_namespace_"/images"
 	set rpath = "./images"
-	set ourl = protocol_"://"_webserveraddress_":"_webserverport_apath
+	set ourl = protocol_"://"_$ZCVT(webserveraddress,"L")_":"_webserverport_apath
 	set rurl = "./images"
     set ..Description = $replace(..Description,ourl,rurl)
 
