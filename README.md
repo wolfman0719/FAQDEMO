@@ -68,9 +68,9 @@ set setupdir = "c:\git\faqdemo"
 
 管理ポータル＞システム管理>構成>追加の設定>開始
 
-WebServerName
-WebServerPort
-WebServerProtocol
+- WebServerName
+- WebServerPort
+- WebServerProtocol
 
 これらの値を予め正しく設定すること
 
