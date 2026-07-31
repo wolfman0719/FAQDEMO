@@ -9,8 +9,8 @@ import { useLocation } from "react-router-dom";
 export const Home = () => {
 
   const location = useLocation();
-  // eslint-disable-next-line
-  const editflag = (location.state.edit as unknown) == 1 ? true : false;
+  const editflag = location.state.edit === 1 || location.state.edit === '1'
+    || location.state.edit === true || location.state.edit === 'true';
 
   localStorage.setItem('username', location.state.username);
   localStorage.setItem('password', location.state.password);

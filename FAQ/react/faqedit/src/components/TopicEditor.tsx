@@ -6,6 +6,25 @@ import axios from "axios";
 import configinfo from '../serverconfig.json';
 import './styleedit.css';
 
+// dialogDefinitionはエディタインスタンスに依存しない静的イベントのため、
+// CKEDITOR名前空間のロード完了時に一度だけ登録し、リンクダイアログの
+// 「ターゲット」の初期値を_blankにする
+let linkTargetDefaultRegistered = false;
+const onCKEditorNamespaceLoaded = (CKEDITOR: any) => {
+  if (linkTargetDefaultRegistered) return;
+  linkTargetDefaultRegistered = true;
+
+  CKEDITOR.on('dialogDefinition', (evt: any) => {
+    if (evt.data.name === 'link') {
+      const infoTab = evt.data.definition.getContents('target');
+      const targetTypeField = infoTab.get('linkTargetType');
+      if (targetTypeField) {
+        targetTypeField['default'] = '_blank';
+      }
+    }
+  });
+};
+
 export const TopicEditor = (props: any) => {
 
   const [isLoading, setIsLoading] = useState(false);
@@ -404,9 +423,10 @@ export const TopicEditor = (props: any) => {
         <tr>
         <td  align="right" style={{color: "#0d6efd"}}><label>内容： </label></td>  
         <td>
-        <div style={{width: "33%"}}>
+        <div style={{width: "50%"}}>
         <CKEditor
           name="faqeditor"
+          onNamespaceLoaded={onCKEditorNamespaceLoaded}
           config={{
             width: '100%',
             extraPlugins: 'codesnippet,colorbutton,font,justify',
@@ -416,6 +436,7 @@ export const TopicEditor = (props: any) => {
             filebrowserUploadMethod: 'form',
             versionCheck: false,
             clipboard_handleImages: false,
+            format_tags: 'p;h1;h2;h3;h4;h5;pre;address;div',
             toolbar:  [[ 'Bold', 'Italic', 'Underline', 'Strike', 'JustifyLeft', 'JustifyCenter', 'JustifyRight' , 'NumberedList', 'BulletedList', 'Indent',  'Outdent', 'Blockquote', 'Link', 'Unlink', 'Anchor', 'TextColor',  'Source', 'HorizontalRule', 'Table', 'RemoveFormat', 'Font', 'FontSize', 'Styles', 'Format', 'CodeSnippet', 'Image']],
             allowedContent: true
           }}
