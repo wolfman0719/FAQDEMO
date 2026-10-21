@@ -111,11 +111,13 @@
 
 ## ckeditor5のライセンスキー
 
-ckeditor5のサイト(https://ckeditor.com/)でアカウントを作成し、CKEditor 5 Free Subscriptionを取得すると、ライセンスキーが付与される
+ckeditor5のサイト(https://ckeditor.com/)
+
+でアカウントを作成し、CKEditor 5 Free Subscriptionを取得すると、ライセンスキーが付与される
 
 ProductionキーとDevelopmentキーがあるが、Productionキーを通常使用する
 
-（使用量によっては、有料ライセンスが必要になる可能性がある）
+（但し使用量によっては、有料ライセンスが必要になる可能性があるので注意）
 
 Free Subscriptionには様々な機能制限があるので、ckeditor4で利用できていた機能の一部が利用できない
 
