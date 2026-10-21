@@ -135,6 +135,8 @@ set setupdir = "c:\git\faqdemo"
 
 セットアップに関しては、FAQ/react/faqedit/README.mdを参照してください。
 
+セットアップに関しては、FAQ/react/faqedit5/README.mdを参照してください。
+
 ## Flaskアプリケーション
 
 起動方法は、FAQ/flask/README.mdを参照してください
