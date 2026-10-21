@@ -1,0 +1,93 @@
+td.title
+{
+font-size:16pt;
+font-weight:bold;
+font-style:italic;
+color:#6633FF;
+}
+
+td.coltitle
+{
+text-align:right;
+font-weight:bold;
+font-size:90%;
+color:#6633FF;
+}
+
+td.childcoltitle
+{
+font-weight:bold;
+font-size:90%;
+color:#6633FF;
+}
+
+.textbox
+{
+font-size:100%;
+font-family:"‚l‚r ‚oƒSƒVƒbƒN";
+}
+
+.readonlytitle
+{
+text-align:right;
+font-weight:bold;
+font-style:italic;
+font-size:90%;
+color:#666666;
+}
+
+textarea
+{
+width:100%;
+font-size:100%;
+font-family:"‚l‚r ‚oƒSƒVƒbƒN";
+line-height:1.5em;
+}
+
+th.coltitle
+{
+font-weight:bold;
+color:#6633FF;
+}
+
+td.newline
+{
+font-weight:bold;
+font-style:italic;
+}
+.ck-editor__editable_inline
+{
+min-height: 300px;
+max-height: 500px;
+overflow-y: auto;
+overflow-x: auto;
+}
+
+.ck-editor__editable_inline pre
+{
+white-space: pre;
+overflow-x: auto;
+}
+
+.ck.ck-editor
+{
+contain: inline-size;
+}
+
+/* image frame: up to 800x600, keep aspect ratio (wider than editor scrolls horizontally) */
+.ck.ck-editor__editable_inline.ck-content .image,
+.ck.ck-editor__editable_inline.ck-content .image-inline
+{
+max-width: 800px;
+}
+
+.ck.ck-editor__editable_inline.ck-content .image img,
+.ck.ck-editor__editable_inline.ck-content .image-inline img
+{
+min-width: 0;
+max-width: 800px;
+max-height: 600px;
+width: auto;
+height: auto;
+object-fit: contain;
+}

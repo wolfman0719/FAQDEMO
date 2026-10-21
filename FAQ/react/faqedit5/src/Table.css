@@ -1,0 +1,335 @@
+.table-bordered {
+  border: 2px solid;
+  border-collapse: collapse;
+  color: black;
+}
+.table-bordered th,
+.table-bordered td {
+  border: 1px solid;
+  color: black;
+  border-collapse: collapse;
+}
+
+.table2-bordered {
+  border: 2px solid;
+  border-collapse: collapse;
+  color: black;
+}
+.table2-bordered th,
+.table2-bordered td {
+  border: 2px double;
+  color: black;
+  border-collapse: collapse;
+}
+
+/* === ロゴ画像の枠を非表示 === */
+a > img {
+  outline: none !important;
+  border: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* === Materialize オーバーライド === */
+
+/* label の色を親要素から継承させる（Materialize が #9e9e9e に固定するのを防ぐ） */
+td > label {
+  color: inherit;
+  font-size: inherit;
+}
+
+/* ファイル選択ボタンの角丸 */
+input[type="file"]::file-selector-button {
+  background-color: #9e9e9e;
+  color: #ffffff;
+  border: none;
+  border-radius: 20px;
+  padding: 6px 14px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  margin-right: 8px;
+}
+input[type="file"]::file-selector-button:hover {
+  background-color: #757575;
+}
+
+/* ネイティブ select を表示 */
+select {
+  display: block !important;
+  height: auto !important;
+  border: 1px solid #bdbdbd;
+  border-radius: 4px;
+  padding: 4px 6px;
+  background-color: #fff;
+}
+
+/* ネイティブ checkbox / radio を表示 */
+input[type="checkbox"],
+input[type="radio"] {
+  opacity: 1 !important;
+  position: relative !important;
+  width: auto !important;
+  height: auto !important;
+  left: auto !important;
+  pointer-events: auto !important;
+  margin-right: 4px;
+  vertical-align: middle;
+}
+
+/* 更新履歴テーブルのセル境界線 */
+table.striped.bordered th,
+table.striped.bordered td {
+  border: 1px solid #bdbdbd !important;
+  padding: 4px 8px !important;
+}
+table.striped.bordered {
+  border-collapse: collapse !important;
+}
+
+/* === グローバルレイアウト === */
+html, body {
+  background-color: #f0f0f0 !important;
+  min-height: 100vh;
+}
+
+/* ホワイトカード */
+.faq-card {
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 12px 16px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+}
+
+/* === 検索アイコン付きインプット === */
+.search-input-wrapper {
+  display: inline-flex;
+  align-items: center;
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 24px;
+  padding: 4px 12px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+
+.search-input-wrapper .material-icons {
+  color: #9e9e9e;
+  margin-right: 6px;
+  font-size: 20px;
+  line-height: 1;
+}
+
+.search-input-wrapper input {
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+  height: 28px !important;
+  margin: 0 !important;
+  flex: 1;
+  background: transparent;
+  min-width: 250px;
+}
+
+/* === 共通グレーボタン (編集・添付ファイルなど) === */
+.gray-action-btn {
+  background-color: #9e9e9e;
+  color: #ffffff;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 16px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.9rem;
+  width: fit-content;
+  text-decoration: none;
+  transition: background-color 0.2s;
+}
+.gray-action-btn:hover {
+  background-color: #616161;
+  color: #ffffff;
+}
+.gray-action-btn:focus {
+  background-color: #9e9e9e;
+  outline: none;
+}
+.gray-action-btn:focus:hover {
+  background-color: #616161;
+}
+
+/* === 削除ボタン === */
+.delete-btn {
+  background-color: #ef9a9a;
+  color: #ffffff;
+  border: none;
+  border-radius: 20px;
+  padding: 6px 14px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.9rem;
+  transition: background-color 0.2s;
+}
+.delete-btn:hover:not(:disabled) {
+  background-color: #e53935;
+}
+.delete-btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.delete-btn:focus {
+  background-color: #ef9a9a;
+  outline: none;
+}
+
+/* === 検索に戻るボタン === */
+.back-btn {
+  background-color: #757575;
+  color: #ffffff;
+  border: none;
+  border-radius: 20px;
+  padding: 6px 14px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.9rem;
+  width: fit-content;
+  transition: background-color 0.2s;
+}
+.back-btn:hover {
+  background-color: #424242;
+}
+.back-btn:focus {
+  background-color: #757575;
+  outline: none;
+}
+
+/* === 新規トピックボタン === */
+.new-topic-btn {
+  background-color: #9e9e9e;
+  color: #ffffff;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 16px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.9rem;
+  width: fit-content;
+  flex-shrink: 0;
+  transition: background-color 0.2s;
+}
+.new-topic-btn:hover {
+  background-color: #616161;
+}
+.new-topic-btn:focus {
+  background-color: #9e9e9e;
+  outline: none;
+}
+
+/* === RelatedTopics ボタン === */
+.related-topic-btn {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  padding: 6px 8px;
+  cursor: pointer;
+  color: #212121;
+  font-size: 0.95rem;
+  border-radius: 4px;
+  display: block;
+}
+.related-topic-btn:hover {
+  background-color: transparent;
+  color: #212121;
+}
+.related-topic-btn:focus {
+  background-color: transparent;
+  outline: none;
+}
+
+/* ゼブラパターン */
+.related-topic-row:nth-child(odd) td {
+  background-color: #ffffff;
+}
+.related-topic-row:nth-child(even) td {
+  background-color: #f2f2f2;
+}
+.related-topic-row:hover td {
+  background-color: #e3f2fd;
+}
+
+/* === TopicList ゼブラパターン === */
+.topic-list-row:nth-child(odd) {
+  background-color: #ffffff;
+}
+.topic-list-row:nth-child(even) {
+  background-color: #f2f2f2;
+}
+.topic-list-row:hover {
+  background-color: #e3f2fd;
+}
+.topic-list-row td {
+  padding: 0;
+  border: none;
+}
+.topic-list-link {
+  display: flex;
+  align-items: center;
+  padding: 10px 12px;
+  text-decoration: none !important;
+  color: #212121 !important;
+  width: 100%;
+  box-sizing: border-box;
+}
+.topic-list-link:hover {
+  color: #212121 !important;
+}
+.topic-list-title {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* === TopicInfo 2カラムレイアウト === */
+.topic-info-layout {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  height: calc(100vh - 90px);
+  padding: 0 8px 8px;
+}
+
+.topic-side-panel {
+  width: 240px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.topic-main-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.topic-related-panel {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+}
+
+.topic-content-panel {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+}
