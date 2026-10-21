@@ -6,7 +6,7 @@
 
 ## bootstrapインストール
 
-```% cd faqedit```
+```% cd faqedit5```
 
 ```% npm install react-bootstrap bootstrap```
 
