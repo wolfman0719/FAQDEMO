@@ -159,7 +159,7 @@ npm run buildの場合
    
 - http://localhost:8080/faqreact/faqedit/
 
-  npm run buildして生成されたbuildディレクトリをfaqeditに名前変更し、httpのドキュメントルートにコピーする
+  npm run buildして生成されたbuildディレクトリをfaqeditに名前変更し、httpのドキュメントルート/faqreactにコピーする
 
 ## CORS設定
 
