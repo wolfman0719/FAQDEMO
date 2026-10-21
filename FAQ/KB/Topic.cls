@@ -141,8 +141,6 @@ Method %OnBeforeSave(pInsert As %Boolean) As %Status [ Private, ServerOnly = 1 ]
 	set webserveraddress = ##class(KB.Config).getWebServerAddress()
 	set protocol = ##class(KB.Config).getWebServerProtocol()
 	set webserverport = ##class(KB.Config).getWebServerPort()
-
-    /*　以下の処理で正しくデータ取得できないケースがあり、採用しないことにした
 	if $data(%request) {
 	  set webserver = %request.CgiEnvs("SERVER_NAME")
       set webserverport = %request.CgiEnvs("SERVER_PORT")
@@ -154,12 +152,11 @@ Method %OnBeforeSave(pInsert As %Boolean) As %Status [ Private, ServerOnly = 1 ]
       }
 	
 	}
-    */
 
 	set namespace = $ZCVT($namespace,"L")
 	set apath = "/csp/"_namespace_"/images"
 	set rpath = "./images"
-	set ourl = protocol_"://"_$ZCVT(webserveraddress,"L")_":"_webserverport_apath
+	set ourl = protocol_"://"_webserveraddress_":"_webserverport_apath
 	set rurl = "./images"
     set ..Description = $replace(..Description,ourl,rurl)
 
@@ -170,15 +167,8 @@ Method %OnBeforeSave(pInsert As %Boolean) As %Status [ Private, ServerOnly = 1 ]
 	set ..Description = $replace(..Description,apath,rpath)
 
 	// Codesnippetの言語名を表示するための処理
-	set crlf = $char(13,10)
-	set lf = $char(10)
-	//二重に<div>を付加するのを防ぐ　ckeditorが自動的に<div>の後ろにcrlfまたはlfを付加することを想定
-	set ..Description = $replace(..Description,"<div class=""hljs-wrap"">"_crlf_"<pre>","<pre>")
-	set ..Description = $replace(..Description,"</pre>"_crlf_"</div>","</pre>")
-	set ..Description = $replace(..Description,"<div class=""hljs-wrap"">"_lf_"<pre>","<pre>")
-	set ..Description = $replace(..Description,"</pre>"_lf_"</div>","</pre>")
-	set ..Description = $replace(..Description,"<pre>","<div class=""hljs-wrap""><pre>")
-	set ..Description = $replace(..Description,"</pre>","</pre></div>")
+	// 既存のhljs-wrapを全て取り除いてから<pre>毎に1つだけ付加し直すため、何度保存してもネストしない
+	set ..Description = ..WrapCodeBlocks(..Description)
 
 	set ..VersionRange = ##class(KB.Version).SetVersionRange(..StartVersion, ..EndVersion)
 	
@@ -203,7 +193,7 @@ Method %OnAfterSave(pInsert As %Boolean) As %Status [ Private, ServerOnly = 1 ]
         set tSC = $system.Security.Audit("FAQ","Create","Topic",message)
 			
 		//UsersVoiceの新規セット
-   		set uv=##class(UsersVoice).%New()
+   		set uv=##class(KB.UsersVoice).%New()
 		set ..UsersVoice=uv
 		set uv.TopicId=..%Id()
 	  }
@@ -225,6 +215,97 @@ Method %OnAfterSave(pInsert As %Boolean) As %Status [ Private, ServerOnly = 1 ]
 	
 	If (tSC = 0) Set tSC = $$$OK  // tSC = 0はエラー扱いしない
 	Quit tSC
+}
+
+/// コードブロック(<pre>～</pre>)を<div class="hljs-wrap">で1回だけ囲む
+/// 既存のhljs-wrapは改行の有無や属性の違いに関わらず全て取り除いてから付加し直すため、
+/// 保存を繰り返してもネストしない
+ClassMethod WrapCodeBlocks(pHtml As %String) As %String
+{
+	set html = ..RemoveCodeWrap(pHtml)
+	set lower = $zconvert(html,"L")
+	set out = "", pos = 1
+	for {
+		set start = ..FindTag(lower,"pre",pos)
+		quit:start=0
+		// <pre>はネストしないため、直後の</pre>が対応する終了タグ
+		set end = $find(lower,"</pre>",start)
+		quit:end=0
+		set out = out_$extract(html,pos,start-1)_"<div class=""hljs-wrap"">"_$extract(html,start,end-1)_"</div>"
+		set pos = end
+	}
+	quit out_$extract(html,pos,*)
+}
+
+/// <div class="hljs-wrap">とそれに対応する</div>を全て取り除く（中身は残す）
+/// <div>の開始・終了タグをスタックで対応付けるため、ネストしたhljs-wrapや他の<div>が混在しても正しく取り除ける
+ClassMethod RemoveCodeWrap(pHtml As %String) As %String
+{
+	set lower = $zconvert(pHtml,"L")
+	set out = "", pos = 1, depth = 0
+	for {
+		set open = ..FindTag(lower,"div",pos)
+		set close = $find(lower,"</div",pos)
+		set close = $select(close=0:0,1:close-5)
+		quit:(open=0)&&(close=0)
+		if (open'=0)&&((close=0)||(open<close)) {
+			set tagEnd = $find(lower,">",open)
+			quit:tagEnd=0
+			set isWrap = ..IsCodeWrapTag($extract(lower,open,tagEnd-1))
+			set depth = depth+1, stack(depth) = isWrap
+			set out = out_$extract(pHtml,pos,open-1)_$select(isWrap:"",1:$extract(pHtml,open,tagEnd-1))
+			set pos = tagEnd
+			// 取り除いた開始タグの直後の改行・空白も取り除く
+			if isWrap {
+				for {
+					quit:(pos>$length(pHtml))||((" "_$char(9,10,13))'[$extract(pHtml,pos))
+					set pos = pos+1
+				}
+			}
+		}
+		else {
+			set tagEnd = $find(lower,">",close)
+			quit:tagEnd=0
+			set isWrap = 0
+			if depth>0 {
+				set isWrap = stack(depth)
+				kill stack(depth)
+				set depth = depth-1
+			}
+			if isWrap {
+				// 取り除いた終了タグの直前の改行・空白も取り除く
+				set out = out_$zstrip($extract(pHtml,pos,close-1),">W")
+			}
+			else {
+				set out = out_$extract(pHtml,pos,tagEnd-1)
+			}
+			set pos = tagEnd
+		}
+	}
+	quit out_$extract(pHtml,pos,*)
+}
+
+/// pLowerのpFrom以降で、最初に現れる<pName>または<pName 属性...>の開始位置を返す（無ければ0）
+/// <prefix>や<divider>のような別名タグは対象外
+ClassMethod FindTag(pLower As %String, pName As %String, pFrom As %Integer) As %Integer
+{
+	set p = pFrom, found = 0
+	for {
+		set f = $find(pLower,"<"_pName,p)
+		quit:f=0
+		if (">/ "_$char(9,10,13))[$extract(pLower,f) {
+			set found = f-$length(pName)-1
+			quit
+		}
+		set p = f
+	}
+	quit found
+}
+
+/// 開始タグ(小文字)のclass属性にhljs-wrapが含まれるか
+ClassMethod IsCodeWrapTag(pTag As %String) As %Boolean
+{
+	quit $locate(pTag,"\bclass\s*=\s*[""']?[^""'>]*\bhljs-wrap(?![\w-])")>0
 }
 
 ClassMethod GetCurTopicSubID() As %String
