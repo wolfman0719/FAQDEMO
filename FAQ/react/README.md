@@ -15,3 +15,9 @@ PC用FAQ検索
 ## faqsp
 
 モバイル用FAQ検索
+
+## faqedit5
+
+トピック検索&編集
+
+ckeditor4をckeditor5に変更
