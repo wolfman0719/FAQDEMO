@@ -77,6 +77,7 @@ ClassMethod Init()
 	&SQL(insert into KB.Version (InternalVersion,ExternalVersion) values ('20252','2025.2.x'))
 	&SQL(insert into KB.Version (InternalVersion,ExternalVersion) values ('20253','2025.3.x'))
 	&SQL(insert into KB.Version (InternalVersion,ExternalVersion) values ('20261','2026.1.x'))
+	&SQL(insert into KB.Version (InternalVersion,ExternalVersion) values ('20262','2026.2.x'))
 }
 
 ClassMethod SetVersionRange(pStart As KB.Version, pEnd As KB.Version) As %String
