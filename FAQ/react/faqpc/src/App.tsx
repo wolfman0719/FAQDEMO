@@ -29,6 +29,10 @@ export const App = () => {
   const Password = configinfo.Password;
   const ApplicationName = configinfo.ApplicationName;
   const Protocol = configinfo.Protocol;
+
+  const authParams = Username === "UnknownUser"
+    ? ""
+    : `IRISUsername=${Username}&IRISPassword=${Password}`;
   
   const onClickFetchTopicList = (keyword: any) => {
 	
@@ -36,7 +40,7 @@ export const App = () => {
     setIsError(false);
   
 	axios
-	  .get<any>(`${Protocol}://${ServerAddress}:${ServerPort}${ApplicationName}/TopicSearchByKeyword/z${keyword}?IRISUsername=${Username}&IRISPassword=${Password}`)
+	  .get<any>(`${Protocol}://${ServerAddress}:${ServerPort}${ApplicationName}/TopicSearchByKeyword/z${keyword}${authParams ? `?${authParams}` : ""}`)
 	  .then((result: any) => {
 	  const topics = result.data.map((topic: any) => ({
 		id: topic.id,
@@ -68,7 +72,7 @@ export const App = () => {
 
 	axios
 	   // eslint-disable-next-line
-	  .get<any>(`${Protocol}://${ServerAddress}:${ServerPort}${ApplicationName}/TopicGetById/${topicid}?IRISUsername=${Username}&IRISPassword=${Password}`)
+	  .get<any>(`${Protocol}://${ServerAddress}:${ServerPort}${ApplicationName}/TopicGetById/${topicid}${authParams ? `?${authParams}` : ""}`)
 	  .then((result: any) => {
 	    setResponse(result.data);
 		if (result.data.FileFlg) {
@@ -81,12 +85,12 @@ export const App = () => {
 	  })
       .catch((error: any) => {
 	     setIsError(true)
-		 if (error.response) {			
+		 if (error.response) {
 		   setErrorText(error.response.data.summary);
 		 }
 		 else if (error.request) {
 		   setErrorText(error.request);
-		 } 
+		 }
 		 else {
 		   setErrorText(error.message);
 		 }
@@ -102,7 +106,7 @@ export const App = () => {
 	setPrevTopicFlag(true);
 	
 	axios
-	  .get<any>(`${Protocol}://${ServerAddress}:${ServerPort}${ApplicationName}/TopicGetById/${topicid}?IRISUsername=${Username}&IRISPassword=${Password}`)
+	  .get<any>(`${Protocol}://${ServerAddress}:${ServerPort}${ApplicationName}/TopicGetById/${topicid}${authParams ? `?${authParams}` : ""}`)
 	  .then((result: any) => {
 	    setResponse(result.data);
 		if (result.data.FileFlg) {
@@ -115,12 +119,12 @@ export const App = () => {
 	  })
       .catch((error: any) => {
 	     setIsError(true)
-		 if (error.response) {			
+		 if (error.response) {
 		   setErrorText(error.response.data.summary);
 		 }
 		 else if (error.request) {
 		   setErrorText(error.request);
-		 } 
+		 }
 		 else {
 		   setErrorText(error.message);
 		 }
@@ -137,7 +141,7 @@ export const App = () => {
     setIsError(false);
   
 	axios
-	  .get<any>(`${Protocol}://${ServerAddress}:${ServerPort}${ApplicationName}/TopicSearchByNew?IRISUsername=${Username}&IRISPassword=${Password}`)
+	  .get<any>(`${Protocol}://${ServerAddress}:${ServerPort}${ApplicationName}/TopicSearchByNew${authParams ? `?${authParams}` : ""}`)
 	  .then((result: any) => {
 	  const topics = result.data.map((topic: any) => ({
 		id: topic.id,
