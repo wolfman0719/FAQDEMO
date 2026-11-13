@@ -27,12 +27,16 @@ const Password = configinfo.Password;
 const ApplicationName = configinfo.ApplicationName;
 const Protocol = configinfo.Protocol;
 
+const authParams = Username === "UnknownUser"
+  ? ""
+  : `IRISUsername=${Username}&IRISPassword=${Password}`;
+
 const onClickItem2 = (topicid: any) => {
 	setIsLoading(true);
 	setIsError(false);
 	
 	axios
-	  .get<any>(`${Protocol}://${ServerAddress}:${ServerPort}${ApplicationName}/TopicGetById/${topicid}?IRISUsername=${Username}&IRISPassword=${Password}`)
+	  .get<any>(`${Protocol}://${ServerAddress}:${ServerPort}${ApplicationName}/TopicGetById/${topicid}${authParams ? `?${authParams}` : ""}`)
 	  .then((result: any) => {
 	    setResponse(result.data);
 		if (result.data.FileFlg) {
@@ -65,7 +69,7 @@ const onClickItem2 = (topicid: any) => {
 	setIsError(false);
 
 	axios
-	  .get<any>(`${Protocol}://${ServerAddress}:${ServerPort}${ApplicationName}/TopicGetById/${topicid}?IRISUsername=${Username}&IRISPassword=${Password}`)
+	  .get<any>(`${Protocol}://${ServerAddress}:${ServerPort}${ApplicationName}/TopicGetById/${topicid}${authParams ? `?${authParams}` : ""}`)
 	  .then((result: any) => {
 	    setResponse(result.data);
 		if (result.data.FileFlg) {

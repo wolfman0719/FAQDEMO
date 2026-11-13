@@ -25,6 +25,10 @@ const Password = configinfo.Password;
 const ApplicationName = configinfo.ApplicationName;
 const Protocol = configinfo.Protocol;
 
+const authParams = Username === "UnknownUser"
+  ? ""
+  : `IRISUsername=${Username}&IRISPassword=${Password}`;
+
 const [width] = useWindowSize();
 
  
@@ -34,7 +38,7 @@ const [width] = useWindowSize();
     setIsError(false);
   
 	axios
-	  .get<any>(`${Protocol}://${ServerAddress}:${ServerPort}${ApplicationName}/TopicSearchByKeyword/z${keyword}?IRISUsername=${Username}&IRISPassword=${Password}`)
+	  .get<any>(`${Protocol}://${ServerAddress}:${ServerPort}${ApplicationName}/TopicSearchByKeyword/z${keyword}${authParams ? `?${authParams}` : ""}`)
 	  .then((result: any) => {
 	  const topics = result.data.map((topic: any) => ({
 		id: topic.id,
