@@ -226,7 +226,7 @@ RewriteRule ^ index.html [QSA,L]
 
 以下の内容を追加
 
-"homepage": "/faqdirect"
+"homepage": "/faqreact/faqdirect"
 
 ## web.configの設定(IISの場合)
 
