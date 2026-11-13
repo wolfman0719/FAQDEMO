@@ -24,6 +24,10 @@ export const Home = (props: any) => {
   const Password = configinfo.Password;
   const ApplicationName = configinfo.ApplicationName;
   const Protocol = configinfo.Protocol;
+
+  const authParams = Username === "UnknownUser"
+    ? ""
+    : `IRISUsername=${Username}&IRISPassword=${Password}`;
   
   const {topicid} = useParams();
   
@@ -34,7 +38,7 @@ export const Home = (props: any) => {
 	setIsError(false);
 	
 	axios
-	  .get<any>(`${Protocol}://${ServerAddress}:${ServerPort}${ApplicationName}/TopicGetById/${topicid}?IRISUsername=${Username}&IRISPassword=${Password}`)
+	  .get<any>(`${Protocol}://${ServerAddress}:${ServerPort}${ApplicationName}/TopicGetById/${topicid}${authParams ? `?${authParams}` : ""}`)
 	  .then((result: any) => {
 	    setResponse(result.data);
 		setFileFlag(!!result.data.FileFlg);
@@ -55,7 +59,7 @@ export const Home = (props: any) => {
 	setIsError(false);
 
 	axios
-	  .get<any>(`${Protocol}://${ServerAddress}:${ServerPort}${ApplicationName}/TopicGetById/${topicid}?IRISUsername=${Username}&IRISPassword=${Password}`)
+	  .get<any>(`${Protocol}://${ServerAddress}:${ServerPort}${ApplicationName}/TopicGetById/${topicid}${authParams ? `?${authParams}` : ""}`)
 	  .then((result: any) => {
 	    setResponse(result.data);
 		setFileFlag(!!result.data.FileFlg);
@@ -63,17 +67,18 @@ export const Home = (props: any) => {
 	  })
       .catch((error: any) => {
 	     setIsError(true)
-		 if (error.response) {			
+		 if (error.response) {
 		   setErrorText(error.response.data.summary);
 		 }
 		 else if (error.request) {
 		   setErrorText(error.request);
-		 } 
+		 }
 		 else {
 		   setErrorText(error.message);
 		 }
 	  })
       .finally(() => setIsLoading(false))
+      // eslint-disable-next-line
       }, [topicid]);
   
   const cardStyle: React.CSSProperties = {

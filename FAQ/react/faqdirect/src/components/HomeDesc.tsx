@@ -25,6 +25,10 @@ export const HomeDesc = (props: any) => {
   const ApplicationName = configinfo.ApplicationName;
   const Protocol = configinfo.Protocol;
 
+  const authParams = Username === "UnknownUser"
+    ? ""
+    : `IRISUsername=${Username}&IRISPassword=${Password}`;
+
   const {topicid} = useParams();
 
   const onClickItem2 = (topicid: any) => {
@@ -32,7 +36,7 @@ export const HomeDesc = (props: any) => {
 	setIsError(false);
 
 	axios
-	  .get<any>(`${Protocol}://${ServerAddress}:${ServerPort}${ApplicationName}/TopicGetById/${topicid}?IRISUsername=${Username}&IRISPassword=${Password}`)
+	  .get<any>(`${Protocol}://${ServerAddress}:${ServerPort}${ApplicationName}/TopicGetById/${topicid}${authParams ? `?${authParams}` : ""}`)
 	  .then((result: any) => {
 	    setResponse(result.data);
 		setFileFlag(!!result.data.FileFlg);
@@ -53,7 +57,7 @@ export const HomeDesc = (props: any) => {
 	setIsError(false);
 
 	axios
-	  .get<any>(`${Protocol}://${ServerAddress}:${ServerPort}${ApplicationName}/TopicGetById/${topicid}?IRISUsername=${Username}&IRISPassword=${Password}`)
+	  .get<any>(`${Protocol}://${ServerAddress}:${ServerPort}${ApplicationName}/TopicGetById/${topicid}${authParams ? `?${authParams}` : ""}`)
 	  .then((result: any) => {
 	    setResponse(result.data);
 		setFileFlag(!!result.data.FileFlg);
@@ -72,6 +76,7 @@ export const HomeDesc = (props: any) => {
 		 }
 	  })
       .finally(() => setIsLoading(false))
+      // eslint-disable-next-line
             }, [topicid]);
 
   const cardStyle: React.CSSProperties = {
