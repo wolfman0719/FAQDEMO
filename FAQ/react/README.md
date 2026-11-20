@@ -66,6 +66,11 @@ faqdirect、faqedit、faqedit5、faqspに関して、ドキュメントルート
 
 - package.json
 
+以下のような行を
 
+"homepage": "/faqreact/faqedit/",
 
+"homepage": "/faqedit/",
+
+に変更する
 
