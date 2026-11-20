@@ -74,3 +74,12 @@ faqdirect、faqedit、faqedit5、faqspに関して、ドキュメントルート
 
 に変更する
 
+App.tsx
+
+<BrowserRouter basename="/faqreact/faqmobile/">
+
+を
+
+<BrowserRouter basename="/faqmobile/">
+<BrowserRouter basename="/faqreact/faqmobile/">
+
