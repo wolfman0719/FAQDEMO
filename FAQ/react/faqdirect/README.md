@@ -110,11 +110,11 @@
 
 （DCサイトがメンテナンス等で稼働していない場合の応急処置用）
 
-http://localhost:3000/faqdirect/Content/100
+http://localhost:3000/faqreact/faqdirect/Content/100
 
 ### DCに記事がある場合にそのリンクを表示する
 
-http://localhost:3000/faqdirect/Contentdc/100
+http://localhost:3000/faqreact/faqdirect/Contentdc/100
 
 ## CORS設定
 
