@@ -64,6 +64,9 @@ export const Home = (props: any) => {
 	    setResponse(result.data);
 		setFileFlag(!!result.data.FileFlg);
 		setRefTopics(result.data.RefArray);
+		if (result.data.Title) {
+		  document.title = result.data.Title;
+		}
 	  })
       .catch((error: any) => {
 	     setIsError(true)
